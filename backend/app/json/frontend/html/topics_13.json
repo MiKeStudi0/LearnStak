@@ -1,0 +1,1181 @@
+{
+  "topic": {
+    "id": 13,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 4,
+    "slug": "html-sectioning-content",
+    "title": "HTML Sectioning Content",
+    "description": "Sectioning elements divide pages into navigable regions that screen readers and search engines use.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Sectioning Content: section, article, and the Document Outline"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "HTML5 introduced "
+          },
+          {
+            "value": "sectioning elements",
+            "bold": true
+          },
+          {
+            "value": " that create discrete regions of content with implied semantic roles. The four main sectioning elements are "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<article>",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<nav>",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "<aside>",
+            "highlight": true
+          },
+          {
+            "value": ". Each one creates a new "
+          },
+          {
+            "value": "sectioning context",
+            "bold": true
+          },
+          {
+            "value": " in the document outline, meaning heading levels restart within them relative to their nesting depth. A "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " groups thematically related content that belongs to the surrounding document. An "
+          },
+          {
+            "value": "<article>",
+            "highlight": true
+          },
+          {
+            "value": " contains content that is independently distributable or reusable (a blog post, a product card, a news story). "
+          },
+          {
+            "value": "<nav>",
+            "highlight": true
+          },
+          {
+            "value": " wraps landmark navigation links. "
+          },
+          {
+            "value": "<aside>",
+            "highlight": true
+          },
+          {
+            "value": " holds content tangentially related to the surrounding content. All four are "
+          },
+          {
+            "value": "landmark regions",
+            "bold": true
+          },
+          {
+            "value": " that screen reader users can jump between directly. Reference: "
+          },
+          {
+            "value": "MDN: HTML sectioning elements",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element#content_sectioning"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Element",
+          "ARIA landmark role",
+          "Use for",
+          "Needs heading"
+        ],
+        "rows": [
+          [
+            "<section>",
+            "region (if labelled)",
+            "Thematic group within a document",
+            "Strongly recommended"
+          ],
+          [
+            "<article>",
+            "article",
+            "Self-contained, independently distributable content",
+            "Yes"
+          ],
+          [
+            "<nav>",
+            "navigation",
+            "Primary or secondary navigation links",
+            "Recommended"
+          ],
+          [
+            "<aside>",
+            "complementary",
+            "Related but non-essential content",
+            "Recommended"
+          ],
+          [
+            "<h1>-<h6>",
+            "(none — heading level)",
+            "Label each sectioning element",
+            "N/A"
+          ],
+          [
+            "<header>",
+            "banner (if in body) / (scoped)",
+            "Introductory content for a section or article",
+            "No"
+          ],
+          [
+            "<footer>",
+            "contentinfo (if in body) / (scoped)",
+            "Closing content for a section or article",
+            "No"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "section Gets No ARIA Role Unless It Has an Accessible Name",
+        "text": "An unlabelled <section> element has no ARIA landmark role and is invisible to screen reader navigation. A <section> only becomes a 'region' landmark when it has an accessible name via aria-labelledby pointing to its heading id, or via aria-label. Without a name, screen readers treat the section as an anonymous grouping, giving it no more landmark value than a <div>. Always label sections you want users to be able to navigate to directly."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Complete Page Layout Using All Four Sectioning Elements",
+        "description": "This example builds a realistic page structure using section, article, nav, and aside in correct nesting. It demonstrates labelled sections becoming region landmarks, article elements for individual cards, nav with aria-label for multiple navigation regions, and aside for supplementary sidebar content.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Sectioning Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 900px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h1    { font-size: 1.4rem; }\n    h2    { font-size: 1.1rem; margin-top: 0; }\n    h3    { font-size: .95rem; margin: 0 0 .4rem; }\n\n    /* Layout */\n    .page-layout { display: grid;\n                   grid-template-columns: 1fr 260px;\n                   gap: 2rem; margin-top: 1.5rem; }\n\n    /* Section styles */\n    section { border: 2px solid #2563eb; border-radius: 8px;\n              padding: 1rem 1.25rem; margin-bottom: 1.25rem; }\n    section > h2 { color: #2563eb; }\n\n    /* Article styles */\n    article { border: 2px solid #16a34a; border-radius: 8px;\n              padding: .85rem 1rem; margin-bottom: .85rem; }\n    article > h3 { color: #15803d; }\n\n    /* Aside styles */\n    aside { border: 2px solid #ca8a04; border-radius: 8px;\n            padding: 1rem; align-self: start; }\n    aside > h2 { color: #92400e; font-size: 1rem; }\n\n    /* Nav styles */\n    nav { background: #f8fafc; border-radius: 8px;\n          padding: .65rem 1rem; margin-bottom: 1rem; }\n    nav ul { margin: 0; padding: 0; list-style: none;\n             display: flex; gap: 1.25rem; flex-wrap: wrap; }\n    nav a  { color: #2563eb; font-size: .88rem;\n             text-decoration: none; }\n    nav a:hover { text-decoration: underline; }\n\n    .meta { font-size: .78rem; color: #64748b; margin: .2rem 0 .5rem; }\n    .tag  { display: inline-block; background: #eff6ff; color: #1d4ed8;\n            font-size: .68rem; padding: .1rem .4rem;\n            border-radius: 4px; font-weight: 700; margin-bottom: .4rem; }\n  </style>\n</head>\n<body>\n\n  <header>\n    <h1>DevDocs India Learning Platform</h1>\n\n    <!--\n      PRIMARY NAV: aria-label distinguishes it from other nav elements.\n      Without aria-label, screen readers announce \"navigation\" for every\n      <nav>, making them indistinguishable in the landmarks list.\n    -->\n    <nav aria-label=\"Primary navigation\">\n      <ul>\n        <li><a href=\"/html\">HTML</a></li>\n        <li><a href=\"/css\">CSS</a></li>\n        <li><a href=\"/js\">JavaScript</a></li>\n        <li><a href=\"/courses\">All courses</a></li>\n      </ul>\n    </nav>\n  </header>\n\n\n  <div class=\"page-layout\">\n\n    <main>\n\n      <!--\n        SECTION: thematic group within this page.\n        aria-labelledby=\"featured-heading\" makes this a\n        named \"region\" landmark in the accessibility tree.\n        Without this label it would be an anonymous grouping.\n      -->\n      <section aria-labelledby=\"featured-heading\">\n        <h2 id=\"featured-heading\">Featured Courses</h2>\n\n        <!--\n          ARTICLE: each course card is independently distributable.\n          It makes sense on its own: title, author, summary, link.\n          Screen readers announce each as an \"article\" landmark.\n        -->\n        <article>\n          <span class=\"tag\">HTML</span>\n          <h3>HTML Foundations for Beginners</h3>\n          <p class=\"meta\">By Priya Sharma &middot; 12 modules &middot; 4.8 stars</p>\n          <p>Learn semantic HTML, forms, tables, and accessibility\n             fundamentals from scratch. No prior experience required.</p>\n          <a href=\"/courses/html-foundations\">Start course</a>\n        </article>\n\n        <article>\n          <span class=\"tag\">CSS</span>\n          <h3>CSS Layout Masterclass</h3>\n          <p class=\"meta\">By Arjun Nair &middot; 10 modules &middot; 4.9 stars</p>\n          <p>Master Flexbox, CSS Grid, responsive design, and modern\n             CSS custom properties with real project exercises.</p>\n          <a href=\"/courses/css-layout\">Start course</a>\n        </article>\n\n      </section>\n\n\n      <!--\n        A second SECTION with its own label creates a second\n        distinct \"region\" landmark that users can navigate to.\n      -->\n      <section aria-labelledby=\"recent-heading\">\n        <h2 id=\"recent-heading\">Recent Articles</h2>\n\n        <!--\n          These articles are blog posts: independently distributable,\n          could be syndicated as RSS items, make sense out of context.\n        -->\n        <article>\n          <h3>Understanding the CSS Box Model</h3>\n          <p class=\"meta\">Published 28 Feb 2025 &middot; 6 min read</p>\n          <p>The box model determines how elements are sized and\n             spaced. Understanding content-box vs border-box is\n             essential for predictable layouts.</p>\n          <a href=\"/articles/css-box-model\">Read article</a>\n        </article>\n\n        <article>\n          <h3>When to Use aria-label vs aria-labelledby</h3>\n          <p class=\"meta\">Published 14 Feb 2025 &middot; 8 min read</p>\n          <p>Both attributes provide accessible names for elements.\n             Knowing which to use in which context prevents common\n             ARIA implementation mistakes.</p>\n          <a href=\"/articles/aria-labelling\">Read article</a>\n        </article>\n\n      </section>\n\n    </main>\n\n\n    <!--\n      ASIDE: complementary content. The sidebar topics are\n      related to but not part of the main content stream.\n      aria-labelledby gives it an accessible name.\n    -->\n    <aside aria-labelledby=\"sidebar-heading\">\n      <h2 id=\"sidebar-heading\">Learning paths</h2>\n      <nav aria-label=\"Learning path navigation\">\n        <ul style=\"padding-left:1.2rem;\">\n          <li><a href=\"/paths/frontend\">Front-end developer</a></li>\n          <li><a href=\"/paths/fullstack\">Full-stack developer</a></li>\n          <li><a href=\"/paths/accessibility\">Accessibility specialist</a></li>\n        </ul>\n      </nav>\n\n      <h2 style=\"margin-top:1rem;\">Popular tags</h2>\n      <p style=\"font-size:.85rem;\">\n        <a href=\"/tag/html\">HTML</a> &middot;\n        <a href=\"/tag/css\">CSS</a> &middot;\n        <a href=\"/tag/a11y\">Accessibility</a> &middot;\n        <a href=\"/tag/js\">JavaScript</a>\n      </p>\n    </aside>\n\n  </div>\n\n\n  <footer>\n    <p style=\"font-size:.82rem;color:#64748b;\">\n      &copy; 2025 DevDocs India &middot; Kozhikode, Kerala\n    </p>\n  </footer>\n\n</body>\n</html>",
+        "output": "Page renders a full learning platform layout. The primary nav in the header has an aria-label distinguishing it from the sidebar nav. The main column shows two labelled sections (Featured Courses and Recent Articles), each containing article elements styled in green. Hovering any article reveals the green border. The sidebar aside shows learning paths and popular tags with a second nav labelled distinctly. Screen reader landmark lists would show: banner, navigation (Primary), main, region (Featured Courses), region (Recent Articles), complementary (Learning paths), navigation (Learning path), contentinfo.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "Nested Articles, section vs div Decision, and Document Outline",
+        "description": "This example shows article elements nested inside article (comments inside a blog post), the document outline produced by correct sectioning, and a side-by-side comparison of the same layout built with section versus div to show the landmark difference.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Sectioning Patterns</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.1rem; }\n    h3   { font-size: .95rem; }\n    h4   { font-size: .88rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    .post   { border-left: 3px solid #2563eb; padding: .75rem 1rem;\n              margin-bottom: 1.25rem; }\n    .comment-section { margin-top: 1.25rem; }\n    .comment { border-left: 3px solid #e2e8f0;\n               padding: .55rem .85rem; margin-bottom: .65rem;\n               background: #f8fafc; border-radius: 0 6px 6px 0; }\n    .reply   { border-left: 3px solid #c7d2fe;\n               padding: .4rem .75rem; margin: .5rem 0 0 1rem;\n               background: #eef2ff; border-radius: 0 6px 6px 0; }\n    .meta { font-size: .76rem; color: #64748b; margin: .1rem 0 .4rem; }\n    .outline { background: #f8fafc; border: 1px solid #e2e8f0;\n               border-radius: 8px; padding: .85rem 1rem;\n               font-family: monospace; font-size: .82rem;\n               line-height: 1.85; margin: 1rem 0; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .65rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .65rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .3rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>Sectioning Patterns Reference</h1>\n\n\n  <!-- 1: NESTED ARTICLE (blog post + comments) -->\n  <h2>1. Nested article elements: post with comments</h2>\n  <!--\n    Outer article: the blog post. Self-contained; could appear\n    in an RSS feed or be shared as a standalone page.\n  -->\n  <article class=\"post\">\n    <h2>What is the CSS Cascade?</h2>\n    <p class=\"meta\">Priya Sharma &middot; 1 March 2025</p>\n    <p>The cascade determines which CSS rule wins when multiple\n       rules target the same element. It weighs origin, specificity,\n       and source order to resolve conflicts.</p>\n\n    <!--\n      section inside article: the comments sub-region.\n      aria-labelledby makes it a named region landmark.\n      This groups the comment articles semantically.\n    -->\n    <section class=\"comment-section\" aria-labelledby=\"comments-heading\">\n      <h3 id=\"comments-heading\">Comments (2)</h3>\n\n      <!--\n        Inner articles: each comment is independently meaningful.\n        Could be extracted and shown on a \"recent comments\" widget.\n        Nesting article inside article is valid and semantic.\n      -->\n      <article class=\"comment\">\n        <h4>Arjun Nair</h4>\n        <p class=\"meta\">2 March 2025 at 09:14</p>\n        <p>Great explanation! The specificity section cleared up\n           why my class selector was being overridden by an ID.</p>\n\n        <!--\n          Replies are articles nested inside a comment article.\n          Three levels: post > comment section > comment > reply\n        -->\n        <article class=\"reply\">\n          <h4>Priya Sharma (author)</h4>\n          <p class=\"meta\">2 March 2025 at 11:02</p>\n          <p>Thanks Arjun! ID specificity is one of the most common\n             sources of confusion in CSS.</p>\n        </article>\n      </article>\n\n      <article class=\"comment\">\n        <h4>Meera Pillai</h4>\n        <p class=\"meta\">3 March 2025 at 14:30</p>\n        <p>Could you cover !important and when it is appropriate\n           to use it in a follow-up post?</p>\n      </article>\n\n    </section>\n  </article>\n\n\n  <!-- 2: DOCUMENT OUTLINE produced by the above structure -->\n  <h2>2. Document outline produced by the above</h2>\n  <div class=\"outline\">\n    h1: Sectioning Patterns Reference\n    &#x2514; article (article)\n        &#x2514; h2: What is the CSS Cascade?\n            &#x2514; section (region: \"Comments\")\n                &#x2514; h3: Comments (2)\n                    &#x2514; article (article): Arjun Nair comment\n                        &#x2514; h4: Arjun Nair\n                            &#x2514; article (article): author reply\n                                &#x2514; h4: Priya Sharma (author)\n                    &#x2514; article (article): Meera Pillai comment\n                        &#x2514; h4: Meera Pillai\n  </div>\n\n\n  <!-- 3: section vs div — the landmark difference -->\n  <h2>3. section vs div: landmark visibility</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">div grouping — no landmark, invisible to screen readers</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;div&gt;  &lt;!-- no role, no landmark --&gt;\n  &lt;h2&gt;Upcoming Webinars&lt;/h2&gt;\n  &lt;p&gt;...&lt;/p&gt;\n&lt;/div&gt;</pre>\n  </div>\n\n  <div class=\"good\">\n    <p class=\"lbl\">section with aria-labelledby — named region landmark</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;section aria-labelledby=\"webinars-h\"&gt;\n  &lt;h2 id=\"webinars-h\"&gt;Upcoming Webinars&lt;/h2&gt;\n  &lt;p&gt;...&lt;/p&gt;\n&lt;/section&gt;\n&lt;!-- Screen reader landmarks: region \"Upcoming Webinars\" --&gt;</pre>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Unlabelled section — still no landmark role</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;section&gt;  &lt;!-- no accessible name = no region landmark --&gt;\n  &lt;h2&gt;Upcoming Webinars&lt;/h2&gt;\n  &lt;p&gt;...&lt;/p&gt;\n&lt;/section&gt;</pre>\n  </div>\n\n\n  <!-- 4: When to use div instead of section -->\n  <h2>4. When to use div instead of section</h2>\n  <div class=\"good\">\n    <p class=\"lbl\">Use div for styling containers with no semantic meaning</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;!-- Grid layout wrapper: no semantic purpose --&gt;\n&lt;div class=\"card-grid\"&gt;\n  &lt;article&gt;...&lt;/article&gt;\n  &lt;article&gt;...&lt;/article&gt;\n&lt;/div&gt;\n\n&lt;!-- Decoration or JS hook: no semantic purpose --&gt;\n&lt;div class=\"modal-overlay\" role=\"dialog\"&gt;...&lt;/div&gt;</pre>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders four sections. The nested article section shows a blog post with a bordered left accent, containing a comments region with two comment articles (one with a nested reply article). The document outline section shows the accessibility tree produced by the nesting. The section vs div section shows three code cards: a div (no landmark), a labelled section (region landmark), and an unlabelled section (still no landmark). The fourth section shows correct use of div for layout wrappers and modal containers with no semantic meaning.",
+        "images": null,
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": null,
+    "video_url": null,
+    "when_to_use": [
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "aria-labelledby",
+            "highlight": true
+          },
+          {
+            "value": " for thematic regions of a page that should appear as named "
+          },
+          {
+            "value": "region",
+            "bold": true
+          },
+          {
+            "value": " landmarks in the screen reader navigation list."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<article>",
+            "highlight": true
+          },
+          {
+            "value": " for any unit of content that makes sense on its own: blog posts, news stories, product cards, forum posts, and comment threads."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<div>",
+            "highlight": true
+          },
+          {
+            "value": " for grouping elements that need CSS or JavaScript hooks but carry no semantic meaning distinct from their content."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " as a generic container to replace "
+          },
+          {
+            "value": "<div>",
+            "highlight": true
+          },
+          {
+            "value": "; an unlabelled "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " adds no landmark value and pollutes the document outline."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid wrapping every block of content in "
+          },
+          {
+            "value": "<article>",
+            "highlight": true
+          },
+          {
+            "value": "; reserve it for content that is truly self-contained and could be extracted and re-used independently without losing meaning."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " purely for styling purposes; CSS applies equally to "
+          },
+          {
+            "value": "<div>",
+            "highlight": true
+          },
+          {
+            "value": ", which makes no semantic claims about its content."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "text": [
+          {
+            "value": "Sectioning elements give screen reader users "
+          },
+          {
+            "value": "landmark navigation",
+            "bold": true
+          },
+          {
+            "value": ": the ability to jump directly between page regions (main, navigation, article, complementary) without reading every element."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Search engines use sectioning semantics to identify the primary content area, author blocks, and related content, improving "
+          },
+          {
+            "value": "structured data",
+            "bold": true
+          },
+          {
+            "value": " extraction and search result presentation."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Sectioning elements create a meaningful "
+          },
+          {
+            "value": "document outline",
+            "bold": true
+          },
+          {
+            "value": " that development tools, screen readers, and automated testing frameworks can inspect to verify correct page structure."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "text": [
+          {
+            "value": "Sectioning elements are "
+          },
+          {
+            "value": "scope boundaries",
+            "bold": true
+          },
+          {
+            "value": " in the document outline. An "
+          },
+          {
+            "value": "<h2>",
+            "highlight": true
+          },
+          {
+            "value": " inside a "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " is scoped to that section, not to the page. This means multiple "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " elements can each contain their own "
+          },
+          {
+            "value": "<h2>",
+            "highlight": true
+          },
+          {
+            "value": " without the headings conflicting in the document outline. The outline algorithm treats each sectioning element as starting a new sub-tree."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The difference between "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<article>",
+            "highlight": true
+          },
+          {
+            "value": " is the "
+          },
+          {
+            "value": "independence test",
+            "bold": true
+          },
+          {
+            "value": ": could this content be taken out of the page and published or syndicated on its own without losing meaning? If yes, it is an "
+          },
+          {
+            "value": "<article>",
+            "highlight": true
+          },
+          {
+            "value": ". If it only makes sense as part of the surrounding page, it is a "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": ". A list of product features is a section; a product review is an article."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "An unlabelled "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " is semantically equivalent to a "
+          },
+          {
+            "value": "<div>",
+            "highlight": true
+          },
+          {
+            "value": " from an accessibility perspective. The "
+          },
+          {
+            "value": "region",
+            "bold": true
+          },
+          {
+            "value": " ARIA landmark role is applied only when "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " has an accessible name via "
+          },
+          {
+            "value": "aria-labelledby",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "aria-label",
+            "highlight": true
+          },
+          {
+            "value": ". This is not a flaw to work around; it is intentional design: not every section of a page deserves a named navigation landmark."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "text": [
+          {
+            "value": "An unlabelled "
+          },
+          {
+            "value": "section",
+            "highlight": true
+          },
+          {
+            "value": " has no landmark role and is invisible to screen reader navigation."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Confusing "
+          },
+          {
+            "value": "article",
+            "highlight": true
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "section",
+            "highlight": true
+          },
+          {
+            "value": "; article stands alone, section belongs to the surrounding document."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Omitting headings from "
+          },
+          {
+            "value": "section",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "article",
+            "highlight": true
+          },
+          {
+            "value": " leaves the region without a label for screen readers."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "text": [
+          {
+            "value": "Audit landmark structure using the "
+          },
+          {
+            "value": "Landmarks browser extension",
+            "bold": true,
+            "link": "https://www.tpgi.com/wcag-2-0-parsing-error-bookmarklet/"
+          },
+          {
+            "value": " or the Accessibility panel in Chrome DevTools. A well-structured page should expose: one "
+          },
+          {
+            "value": "banner",
+            "highlight": true
+          },
+          {
+            "value": ", one "
+          },
+          {
+            "value": "main",
+            "highlight": true
+          },
+          {
+            "value": ", one "
+          },
+          {
+            "value": "contentinfo",
+            "highlight": true
+          },
+          {
+            "value": ", and named "
+          },
+          {
+            "value": "region",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "navigation",
+            "highlight": true
+          },
+          {
+            "value": " landmarks for each distinct area a keyboard user might want to jump to."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "Headings bookmarklet",
+            "bold": true,
+            "link": "https://www.ssa.gov/accessibility/andi/help/install.html"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "axe DevTools",
+            "bold": true
+          },
+          {
+            "value": " to verify the document outline. Every "
+          },
+          {
+            "value": "<section>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<article>",
+            "highlight": true
+          },
+          {
+            "value": " should have a heading as its first substantial child. Missing headings are a common source of "
+          },
+          {
+            "value": "WCAG 1.3.1",
+            "bold": true
+          },
+          {
+            "value": " (Info and Relationships) failures in automated accessibility audits."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Semantic Elements",
+      "HTML Heading Hierarchy",
+      "Accessibility and ARIA",
+      "HTML Landmark Regions",
+      "HTML Article vs Section"
+    ],
+    "is_active": true,
+    "order_index": 13,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 13,
+      "slug": "section-element",
+      "title": "Section Element",
+      "description": "The section element groups thematically related content and becomes a region landmark when labelled.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<section>",
+              "highlight": true
+            },
+            {
+              "value": " element represents a thematic grouping of content that belongs to the document but forms a distinct unit within it. It is appropriate when the content could have its own entry in a "
+            },
+            {
+              "value": "table of contents",
+              "bold": true
+            },
+            {
+              "value": ". A "
+            },
+            {
+              "value": "<section>",
+              "highlight": true
+            },
+            {
+              "value": " with an accessible name (via "
+            },
+            {
+              "value": "aria-labelledby",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "aria-label",
+              "highlight": true
+            },
+            {
+              "value": ") maps to the "
+            },
+            {
+              "value": "region",
+              "bold": true
+            },
+            {
+              "value": " ARIA landmark role, making it discoverable by screen reader users navigating landmarks. Without an accessible name it has no landmark role, identical in the accessibility tree to a "
+            },
+            {
+              "value": "<div>",
+              "highlight": true
+            },
+            {
+              "value": ". "
+            },
+            {
+              "value": "<section>",
+              "highlight": true
+            },
+            {
+              "value": " should contain at least one heading element to label its content. Reference: "
+            },
+            {
+              "value": "MDN: section element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "section vs div: The Semantic Decision",
+          "text": "Use section when the content is thematic and could logically appear in a table of contents: 'Introduction', 'Features', 'Pricing', 'FAQ'. Use div when the grouping is purely structural: a flex container, a modal wrapper, a JavaScript hook. The test is whether the grouping has semantic meaning beyond layout. If it does, section. If not, div."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Labelled Sections as Region Landmarks",
+          "description": "This example shows a documentation page with three sections, each labelled with aria-labelledby pointing to their heading id. It demonstrates the resulting landmark structure, the section without a label that produces no landmark, and the correct use of section versus div for layout containers.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Section Element Demo</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h1   { font-size: 1.4rem; }\n    h2   { font-size: 1.1rem; }\n    section { border-left: 3px solid #2563eb; padding: .75rem 1.25rem;\n              margin-bottom: 1.5rem; border-radius: 0 8px 8px 0; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    .landmark-map { background: #f8fafc; border: 1px solid #e2e8f0;\n                    border-radius: 8px; padding: .85rem 1rem;\n                    font-family: monospace; font-size: .82rem;\n                    line-height: 1.85; margin: 1rem 0; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .lbl  { font-size: .7rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .25rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <header>\n    <h1>HTML Flexbox Guide</h1>\n  </header>\n\n  <main>\n\n    <!--\n      LABELLED SECTION = named region landmark.\n      aria-labelledby=\"intro-h\" links the section accessible name\n      to the heading text. Screen readers announce:\n      \"region, Introduction\" when entering this section.\n    -->\n    <section aria-labelledby=\"intro-h\">\n      <h2 id=\"intro-h\">Introduction</h2>\n      <p>Flexbox is a one-dimensional layout model that distributes\n         space and aligns items along a single axis. It solves\n         common layout problems that were difficult with floats.</p>\n    </section>\n\n\n    <!--\n      Second labelled section: a second distinct region landmark.\n      Users can jump directly from Introduction to Core Concepts\n      using the screen reader landmark navigation shortcut.\n    -->\n    <section aria-labelledby=\"concepts-h\">\n      <h2 id=\"concepts-h\">Core Concepts</h2>\n      <p>The flex container is the parent element with\n         <code>display: flex</code>. Direct children become\n         flex items. The main axis runs in the direction of\n         <code>flex-direction</code>.</p>\n\n      <!--\n        Nested section inside section: a sub-region.\n        This becomes a named landmark nested inside the parent region.\n        Use sparingly; too many region landmarks overwhelm screen reader users.\n      -->\n      <section aria-labelledby=\"properties-h\">\n        <h3 id=\"properties-h\">Key Properties</h3>\n        <ul>\n          <li><code>justify-content</code>: align along the main axis</li>\n          <li><code>align-items</code>: align along the cross axis</li>\n          <li><code>flex-wrap</code>: allow items to wrap to new lines</li>\n        </ul>\n      </section>\n    </section>\n\n\n    <!--\n      Third labelled section.\n    -->\n    <section aria-labelledby=\"examples-h\">\n      <h2 id=\"examples-h\">Practical Examples</h2>\n      <p>A navigation bar, a card grid, and a split-pane layout\n         are the three most common Flexbox patterns in real projects.</p>\n    </section>\n\n\n    <!--\n      UNLABELLED section: no landmark role.\n      Identical to a div in the accessibility tree.\n      This is acceptable when the section needs no navigation landmark\n      but benefits from semantic sectioning in the outline.\n    -->\n    <section>\n      <h2>Further Reading</h2>\n      <p>See the MDN Flexbox documentation and the CSS Tricks\n         Complete Guide to Flexbox for deeper coverage.</p>\n    </section>\n\n  </main>\n\n\n  <!-- Landmark structure this produces -->\n  <h2 style=\"margin-top:2rem;\">Landmark structure produced</h2>\n  <div class=\"landmark-map\">\n    banner (header)\n    main\n    &#x2514; region \"Introduction\"\n    &#x2514; region \"Core Concepts\"\n        &#x2514; region \"Key Properties\"\n    &#x2514; region \"Practical Examples\"\n    [unlabelled section: no landmark, not listed]\n  </div>\n\n\n  <!-- section vs div comparison -->\n  <h2>section vs div for a layout wrapper</h2>\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: section as a layout container</p>\n    <code>&lt;section class=\"card-grid\"&gt;</code> &mdash; no semantic grouping\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: div for layout, section for semantic grouping</p>\n    <code>&lt;div class=\"card-grid\"&gt;</code> &mdash; layout wrapper<br>\n    <code>&lt;section aria-labelledby=\"courses-h\"&gt;</code> &mdash; semantic region\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders an HTML Flexbox Guide with four sections. Three sections have visible blue left borders and aria-labelledby attributes. The nested section inside Core Concepts shows a sub-region. The unlabelled Further Reading section has the same visual style but appears in the landmark map as absent. The landmark map shows the three named region landmarks and the nested sub-region. The section vs div comparison shows the wrong and correct uses with code snippets.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<section>",
+              "highlight": true
+            },
+            {
+              "value": " element exists on a spectrum between "
+            },
+            {
+              "value": "<div>",
+              "highlight": true
+            },
+            {
+              "value": " (no semantics) and "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " (fully independent content). It is the right choice when content belongs to the surrounding document context but forms a distinct enough unit to warrant its own heading and landmark. Think of chapters in a book: each chapter belongs to the book but can be named and navigated to directly."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "aria-labelledby",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<section>",
+              "highlight": true
+            },
+            {
+              "value": " does not add new content. It creates an association between the section and a heading that already exists inside it. Screen readers use this association to name the landmark region. The heading "
+            },
+            {
+              "value": "id",
+              "highlight": true
+            },
+            {
+              "value": " and the "
+            },
+            {
+              "value": "aria-labelledby",
+              "highlight": true
+            },
+            {
+              "value": " value must match exactly. A typo in either will silently break the landmark name, leaving the section unnamed despite the attribute being present."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Limit the number of "
+            },
+            {
+              "value": "region",
+              "bold": true
+            },
+            {
+              "value": " landmarks on a page to those that are genuinely useful navigation destinations. WCAG recommends that "
+            },
+            {
+              "value": "region",
+              "bold": true
+            },
+            {
+              "value": " landmarks are used sparingly. Too many named sections clutter the screen reader landmark list and make navigation harder, not easier. A typical documentation page needs three to six named regions at most."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Sectioning Content",
+        "Article Element",
+        "HTML Semantic Elements",
+        "Accessibility and ARIA"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 13,
+      "slug": "article-element",
+      "title": "Article Element",
+      "description": "The article element wraps self-contained content that can be independently distributed or reused.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " element represents a "
+            },
+            {
+              "value": "self-contained",
+              "bold": true
+            },
+            {
+              "value": " piece of content that could stand alone: a blog post, a news story, a product card, a forum comment, a tweet, or a widget. The defining test is "
+            },
+            {
+              "value": "distribution independence",
+              "bold": true
+            },
+            {
+              "value": ": if the content could be extracted from its current page and syndicated in an RSS feed, published on another site, or embedded in a different context while still making complete sense, it belongs in an "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": ". Articles can be nested: a comments section inside a blog post article contains individual comment articles. Every "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " should have a heading. The "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " element carries the "
+            },
+            {
+              "value": "article",
+              "bold": true
+            },
+            {
+              "value": " ARIA landmark role automatically. Reference: "
+            },
+            {
+              "value": "MDN: article element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Content type",
+            "Use article?",
+            "Reason"
+          ],
+          "rows": [
+            [
+              "Blog post",
+              "Yes",
+              "Complete, independently publishable"
+            ],
+            [
+              "News story",
+              "Yes",
+              "Syndicatable via RSS or API"
+            ],
+            [
+              "Product card in a grid",
+              "Yes",
+              "Each card is self-contained with title, image, price"
+            ],
+            [
+              "Forum post / comment",
+              "Yes",
+              "Independently meaningful with author and date"
+            ],
+            [
+              "Feature list section",
+              "No",
+              "Only meaningful in context of the product page"
+            ],
+            [
+              "Photo in a gallery",
+              "Maybe",
+              "Yes if it has title, description, and metadata; No if it is just an img"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Blog Post Article, Product Cards, and Comment Thread",
+          "description": "This example shows three article patterns: a long-form blog post article with header and footer elements inside it, a product card grid where each card is an article, and a comment thread using nested articles. It demonstrates how article header and footer are scoped to the article, not the page.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Article Element Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.1rem; margin-top: 2rem; }\n    h3    { font-size: .95rem; }\n    h4    { font-size: .88rem; margin: 0 0 .25rem; }\n\n    /* Blog post article */\n    .post { border: 1px solid #e5e7eb; border-radius: 8px;\n            padding: 1.25rem; margin-bottom: 1.5rem; }\n    .post-header { border-bottom: 1px solid #f1f5f9;\n                   padding-bottom: .75rem; margin-bottom: .75rem; }\n    .post-footer { border-top: 1px solid #f1f5f9;\n                   padding-top: .75rem; margin-top: .75rem;\n                   font-size: .82rem; color: #64748b; }\n    .byline { font-size: .8rem; color: #64748b; }\n    .tag    { display: inline-block; background: #eff6ff; color: #1d4ed8;\n              font-size: .68rem; padding: .1rem .4rem; border-radius: 4px;\n              font-weight: 700; margin-bottom: .4rem; }\n\n    /* Product card grid */\n    .card-grid { display: grid; grid-template-columns: repeat(3,1fr);\n                 gap: 1rem; margin-bottom: 1.5rem; }\n    .card { border: 1px solid #e5e7eb; border-radius: 8px;\n            overflow: hidden; }\n    .card-img { height: 90px; background: linear-gradient(135deg,#2563eb,#7c3aed);\n                display: flex; align-items: center; justify-content: center;\n                color: #fff; font-size: .7rem; font-weight: 700; }\n    .card-body { padding: .7rem .85rem; }\n    .card-body h3 { font-size: .88rem; margin: 0 0 .25rem; }\n    .card-price  { font-size: .82rem; font-weight: 700; color: #16a34a; }\n    .card-body a { font-size: .8rem; color: #2563eb;\n                   text-decoration: none; display: block; margin-top: .4rem; }\n\n    /* Comment thread */\n    .comment { border-left: 3px solid #e2e8f0; padding: .6rem .9rem;\n               margin-bottom: .6rem; border-radius: 0 6px 6px 0; }\n    .reply   { border-left: 3px solid #c7d2fe; padding: .5rem .75rem;\n               margin: .5rem 0 0 1.25rem; background: #eef2ff;\n               border-radius: 0 6px 6px 0; }\n    .meta    { font-size: .76rem; color: #94a3b8; margin: .1rem 0 .35rem; }\n  </style>\n</head>\n<body>\n\n  <h1>Article Element Patterns</h1>\n\n\n  <!-- PATTERN 1: BLOG POST with scoped header and footer -->\n  <h2>1. Blog post article with header and footer</h2>\n  <!--\n    article contains its own <header> and <footer>.\n    These are scoped to the article, not the page.\n    The article <header> holds the post title and byline.\n    The article <footer> holds author bio, tags, sharing links.\n    Screen readers announce this as an \"article\" landmark.\n  -->\n  <article class=\"post\">\n\n    <header class=\"post-header\">\n      <!--\n        Heading inside article does not need to be h1.\n        It should be the correct level in the document outline:\n        the page h1 is the site/page title; article headings are h2 or h3.\n      -->\n      <span class=\"tag\">CSS</span>\n      <h2>Mastering CSS Custom Properties</h2>\n      <p class=\"byline\">\n        By <a href=\"/author/priya\">Priya Sharma</a> &middot;\n        Published 1 March 2025 &middot; 8 min read\n      </p>\n    </header>\n\n    <p>CSS custom properties (variables) allow values to be defined\n       once and reused throughout a stylesheet. They cascade like any\n       other CSS property and can be updated dynamically with JavaScript.</p>\n\n    <p>Unlike preprocessor variables (Sass, Less), custom properties\n       are resolved at runtime in the browser, enabling themes and\n       dark mode without recompilation.</p>\n\n    <footer class=\"post-footer\">\n      <!--\n        Article footer: metadata that follows the main content.\n        Tags, related links, author info, share buttons.\n        Scoped to this article; page footer is a separate element.\n      -->\n      <strong>Tags:</strong>\n      <a href=\"/tag/css\">CSS</a>,\n      <a href=\"/tag/variables\">Custom Properties</a>,\n      <a href=\"/tag/theming\">Theming</a>\n    </footer>\n\n  </article>\n\n\n  <!-- PATTERN 2: PRODUCT CARDS (article grid) -->\n  <h2>2. Product card grid (each card is an article)</h2>\n  <!--\n    Each card is self-contained: title, price, description, link.\n    Could be extracted and shown in a recommendations widget.\n    article is semantically correct; div is not.\n  -->\n  <div class=\"card-grid\">\n\n    <article class=\"card\">\n      <div class=\"card-img\">HTML COURSE</div>\n      <div class=\"card-body\">\n        <h3>HTML Foundations</h3>\n        <p class=\"card-price\">Rs 1,299</p>\n        <a href=\"/courses/html\">Enrol now</a>\n      </div>\n    </article>\n\n    <article class=\"card\">\n      <div class=\"card-img\">CSS COURSE</div>\n      <div class=\"card-body\">\n        <h3>CSS Masterclass</h3>\n        <p class=\"card-price\">Rs 1,499</p>\n        <a href=\"/courses/css\">Enrol now</a>\n      </div>\n    </article>\n\n    <article class=\"card\">\n      <div class=\"card-img\">JS COURSE</div>\n      <div class=\"card-body\">\n        <h3>JavaScript Pro</h3>\n        <p class=\"card-price\">Rs 1,999</p>\n        <a href=\"/courses/js\">Enrol now</a>\n      </div>\n    </article>\n\n  </div>\n\n\n  <!-- PATTERN 3: COMMENT THREAD (nested articles) -->\n  <h2>3. Comment thread with nested articles</h2>\n  <!--\n    Outer article: the blog post this comment thread belongs to.\n    Each comment is an article nested inside the post article.\n    Replies are articles nested inside comment articles.\n    Three levels of nesting: post > comment > reply.\n  -->\n  <section aria-labelledby=\"comments-h\">\n    <h2 id=\"comments-h\">Comments (2)</h2>\n\n    <article class=\"comment\">\n      <h3>Arjun Nair</h3>\n      <p class=\"meta\">2 March 2025 at 09:14</p>\n      <p>This finally explains why my theme switcher wasn't working\n         across shadow DOM boundaries. Thank you!</p>\n\n      <!--\n        Reply: article nested inside comment article.\n        Self-contained: has author, date, and response content.\n      -->\n      <article class=\"reply\">\n        <h4>Priya Sharma <span style=\"font-weight:400;\">(author)</span></h4>\n        <p class=\"meta\">2 March 2025 at 11:02</p>\n        <p>Glad it helped! Shadow DOM and custom properties deserve\n           a whole dedicated post.</p>\n      </article>\n    </article>\n\n    <article class=\"comment\">\n      <h3>Meera Pillai</h3>\n      <p class=\"meta\">3 March 2025 at 14:30</p>\n      <p>Could you cover the new @property rule in a follow-up?\n         I'd like to understand typed custom properties better.</p>\n    </article>\n\n  </section>\n\n</body>\n</html>",
+          "output": "Page renders three article patterns. The blog post shows a bordered card with a scoped header containing the tag, title, and byline, main content, and a scoped footer with tags. The product grid shows three course cards each as an article with a gradient image area, title, price, and link. The comment thread shows two comment articles inside a labelled section, the first with a nested reply article using a lighter blue left border. All heading levels are correct relative to their nesting depth.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " element models the concept of a "
+            },
+            {
+              "value": "document within a document",
+              "bold": true
+            },
+            {
+              "value": ". Just as a newspaper contains multiple self-contained articles, a web page can contain multiple "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " elements. Each one is a complete thought. Nesting "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " inside "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " is valid when the inner content is related to but independently meaningful from the outer: comment threads, review responses, and embedded quotes all fit this pattern."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<header>",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "<footer>",
+              "highlight": true
+            },
+            {
+              "value": " elements inside an "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " are scoped to that article. The article "
+            },
+            {
+              "value": "<header>",
+              "highlight": true
+            },
+            {
+              "value": " holds the post title, author, and date. The article "
+            },
+            {
+              "value": "<footer>",
+              "highlight": true
+            },
+            {
+              "value": " holds tags, related links, and sharing buttons. Neither of these is the page "
+            },
+            {
+              "value": "<header>",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "<footer>",
+              "highlight": true
+            },
+            {
+              "value": "; they are structural roles within the article's own document model."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Add "
+            },
+            {
+              "value": "itemscope",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "itemtype='https://schema.org/Article'",
+              "highlight": true
+            },
+            {
+              "value": " (or "
+            },
+            {
+              "value": "BlogPosting",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "NewsArticle",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "Product",
+              "highlight": true
+            },
+            {
+              "value": ") to "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " elements to expose structured data to search engines. Schema.org microdata on the "
+            },
+            {
+              "value": "<article>",
+              "highlight": true
+            },
+            {
+              "value": " element is one of the primary ways Google discovers rich result eligibility for articles, products, and reviews in search results."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Sectioning Content",
+        "Section Element",
+        "HTML Semantic Elements",
+        "Accessibility and ARIA"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Sectioning Content | section, article Elements Guide",
+    "meta_description": "Learn HTML sectioning elements: the section element for thematic groups, the article element for independent content, landmark regions, and document outline best practices.",
+    "keywords": [
+      "HTML section element",
+      "HTML article element",
+      "HTML sectioning content",
+      "HTML landmark regions",
+      "HTML document outline",
+      "HTML section vs div",
+      "HTML article vs section",
+      "HTML region ARIA landmark",
+      "HTML aria-labelledby section",
+      "HTML semantic page structure"
+    ],
+    "canonical_url": "/html/html-sectioning-content",
+    "robots": "index, follow"
+  }
+}

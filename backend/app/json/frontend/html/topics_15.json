@@ -1,0 +1,1204 @@
+{
+  "topic": {
+    "id": 15,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 4,
+    "slug": "html-media-and-time-semantics",
+    "title": "HTML Media and Time Semantics",
+    "description": "figure and figcaption caption media content; time provides machine-readable dates and durations.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Media and Time Semantics: figure, figcaption, and time"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "HTML provides three dedicated elements for annotating media and temporal data. The "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": " element wraps self-contained content referenced from the main flow: images, diagrams, code listings, charts, and quotations. The "
+          },
+          {
+            "value": "<figcaption>",
+            "highlight": true
+          },
+          {
+            "value": " element is the optional caption for its parent figure, placed as its first or last child. The "
+          },
+          {
+            "value": "<time>",
+            "highlight": true
+          },
+          {
+            "value": " element marks up a date, time, or duration in human-readable form and provides a machine-readable equivalent via the "
+          },
+          {
+            "value": "datetime",
+            "highlight": true
+          },
+          {
+            "value": " attribute. Together these elements satisfy "
+          },
+          {
+            "value": "WCAG 1.3.1 Info and Relationships",
+            "bold": true
+          },
+          {
+            "value": " by making the semantic association between media and its caption, and between displayed dates and their machine-parseable format, explicit in the HTML rather than implied by visual proximity. Reference: "
+          },
+          {
+            "value": "MDN: figure",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "MDN: time",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Element",
+          "Purpose",
+          "Key attribute",
+          "Valid children / parent"
+        ],
+        "rows": [
+          [
+            "<figure>",
+            "Wraps self-contained media referenced from the main text",
+            "(none required)",
+            "Any flow content; optionally one <figcaption>"
+          ],
+          [
+            "<figcaption>",
+            "Caption or legend for the parent figure",
+            "(none)",
+            "First or last child of <figure>"
+          ],
+          [
+            "<time>",
+            "Machine-readable date, time, or duration",
+            "datetime",
+            "Phrasing content; inside any flow element"
+          ],
+          [
+            "<time datetime='2025-03-01'>",
+            "Specific date (ISO 8601)",
+            "YYYY-MM-DD",
+            "Inline text nodes"
+          ],
+          [
+            "<time datetime='2025-03-01T09:00'>",
+            "Date and local time",
+            "YYYY-MM-DDTHH:MM",
+            "Inline text nodes"
+          ],
+          [
+            "<time datetime='PT2H30M'>",
+            "Duration (ISO 8601)",
+            "PnYnMnDTnHnMnS",
+            "Inline text nodes"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "figure Is Not Only for Images",
+        "text": "The figure element is appropriate for any self-contained content that the main text references but that could be moved without breaking the prose flow: images, SVG diagrams, code listings, data tables, block quotes with attribution, audio players, and video embeds. If the main text says 'as shown in the diagram below' or 'see listing 3', those targets belong in figure elements."
+      }
+    ],
+    "examples": [
+      {
+        "title": "figure and figcaption for Images, Code, and Quotes",
+        "description": "This example shows figure and figcaption used for five content types: a photograph with a caption, an SVG diagram, a code listing, a data table, and a blockquote with attribution. It demonstrates correct placement of figcaption as first or last child, the relationship between figure and main text references, and the CSS needed to style captions accessibly.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Figure and Figcaption Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2.5rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n\n    /* Base figure reset */\n    figure { margin: 1.25rem 0; }\n\n    /* Image figure */\n    .fig-image img { max-width: 100%; height: auto;\n                     display: block; border-radius: 8px; }\n\n    /* figcaption base style */\n    figcaption { font-size: .82rem; color: #64748b;\n                 margin-top: .5rem; line-height: 1.5; }\n    figcaption strong { color: #475569; }\n\n    /* Code listing figure */\n    .fig-code { background: #0f172a; border-radius: 8px;\n                overflow: hidden; }\n    .fig-code pre { margin: 0; padding: 1rem 1.25rem;\n                    overflow-x: auto; }\n    .fig-code code { background: none; color: #e2e8f0;\n                     font-size: .84rem; padding: 0; }\n    .fig-code figcaption { background: #1e293b; color: #94a3b8;\n                           padding: .45rem 1.25rem;\n                           font-family: monospace; font-size: .78rem;\n                           margin: 0; border-top: 1px solid #334155; }\n\n    /* SVG diagram figure */\n    .fig-diagram { border: 1px solid #e5e7eb; border-radius: 8px;\n                   padding: 1rem; text-align: center; }\n    .fig-diagram figcaption { text-align: left; }\n\n    /* Blockquote figure */\n    .fig-quote blockquote { border-left: 3px solid #2563eb;\n                             margin: 0 0 .5rem; padding: .5rem 1rem;\n                             color: #334155; font-style: italic; }\n    .fig-quote figcaption { padding-left: 1rem; }\n\n    /* Table figure */\n    .fig-table table { width: 100%; border-collapse: collapse;\n                       font-size: .87rem; }\n    .fig-table th { background: #0f172a; color: #fff;\n                    padding: .4rem .75rem; text-align: left; }\n    .fig-table td { border: 1px solid #e2e8f0;\n                    padding: .4rem .75rem; }\n  </style>\n</head>\n<body>\n\n  <h1>figure and figcaption Patterns</h1>\n\n  <p>The examples below demonstrate the five content types that\n     belong inside a <code>&lt;figure&gt;</code> element. The main\n     text references each figure, and the caption provides context\n     that supplements the content without duplicating it.</p>\n\n\n  <!-- PATTERN 1: IMAGE -->\n  <h2>1. Photograph with caption</h2>\n  <p>The HTML5 document structure, illustrated in\n     <strong>Figure 1</strong>, maps directly to the ARIA\n     landmark roles used by screen readers.</p>\n\n  <!--\n    figure wraps the image and its caption together.\n    The association between img and caption is structural,\n    not just visual — assistive tools understand it.\n    figcaption as the LAST child is the most common pattern\n    for images (caption below the image).\n  -->\n  <figure class=\"fig-image\">\n    <img\n      src=\"/img/html-document-structure.png\"\n      alt=\"HTML5 document structure showing header, nav, main, aside, and footer regions with landmark labels\"\n      width=\"720\"\n      height=\"405\"\n      loading=\"lazy\">\n    <!--\n      figcaption supplements the alt text.\n      alt describes the image content.\n      figcaption provides context: figure number, source, explanation.\n      Do NOT duplicate the alt text in figcaption.\n    -->\n    <figcaption>\n      <strong>Figure 1.</strong> HTML5 semantic landmark structure.\n      Each region maps to an ARIA landmark role used by screen readers\n      for rapid page navigation.\n    </figcaption>\n  </figure>\n\n\n  <!-- PATTERN 2: CODE LISTING -->\n  <h2>2. Code listing with caption</h2>\n  <p>Listing 1 shows the minimal accessible button pattern\n     using the correct element, type attribute, and label.</p>\n\n  <figure class=\"fig-code\">\n    <!--\n      figcaption as the FIRST child: caption above the content.\n      Common for code listings where the label precedes the code.\n      Either first or last child is valid; first is conventional\n      for numbered code listings.\n    -->\n    <figcaption>Listing 1. Accessible button with type and aria-label</figcaption>\n    <pre><code>&lt;!-- Icon-only button: aria-label is the accessible name --&gt;\n&lt;button\n  type=\"button\"\n  aria-label=\"Close dialog\"\n  onclick=\"closeDialog()\"&gt;\n  &lt;svg aria-hidden=\"true\" focusable=\"false\"\n       viewBox=\"0 0 24 24\" width=\"20\" height=\"20\"&gt;\n    &lt;path d=\"M6 18L18 6M6 6l12 12\"\n          stroke=\"currentColor\" stroke-width=\"2\"\n          stroke-linecap=\"round\"/&gt;\n  &lt;/svg&gt;\n&lt;/button&gt;</code></pre>\n  </figure>\n\n\n  <!-- PATTERN 3: SVG DIAGRAM -->\n  <h2>3. SVG diagram with caption</h2>\n  <p>The CSS box model, shown in <strong>Figure 2</strong>,\n     consists of four nested rectangles representing content,\n     padding, border, and margin.</p>\n\n  <figure class=\"fig-diagram\">\n    <svg viewBox=\"0 0 320 220\" width=\"320\" aria-hidden=\"true\">\n      <!-- Margin -->\n      <rect x=\"0\"   y=\"0\"   width=\"320\" height=\"220\"\n            fill=\"#fef9c3\" stroke=\"#ca8a04\" stroke-width=\"1.5\"/>\n      <text x=\"8\" y=\"16\" font-size=\"10\" fill=\"#92400e\"\n            font-family=\"monospace\">margin</text>\n      <!-- Border -->\n      <rect x=\"24\"  y=\"24\"  width=\"272\" height=\"172\"\n            fill=\"#fed7aa\" stroke=\"#ea580c\" stroke-width=\"1.5\"/>\n      <text x=\"32\" y=\"40\" font-size=\"10\" fill=\"#7c2d12\"\n            font-family=\"monospace\">border</text>\n      <!-- Padding -->\n      <rect x=\"48\"  y=\"48\"  width=\"224\" height=\"124\"\n            fill=\"#bbf7d0\" stroke=\"#16a34a\" stroke-width=\"1.5\"/>\n      <text x=\"56\" y=\"64\" font-size=\"10\" fill=\"#14532d\"\n            font-family=\"monospace\">padding</text>\n      <!-- Content -->\n      <rect x=\"80\"  y=\"80\"  width=\"160\" height=\"60\"\n            fill=\"#bfdbfe\" stroke=\"#2563eb\" stroke-width=\"1.5\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"11\"\n            fill=\"#1e3a8a\" font-family=\"monospace\"\n            font-weight=\"600\">content</text>\n    </svg>\n    <figcaption>\n      <strong>Figure 2.</strong> The CSS box model. Every HTML element\n      is a rectangular box comprising content, padding, border, and margin\n      layers from inside out.\n    </figcaption>\n  </figure>\n\n\n  <!-- PATTERN 4: DATA TABLE -->\n  <h2>4. Data table with caption</h2>\n  <p>Course enrolment figures for Q1 2025 are summarised\n     in <strong>Table 1</strong>.</p>\n\n  <!--\n    A data table can sit inside figure when it is referenced\n    from the main text and has a descriptive caption.\n    Note: <table> has its own <caption> element.\n    Using <figure> + <figcaption> wraps the whole table as\n    a self-contained unit. Both can coexist:\n    figure > figcaption (figure label) + table > caption (table label).\n    For simple cases, pick one or the other, not both.\n  -->\n  <figure class=\"fig-table\">\n    <figcaption>\n      <strong>Table 1.</strong> Q1 2025 course enrolments by subject.\n    </figcaption>\n    <table>\n      <thead>\n        <tr>\n          <th scope=\"col\">Course</th>\n          <th scope=\"col\">Enrolments</th>\n          <th scope=\"col\">Completion rate</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td>HTML Foundations</td><td>1,240</td><td>78%</td></tr>\n        <tr><td>CSS Masterclass</td><td>980</td><td>72%</td></tr>\n        <tr><td>JavaScript Pro</td><td>1,105</td><td>81%</td></tr>\n      </tbody>\n    </table>\n  </figure>\n\n\n  <!-- PATTERN 5: BLOCKQUOTE WITH ATTRIBUTION -->\n  <h2>5. Blockquote with attribution</h2>\n  <!--\n    The HTML spec explicitly lists blockquote with attribution\n    as a valid figure content type.\n    figcaption holds the attribution (author, source).\n    cite inside figcaption marks the source title.\n  -->\n  <figure class=\"fig-quote\">\n    <blockquote>\n      <p>The Web's universality is its power. The Web is for everyone,\n         regardless of hardware, software, language, culture,\n         location, or physical or mental ability.</p>\n    </blockquote>\n    <figcaption>\n      Tim Berners-Lee, <cite>W3C Web Accessibility Initiative</cite>\n    </figcaption>\n  </figure>\n\n</body>\n</html>",
+        "output": "Page renders five figure patterns. The image figure shows a placeholder image with a structured caption including a bold figure number. The code listing figure shows a dark code block with the caption above the code in a lighter dark header. The SVG diagram figure shows a CSS box model with four nested coloured rectangles and a caption below. The data table figure shows an enrolment table with a numbered caption above. The blockquote figure shows an indented italic quote with a left blue border and an attribution line in the figcaption.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "time Element with All datetime Formats",
+        "description": "This example shows every valid datetime attribute format: date only, date and time, time only, month only, week, year, duration, and timezone offset. It also demonstrates practical use cases: article publish dates, event schedules, relative time labels, and duration indicators.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Time Element Demo</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    table { border-collapse: collapse; width: 100%; font-size: .87rem;\n            margin-bottom: 1rem; }\n    th, td { border: 1px solid #e2e8f0; padding: .45rem .75rem;\n             text-align: left; }\n    thead th { background: #0f172a; color: #fff; }\n    .article-card { border: 1px solid #e5e7eb; border-radius: 8px;\n                    padding: .85rem 1rem; margin-bottom: .75rem; }\n    .article-card h3 { font-size: .95rem; margin: 0 0 .25rem; }\n    .meta { font-size: .78rem; color: #64748b; }\n    .event-row { display: flex; align-items: baseline;\n                 gap: .75rem; padding: .45rem 0;\n                 border-bottom: 1px solid #f1f5f9; }\n    .event-time { font-size: .82rem; font-weight: 700;\n                  color: #2563eb; min-width: 80px; flex-shrink: 0; }\n    .duration-badge { display: inline-block; background: #eff6ff;\n                      color: #1d4ed8; font-size: .75rem;\n                      padding: .1rem .45rem; border-radius: 4px;\n                      font-weight: 600; }\n  </style>\n</head>\n<body>\n\n  <h1>time Element: All datetime Formats</h1>\n\n\n  <!-- DATETIME FORMAT REFERENCE -->\n  <h2>1. datetime attribute format reference</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>Format</th>\n        <th>Example datetime value</th>\n        <th>Human-readable text</th>\n        <th>Use for</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td>Date only</td>\n        <td><code>2025-03-01</code></td>\n        <td>\n          <!--\n            datetime gives the machine-readable ISO 8601 date.\n            The text content is the human-readable display.\n            They do not need to match: display can be any format.\n          -->\n          <time datetime=\"2025-03-01\">1 March 2025</time>\n        </td>\n        <td>Article publish dates, event dates</td>\n      </tr>\n      <tr>\n        <td>Date + local time</td>\n        <td><code>2025-03-01T09:00</code></td>\n        <td><time datetime=\"2025-03-01T09:00\">9:00 AM, 1 March</time></td>\n        <td>Event start times without timezone</td>\n      </tr>\n      <tr>\n        <td>Date + time + UTC offset</td>\n        <td><code>2025-03-01T09:00+05:30</code></td>\n        <td><time datetime=\"2025-03-01T09:00+05:30\">9:00 AM IST</time></td>\n        <td>Events with explicit timezone (IST = +05:30)</td>\n      </tr>\n      <tr>\n        <td>Date + UTC time</td>\n        <td><code>2025-03-01T03:30Z</code></td>\n        <td><time datetime=\"2025-03-01T03:30Z\">3:30 UTC</time></td>\n        <td>Server timestamps, API-sourced datetimes</td>\n      </tr>\n      <tr>\n        <td>Time only</td>\n        <td><code>09:00</code></td>\n        <td><time datetime=\"09:00\">9 AM</time></td>\n        <td>Recurring daily times (office hours, broadcast)</td>\n      </tr>\n      <tr>\n        <td>Year and month</td>\n        <td><code>2025-03</code></td>\n        <td><time datetime=\"2025-03\">March 2025</time></td>\n        <td>Monthly reports, billing cycles</td>\n      </tr>\n      <tr>\n        <td>Week number</td>\n        <td><code>2025-W10</code></td>\n        <td><time datetime=\"2025-W10\">Week 10, 2025</time></td>\n        <td>Sprint dates, weekly reports</td>\n      </tr>\n      <tr>\n        <td>Year only</td>\n        <td><code>2025</code></td>\n        <td><time datetime=\"2025\">2025</time></td>\n        <td>Copyright years, annual statistics</td>\n      </tr>\n      <tr>\n        <td>Duration</td>\n        <td><code>PT2H30M</code></td>\n        <td><time datetime=\"PT2H30M\">2 hours 30 minutes</time></td>\n        <td>Course length, video runtime, read time</td>\n      </tr>\n      <tr>\n        <td>Duration (days)</td>\n        <td><code>P3D</code></td>\n        <td><time datetime=\"P3D\">3 days</time></td>\n        <td>Delivery time, trial period, warranty</td>\n      </tr>\n    </tbody>\n  </table>\n\n\n  <!-- PRACTICAL USE CASE 1: Article publish dates -->\n  <h2>2. Article cards with publish dates</h2>\n\n  <div class=\"article-card\">\n    <h3>Understanding the CSS Cascade</h3>\n    <p class=\"meta\">\n      By Priya Sharma &middot;\n      <!--\n        time element with datetime: search engines and feed readers\n        parse the datetime attribute, not the display text.\n        Display text can be any locale format; datetime is always ISO 8601.\n      -->\n      Published <time datetime=\"2025-03-01\">1 March 2025</time>\n      &middot;\n      <!--\n        Duration with PT prefix (Period Time):\n        PT8M = 8 minutes. P = period, T = time component.\n      -->\n      <time datetime=\"PT8M\">8 min read</time>\n    </p>\n    <p>The cascade algorithm determines which CSS rule wins\n       when multiple rules target the same element and property.</p>\n  </div>\n\n  <div class=\"article-card\">\n    <h3>Flexbox vs CSS Grid: When to Use Each</h3>\n    <p class=\"meta\">\n      By Arjun Nair &middot;\n      Published <time datetime=\"2025-02-14\">14 February 2025</time>\n      &middot;\n      <time datetime=\"PT12M\">12 min read</time>\n    </p>\n    <p>Flexbox and Grid solve different layout problems.\n       Choosing the right tool prevents unnecessary complexity.</p>\n  </div>\n\n\n  <!-- PRACTICAL USE CASE 2: Event schedule -->\n  <h2>3. Event schedule with times and durations</h2>\n\n  <div class=\"event-row\">\n    <time class=\"event-time\" datetime=\"2025-03-15T09:00+05:30\">\n      9:00 AM\n    </time>\n    <div>\n      <strong>Opening keynote</strong>\n      <span class=\"duration-badge\">\n        <time datetime=\"PT1H\">1 hour</time>\n      </span>\n    </div>\n  </div>\n\n  <div class=\"event-row\">\n    <time class=\"event-time\" datetime=\"2025-03-15T10:00+05:30\">\n      10:00 AM\n    </time>\n    <div>\n      <strong>HTML Accessibility Workshop</strong>\n      <span class=\"duration-badge\">\n        <time datetime=\"PT1H30M\">1.5 hours</time>\n      </span>\n    </div>\n  </div>\n\n  <div class=\"event-row\">\n    <time class=\"event-time\" datetime=\"2025-03-15T12:00+05:30\">\n      12:00 PM\n    </time>\n    <div>\n      <strong>Lunch break</strong>\n      <span class=\"duration-badge\">\n        <time datetime=\"PT45M\">45 min</time>\n      </span>\n    </div>\n  </div>\n\n\n  <!-- PRACTICAL USE CASE 3: Copyright year -->\n  <h2>4. Copyright year</h2>\n  <p>\n    &copy; <time datetime=\"2025\">2025</time> DevDocs India.\n    All rights reserved.\n  </p>\n\n\n  <!-- WRONG: time without datetime when display is ambiguous -->\n  <h2>5. Wrong vs right datetime usage</h2>\n  <p style=\"background:#fef2f2;border-left:3px solid #dc2626;\n            padding:.6rem .9rem;border-radius:0 6px 6px 0;\n            font-size:.87rem;\">\n    <strong style=\"color:#dc2626;\">Wrong:</strong>\n    <!-- \"Last updated: yesterday\" is unambiguous only today -->\n    Last updated: <time>yesterday</time>\n    &mdash; no datetime, no machine-readable value\n  </p>\n  <p style=\"background:#f0fdf4;border-left:3px solid #16a34a;\n            padding:.6rem .9rem;border-radius:0 6px 6px 0;\n            font-size:.87rem;\">\n    <strong style=\"color:#16a34a;\">Right:</strong>\n    Last updated:\n    <time datetime=\"2025-02-28\">28 February 2025</time>\n    &mdash; datetime preserves the date regardless of when it is read\n  </p>\n\n</body>\n</html>",
+        "output": "Page renders five sections. The format reference table shows all ten datetime formats as live time elements with their machine-readable value and human display text side by side. The article cards section shows two blog post cards with publish dates and read-time durations using time elements. The event schedule shows three time-tagged events with duration badges. The copyright section shows a simple year in a time element. The wrong versus right section shows the relative 'yesterday' anti-pattern versus a fixed ISO 8601 date.",
+        "images": null,
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": null,
+    "video_url": null,
+    "when_to_use": [
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": " whenever the main text references a media element with phrases like 'as shown in', 'see figure', or 'the following listing', making the relationship between prose and media explicit."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<time datetime='...'>",
+            "highlight": true
+          },
+          {
+            "value": " for every date and time displayed to users so that search engines, feed readers, calendar apps, and browser extensions can parse the value correctly."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<figcaption>",
+            "highlight": true
+          },
+          {
+            "value": " to add context that supplements the media without duplicating the "
+          },
+          {
+            "value": "alt",
+            "highlight": true
+          },
+          {
+            "value": " attribute: a figure number, the data source, the photographer credit, or an explanatory note."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": " for images that are integral to the surrounding text flow; those belong directly in the paragraph using "
+          },
+          {
+            "value": "<img>",
+            "highlight": true
+          },
+          {
+            "value": " with a meaningful "
+          },
+          {
+            "value": "alt",
+            "highlight": true
+          },
+          {
+            "value": " attribute."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<time>",
+            "highlight": true
+          },
+          {
+            "value": " without the "
+          },
+          {
+            "value": "datetime",
+            "highlight": true
+          },
+          {
+            "value": " attribute when the display text is ambiguous or relative ('yesterday', 'last week'); without "
+          },
+          {
+            "value": "datetime",
+            "highlight": true
+          },
+          {
+            "value": " the element provides no machine value."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid placing "
+          },
+          {
+            "value": "<figcaption>",
+            "highlight": true
+          },
+          {
+            "value": " in the middle of its "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": "; the specification requires it to be the first or the last child element of the figure."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<figcaption>",
+            "highlight": true
+          },
+          {
+            "value": " pair creates a structural association between media and its description that is invisible but machine-readable, satisfying "
+          },
+          {
+            "value": "WCAG 1.3.1",
+            "bold": true
+          },
+          {
+            "value": " without relying on visual proximity."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<time datetime>",
+            "highlight": true
+          },
+          {
+            "value": " element solves the ambiguity of relative dates in archived content: 'published last Tuesday' becomes meaningless after a week, but "
+          },
+          {
+            "value": "datetime='2025-03-04'",
+            "highlight": true
+          },
+          {
+            "value": " is unambiguous forever."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "datetime",
+            "highlight": true
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<time>",
+            "highlight": true
+          },
+          {
+            "value": " enables browser extensions, RSS readers, and calendar integrations to extract structured date data without requiring server-side structured data markup."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": " element is a "
+          },
+          {
+            "value": "self-contained island",
+            "bold": true
+          },
+          {
+            "value": " in the document flow. Its defining characteristic is that it could be moved to a different position in the document, or to an appendix, without breaking the meaning of the surrounding text. If removing the element would break the prose, it does not belong in "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": "; it belongs inline. If removing it leaves the prose intact (with perhaps a broken cross-reference), it is a good "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": " candidate."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<time>",
+            "highlight": true
+          },
+          {
+            "value": " element separates "
+          },
+          {
+            "value": "presentation",
+            "bold": true
+          },
+          {
+            "value": " from "
+          },
+          {
+            "value": "data",
+            "bold": true
+          },
+          {
+            "value": ". The text content is for humans and can be in any locale, format, or language: 'मार्च 1, 2025', '1st March 2025', or '2025年3月1日'. The "
+          },
+          {
+            "value": "datetime",
+            "highlight": true
+          },
+          {
+            "value": " attribute is for machines and must always be ISO 8601. This separation means the same page can be localised in any language while keeping the machine-readable date format consistent."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<figcaption>",
+            "highlight": true
+          },
+          {
+            "value": " and the "
+          },
+          {
+            "value": "alt",
+            "highlight": true
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<img>",
+            "highlight": true
+          },
+          {
+            "value": " serve different purposes and should not duplicate each other. "
+          },
+          {
+            "value": "alt",
+            "highlight": true
+          },
+          {
+            "value": " is a text "
+          },
+          {
+            "value": "replacement",
+            "bold": true
+          },
+          {
+            "value": " for the image when it cannot be seen. "
+          },
+          {
+            "value": "<figcaption>",
+            "highlight": true
+          },
+          {
+            "value": " is visible "
+          },
+          {
+            "value": "supplementary context",
+            "bold": true
+          },
+          {
+            "value": " for sighted and non-sighted users alike: source attribution, figure numbers, analytical observations about the image content."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "text": [
+          {
+            "value": "Placing "
+          },
+          {
+            "value": "figcaption",
+            "highlight": true
+          },
+          {
+            "value": " in the middle of "
+          },
+          {
+            "value": "figure",
+            "highlight": true
+          },
+          {
+            "value": " rather than as its first or last child is invalid HTML."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Copying the "
+          },
+          {
+            "value": "alt",
+            "highlight": true
+          },
+          {
+            "value": " text into "
+          },
+          {
+            "value": "figcaption",
+            "highlight": true
+          },
+          {
+            "value": " causes screen readers to announce the same description twice."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Using "
+          },
+          {
+            "value": "time",
+            "highlight": true
+          },
+          {
+            "value": " without "
+          },
+          {
+            "value": "datetime",
+            "highlight": true
+          },
+          {
+            "value": " for relative text like yesterday leaves no machine-readable date value."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "text": [
+          {
+            "value": "Combine "
+          },
+          {
+            "value": "<figure>",
+            "highlight": true
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "aria-labelledby",
+            "highlight": true
+          },
+          {
+            "value": " pointing to the "
+          },
+          {
+            "value": "<figcaption>",
+            "highlight": true
+          },
+          {
+            "value": " id for complex diagrams where the caption provides the primary description: "
+          },
+          {
+            "value": "<figure aria-labelledby='fig1-caption'>",
+            "highlight": true
+          },
+          {
+            "value": ". This creates an explicit ARIA association between the figure and its caption that assistive tools surface in addition to the structural HTML relationship."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use JavaScript's "
+          },
+          {
+            "value": "Intl.RelativeTimeFormat",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "Intl.DateTimeFormat",
+            "highlight": true
+          },
+          {
+            "value": " APIs to render human-readable dates from the "
+          },
+          {
+            "value": "datetime",
+            "highlight": true
+          },
+          {
+            "value": " attribute value. Read "
+          },
+          {
+            "value": "el.getAttribute('datetime')",
+            "highlight": true
+          },
+          {
+            "value": ", parse it with "
+          },
+          {
+            "value": "new Date()",
+            "highlight": true
+          },
+          {
+            "value": ", and format it for the user's locale. This keeps the HTML semantically correct while delivering locale-appropriate display without server-side rendering."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Image Element",
+      "HTML SVG Graphics",
+      "HTML Sectioning Content",
+      "Accessibility and ARIA",
+      "HTML Semantic Elements"
+    ],
+    "is_active": true,
+    "order_index": 15,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 15,
+      "slug": "figure-and-figcaption-elements",
+      "title": "Figure and Figcaption Elements",
+      "description": "figure wraps referenced media and figcaption provides its visible caption as first or last child.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": " element represents a unit of self-contained content, typically referenced from the main text, that could be relocated without disrupting the document flow. It may contain images, SVG, video, audio, code listings, tables, or block quotes. The optional "
+            },
+            {
+              "value": "<figcaption>",
+              "highlight": true
+            },
+            {
+              "value": " element provides a visible caption or legend for the figure and must appear as the "
+            },
+            {
+              "value": "first or last child",
+              "bold": true
+            },
+            {
+              "value": " of "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": ". A "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": " without a "
+            },
+            {
+              "value": "<figcaption>",
+              "highlight": true
+            },
+            {
+              "value": " is valid; the caption is optional. The pairing creates a structural relationship between the content and its description that screen readers and search engines can interpret, satisfying "
+            },
+            {
+              "value": "WCAG 1.3.1",
+              "bold": true,
+              "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+            },
+            {
+              "value": ". Reference: "
+            },
+            {
+              "value": "MDN: figure",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "figcaption and alt Text Must Not Duplicate",
+          "text": "The alt attribute on img is a text replacement shown when the image cannot load or is read by a screen reader in place of the image. figcaption is visible supplementary text shown to all users alongside the image. When both are present, a screen reader announces: image description (alt), then caption (figcaption). Writing the same sentence in both causes the same information to be announced twice. alt describes what the image shows; figcaption explains why it is there or provides attribution."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Figure with Image, Code Listing, and Blockquote",
+          "description": "This example shows the figure element used for an image with a supplement caption, a numbered code listing with caption above, and a blockquote with source attribution in figcaption. It demonstrates figcaption placement (first vs last child), the non-duplication rule between alt and figcaption, and responsive figure styling.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Figure and Figcaption</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 680px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    /* Responsive figure */\n    figure { margin: 1.25rem 0; }\n    figure img { max-width: 100%; height: auto; display: block;\n                 border-radius: 8px; }\n    figcaption { font-size: .82rem; color: #64748b;\n                 margin-top: .45rem; line-height: 1.5; }\n    figcaption strong { color: #475569; }\n    /* Code figure */\n    .code-fig { background: #0f172a; border-radius: 8px;\n                overflow: hidden; }\n    .code-fig figcaption { background: #1e293b; color: #94a3b8;\n                           padding: .4rem 1rem; margin: 0;\n                           font-family: monospace; font-size: .78rem;\n                           border-bottom: 1px solid #334155; }\n    .code-fig pre { margin: 0; padding: 1rem;\n                    overflow-x: auto; }\n    .code-fig code { background: none; color: #e2e8f0;\n                     font-size: .83rem; padding: 0; }\n    /* Quote figure */\n    .quote-fig blockquote { margin: 0 0 .5rem;\n                             border-left: 3px solid #2563eb;\n                             padding: .5rem 1rem; font-style: italic;\n                             color: #334155; }\n    .quote-fig figcaption { padding-left: 1rem; }\n    /* Float figure for inline layout */\n    .fig-float { float: right; margin: 0 0 1rem 1.5rem;\n                 max-width: 280px; }\n    .fig-float img { border-radius: 6px; }\n  </style>\n</head>\n<body>\n\n  <h1>figure and figcaption Reference</h1>\n\n\n  <!-- PATTERN 1: IMAGE FIGURE (figcaption last) -->\n  <h2>1. Image with caption (figcaption as last child)</h2>\n  <p>The document landmark structure shown in\n     <strong>Figure 1</strong> maps each HTML5 element\n     to its ARIA role.</p>\n\n  <figure>\n    <!--\n      alt: describes WHAT the image shows (replacement text).\n      figcaption: explains context, source, number (supplement).\n      They are complementary, not duplicates.\n    -->\n    <img\n      src=\"/img/html-landmarks.png\"\n      alt=\"Diagram of an HTML page with header, nav, main, aside, and footer regions annotated with their ARIA landmark roles\"\n      width=\"680\"\n      height=\"383\"\n      loading=\"lazy\">\n    <!--\n      figcaption as LAST child: caption appears below the image.\n      Most common placement for images.\n    -->\n    <figcaption>\n      <strong>Figure 1.</strong> HTML5 semantic landmark regions and\n      their corresponding ARIA roles. Screen readers expose these\n      roles in their landmarks menu for rapid navigation.\n    </figcaption>\n  </figure>\n\n\n  <!-- PATTERN 2: FLOATED FIGURE -->\n  <h2>2. Floated figure in running text</h2>\n  <figure class=\"fig-float\">\n    <img\n      src=\"/img/priya-avatar.jpg\"\n      alt=\"Priya Sharma, smiling, wearing a blue kurta\"\n      width=\"280\"\n      height=\"280\"\n      loading=\"lazy\">\n    <figcaption>Priya Sharma, HTML and Accessibility Instructor.</figcaption>\n  </figure>\n  <p>Priya Sharma has taught HTML and CSS to over 12,000 students\n     across India. Her course on semantic HTML has been recognised\n     by the W3C Web Accessibility Initiative as an exemplary\n     learning resource for developers entering the accessibility field.</p>\n  <p>Her teaching approach emphasises building correct HTML structure\n     before adding CSS or JavaScript, ensuring every project starts\n     with a solid accessible foundation.</p>\n  <div style=\"clear:both;\"></div>\n\n\n  <!-- PATTERN 3: CODE LISTING (figcaption first) -->\n  <h2>3. Code listing with caption above (figcaption as first child)</h2>\n  <p>Listing 1 shows the complete structure of an accessible\n     HTML form field with label, input, and error message.</p>\n\n  <figure class=\"code-fig\">\n    <!--\n      figcaption as FIRST child: caption appears above the content.\n      Conventional for numbered code listings.\n      Both positions (first and last) are valid per the HTML spec.\n    -->\n    <figcaption>Listing 1. Accessible form field pattern</figcaption>\n    <pre><code>&lt;div class=\"field\"&gt;\n  &lt;label for=\"email\"&gt;\n    Email address\n    &lt;span aria-hidden=\"true\"&gt; *&lt;/span&gt;\n  &lt;/label&gt;\n  &lt;input\n    type=\"email\"\n    id=\"email\"\n    name=\"email\"\n    autocomplete=\"email\"\n    aria-required=\"true\"\n    aria-describedby=\"email-error\"&gt;\n  &lt;span id=\"email-error\" role=\"alert\" aria-live=\"polite\"&gt;&lt;/span&gt;\n&lt;/div&gt;</code></pre>\n  </figure>\n\n\n  <!-- PATTERN 4: BLOCKQUOTE WITH ATTRIBUTION -->\n  <h2>4. Blockquote with attribution in figcaption</h2>\n  <!--\n    HTML spec explicitly lists this as a valid figure use case.\n    figcaption holds attribution: person, title, source.\n    cite element marks the title of the work being quoted.\n  -->\n  <figure class=\"quote-fig\">\n    <blockquote>\n      <p>The power of the Web is in its universality.\n         Access by everyone regardless of disability\n         is an essential aspect.</p>\n    </blockquote>\n    <figcaption>\n      Tim Berners-Lee,\n      <cite>W3C Web Accessibility Initiative (WAI)</cite>\n    </figcaption>\n  </figure>\n\n\n  <!-- WRONG: figcaption in the middle -->\n  <h2>5. figcaption placement: wrong vs right</h2>\n  <pre style=\"background:#fef2f2;border:1px solid #fca5a5;\n       border-radius:6px;padding:.75rem;font-size:.82rem;\">&lt;!-- WRONG: figcaption not first or last --&gt;\n&lt;figure&gt;\n  &lt;img src=\"...\" alt=\"...\"&gt;\n  &lt;figcaption&gt;Caption&lt;/figcaption&gt;  &lt;!-- OK: last child --&gt;\n  &lt;p&gt;Extra note&lt;/p&gt;  &lt;!-- figcaption is no longer last --&gt;\n&lt;/figure&gt;</pre>\n  <pre style=\"background:#f0fdf4;border:1px solid #86efac;\n       border-radius:6px;padding:.75rem;font-size:.82rem;\">&lt;!-- RIGHT: figcaption is the last child --&gt;\n&lt;figure&gt;\n  &lt;img src=\"...\" alt=\"...\"&gt;\n  &lt;p&gt;Extra note&lt;/p&gt;\n  &lt;figcaption&gt;Caption&lt;/figcaption&gt;  &lt;!-- last child: valid --&gt;\n&lt;/figure&gt;</pre>\n\n</body>\n</html>",
+          "output": "Page renders five sections. The image figure shows a landmark diagram with a bold-numbered figcaption below. The floated figure shows an avatar image floating right with the instructor bio text wrapping around it. The code listing figure shows a dark code block with the listing label as a dark header above the code. The blockquote figure shows an indented quote with a left blue border and attribution in figcaption including a cite element. The placement section shows red and green code blocks for wrong and right figcaption positioning.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": " element answers the question: "
+            },
+            {
+              "value": "is this content part of the text flow, or is it referenced by the text flow?",
+              "bold": true
+            },
+            {
+              "value": " An image that illustrates a sentence is part of the flow. An image that a sentence points to with 'as shown in Figure 3' is referenced. Referenced content belongs in "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": "; inline content belongs directly in the paragraph."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The structural relationship between "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "<figcaption>",
+              "highlight": true
+            },
+            {
+              "value": " is parent-child, not proximity-based. A screen reader does not infer that a "
+            },
+            {
+              "value": "<p>",
+              "highlight": true
+            },
+            {
+              "value": " after an "
+            },
+            {
+              "value": "<img>",
+              "highlight": true
+            },
+            {
+              "value": " is its caption. But it does understand that "
+            },
+            {
+              "value": "<figcaption>",
+              "highlight": true
+            },
+            {
+              "value": " inside "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": " is the caption for the figure's content. This is the same reason "
+            },
+            {
+              "value": "<label for='id'>",
+              "highlight": true
+            },
+            {
+              "value": " is better than visual proximity for form inputs."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Add "
+            },
+            {
+              "value": "id",
+              "highlight": true
+            },
+            {
+              "value": " attributes to "
+            },
+            {
+              "value": "<figure>",
+              "highlight": true
+            },
+            {
+              "value": " elements used as cross-references ("
+            },
+            {
+              "value": "id='fig-box-model'",
+              "highlight": true
+            },
+            {
+              "value": ") and link to them with fragment anchors ("
+            },
+            {
+              "value": "href='#fig-box-model'",
+              "highlight": true
+            },
+            {
+              "value": "). This creates a navigable cross-reference system in long documents: clicking 'Figure 2' in the text scrolls to the actual figure, and screen reader users can jump there directly without reading the entire document."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Media and Time Semantics",
+        "HTML Image Element",
+        "HTML Alt Attribute Usage",
+        "Accessibility and ARIA"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 15,
+      "slug": "time-element",
+      "title": "Time Element",
+      "description": "The time element pairs human-readable date or duration text with a machine-readable datetime value.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<time>",
+              "highlight": true
+            },
+            {
+              "value": " element represents a specific point in time or a duration. The "
+            },
+            {
+              "value": "datetime",
+              "highlight": true
+            },
+            {
+              "value": " attribute provides the machine-readable value in "
+            },
+            {
+              "value": "ISO 8601",
+              "bold": true
+            },
+            {
+              "value": " format while the text content can be any human-readable representation. The "
+            },
+            {
+              "value": "datetime",
+              "highlight": true
+            },
+            {
+              "value": " attribute is "
+            },
+            {
+              "value": "required",
+              "bold": true
+            },
+            {
+              "value": " when the element's text content is not a valid ISO 8601 value. Dates use "
+            },
+            {
+              "value": "YYYY-MM-DD",
+              "highlight": true
+            },
+            {
+              "value": ". Times use "
+            },
+            {
+              "value": "HH:MM",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "HH:MM:SS",
+              "highlight": true
+            },
+            {
+              "value": ". Combined datetime uses "
+            },
+            {
+              "value": "T",
+              "highlight": true
+            },
+            {
+              "value": " as separator. Durations use ISO 8601 period notation: "
+            },
+            {
+              "value": "PT2H30M",
+              "highlight": true
+            },
+            {
+              "value": " means 2 hours 30 minutes. Timezone offsets use "
+            },
+            {
+              "value": "+HH:MM",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "Z",
+              "highlight": true
+            },
+            {
+              "value": " for UTC. Reference: "
+            },
+            {
+              "value": "MDN: time element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "time Element for Dates, Durations, and Event Schedules",
+          "description": "This example shows the time element for article publish dates with ISO 8601 dates, read-time durations with PT notation, a multi-timezone event schedule using UTC offsets, relative display text with fixed datetime values, and the JavaScript pattern for converting datetime attributes to locale-formatted strings.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Time Element Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    .post-meta { font-size: .8rem; color: #64748b; }\n    .schedule { border-collapse: collapse; width: 100%;\n                font-size: .87rem; }\n    .schedule th { background: #0f172a; color: #fff;\n                   padding: .4rem .75rem; text-align: left; }\n    .schedule td { border: 1px solid #e2e8f0;\n                   padding: .4rem .75rem; }\n    .duration { display: inline-block; background: #eff6ff;\n                color: #1d4ed8; font-size: .75rem;\n                padding: .1rem .4rem; border-radius: 4px;\n                font-weight: 600; margin-left: .4rem; }\n  </style>\n</head>\n<body>\n\n  <h1>time Element Reference</h1>\n\n\n  <!-- USE CASE 1: Article meta with publish date and read time -->\n  <h2>1. Article publish date and read duration</h2>\n\n  <article>\n    <h2 style=\"font-size:1rem;margin-bottom:.2rem;\">\n      Understanding the HTML Document Outline\n    </h2>\n    <p class=\"post-meta\">\n      By Priya Sharma &middot;\n      <!--\n        Published date: datetime is ISO 8601 YYYY-MM-DD.\n        Display text is locale-friendly: \"1 March 2025\".\n        Search engines parse datetime, not the display text.\n      -->\n      <time datetime=\"2025-03-01\">1 March 2025</time>\n      &middot;\n      <!--\n        Duration: PT prefix = Period/Time.\n        PT8M = 8 minutes. PT1H30M = 1 hour 30 minutes.\n      -->\n      <time datetime=\"PT8M\">8 min read</time>\n    </p>\n  </article>\n\n  <article style=\"margin-top:.75rem;\">\n    <h2 style=\"font-size:1rem;margin-bottom:.2rem;\">\n      CSS Custom Properties in Depth\n    </h2>\n    <p class=\"post-meta\">\n      By Arjun Nair &middot;\n      <time datetime=\"2025-02-14\">14 February 2025</time>\n      &middot;\n      <time datetime=\"PT12M\">12 min read</time>\n    </p>\n  </article>\n\n\n  <!-- USE CASE 2: Event schedule with timezone -->\n  <h2>2. Event schedule with IST timezone offset</h2>\n  <!--\n    +05:30 = IST (India Standard Time).\n    The full datetime value is unambiguous globally.\n    Display text shows only the local time for readability.\n  -->\n  <table class=\"schedule\">\n    <thead>\n      <tr>\n        <th>Time (IST)</th>\n        <th>Session</th>\n        <th>Duration</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td>\n          <time datetime=\"2025-03-15T09:00+05:30\">9:00 AM</time>\n        </td>\n        <td>Opening Keynote</td>\n        <td><time datetime=\"PT1H\" class=\"duration\">1 hr</time></td>\n      </tr>\n      <tr>\n        <td>\n          <time datetime=\"2025-03-15T10:00+05:30\">10:00 AM</time>\n        </td>\n        <td>HTML Accessibility Workshop</td>\n        <td><time datetime=\"PT1H30M\" class=\"duration\">1.5 hr</time></td>\n      </tr>\n      <tr>\n        <td>\n          <time datetime=\"2025-03-15T11:30+05:30\">11:30 AM</time>\n        </td>\n        <td>CSS Architecture Patterns</td>\n        <td><time datetime=\"PT1H\" class=\"duration\">1 hr</time></td>\n      </tr>\n      <tr>\n        <td>\n          <time datetime=\"2025-03-15T12:30+05:30\">12:30 PM</time>\n        </td>\n        <td>Lunch</td>\n        <td><time datetime=\"PT45M\" class=\"duration\">45 min</time></td>\n      </tr>\n    </tbody>\n  </table>\n\n\n  <!-- USE CASE 3: Relative display with fixed datetime -->\n  <h2>3. Relative display text with fixed datetime value</h2>\n  <p>\n    <!--\n      Display text says \"last updated recently\" — vague but intentional\n      for the live page. The datetime attribute preserves the\n      exact date regardless of when the page is read.\n      JavaScript can replace the display text with a\n      locale-relative string (e.g. \"3 days ago\") using\n      Intl.RelativeTimeFormat.\n    -->\n    Last updated:\n    <time datetime=\"2025-02-28\" id=\"update-time\">28 February 2025</time>\n  </p>\n\n\n  <!-- USE CASE 4: JavaScript locale formatting from datetime -->\n  <h2>4. JavaScript locale formatting from datetime attribute</h2>\n  <p id=\"locale-date\">\n    Event date:\n    <time datetime=\"2025-03-15\">15 March 2025</time>\n  </p>\n  <script>\n    // Read the datetime attribute, not the display text\n    const timeEl = document.querySelector('#locale-date time');\n    const dt     = timeEl.getAttribute('datetime');  // \"2025-03-15\"\n\n    // Format for the user's locale using Intl.DateTimeFormat\n    const formatted = new Intl.DateTimeFormat(navigator.language, {\n      dateStyle: 'long'\n    }).format(new Date(dt + 'T00:00'));\n    // e.g. \"15 March 2025\" (en-GB) or \"March 15, 2025\" (en-US)\n    //      or \"15 mars 2025\" (fr-FR) for French browser locale\n\n    timeEl.textContent = formatted;\n  </script>\n\n\n  <!-- USE CASE 5: Copyright year and year-only -->\n  <h2>5. Year-only and copyright</h2>\n  <p>\n    &copy; <time datetime=\"2025\">2025</time> DevDocs India.\n    Course content updated in\n    <time datetime=\"2025-03\">March 2025</time>.\n  </p>\n\n\n  <!-- WRONG vs RIGHT -->\n  <h2>6. datetime is required when text is ambiguous</h2>\n  <p style=\"background:#fef2f2;border-left:3px solid #dc2626;\n            padding:.6rem .9rem;border-radius:0 6px 6px 0;\n            font-size:.87rem;\">\n    <strong style=\"color:#dc2626;\">Wrong:</strong>\n    Published <time>yesterday</time>\n    &mdash; no datetime; machine value is undefined\n  </p>\n  <p style=\"background:#f0fdf4;border-left:3px solid #16a34a;\n            padding:.6rem .9rem;border-radius:0 6px 6px 0;\n            font-size:.87rem;\">\n    <strong style=\"color:#16a34a;\">Right:</strong>\n    Published <time datetime=\"2025-03-01\">1 March 2025</time>\n    &mdash; datetime preserves the value permanently\n  </p>\n\n</body>\n</html>",
+          "output": "Page renders six sections. The article meta section shows two post cards with publish dates and read-time durations as time elements. The event schedule shows a table with four session rows, each with a full IST datetime value in the time element and a blue duration badge. The relative display section shows a time element with a human-readable date. The JavaScript section shows the Intl.DateTimeFormat pattern reading the datetime attribute and replacing the display text with a locale-formatted string. The year-only section shows copyright and month-year usage. The wrong versus right section shows the ambiguous 'yesterday' without datetime versus the correct ISO date.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<time>",
+              "highlight": true
+            },
+            {
+              "value": " element solves the "
+            },
+            {
+              "value": "temporal ambiguity problem",
+              "bold": true
+            },
+            {
+              "value": ": text like 'three days ago', 'last Tuesday', or 'next March' changes meaning every day it is read. The "
+            },
+            {
+              "value": "datetime",
+              "highlight": true
+            },
+            {
+              "value": " attribute records the "
+            },
+            {
+              "value": "absolute moment",
+              "bold": true
+            },
+            {
+              "value": " the author intended. The display text can be relative and human-friendly; the "
+            },
+            {
+              "value": "datetime",
+              "highlight": true
+            },
+            {
+              "value": " is the archival record that remains correct regardless of when the page is accessed."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "ISO 8601 duration strings use a "
+            },
+            {
+              "value": "P",
+              "highlight": true
+            },
+            {
+              "value": " prefix (Period) followed by optional date components ("
+            },
+            {
+              "value": "Y",
+              "highlight": true
+            },
+            {
+              "value": "ears, "
+            },
+            {
+              "value": "M",
+              "highlight": true
+            },
+            {
+              "value": "onths, "
+            },
+            {
+              "value": "D",
+              "highlight": true
+            },
+            {
+              "value": "ays) and a "
+            },
+            {
+              "value": "T",
+              "highlight": true
+            },
+            {
+              "value": " separator before time components ("
+            },
+            {
+              "value": "H",
+              "highlight": true
+            },
+            {
+              "value": "ours, "
+            },
+            {
+              "value": "M",
+              "highlight": true
+            },
+            {
+              "value": "inutes, "
+            },
+            {
+              "value": "S",
+              "highlight": true
+            },
+            {
+              "value": "econds). "
+            },
+            {
+              "value": "PT8M",
+              "highlight": true
+            },
+            {
+              "value": " means 8 minutes. "
+            },
+            {
+              "value": "PT2H30M",
+              "highlight": true
+            },
+            {
+              "value": " means 2 hours 30 minutes. "
+            },
+            {
+              "value": "P3D",
+              "highlight": true
+            },
+            {
+              "value": " means 3 days. The "
+            },
+            {
+              "value": "T",
+              "highlight": true
+            },
+            {
+              "value": " is required before any time component to distinguish months ("
+            },
+            {
+              "value": "M",
+              "highlight": true
+            },
+            {
+              "value": ") from minutes ("
+            },
+            {
+              "value": "M",
+              "highlight": true
+            },
+            {
+              "value": ")."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "document.querySelectorAll('time[datetime]')",
+              "highlight": true
+            },
+            {
+              "value": " to find every "
+            },
+            {
+              "value": "<time>",
+              "highlight": true
+            },
+            {
+              "value": " element on a page and automatically replace display text with locale-relative strings using "
+            },
+            {
+              "value": "Intl.RelativeTimeFormat",
+              "highlight": true
+            },
+            {
+              "value": ". This JavaScript progressive enhancement pattern keeps HTML semantically correct for search engines and screen readers while giving users a friendlier 'published 3 days ago' experience without server-side personalisation."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Media and Time Semantics",
+        "Figure and Figcaption Elements",
+        "HTML Semantic Elements",
+        "HTML Sectioning Content"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Media and Time Semantics | figure, figcaption, time Elements",
+    "meta_description": "Learn HTML figure, figcaption, and time elements: captioning images and code listings, alt vs figcaption differences, and ISO 8601 datetime attribute formats.",
+    "keywords": [
+      "HTML figure element",
+      "HTML figcaption element",
+      "HTML time element",
+      "HTML datetime attribute",
+      "HTML figure vs div",
+      "HTML figcaption alt text difference",
+      "HTML ISO 8601 date",
+      "HTML time duration PT",
+      "HTML figure code listing",
+      "HTML semantic media elements"
+    ],
+    "canonical_url": "/html/html-media-and-time-semantics",
+    "robots": "index, follow"
+  }
+}

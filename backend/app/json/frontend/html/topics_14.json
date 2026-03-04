@@ -1,0 +1,485 @@
+{
+  "topic": {
+    "id": 14,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 4,
+    "slug": "html-semantic-supporting-regions",
+    "title": "HTML Semantic Elements - Supporting Regions",
+    "description": "The aside and footer elements mark supplementary and closing regions with built-in ARIA landmarks.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Semantic Supporting Regions in HTML"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          { "value": "Beyond the primary content area, every page contains regions that support or close the main experience. HTML5 provides two dedicated elements for these roles: " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " for content that is tangentially related to the surrounding content, and " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " for closing information about its nearest sectioning ancestor. Both elements are " },
+          { "value": "sectioning elements", "bold": true },
+          { "value": " that automatically expose " },
+          { "value": "ARIA landmark roles", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles" },
+          { "value": " to assistive technologies, allowing screen reader users to jump directly to these regions without tabbing through the entire page. Their correct use is specified in the " },
+          { "value": "HTML Living Standard", "link": "https://html.spec.whatwg.org/multipage/sections.html" },
+          { "value": "." }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": ["Element", "ARIA Role", "Scope", "Typical Content"],
+        "rows": [
+          ["<aside>", "complementary", "Page or sectioning ancestor", "Sidebars, related links, pull quotes, ads, author bios"],
+          ["<footer>", "contentinfo (page-level only)", "Page or sectioning ancestor", "Copyright, contact info, legal links, tag lists, author info"]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "Page-level vs Scoped Landmarks",
+        "text": "A footer that is a direct descendant of body exposes the ARIA contentinfo landmark role. A footer nested inside an article or section is scoped to that ancestor and does not expose contentinfo, so multiple footers on one page are valid as long as only one is at the page level."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Page Layout with aside and footer",
+        "description": "A complete page showing aside used as a sidebar alongside main content, and a page-level footer closing the document. This is the most common real-world pattern for both elements.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Supporting Regions Example</title>\n    <style>\n      body { font-family: sans-serif; margin: 0; }\n      header { background: #1a1a2e; color: white; padding: 1rem 2rem; }\n      .layout { display: flex; gap: 2rem; padding: 2rem; max-width: 1100px; margin: 0 auto; }\n      main { flex: 1; }\n      /* aside: visually distinct from main content */\n      aside {\n        width: 260px;\n        background: #f8f8f8;\n        border-left: 3px solid #e0e0e0;\n        padding: 1.25rem;\n        border-radius: 6px;\n        font-size: 0.92rem;\n      }\n      aside h2 { font-size: 1rem; margin-top: 0; }\n      footer {\n        background: #1a1a2e;\n        color: #bbb;\n        padding: 1.5rem 2rem;\n        text-align: center;\n        font-size: 0.85rem;\n      }\n      footer a { color: #9bc; text-decoration: none; margin: 0 0.5rem; }\n    </style>\n  </head>\n  <body>\n\n    <header>\n      <h1>Dev Weekly</h1>\n    </header>\n\n    <div class=\"layout\">\n\n      <main>\n        <article>\n          <h2>Understanding Web Performance</h2>\n          <p>Page performance affects user retention, SEO rankings, and conversion rates...</p>\n          <p>Core Web Vitals measure loading, interactivity, and visual stability...</p>\n        </article>\n      </main>\n\n      <!-- aside: tangentially related to the article, not part of it -->\n      <!-- Exposes ARIA complementary landmark role automatically -->\n      <aside>\n        <h2>Related Topics</h2>\n        <ul>\n          <li><a href=\"#\">Core Web Vitals Guide</a></li>\n          <li><a href=\"#\">Image Optimisation</a></li>\n          <li><a href=\"#\">Lazy Loading Assets</a></li>\n        </ul>\n\n        <h2>Newsletter</h2>\n        <p>Get weekly performance tips delivered to your inbox.</p>\n        <a href=\"/subscribe\">Subscribe</a>\n      </aside>\n\n    </div>\n\n    <!-- Page-level footer: direct child of body -->\n    <!-- Exposes ARIA contentinfo landmark role automatically -->\n    <footer>\n      <p>Copyright 2024 Dev Weekly. All rights reserved.</p>\n      <nav aria-label=\"Footer\">\n        <a href=\"/privacy\">Privacy Policy</a>\n        <a href=\"/terms\">Terms of Use</a>\n        <a href=\"/contact\">Contact</a>\n      </nav>\n    </footer>\n\n  </body>\n</html>",
+        "output": "The browser renders a dark header with 'Dev Weekly', a two-column layout below with the article on the left and a light grey sidebar on the right showing related links and a newsletter prompt. A dark footer spans the full width at the bottom with copyright text and three links. Screen readers expose the sidebar as a 'complementary' landmark and the footer as a 'contentinfo' landmark.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "Scoped footer and aside Inside article",
+        "description": "Demonstrates that both aside and footer can be scoped inside an article element, where they apply to that article rather than the whole page, enabling rich self-contained content blocks.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Scoped Supporting Regions</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 720px; margin: 0 auto; }\n      article { border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }\n      /* aside inside article: pull quote or related note, not a page sidebar */\n      article aside {\n        border-left: 4px solid #0077cc;\n        padding: 0.75rem 1rem;\n        margin: 1rem 0;\n        background: #f0f7ff;\n        font-style: italic;\n        color: #333;\n      }\n      article footer { font-size: 0.8rem; color: #888; border-top: 1px solid #eee; padding-top: 0.75rem; margin-top: 1rem; }\n    </style>\n  </head>\n  <body>\n\n    <main>\n\n      <article>\n        <header>\n          <h2>Why Semantic HTML Matters</h2>\n          <p>By Sarah Chen | 20 Jan 2024</p>\n        </header>\n\n        <p>Semantic HTML communicates meaning to browsers, assistive technologies, and search engines...</p>\n\n        <!-- aside inside article: a pull quote related to this article only -->\n        <!-- This aside is scoped to the article, not a page-level sidebar -->\n        <aside>\n          \"Semantic elements replace hundreds of aria-role attributes with a single descriptive tag.\"\n        </aside>\n\n        <p>Using the right element for the right job reduces the need for ARIA overrides...</p>\n\n        <!-- footer inside article: closing metadata for this article only -->\n        <!-- Does NOT expose contentinfo landmark; scoped to article ancestor -->\n        <footer>\n          <p>Tags: HTML, Accessibility, Semantics</p>\n          <p>Last updated: 22 Jan 2024</p>\n        </footer>\n      </article>\n\n    </main>\n\n    <!-- Page-level footer: this one DOES expose contentinfo landmark -->\n    <footer>\n      <p>Copyright 2024 Dev Blog</p>\n    </footer>\n\n  </body>\n</html>",
+        "output": "The page shows an article card with a heading and byline, body text, a blue left-bordered pull quote block, more body text, and a small grey tag and date line at the bottom of the card. A simple copyright footer appears below. Screen readers treat the pull quote aside as complementary content scoped to the article, and only the page-level footer is announced as the contentinfo landmark.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "WRONG vs RIGHT: Misusing aside and footer",
+        "description": "Shows the two most common misuse patterns for aside and footer and contrasts them with correct usage, explaining what breaks in each case.",
+        "code_snippet": "<!-- WRONG 1: using aside for content that is part of the main flow -->\n<!-- aside is for tangentially related content, not for primary content sections -->\n<main>\n  <h1>Our Services</h1>\n  <aside>\n    <!-- WRONG: this IS core page content, not supplementary -->\n    <h2>Web Design</h2>\n    <p>We build responsive websites...</p>\n  </aside>\n  <aside>\n    <!-- WRONG: same issue -->\n    <h2>SEO Services</h2>\n    <p>We improve your search rankings...</p>\n  </aside>\n</main>\n\n<!-- RIGHT: core content sections belong in section or article, not aside -->\n<main>\n  <h1>Our Services</h1>\n  <section>\n    <h2>Web Design</h2>\n    <p>We build responsive websites...</p>\n  </section>\n  <section>\n    <h2>SEO Services</h2>\n    <p>We improve your search rankings...</p>\n  </section>\n</main>\n\n\n<!-- WRONG 2: two page-level footers -->\n<footer>Copyright 2024 Acme</footer>\n<footer>Built with love in Kerala</footer>\n<!-- Two contentinfo landmarks confuse screen readers -->\n\n<!-- RIGHT: one page-level footer, combine the content -->\n<footer>\n  <p>Copyright 2024 Acme. Built with love in Kerala.</p>\n</footer>",
+        "output": "The WRONG aside example causes screen readers to announce 'Web Design' and 'SEO Services' as supplementary complementary regions rather than core service descriptions, misleading users about the importance of the content. The WRONG footer example creates two contentinfo landmarks that screen readers list separately, confusing users about which footer is authoritative.",
+        "images": null,
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": null,
+    "video_url": null,
+    "when_to_use": [
+      {
+        "text": [
+          { "value": "Use " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " when the content enriches but is not essential to the surrounding content, such as related links, pull quotes, author bios, or advertisement blocks." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Use " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " at the page level for site-wide closing information like copyright, contact links, and legal notices, and inside " },
+          { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
+          { "value": " or " },
+          { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
+          { "value": " for scoped closing metadata like tags, publish dates, and author credits." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Use both elements when you need assistive technology users to navigate directly to " },
+          { "value": "complementary", "bold": true },
+          { "value": " or " },
+          { "value": "contentinfo", "bold": true },
+          { "value": " landmark regions without tabbing through the entire page." }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "text": [
+          { "value": "Avoid using " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " for content that is a core part of the page's primary message. Use " },
+          { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
+          { "value": " or " },
+          { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
+          { "value": " instead when the content is integral to the page narrative." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Avoid placing more than one page-level " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " as a direct child of " },
+          { "value": "<body>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body" },
+          { "value": ", as this creates duplicate " },
+          { "value": "contentinfo", "bold": true },
+          { "value": " landmarks that confuse screen reader users." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Avoid nesting " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " inside " },
+          { "value": "<aside>", "bold": true, "highlight": true },
+          { "value": ", as double-nesting complementary landmarks produces an illogical document outline with no meaningful hierarchy for assistive technologies." }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "text": [
+          { "value": "Without " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": ", supplementary content like sidebars has no semantic signal, so screen readers cannot expose a " },
+          { "value": "complementary", "bold": true },
+          { "value": " landmark for users to jump to or skip." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Without a page-level " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": ", there is no " },
+          { "value": "contentinfo", "bold": true },
+          { "value": " landmark, forcing keyboard users to tab through the entire page to reach copyright, legal, and contact information." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Using " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": " for both roles removes structural meaning from the document outline, making it harder for search engines to weight content regions accurately." }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "text": [
+          { "value": "Think of " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " as the margin notes in a textbook. They add context and references that enrich the main text, but you can read the chapter completely without them. The core argument lives in the main column." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Think of " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " as the colophon at the back of a book. It tells you who published it, when, under what terms, and how to reach them. It closes and credits the work without being part of the story." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "The " },
+          { "value": "complementary", "bold": true },
+          { "value": " and " },
+          { "value": "contentinfo", "bold": true },
+          { "value": " ARIA landmark roles exposed by " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " and " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " are like the index tabs on a binder. A screen reader user can flip directly to the complementary section or the closing info tab without leafing through every page in between." }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "text": [
+          { "value": "Using " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " for core content: misrepresents primary sections as supplementary, misleading screen reader landmark navigation." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Multiple page-level " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " elements: duplicate " },
+          { "value": "contentinfo", "bold": true },
+          { "value": " landmarks violate ARIA rules and confuse assistive technology users." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Putting navigation in " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " without " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": ": footer links lack a navigation landmark, so keyboard users cannot skip or jump to them." }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "text": [
+          { "value": "Use the " },
+          { "value": "Landmarks browser extension", "bold": true },
+          { "value": " (available for Chrome and Firefox) to list all landmarks on any page in a panel. It instantly reveals whether your " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " is exposing a " },
+          { "value": "complementary", "bold": true },
+          { "value": " role and whether your " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " is correctly exposing " },
+          { "value": "contentinfo", "bold": true },
+          { "value": " versus being scoped to a sectioning ancestor." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "When a page has multiple " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": " elements, add a distinct " },
+          { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
+          { "value": " to each one, such as " },
+          { "value": "aria-label=\"Related Articles\"", "bold": true, "highlight": true },
+          { "value": " or " },
+          { "value": "aria-label=\"Newsletter Signup\"", "bold": true, "highlight": true },
+          { "value": ", so screen readers can distinguish between multiple complementary landmarks on the same page." }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Page Structure",
+      "HTML Semantic Elements",
+      "HTML Accessibility Basics",
+      "HTML Article and Section Elements",
+      "HTML Header and Navigation Elements"
+    ],
+    "is_active": true,
+    "order_index": 14,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 14,
+      "slug": "html-aside-element",
+      "title": "HTML Aside Element",
+      "description": "The aside element marks tangentially related content that is not essential to the main content flow.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            { "value": "The " },
+            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+            { "value": " element represents content that is " },
+            { "value": "indirectly related", "bold": true },
+            { "value": " to the nearest sectioning ancestor. At the page level it is typically rendered as a sidebar. Inside an " },
+            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
+            { "value": " it is commonly used for pull quotes, author notes, or glossary terms. The element automatically maps to the " },
+            { "value": "ARIA complementary role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/complementary_role" },
+            { "value": ", which assistive technologies expose as a navigable landmark. When more than one " },
+            { "value": "<aside>", "bold": true, "highlight": true },
+            { "value": " exists on a page, each should have a unique " },
+            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
+            { "value": " so users can distinguish between them." }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "aside is not a generic sidebar container",
+          "text": "Only place content inside aside when removing it would leave the main content fully intact and understandable. If the content is necessary to the page's argument or story, it belongs in main, section, or article instead."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Page-level Sidebar and In-article Pull Quote",
+          "description": "Shows aside used in two distinct contexts: as a page-level sidebar with navigation and subscription links, and as an in-article pull quote, illustrating how the same element adapts to its sectioning ancestor.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Aside Element Examples</title>\n    <style>\n      body { font-family: sans-serif; margin: 0; }\n      .layout { display: flex; gap: 2rem; padding: 2rem; max-width: 1000px; margin: 0 auto; }\n      main { flex: 1; }\n      /* Page-level aside: rendered as a sidebar */\n      .sidebar {\n        width: 240px;\n        background: #f5f5f5;\n        padding: 1rem;\n        border-radius: 8px;\n        font-size: 0.9rem;\n      }\n      /* In-article aside: rendered as a pull quote */\n      article aside {\n        border-left: 4px solid #0077cc;\n        background: #eef5ff;\n        padding: 0.75rem 1rem;\n        margin: 1.25rem 0;\n        font-style: italic;\n      }\n    </style>\n  </head>\n  <body>\n    <div class=\"layout\">\n      <main>\n        <article>\n          <h1>The Future of CSS</h1>\n          <p>CSS has evolved dramatically over the past decade, introducing grid, custom properties, and container queries...</p>\n\n          <!-- In-article aside: pull quote tangentially related to the article -->\n          <!-- If removed, the article text is still fully readable -->\n          <aside aria-label=\"Pull quote\">\n            \"Container queries solve the last great unsolved problem in responsive design.\"\n          </aside>\n\n          <p>Container queries allow components to respond to the width of their own container rather than the viewport...</p>\n        </article>\n      </main>\n\n      <!-- Page-level aside: sidebar with content supplementary to the whole page -->\n      <!-- aria-label distinguishes it from other asides on the page -->\n      <aside class=\"sidebar\" aria-label=\"Related resources\">\n        <h2>Related Articles</h2>\n        <ul>\n          <li><a href=\"#\">CSS Grid Complete Guide</a></li>\n          <li><a href=\"#\">Custom Properties Deep Dive</a></li>\n          <li><a href=\"#\">Container Queries Explained</a></li>\n        </ul>\n        <h2>Tools</h2>\n        <ul>\n          <li><a href=\"#\">CSS Validator</a></li>\n          <li><a href=\"#\">Can I Use</a></li>\n        </ul>\n      </aside>\n    </div>\n  </body>\n</html>",
+          "output": "The page displays a two-column layout. The left column shows the article with a heading, two paragraphs of text, and a blue left-bordered pull quote block between them. The right column shows a light grey sidebar with two sections: Related Articles and Tools, each listing links. Screen readers expose the sidebar as a 'Related resources complementary' landmark and the pull quote as a 'Pull quote complementary' region scoped to the article.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            { "value": "Think of " },
+            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+            { "value": " as the footnotes in an academic paper. They provide extra context, citations, or tangential observations, but the paper's argument stands completely on its own without them. If the content would leave a hole in the main text when removed, it is not an aside." }
+          ]
+        },
+        {
+          "text": [
+            { "value": "The " },
+            { "value": "ARIA complementary role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/complementary_role" },
+            { "value": " exposed by " },
+            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+            { "value": " is like a 'skip to sidebar' sign on a highway. Assistive technology users can take the exit to explore supplementary content and return to the main road whenever they choose." }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            { "value": "To quickly verify the " },
+            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+            { "value": " is exposing the correct " },
+            { "value": "complementary", "bold": true },
+            { "value": " role, open Chrome DevTools, select the element, switch to the Accessibility tab, and confirm the role reads 'complementary'. If it reads 'generic', the element may be overridden by an explicit " },
+            { "value": "role", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles" },
+            { "value": " attribute." }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Semantic Elements - Supporting Regions",
+        "HTML Footer Element",
+        "HTML Accessibility Basics"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 14,
+      "slug": "html-footer-element",
+      "title": "HTML Footer Element",
+      "description": "The footer element closes its nearest sectioning ancestor, from page-level to article-level content.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            { "value": "The " },
+            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+            { "value": " element represents the closing region of its nearest sectioning ancestor: " },
+            { "value": "<body>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body" },
+            { "value": ", " },
+            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
+            { "value": ", " },
+            { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
+            { "value": ", or " },
+            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+            { "value": ". A " },
+            { "value": "<footer>", "bold": true, "highlight": true },
+            { "value": " that is a direct child of " },
+            { "value": "<body>", "bold": true, "highlight": true },
+            { "value": " automatically exposes the " },
+            { "value": "ARIA contentinfo role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/contentinfo_role" },
+            { "value": ", a navigable page-level landmark. When nested inside " },
+            { "value": "<article>", "bold": true, "highlight": true },
+            { "value": " or " },
+            { "value": "<section>", "bold": true, "highlight": true },
+            { "value": ", it does not expose " },
+            { "value": "contentinfo", "bold": true },
+            { "value": " and is instead scoped as closing metadata for that ancestor. A " },
+            { "value": "<footer>", "bold": true, "highlight": true },
+            { "value": " may contain " },
+            { "value": "<nav>", "bold": true, "highlight": true },
+            { "value": " elements for secondary navigation links." }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "footer can contain a nav element",
+          "text": "Wrapping footer navigation links inside a nav element with an aria-label such as aria-label='Footer' creates a named navigation landmark, allowing screen reader users to jump to footer links directly rather than tabbing through the entire page."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Page-level Footer with Navigation and Legal Links",
+          "description": "A production-ready page-level footer showing copyright, secondary navigation links, and social links all correctly structured inside a single footer element.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Footer Element Example</title>\n    <style>\n      body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }\n      main { flex: 1; padding: 2rem; }\n      footer {\n        background: #111827;\n        color: #9ca3af;\n        padding: 2rem;\n        font-size: 0.875rem;\n      }\n      .footer-grid {\n        display: flex;\n        justify-content: space-between;\n        flex-wrap: wrap;\n        gap: 1.5rem;\n        max-width: 1100px;\n        margin: 0 auto 1.5rem;\n      }\n      .footer-col h3 { color: white; font-size: 0.9rem; margin-bottom: 0.75rem; }\n      .footer-col a { display: block; color: #9ca3af; text-decoration: none; margin-bottom: 0.4rem; }\n      .footer-col a:hover { color: white; }\n      .footer-bottom { text-align: center; border-top: 1px solid #374151; padding-top: 1.25rem; }\n    </style>\n  </head>\n  <body>\n    <main>\n      <h1>Welcome to Acme</h1>\n      <p>Main page content goes here.</p>\n    </main>\n\n    <!-- Page-level footer: direct child of body, exposes contentinfo landmark -->\n    <footer>\n      <div class=\"footer-grid\">\n\n        <div class=\"footer-col\">\n          <h3>Product</h3>\n          <!-- nav inside footer exposes a named navigation landmark -->\n          <nav aria-label=\"Product links\">\n            <a href=\"/features\">Features</a>\n            <a href=\"/pricing\">Pricing</a>\n            <a href=\"/changelog\">Changelog</a>\n          </nav>\n        </div>\n\n        <div class=\"footer-col\">\n          <h3>Company</h3>\n          <nav aria-label=\"Company links\">\n            <a href=\"/about\">About Us</a>\n            <a href=\"/blog\">Blog</a>\n            <a href=\"/careers\">Careers</a>\n          </nav>\n        </div>\n\n        <div class=\"footer-col\">\n          <h3>Legal</h3>\n          <!-- Minor legal links: plain list is acceptable without nav -->\n          <a href=\"/privacy\">Privacy Policy</a>\n          <a href=\"/terms\">Terms of Service</a>\n          <a href=\"/cookies\">Cookie Policy</a>\n        </div>\n\n      </div>\n      <!-- Copyright and closing note at the bottom of the footer -->\n      <div class=\"footer-bottom\">\n        <p>Copyright 2024 Acme Corp. All rights reserved.</p>\n      </div>\n    </footer>\n\n  </body>\n</html>",
+          "output": "The page shows a heading and content area above a wide dark footer. The footer contains three columns: Product, Company, and Legal, each listing relevant links. A dividing line separates the columns from a centred copyright notice at the very bottom. Screen readers expose the footer as the 'contentinfo' landmark and the two nav elements inside it as 'Product links navigation' and 'Company links navigation'.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            { "value": "A page-level " },
+            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+            { "value": " is like the final page of a contract. It does not add new arguments but closes the document with the parties' names, dates, terms, and contact details. Everything needed to act on the document is there, separate from the body of the agreement." }
+          ]
+        },
+        {
+          "text": [
+            { "value": "The scoped " },
+            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+            { "value": " inside an " },
+            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
+            { "value": " is like the byline and source citation at the end of a newspaper column. It closes that specific story with authorship and context, without claiming to represent the whole newspaper." }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            { "value": "Verify your page-level " },
+            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+            { "value": " exposes the " },
+            { "value": "contentinfo", "bold": true },
+            { "value": " landmark by running axe DevTools or the WAVE accessibility checker. If the footer is nested inside " },
+            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+            { "value": " or another sectioning element by mistake, it will not expose " },
+            { "value": "contentinfo", "bold": true },
+            { "value": " and the landmark will be missing from the page." }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Semantic Elements - Supporting Regions",
+        "HTML Aside Element",
+        "HTML Accessibility Basics"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Semantic Supporting Regions | aside and footer Elements Guide",
+    "meta_description": "Learn how to use the HTML aside and footer elements to structure supplementary and closing regions with correct ARIA landmark roles for accessibility and SEO.",
+    "keywords": [
+      "html aside element",
+      "html footer element",
+      "semantic html supporting regions",
+      "html complementary landmark",
+      "html contentinfo landmark",
+      "html aside vs div",
+      "html footer accessibility",
+      "aria landmark roles html",
+      "html sectioning elements",
+      "html5 semantic layout"
+    ],
+    "canonical_url": "/html/html-semantic-supporting-regions",
+    "robots": "index, follow"
+  }
+}

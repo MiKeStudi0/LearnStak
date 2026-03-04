@@ -1,0 +1,482 @@
+{
+  "topic": {
+    "id": 12,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 4,
+    "slug": "html-page-structure",
+    "title": "HTML Page Structure",
+    "description": "HTML page structure defines how content is organized using semantic layout elements for clarity and accessibility.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Building a Semantic HTML Page Structure"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          { "value": "A well-structured HTML page uses " },
+          { "value": "semantic layout elements", "bold": true },
+          { "value": " to divide content into meaningful regions. Rather than wrapping everything in generic " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": " tags, HTML5 introduced dedicated elements such as " },
+          { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
+          { "value": ", " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": ", " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": ", " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": ", and " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": ". Each element communicates its role to browsers, screen readers, and search engines without requiring extra attributes. This approach is defined in the " },
+          { "value": "HTML Living Standard sectioning elements spec", "link": "https://html.spec.whatwg.org/multipage/sections.html" },
+          { "value": "." }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": ["Element", "Role", "Typical Content"],
+        "rows": [
+          ["<header>", "Introductory region for a page or section", "Logo, site title, hero area, section heading"],
+          ["<nav>", "Primary or secondary navigation block", "Site menu links, breadcrumbs, pagination"],
+          ["<main>", "Dominant unique content of the page", "Articles, product details, search results"],
+          ["<aside>", "Tangentially related content", "Sidebars, related links, pull quotes, ads"],
+          ["<footer>", "Closing region for a page or section", "Copyright, contact info, secondary links"],
+          ["<section>", "Thematic grouping with a heading", "Chapters, tabbed panels, feature blocks"],
+          ["<article>", "Self-contained, independently distributable content", "Blog posts, news items, user comments"]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "Semantic Structure Helps Everyone",
+        "text": "Screen readers use landmark elements like header, nav, main, and footer to let users jump directly between page regions. Search engines use the same structure to understand content hierarchy and relevance."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Complete Semantic Page Layout",
+        "description": "A full page example using all major structural elements in their correct positions. This pattern covers the vast majority of real-world page layouts and serves as a reusable template.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Semantic Page Layout</title>\n    <style>\n      body { font-family: sans-serif; margin: 0; }\n      header { background: #1a1a2e; color: white; padding: 1rem 2rem; }\n      nav a { color: white; margin-right: 1rem; text-decoration: none; }\n      .page-wrapper { display: flex; gap: 2rem; padding: 2rem; }\n      main { flex: 1; }\n      aside { width: 240px; background: #f4f4f4; padding: 1rem; border-radius: 8px; }\n      footer { background: #1a1a2e; color: #aaa; text-align: center; padding: 1rem; }\n    </style>\n  </head>\n  <body>\n    <!-- header: site-wide branding and primary navigation -->\n    <header>\n      <h1>Acme Blog</h1>\n      <!-- nav: wraps the primary site menu -->\n      <nav aria-label=\"Primary\">\n        <a href=\"/\">Home</a>\n        <a href=\"/articles\">Articles</a>\n        <a href=\"/about\">About</a>\n        <a href=\"/contact\">Contact</a>\n      </nav>\n    </header>\n    <div class=\"page-wrapper\">\n      <!-- main: the unique, dominant content of this page -->\n      <!-- Only one <main> element should exist per page -->\n      <main>\n        <article>\n          <h2>Getting Started with Semantic HTML</h2>\n          <p>Published: 10 Jan 2024</p>\n          <p>Semantic HTML improves accessibility, SEO, and code maintainability...</p>\n        </article>\n      </main>\n      <!-- aside: content related to but not part of the main content -->\n      <aside>\n        <h3>Related Articles</h3>\n        <ul>\n          <li><a href=\"#\">HTML Forms Guide</a></li>\n          <li><a href=\"#\">CSS Flexbox Basics</a></li>\n        </ul>\n      </aside>\n    </div>\n    <!-- footer: site-wide closing information -->\n    <footer>\n      <p>Copyright 2024 Acme Blog. All rights reserved.</p>\n    </footer>\n  </body>\n</html>",
+        "output": "The browser renders a dark header bar with the site title 'Acme Blog' and four navigation links. Below it, a two-column layout shows the main article on the left and a related articles sidebar on the right. A dark footer with copyright text appears at the bottom of the page.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "WRONG vs RIGHT: div Soup vs Semantic Structure",
+        "description": "Contrasts a non-semantic layout using only div elements against the correct semantic equivalent, showing why the div-only approach fails for accessibility and maintainability.",
+        "code_snippet": "<!-- WRONG: div soup, no meaning communicated -->\n<div class=\"header\">\n  <div class=\"logo\">MySite</div>\n  <div class=\"menu\">\n    <a href=\"/\">Home</a>\n    <a href=\"/about\">About</a>\n  </div>\n</div>\n<div class=\"content\">\n  <div class=\"post\">\n    <div class=\"post-title\">My Article</div>\n    <div class=\"post-body\">Article content here...</div>\n  </div>\n</div>\n<div class=\"footer\">Copyright 2024</div>\n\n<!-- RIGHT: semantic elements communicate structure directly -->\n<header>\n  <span>MySite</span>\n  <nav aria-label=\"Primary\">\n    <a href=\"/\">Home</a>\n    <a href=\"/about\">About</a>\n  </nav>\n</header>\n<main>\n  <article>\n    <h1>My Article</h1>\n    <p>Article content here...</p>\n  </article>\n</main>\n<footer>Copyright 2024</footer>",
+        "output": "Both versions look identical in the browser when styled the same way. The difference is invisible to sighted users but critical to screen reader users, who can navigate the RIGHT version by landmarks, and to search engines, which correctly identify the main content and navigation regions.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "Nested header and footer Inside article",
+        "description": "Demonstrates that header and footer are not limited to the page level. They can appear inside section and article elements to introduce and close each self-contained content block.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Nested Sectioning Headers</title>\n  </head>\n  <body>\n    <header>\n      <h1>Tech News</h1>\n    </header>\n    <main>\n      <article>\n        <header>\n          <h2>New JavaScript Framework Released</h2>\n          <p>By Jane Doe | 15 Jan 2024</p>\n        </header>\n        <p>The framework introduces a new reactive model that reduces boilerplate...</p>\n        <footer>\n          <p>Tags: JavaScript, Frontend, Open Source</p>\n        </footer>\n      </article>\n      <article>\n        <header>\n          <h2>CSS Nesting Now Baseline</h2>\n          <p>By John Smith | 14 Jan 2024</p>\n        </header>\n        <p>CSS nesting reached baseline support across all major browsers...</p>\n        <footer>\n          <p>Tags: CSS, Web Standards</p>\n        </footer>\n      </article>\n    </main>\n    <footer>\n      <p>Copyright 2024 Tech News</p>\n    </footer>\n  </body>\n</html>",
+        "output": "The page displays a top header with the site name 'Tech News', followed by two article blocks each with their own byline header and tag footer. The page closes with a copyright footer. Screen readers announce each article's header and footer as scoped landmarks within their article, distinct from the page-level header and footer.",
+        "images": null,
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": null,
+    "video_url": null,
+    "when_to_use": [
+      {
+        "text": [
+          { "value": "When building any multi-section page that has distinct regions like " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": ", " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": ", and " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" }
+        ]
+      },
+      {
+        "text": [
+          { "value": "When accessibility is a requirement and users need to navigate by " },
+          { "value": "landmark regions", "bold": true },
+          { "value": " using screen readers" }
+        ]
+      },
+      {
+        "text": [
+          { "value": "When SEO matters and you want search engines to correctly identify the " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": " content versus supplementary regions like " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "text": [
+          { "value": "Avoid using semantic layout elements purely for styling purposes when a " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": " with a class would be clearer and has no structural meaning" }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Avoid placing more than one " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": " element on a page as it is intended to represent a single dominant content region" }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Avoid nesting a " },
+          { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
+          { "value": " or " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": " inside another " },
+          { "value": "<header>", "bold": true, "highlight": true },
+          { "value": " or " },
+          { "value": "<footer>", "bold": true, "highlight": true },
+          { "value": " as this creates confusing landmark hierarchy for assistive technologies" }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "text": [
+          { "value": "Generic " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": "-only layouts give screen readers no " },
+          { "value": "landmark regions", "bold": true },
+          { "value": " to navigate, forcing users to tab through every element to find content." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Without semantic structure, search engines cannot reliably distinguish " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": " page content from " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": " and boilerplate, weakening SEO." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Code written with only " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": " tags requires developers to read every class name to understand layout intent, increasing maintenance cost over time." }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "text": [
+          { "value": "Think of semantic page structure like the layout of a newspaper: the masthead is the " },
+          { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
+          { "value": ", the table of contents is the " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": ", the front-page story is the " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": ", the sidebar column is " },
+          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
+          { "value": ", and the publication details at the bottom are the " },
+          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
+          { "value": ". Each zone has a clear role anyone can recognize at a glance." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Using only " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": " for layout is like labeling every room in a house 'room'. You can still find the kitchen eventually, but a visitor, a fire marshal, or a real-estate listing would struggle to understand the building without named rooms. Semantic elements name the rooms." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Semantic layout elements are the page's table of contents embedded in the code itself. A screen reader user can ask 'take me to the " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": " content' and jump there instantly, the same way a reader flips to a chapter without reading every page before it." }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "text": [
+          { "value": "Using multiple " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": " elements: only one visible " },
+          { "value": "<main>", "bold": true, "highlight": true },
+          { "value": " is allowed per page; extras break screen reader landmark navigation." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Using " },
+          { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
+          { "value": " without a heading: a " },
+          { "value": "<section>", "bold": true, "highlight": true },
+          { "value": " without an " },
+          { "value": "<h1>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements" },
+          { "value": "-" },
+          { "value": "<h6>", "bold": true, "highlight": true },
+          { "value": " produces an unnamed landmark that pollutes the accessibility tree." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Placing navigation links outside " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": ": links in a bare " },
+          { "value": "<div>", "bold": true, "highlight": true },
+          { "value": " are invisible to landmark navigation, failing WCAG keyboard accessibility." }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "text": [
+          { "value": "Install the 'Accessibility Insights for Web' Chrome extension and run FastPass to visualise all " },
+          { "value": "landmark regions", "bold": true },
+          { "value": " with colour-coded overlays, instantly revealing missing " },
+          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+          { "value": " elements, unlabelled " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": " elements, or incorrect nesting." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "When a page has more than one " },
+          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+          { "value": " element, add a distinct " },
+          { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
+          { "value": " to each one, such as " },
+          { "value": "aria-label=\"Primary\"", "bold": true, "highlight": true },
+          { "value": " and " },
+          { "value": "aria-label=\"Breadcrumb\"", "bold": true, "highlight": true },
+          { "value": ", to prevent screen readers from announcing two identical navigation landmarks." }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Document Structure",
+      "HTML Semantic Elements",
+      "HTML Accessibility Basics",
+      "HTML Article and Section Elements",
+      "HTML Footer Element"
+    ],
+    "is_active": true,
+    "order_index": 12,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 12,
+      "slug": "html-header-and-nav-elements",
+      "title": "HTML Header and Navigation Elements",
+      "description": "The header and nav elements define the top region and link structure of a page or section in semantic HTML.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            { "value": "The " },
+            { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
+            { "value": " element represents an introductory region for its nearest sectioning ancestor, which can be the page itself, an " },
+            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
+            { "value": ", or a " },
+            { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
+            { "value": ". It typically contains a logo, site name, or section heading. The " },
+            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+            { "value": " element is reserved for " },
+            { "value": "major navigation blocks", "bold": true },
+            { "value": " only, such as the primary site menu or a breadcrumb trail. Minor groups of links, such as those in a footer, do not require a " },
+            { "value": "<nav>", "bold": true, "highlight": true },
+            { "value": " wrapper. When multiple " },
+            { "value": "<nav>", "bold": true, "highlight": true },
+            { "value": " elements exist on a page, each should carry a distinct " },
+            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
+            { "value": " so screen readers can tell them apart." }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "nav is not for every group of links",
+          "text": "Only wrap links in a nav element when they represent a major navigation block. Footer legal links, tag lists, and pagination can use plain ul elements without nav unless they are primary navigation controls."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Header with Primary and Secondary Navigation",
+          "description": "Shows a page-level header containing a logo and two labelled nav elements, demonstrating correct aria-label usage to distinguish between navigation landmarks for screen reader users.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Header and Nav Example</title>\n    <style>\n      header { background: #0f3460; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }\n      nav a { color: white; margin-left: 1rem; text-decoration: none; font-size: 0.9rem; }\n      .breadcrumb { background: #f0f0f0; padding: 0.5rem 2rem; font-size: 0.85rem; }\n      .breadcrumb a { color: #0f3460; text-decoration: none; }\n    </style>\n  </head>\n  <body>\n    <header>\n      <span>Acme Docs</span>\n      <!-- aria-label distinguishes this from other nav elements on the page -->\n      <nav aria-label=\"Primary\">\n        <a href=\"/\">Home</a>\n        <a href=\"/guides\">Guides</a>\n        <a href=\"/api\">API</a>\n        <a href=\"/blog\">Blog</a>\n      </nav>\n    </header>\n    <!-- Second nav with its own aria-label so screen readers name it separately -->\n    <nav aria-label=\"Breadcrumb\" class=\"breadcrumb\">\n      <a href=\"/\">Home</a> /\n      <a href=\"/guides\">Guides</a> /\n      <span>Getting Started</span>\n    </nav>\n    <main>\n      <h1>Getting Started</h1>\n      <p>Welcome to the Acme documentation.</p>\n    </main>\n  </body>\n</html>",
+          "output": "A dark blue header bar spans the top of the page with 'Acme Docs' on the left and four navigation links on the right. Below it, a light grey breadcrumb bar shows 'Home / Guides / Getting Started'. Screen readers announce two distinct navigation landmarks: 'Primary navigation' and 'Breadcrumb navigation', allowing users to jump to either independently.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            { "value": "The " },
+            { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
+            { "value": " element is the front door and signage of a building. It tells you whose building it is and where the main entrances are before you step inside. The " },
+            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+            { "value": " is the directory board just inside that door, listing which floor each department is on." }
+          ]
+        },
+        {
+          "text": [
+            { "value": "Adding " },
+            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
+            { "value": " to multiple " },
+            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+            { "value": " elements is like labelling the emergency exits in a building. Without labels, you know exits exist but not which one leads to the car park and which to the street. With labels, every exit is immediately understood." }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            { "value": "Test your navigation landmarks in Chrome DevTools by opening the Elements panel, then the Accessibility tab. Every " },
+            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+            { "value": " should appear as a named 'navigation' landmark. An unnamed one means a missing " },
+            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
+            { "value": " attribute." }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Page Structure",
+        "HTML Main Content Element",
+        "HTML Accessibility Basics"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 12,
+      "slug": "html-main-content-element",
+      "title": "HTML Main Content Element",
+      "description": "The main element marks the dominant, unique content of a page and must appear only once per document.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            { "value": "The " },
+            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+            { "value": " element identifies the " },
+            { "value": "primary content region", "bold": true },
+            { "value": " of a page: the content that is unique to this page and not repeated across the site. Navigation, headers, footers, and sidebars are excluded. There must be " },
+            { "value": "exactly one visible main element", "bold": true },
+            { "value": " per page at any given time. A page may contain additional " },
+            { "value": "<main>", "bold": true, "highlight": true },
+            { "value": " elements only if they carry the " },
+            { "value": "hidden", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden" },
+            { "value": " attribute, a pattern used in single-page applications to pre-render inactive views. The " },
+            { "value": "<main>", "bold": true, "highlight": true },
+            { "value": " element maps directly to the " },
+            { "value": "ARIA main landmark role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/main_role" },
+            { "value": ", giving assistive technology users a direct jump target to skip past repeated navigation." }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Do not nest main inside other landmarks",
+          "text": "The main element must not be a descendant of article, aside, footer, header, or nav. It should be a direct child of body or a generic div wrapper, never nested inside another sectioning element."
+        }
+      ],
+      "examples": [
+        {
+          "title": "main Element with Skip Navigation Link",
+          "description": "Demonstrates the main element paired with a skip navigation link, the most common accessibility pattern used alongside main to let keyboard and screen reader users bypass repeated header content.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Main Element Example</title>\n    <style>\n      /* Skip link is visually hidden but appears on keyboard focus */\n      .skip-link {\n        position: absolute;\n        top: -100%;\n        left: 0;\n        background: #000;\n        color: #fff;\n        padding: 0.5rem 1rem;\n        z-index: 9999;\n        text-decoration: none;\n      }\n      .skip-link:focus { top: 0; }\n      header { background: #222; color: white; padding: 1rem 2rem; }\n      nav a { color: white; margin-right: 1rem; }\n      main { padding: 2rem; }\n    </style>\n  </head>\n  <body>\n    <!-- Skip link must be the very first focusable element on the page -->\n    <a class=\"skip-link\" href=\"#main-content\">Skip to main content</a>\n    <header>\n      <nav aria-label=\"Primary\">\n        <a href=\"/\">Home</a>\n        <a href=\"/products\">Products</a>\n        <a href=\"/contact\">Contact</a>\n      </nav>\n    </header>\n    <!-- id matches the skip link href -->\n    <!-- tabindex=\"-1\" lets the element receive programmatic focus -->\n    <main id=\"main-content\" tabindex=\"-1\">\n      <h1>Our Products</h1>\n      <p>Browse our full range of developer tools and services.</p>\n    </main>\n  </body>\n</html>",
+          "output": "The page renders a dark header with three navigation links followed by the main content area showing the heading 'Our Products' and a paragraph. When a keyboard user presses Tab as their first action, a 'Skip to main content' link appears at the top of the page. Activating it moves focus directly to the main element, bypassing the navigation entirely.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            { "value": "The " },
+            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+            { "value": " element is the main stage at a concert venue. Everything else, the entrance, the bar, the cloakroom, exists to support the experience, but the stage is why people came. Screen readers let users teleport directly to the stage and skip the lobby." }
+          ]
+        },
+        {
+          "text": [
+            { "value": "Using a skip link with " },
+            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+            { "value": " is like the express elevator in a tall office building. Regular visitors tab through every " },
+            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
+            { "value": " link, but the express elevator takes you straight to the floor you need in one move." }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            { "value": "Add " },
+            { "value": "tabindex=\"-1\"", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex" },
+            { "value": " to your " },
+            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
+            { "value": " whenever you use a skip link pointing to it. Without this attribute, some browsers move visual focus but not keyboard focus, leaving keyboard-only users stranded at the top of the document." }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Page Structure",
+        "HTML Header and Navigation Elements",
+        "HTML Accessibility Basics"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Page Structure | Semantic Layout Elements Guide",
+    "meta_description": "Learn how to structure HTML pages using semantic elements like header, nav, main, aside, and footer for better accessibility, SEO, and maintainability.",
+    "keywords": [
+      "html page structure",
+      "html semantic layout",
+      "html header element",
+      "html nav element",
+      "html main element",
+      "html aside element",
+      "html footer element",
+      "semantic html5 elements",
+      "html landmark elements",
+      "html accessibility structure"
+    ],
+    "canonical_url": "/html/html-page-structure",
+    "robots": "index, follow"
+  }
+}

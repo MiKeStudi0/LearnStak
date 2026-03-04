@@ -1,0 +1,1437 @@
+{
+  "topic": {
+    "id": 16,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 5,
+    "slug": "core-list-types",
+    "title": "Core List Types",
+    "description": "HTML provides ol for sequenced items and ul for unordered groups, both built from li child elements.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Core List Types: ol, ul, and li"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "HTML provides two core list containers. The "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " (ordered list) element wraps a sequence of items where order conveys meaning: steps, rankings, instructions. The "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " (unordered list) element wraps a set of items where order is incidental: features, ingredients, navigation links. Both containers require "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": " (list item) children; the "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": " is the only valid direct child of "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": ". Lists can be nested to any depth by placing a new "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " inside an "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": ". Both list types map to the "
+          },
+          {
+            "value": "list",
+            "bold": true
+          },
+          {
+            "value": " ARIA role, and each "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": " maps to "
+          },
+          {
+            "value": "listitem",
+            "bold": true
+          },
+          {
+            "value": ". Screen readers announce the list type (ordered or unordered), the item count, and the current position within the list. Reference: "
+          },
+          {
+            "value": "MDN: ol",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "MDN: ul",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Element",
+          "ARIA role",
+          "Default marker",
+          "Use when"
+        ],
+        "rows": [
+          [
+            "<ol>",
+            "list",
+            "1. 2. 3. (decimal numbers)",
+            "Order conveys meaning (steps, rankings, TOC)"
+          ],
+          [
+            "<ul>",
+            "list",
+            "Filled disc bullet",
+            "Order is incidental (features, nav, ingredients)"
+          ],
+          [
+            "<li>",
+            "listitem",
+            "(inherited from parent)",
+            "Every item in ol or ul"
+          ],
+          [
+            "<ol type='a'>",
+            "list",
+            "a. b. c. (lowercase alpha)",
+            "Sub-steps, appendix labels"
+          ],
+          [
+            "<ol type='i'>",
+            "list",
+            "i. ii. iii. (lowercase roman)",
+            "Legal documents, outlines"
+          ],
+          [
+            "<ol reversed>",
+            "list",
+            "Counts down from total",
+            "Countdown lists, top-N rankings in reverse"
+          ],
+          [
+            "<ol start='5'>",
+            "list",
+            "Starts at given number",
+            "Resuming a list split across content"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "list-style: none Removes Semantics in Safari VoiceOver",
+        "text": "Applying list-style: none to a ul element causes Safari with VoiceOver to no longer announce it as a list. Apple made this intentional change to prevent decorative lists from being announced. If the list is semantically a list (navigation, steps, items), add role='list' explicitly after removing the default bullet style. This is the single most common accessibility regression in CSS resets and navigation components."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Ordered and Unordered Lists with All Attributes",
+        "description": "This example shows an ol step-by-step tutorial with the type, start, and reversed attributes, a ul feature list with nested sub-lists, the accessible navigation pattern using ul with role='list' after list-style: none, and a comparison of correct versus incorrect list markup. All examples include inline comments explaining every attribute decision.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Core List Types Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n\n    /* Styled step list */\n    ol.steps { padding-left: 0; list-style: none;\n               counter-reset: step-counter; }\n    ol.steps > li { counter-increment: step-counter;\n                    display: flex; gap: .85rem;\n                    align-items: flex-start;\n                    margin-bottom: .85rem; }\n    ol.steps > li::before {\n      content: counter(step-counter);\n      min-width: 28px; height: 28px;\n      background: #2563eb; color: #fff;\n      border-radius: 50%; display: flex;\n      align-items: center; justify-content: center;\n      font-size: .8rem; font-weight: 700;\n      flex-shrink: 0; margin-top: .15rem;\n    }\n\n    /* Feature list */\n    ul.features { list-style: none; padding: 0; }\n    ul.features > li { padding: .3rem 0;\n                        display: flex; gap: .5rem;\n                        align-items: baseline; }\n    ul.features > li::before { content: \"\\2713\";\n                                color: #16a34a; font-weight: 700;\n                                flex-shrink: 0; }\n\n    /* Nav list — role='list' preserves semantics after reset */\n    nav ul { list-style: none; padding: 0; margin: 0;\n             display: flex; gap: 1.25rem; flex-wrap: wrap; }\n    nav a  { color: #2563eb; text-decoration: none;\n             font-size: .9rem; }\n    nav a:hover { text-decoration: underline; }\n\n    /* Nested list indentation */\n    ol.outline { font-size: .9rem; }\n    ol.outline ol { margin-top: .25rem; }\n  </style>\n</head>\n<body>\n\n  <h1>Core List Types</h1>\n\n\n  <!-- ORDERED LIST: step-by-step tutorial -->\n  <h2>1. Ordered list: installation steps</h2>\n  <!--\n    <ol>: use when sequence matters.\n    Default rendering: decimal numbers (1. 2. 3.).\n    Each <li> must be a direct child.\n    Nesting: place <ol>/<ul> inside an <li>, not directly in parent <ol>.\n  -->\n  <ol>\n    <li>Install Node.js from nodejs.org</li>\n    <li>Open a terminal and run <code>npm install -g @anthropic-ai/cli</code></li>\n    <li>\n      Create a project directory and navigate into it\n      <!--\n        Nested ol inside an li: sub-steps.\n        The nested list is a child of the li, not a sibling.\n        type=\"a\" renders a. b. c. instead of 1. 2. 3.\n      -->\n      <ol type=\"a\">\n        <li>Run <code>mkdir my-project</code></li>\n        <li>Run <code>cd my-project</code></li>\n      </ol>\n    </li>\n    <li>Create a <code>.env</code> file with your API key</li>\n    <li>Run <code>npm start</code> to launch the application</li>\n  </ol>\n\n\n  <!-- STYLED ORDERED LIST with CSS counter -->\n  <h2>2. Styled step list (CSS counter-reset)</h2>\n  <!--\n    list-style: none removes the default marker.\n    CSS counter-reset / counter-increment / content: counter()\n    give full control over marker appearance.\n    role=\"list\" is not needed here since list-style: none is on\n    the ol, not a ul — Safari's regression only affects ul.\n    But adding role=\"list\" is always safe.\n  -->\n  <ol class=\"steps\" role=\"list\">\n    <li>\n      <div>\n        <strong>Clone the repository</strong>\n        <p style=\"margin:.2rem 0 0;font-size:.88rem;\">\n          Run <code>git clone https://github.com/devdocs/html-course</code>\n          in your terminal.\n        </p>\n      </div>\n    </li>\n    <li>\n      <div>\n        <strong>Install dependencies</strong>\n        <p style=\"margin:.2rem 0 0;font-size:.88rem;\">\n          Run <code>npm install</code> inside the project folder.\n        </p>\n      </div>\n    </li>\n    <li>\n      <div>\n        <strong>Start the dev server</strong>\n        <p style=\"margin:.2rem 0 0;font-size:.88rem;\">\n          Run <code>npm run dev</code> and open\n          <code>http://localhost:3000</code>.\n        </p>\n      </div>\n    </li>\n  </ol>\n\n\n  <!-- OL ATTRIBUTES: type, start, reversed -->\n  <h2>3. ol attributes: type, start, reversed</h2>\n\n  <!-- type=\"i\": lowercase Roman numerals -->\n  <p><strong>Outline with Roman numerals:</strong></p>\n  <ol type=\"i\">\n    <li>Introduction to HTML</li>\n    <li>Document structure</li>\n    <li>Semantic elements</li>\n  </ol>\n\n  <!-- start=\"4\": continue numbering from 4 -->\n  <p><strong>Continuing from step 4 (start=\"4\"):</strong></p>\n  <ol start=\"4\">\n    <li>Configure environment variables</li>\n    <li>Run database migrations</li>\n    <li>Deploy to production</li>\n  </ol>\n\n  <!-- reversed: countdown -->\n  <p><strong>Top 3 countdown (reversed):</strong></p>\n  <!--\n    reversed: items count down from the total.\n    A 3-item list counts 3, 2, 1.\n    Useful for rankings, countdowns, top-N lists.\n  -->\n  <ol reversed>\n    <li>JavaScript Frameworks</li>\n    <li>CSS Grid and Flexbox</li>\n    <li>HTML Accessibility Fundamentals</li>\n  </ol>\n\n\n  <!-- UNORDERED LIST: feature list -->\n  <h2>4. Unordered list: feature list</h2>\n  <!--\n    <ul>: use when sequence does NOT matter.\n    Reordering items would not change the meaning.\n    Default rendering: filled disc bullets.\n  -->\n  <ul>\n    <li>Semantic HTML structure</li>\n    <li>Keyboard accessible components</li>\n    <li>\n      Responsive layouts\n      <!--\n        Nested ul: a sub-group within a list item.\n        Nested list goes INSIDE the li, before the closing tag.\n      -->\n      <ul>\n        <li>Mobile-first breakpoints</li>\n        <li>CSS Grid and Flexbox</li>\n      </ul>\n    </li>\n    <li>WCAG 2.1 AA compliance</li>\n  </ul>\n\n\n  <!-- STYLED UNORDERED LIST with checkmarks -->\n  <h2>5. Styled feature list (list-style: none + role)</h2>\n  <!--\n    list-style: none on a <ul> removes Safari VoiceOver list semantics.\n    Adding role=\"list\" explicitly restores the ARIA list role.\n    This pattern is required for all styled navigation lists.\n  -->\n  <ul class=\"features\" role=\"list\">\n    <li>Instant feedback on every exercise</li>\n    <li>Certificate of completion</li>\n    <li>Downloadable code examples</li>\n    <li>Lifetime access to course updates</li>\n  </ul>\n\n\n  <!-- NAVIGATION with ul + role -->\n  <h2>6. Navigation list (safe list-style: none pattern)</h2>\n  <nav aria-label=\"Course navigation\">\n    <!--\n      Navigation is almost always a <ul> with list-style: none.\n      role=\"list\" restores the list ARIA role in Safari.\n      Without it: VoiceOver announces each link individually\n      without the surrounding list context.\n    -->\n    <ul role=\"list\">\n      <li><a href=\"/html\">HTML</a></li>\n      <li><a href=\"/css\">CSS</a></li>\n      <li><a href=\"/js\">JavaScript</a></li>\n      <li><a href=\"/a11y\">Accessibility</a></li>\n    </ul>\n  </nav>\n\n</body>\n</html>",
+        "output": "Page renders six list sections. The default ordered list shows numbered steps with a nested lettered sub-list for sub-steps. The styled step list shows blue numbered circle markers built with CSS counters. The attributes section shows three separate ol elements: Roman numerals, a list starting at 4, and a reversed countdown. The feature list shows a default bulleted ul with a nested sub-list. The styled feature list shows green checkmark bullets. The navigation list shows a horizontal flex nav using ul with role='list'.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "Nested Lists, Document Outlines, and List Accessibility",
+        "description": "This example builds a deeply nested table of contents with ol elements, a definition-style feature comparison using ul, and a full audit of the ARIA announcements produced by each list pattern. It also shows the common mistake of placing content outside li elements and how browsers recover from it.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Nested Lists and Accessibility</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n\n    /* Table of contents */\n    .toc { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: 1rem 1.25rem;\n           display: inline-block; min-width: 260px; }\n    .toc h3 { font-size: .85rem; text-transform: uppercase;\n              letter-spacing: .06em; color: #64748b; margin: 0 0 .6rem; }\n    .toc ol { margin: 0; padding-left: 1.25rem;\n              font-size: .88rem; }\n    .toc li { margin-bottom: .2rem; }\n    .toc a  { color: #2563eb; text-decoration: none; }\n    .toc a:hover { text-decoration: underline; }\n    .toc ol ol { margin-top: .2rem; }\n\n    /* Comparison list */\n    .compare { display: grid; grid-template-columns: 1fr 1fr;\n               gap: 1rem; margin: .75rem 0; }\n    .compare > div { border: 1px solid #e5e7eb; border-radius: 8px;\n                     padding: .85rem 1rem; }\n    .compare h4 { margin: 0 0 .5rem; font-size: .9rem; }\n    .compare ul { margin: 0; padding-left: 1.25rem;\n                  font-size: .87rem; }\n\n    /* Accessibility audit callout */\n    .audit { background: #f8fafc; border: 1px solid #e2e8f0;\n             border-radius: 8px; padding: .85rem 1rem;\n             font-size: .85rem; line-height: 1.65; }\n    .audit code { font-size: .82rem; }\n    .sr { color: #7c3aed; font-style: italic; }\n\n    /* Bad/good boxes */\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .25rem; }\n    .bad .lbl { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>Nested Lists and List Accessibility</h1>\n\n\n  <!-- NESTED OL: TABLE OF CONTENTS -->\n  <h2>1. Nested ol: table of contents</h2>\n  <!--\n    Multi-level ol for document outlines.\n    Nesting rule: the inner list must be a child of an <li>,\n    not a sibling of the <li> elements.\n    Default: outer = 1.2.3., inner = 1.1.2.1. etc.\n    type attribute can be combined at each level.\n  -->\n  <div class=\"toc\" role=\"navigation\" aria-label=\"Table of contents\">\n    <h3>Contents</h3>\n    <ol>\n      <li>\n        <a href=\"#intro\">Introduction</a>\n        <ol type=\"a\">\n          <li><a href=\"#what-is-html\">What is HTML</a></li>\n          <li><a href=\"#history\">Brief history</a></li>\n        </ol>\n      </li>\n      <li>\n        <a href=\"#structure\">Document Structure</a>\n        <ol type=\"a\">\n          <li><a href=\"#doctype\">DOCTYPE declaration</a></li>\n          <li><a href=\"#head\">The head element</a></li>\n          <li><a href=\"#body\">The body element</a></li>\n        </ol>\n      </li>\n      <li>\n        <a href=\"#semantics\">Semantic Elements</a>\n        <ol type=\"a\">\n          <li><a href=\"#landmarks\">Landmark elements</a></li>\n          <li><a href=\"#sectioning\">Sectioning content</a></li>\n        </ol>\n      </li>\n      <li><a href=\"#forms\">Forms</a></li>\n      <li><a href=\"#accessibility\">Accessibility</a></li>\n    </ol>\n  </div>\n\n\n  <!-- COMPARISON: ol vs ul decision guide -->\n  <h2>2. ol vs ul: side-by-side decision guide</h2>\n  <div class=\"compare\">\n    <div>\n      <h4>Use ol when order matters</h4>\n      <ul>\n        <li>Step-by-step instructions</li>\n        <li>Ranked results (1st, 2nd, 3rd)</li>\n        <li>Legal numbered clauses</li>\n        <li>Table of contents</li>\n        <li>Recipe method steps</li>\n      </ul>\n    </div>\n    <div>\n      <h4>Use ul when order is incidental</h4>\n      <ul>\n        <li>Navigation links</li>\n        <li>Product features</li>\n        <li>Ingredient lists</li>\n        <li>Tag clouds</li>\n        <li>Related articles</li>\n      </ul>\n    </div>\n  </div>\n\n\n  <!-- ARIA ANNOUNCEMENTS AUDIT -->\n  <h2>3. What screen readers announce for each list</h2>\n  <div class=\"audit\">\n    <p><strong>Default ul (3 items):</strong><br>\n       <span class=\"sr\">&ldquo;List, 3 items &mdash; Apples &mdash; Oranges &mdash;\n       Bananas &mdash; End of list&rdquo;</span></p>\n\n    <p><strong>ul with list-style:none but no role=\"list\" (Safari):</strong><br>\n       <span class=\"sr\">&ldquo;Apples &mdash; Oranges &mdash; Bananas&rdquo;</span><br>\n       <em>No list announcement, no item count.</em></p>\n\n    <p><strong>ul with list-style:none and role=\"list\" (Safari restored):</strong><br>\n       <span class=\"sr\">&ldquo;List, 3 items &mdash; Apples &mdash; Oranges &mdash;\n       Bananas &mdash; End of list&rdquo;</span></p>\n\n    <p><strong>Default ol (3 items):</strong><br>\n       <span class=\"sr\">&ldquo;List, 3 items &mdash;\n       1, Apples &mdash; 2, Oranges &mdash; 3, Bananas &mdash;\n       End of list&rdquo;</span></p>\n\n    <p><strong>Nested ul inside ul:</strong><br>\n       <span class=\"sr\">&ldquo;List, 2 items &mdash; Fruits &mdash;\n       List, 2 items &mdash; Apples &mdash; Oranges &mdash;\n       End of list &mdash; Vegetables &mdash; End of list&rdquo;</span></p>\n  </div>\n\n\n  <!-- COMMON MISTAKES -->\n  <h2>4. Invalid list markup: wrong vs right</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: text directly in ol/ul, not in li</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;ul&gt;\n  Free text here  &lt;!-- invalid: text not in li --&gt;\n  &lt;li&gt;Item one&lt;/li&gt;\n  &lt;div&gt;Wrapper&lt;/div&gt;  &lt;!-- invalid: div not allowed here --&gt;\n  &lt;li&gt;Item two&lt;/li&gt;\n&lt;/ul&gt;</pre>\n  </div>\n\n  <div class=\"good\">\n    <p class=\"lbl\">Right: all content inside li elements</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;ul&gt;\n  &lt;li&gt;Item one&lt;/li&gt;\n  &lt;li&gt;\n    Item two with a wrapper\n    &lt;div&gt;Any block content goes inside li&lt;/div&gt;\n  &lt;/li&gt;\n&lt;/ul&gt;</pre>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: nested list outside li (sibling of li)</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;ul&gt;\n  &lt;li&gt;Parent item&lt;/li&gt;\n  &lt;ul&gt;  &lt;!-- invalid: ul is sibling of li, not child --&gt;\n    &lt;li&gt;Child item&lt;/li&gt;\n  &lt;/ul&gt;\n&lt;/ul&gt;</pre>\n  </div>\n\n  <div class=\"good\">\n    <p class=\"lbl\">Right: nested list inside li</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;ul&gt;\n  &lt;li&gt;\n    Parent item\n    &lt;ul&gt;  &lt;!-- valid: ul is child of li --&gt;\n      &lt;li&gt;Child item&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/li&gt;\n&lt;/ul&gt;</pre>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders four sections. The table of contents shows a two-level nested ol with decimal outer numbers and lowercase-alpha inner markers, all as anchor links. The decision guide shows a two-column grid comparing ol and ul use cases. The ARIA audit shows five screen reader announcement examples in purple italic text, including the Safari VoiceOver regression. The invalid markup section shows four code blocks alternating red and green for wrong and right nesting and content placement patterns.",
+        "images": null,
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": null,
+    "video_url": null,
+    "when_to_use": [
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " when the sequence of items conveys meaning: if reordering the list would change the user's understanding, the list is ordered. Steps, recipes, rankings, and legal clauses all require "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " when items belong to the same group but order is incidental: navigation links, product features, ingredients, and tag lists can be reshuffled without losing meaning."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Add "
+          },
+          {
+            "value": "role='list'",
+            "highlight": true
+          },
+          {
+            "value": " to any "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " that has "
+          },
+          {
+            "value": "list-style: none",
+            "highlight": true
+          },
+          {
+            "value": " applied in CSS to restore the ARIA list role removed by Safari VoiceOver."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " purely for visual indentation; use CSS "
+          },
+          {
+            "value": "padding",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "margin",
+            "highlight": true
+          },
+          {
+            "value": " instead, as list elements carry ARIA semantics that mislead screen reader users."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid placing block-level elements like "
+          },
+          {
+            "value": "<p>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<div>",
+            "highlight": true
+          },
+          {
+            "value": " directly inside "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": "; all content must be wrapped in "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": " elements."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid nesting a list as a sibling of "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": " elements; a nested "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " must be a child of an "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": ", not a direct child of the parent list."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "text": [
+          {
+            "value": "Screen readers use "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " semantics to announce list type, total item count, and current position, giving users context that a series of unrelated "
+          },
+          {
+            "value": "<p>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<div>",
+            "highlight": true
+          },
+          {
+            "value": " elements cannot provide."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Ordered lists enable the "
+          },
+          {
+            "value": "start",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "reversed",
+            "highlight": true
+          },
+          {
+            "value": " attributes to express complex numbering schemes (alphabetic, Roman, resuming from a mid-point) without JavaScript or manual numbering."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "List elements provide a semantic grouping that CSS can target precisely with "
+          },
+          {
+            "value": "li + li",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "li:first-child",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "li:last-child",
+            "highlight": true
+          },
+          {
+            "value": " selectors, enabling dividers, spacing, and marker customisation without wrapper elements."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "text": [
+          {
+            "value": "The fundamental question when choosing between "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " is the "
+          },
+          {
+            "value": "reorder test",
+            "bold": true
+          },
+          {
+            "value": ": if you shuffled the items randomly, would the list still make complete sense? If yes, use "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": ". If no, the order carries information and you need "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": ". A recipe ingredient list passes the reorder test ("
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": "). The recipe method steps do not ("
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": ")."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "list-style: none",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "role='list'",
+            "highlight": true
+          },
+          {
+            "value": " pattern exists because Safari + VoiceOver implements an "
+          },
+          {
+            "value": "opinion",
+            "bold": true
+          },
+          {
+            "value": ": if a developer removes the visual bullet markers, the list was probably decorative and should not be announced as a list. This is not an error but a deliberate heuristic. Developers who remove bullet styles for aesthetic reasons on semantic lists must explicitly signal their intent by adding "
+          },
+          {
+            "value": "role='list'",
+            "highlight": true
+          },
+          {
+            "value": ". The combination of styled appearance and explicit role covers both sighted and non-sighted users correctly."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "HTML list elements form a strict parent-child structure. "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<ul>",
+            "highlight": true
+          },
+          {
+            "value": " accept only "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": " as direct children (plus "
+          },
+          {
+            "value": "<script>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<template>",
+            "highlight": true
+          },
+          {
+            "value": "). Any content to be placed inside a list must be wrapped in an "
+          },
+          {
+            "value": "<li>",
+            "highlight": true
+          },
+          {
+            "value": " first. Browsers attempt error recovery for invalid markup, but the recovered DOM may not match the intended structure, producing unexpected visual and accessibility results."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "text": [
+          {
+            "value": "Removing "
+          },
+          {
+            "value": "list-style",
+            "highlight": true
+          },
+          {
+            "value": " on "
+          },
+          {
+            "value": "ul",
+            "highlight": true
+          },
+          {
+            "value": " without "
+          },
+          {
+            "value": "role='list'",
+            "highlight": true
+          },
+          {
+            "value": " silently drops list semantics in Safari VoiceOver."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Placing a nested "
+          },
+          {
+            "value": "ul",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "ol",
+            "highlight": true
+          },
+          {
+            "value": " beside "
+          },
+          {
+            "value": "li",
+            "highlight": true
+          },
+          {
+            "value": " elements rather than inside them produces invalid HTML."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Using "
+          },
+          {
+            "value": "ol",
+            "highlight": true
+          },
+          {
+            "value": " for visually numbered items that have no real sequence misleads screen reader users."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "text": [
+          {
+            "value": "Use the CSS "
+          },
+          {
+            "value": "counter-reset",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "counter-increment",
+            "highlight": true
+          },
+          {
+            "value": " properties with "
+          },
+          {
+            "value": "content: counter()",
+            "highlight": true
+          },
+          {
+            "value": " on "
+          },
+          {
+            "value": "::before",
+            "highlight": true
+          },
+          {
+            "value": " pseudo-elements to create fully custom step markers (circles, hexagons, icons) without losing the semantic "
+          },
+          {
+            "value": "<ol>",
+            "highlight": true
+          },
+          {
+            "value": " structure. This separates visual numbering from HTML semantics, letting assistive tools still read the correct ordered sequence."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "list-style-type: none",
+            "highlight": true
+          },
+          {
+            "value": " plus CSS "
+          },
+          {
+            "value": "content",
+            "highlight": true
+          },
+          {
+            "value": " on "
+          },
+          {
+            "value": "li::marker",
+            "highlight": true
+          },
+          {
+            "value": " (supported in all modern browsers) instead of "
+          },
+          {
+            "value": "::before",
+            "highlight": true
+          },
+          {
+            "value": " to replace bullet markers. "
+          },
+          {
+            "value": "::marker",
+            "highlight": true
+          },
+          {
+            "value": " is the correct pseudo-element for list markers; it participates in accessibility markup whereas "
+          },
+          {
+            "value": "::before",
+            "highlight": true
+          },
+          {
+            "value": " content is typically hidden from screen readers."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Description List",
+      "HTML Semantic Elements",
+      "Accessibility and ARIA",
+      "CSS List Styling",
+      "HTML Navigation Patterns"
+    ],
+    "is_active": true,
+    "order_index": 16,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 5,
+      "topic_id": 16,
+      "slug": "ordered-list-elements",
+      "title": "Ordered List Elements",
+      "description": "The ol element marks sequenced items where order matters, with type, start, and reversed attributes.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<ol>",
+              "highlight": true
+            },
+            {
+              "value": " element represents a list of items in a "
+            },
+            {
+              "value": "deliberate sequence",
+              "bold": true
+            },
+            {
+              "value": ". The "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute controls the marker style: "
+            },
+            {
+              "value": "'1'",
+              "highlight": true
+            },
+            {
+              "value": " (decimal, default), "
+            },
+            {
+              "value": "'a'",
+              "highlight": true
+            },
+            {
+              "value": " (lowercase alpha), "
+            },
+            {
+              "value": "'A'",
+              "highlight": true
+            },
+            {
+              "value": " (uppercase alpha), "
+            },
+            {
+              "value": "'i'",
+              "highlight": true
+            },
+            {
+              "value": " (lowercase Roman), "
+            },
+            {
+              "value": "'I'",
+              "highlight": true
+            },
+            {
+              "value": " (uppercase Roman). The "
+            },
+            {
+              "value": "start",
+              "highlight": true
+            },
+            {
+              "value": " attribute sets the starting counter value; "
+            },
+            {
+              "value": "start='4'",
+              "highlight": true
+            },
+            {
+              "value": " begins numbering at 4. The "
+            },
+            {
+              "value": "reversed",
+              "highlight": true
+            },
+            {
+              "value": " boolean attribute counts down instead of up. Individual "
+            },
+            {
+              "value": "<li>",
+              "highlight": true
+            },
+            {
+              "value": " elements may carry a "
+            },
+            {
+              "value": "value",
+              "highlight": true
+            },
+            {
+              "value": " attribute to override their counter value, with subsequent items continuing from that value. Reference: "
+            },
+            {
+              "value": "MDN: ol",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Attribute",
+            "Values",
+            "Effect",
+            "Example output"
+          ],
+          "rows": [
+            [
+              "type",
+              "'1' (default)",
+              "Decimal numbers",
+              "1. 2. 3."
+            ],
+            [
+              "type",
+              "'a'",
+              "Lowercase alpha",
+              "a. b. c."
+            ],
+            [
+              "type",
+              "'A'",
+              "Uppercase alpha",
+              "A. B. C."
+            ],
+            [
+              "type",
+              "'i'",
+              "Lowercase Roman",
+              "i. ii. iii."
+            ],
+            [
+              "type",
+              "'I'",
+              "Uppercase Roman",
+              "I. II. III."
+            ],
+            [
+              "start",
+              "Any integer",
+              "Starting counter value",
+              "start='3' -> 3. 4. 5."
+            ],
+            [
+              "reversed",
+              "(boolean)",
+              "Count descends from total",
+              "3. 2. 1."
+            ],
+            [
+              "li value",
+              "Any integer",
+              "Override this item's number",
+              "Skips to given value"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "ol Attributes: type, start, reversed, and li value",
+          "description": "This example shows all ol attributes in practical contexts: a numbered tutorial with nested alpha sub-steps, a legal document outline with Roman numerals, a split tutorial that resumes numbering with start, a top-3 countdown with reversed, and the li value attribute for skipping numbers in a list.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Ordered List Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    ol   { font-size: .92rem; }\n    .box { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: .85rem 1.25rem;\n           margin-bottom: 1rem; }\n  </style>\n</head>\n<body>\n\n  <h1>Ordered List: All Attributes</h1>\n\n\n  <h2>1. Default ol (type=\"1\", decimal)</h2>\n  <ol>\n    <li>Open the terminal application</li>\n    <li>Navigate to your project directory</li>\n    <li>Run the install command</li>\n    <li>Start the development server</li>\n  </ol>\n\n\n  <h2>2. Nested ol with type=\"a\" sub-steps</h2>\n  <!--\n    Nested list must be inside an <li>, not a sibling.\n    type=\"a\" on the inner ol gives a. b. c. markers.\n    The outer numbering continues after the nested list.\n  -->\n  <ol>\n    <li>\n      Set up the environment\n      <ol type=\"a\">\n        <li>Install Node.js from nodejs.org</li>\n        <li>Verify with <code>node --version</code></li>\n        <li>Install npm dependencies with <code>npm install</code></li>\n      </ol>\n    </li>\n    <li>\n      Configure the application\n      <ol type=\"a\">\n        <li>Copy <code>.env.example</code> to <code>.env</code></li>\n        <li>Fill in the API key and database credentials</li>\n      </ol>\n    </li>\n    <li>Run the tests with <code>npm test</code></li>\n  </ol>\n\n\n  <h2>3. Roman numerals (type=\"i\") for legal outline</h2>\n  <ol type=\"i\">\n    <li>Definitions and Interpretation</li>\n    <li>Licence Grant</li>\n    <li>Restrictions on Use</li>\n    <li>Intellectual Property</li>\n    <li>Limitation of Liability</li>\n  </ol>\n\n\n  <h2>4. start attribute: resuming a split list</h2>\n  <div class=\"box\">\n    <p style=\"margin:0 0 .5rem;font-size:.88rem;\">\n      Steps 1 to 3 are described above. Continuing from step 4:\n    </p>\n    <!--\n      start=\"4\": the counter begins at 4, not 1.\n      Use when list items are split across sections or by intervening content.\n    -->\n    <ol start=\"4\">\n      <li>Deploy the application to staging</li>\n      <li>Run the smoke test suite</li>\n      <li>Promote to production after approval</li>\n    </ol>\n  </div>\n\n\n  <h2>5. reversed: countdown list</h2>\n  <!--\n    reversed: items are numbered from total down to 1.\n    A 5-item list: 5. 4. 3. 2. 1.\n    Combined with start: reversed + start=\"10\" counts 10. 9. 8...\n  -->\n  <p>Top 3 most-enrolled courses this month:</p>\n  <ol reversed>\n    <li>JavaScript Pro &mdash; 1,240 enrolments</li>\n    <li>CSS Masterclass &mdash; 1,105 enrolments</li>\n    <li>HTML Foundations &mdash; 980 enrolments</li>\n  </ol>\n\n\n  <h2>6. li value: override individual item number</h2>\n  <!--\n    value on an <li> overrides its counter to the given integer.\n    Subsequent items continue from that value.\n    Useful for lists with deliberate gaps (skipped steps, IDs).\n  -->\n  <ol>\n    <li>Check prerequisites</li>\n    <li>Install dependencies</li>\n    <!--\n      value=\"5\": this item displays as 5.\n      Next item will be 6 automatically.\n    -->\n    <li value=\"5\">Optional: configure advanced settings</li>\n    <li>Start the application</li>\n  </ol>\n\n</body>\n</html>",
+          "output": "Page renders six ordered list examples. The default decimal list shows four numbered setup steps. The nested list shows two outer steps, each with inner alpha sub-steps (a. b. c.), with the outer numbering continuing after the nested list. The Roman numeral list shows five legal clause headings. The start='4' list continues from step 4 inside a light-grey card. The reversed list shows three courses counted 3. 2. 1. The li value list shows items 1, 2, 5, 6 — skipping 3 and 4 — with a note on the skipped step.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<ol>",
+              "highlight": true
+            },
+            {
+              "value": " element is a "
+            },
+            {
+              "value": "semantic contract",
+              "bold": true
+            },
+            {
+              "value": " with the reader: the numbering is meaningful information, not decoration. When a user hears 'step 3 of 6' from a screen reader, they know they are two-thirds through a process. When a developer uses "
+            },
+            {
+              "value": "<ol>",
+              "highlight": true
+            },
+            {
+              "value": " for a list that is actually unordered (such as a feature list), they break this contract, suggesting a sequence that does not exist."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "start",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "value",
+              "highlight": true
+            },
+            {
+              "value": " attributes control the "
+            },
+            {
+              "value": "CSS counter",
+              "bold": true
+            },
+            {
+              "value": " that "
+            },
+            {
+              "value": "<ol>",
+              "highlight": true
+            },
+            {
+              "value": " maintains internally. "
+            },
+            {
+              "value": "start",
+              "highlight": true
+            },
+            {
+              "value": " initialises the counter before any items. "
+            },
+            {
+              "value": "value",
+              "highlight": true
+            },
+            {
+              "value": " on an "
+            },
+            {
+              "value": "<li>",
+              "highlight": true
+            },
+            {
+              "value": " sets the counter mid-list. The "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute controls how the counter value is rendered (decimal, alpha, Roman) without changing the underlying integer value, which is what the "
+            },
+            {
+              "value": "reversed",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "start",
+              "highlight": true
+            },
+            {
+              "value": " attributes operate on."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Prefer the CSS "
+            },
+            {
+              "value": "list-style-type",
+              "highlight": true
+            },
+            {
+              "value": " property over the HTML "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute for controlling marker style in modern projects. CSS "
+            },
+            {
+              "value": "list-style-type",
+              "highlight": true
+            },
+            {
+              "value": " supports all the same values plus "
+            },
+            {
+              "value": "counter()",
+              "highlight": true
+            },
+            {
+              "value": " expressions, "
+            },
+            {
+              "value": "@counter-style",
+              "highlight": true
+            },
+            {
+              "value": " custom counters, and emoji ("
+            },
+            {
+              "value": "list-style-type: '\\1F4CC'",
+              "highlight": true
+            },
+            {
+              "value": "). The HTML "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute is presentational and overridden by CSS, so CSS is the single source of truth for visual style."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "Core List Types",
+        "Unordered List Elements",
+        "HTML Description List",
+        "CSS List Styling"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 5,
+      "topic_id": 16,
+      "slug": "unordered-list-elements",
+      "title": "Unordered List Elements",
+      "description": "The ul element groups unordered items and needs role='list' when list-style: none is applied.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<ul>",
+              "highlight": true
+            },
+            {
+              "value": " element represents a "
+            },
+            {
+              "value": "set of items",
+              "bold": true
+            },
+            {
+              "value": " where order carries no inherent meaning. The default visual marker is a filled disc bullet, controllable via CSS "
+            },
+            {
+              "value": "list-style-type",
+              "highlight": true
+            },
+            {
+              "value": ". Common use cases include navigation menus, feature lists, ingredient lists, and tag groups. When "
+            },
+            {
+              "value": "list-style: none",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "list-style-type: none",
+              "highlight": true
+            },
+            {
+              "value": " is applied, Safari with VoiceOver stops announcing the element as a list. Adding "
+            },
+            {
+              "value": "role='list'",
+              "highlight": true
+            },
+            {
+              "value": " explicitly restores the "
+            },
+            {
+              "value": "list",
+              "bold": true
+            },
+            {
+              "value": " ARIA role. This requirement applies to "
+            },
+            {
+              "value": "<ul>",
+              "highlight": true
+            },
+            {
+              "value": " only; "
+            },
+            {
+              "value": "<ol>",
+              "highlight": true
+            },
+            {
+              "value": " is not affected by this Safari behaviour. Reference: "
+            },
+            {
+              "value": "MDN: ul",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Navigation Is Always a ul",
+          "text": "Navigation links are almost universally implemented as a ul inside a nav element. The ul provides the list semantics (item count, current position) and nav provides the navigation landmark. Styling the list with list-style: none and flexbox or grid for layout is correct and expected — just remember to add role='list' to the ul to preserve VoiceOver semantics."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Unordered Lists: Navigation, Features, and Nested Groups",
+          "description": "This example shows the ul element for a navigation menu with list-style: none and role='list', a feature checklist with custom CSS markers, a nested ul for a site menu with sub-menus, and a tag group. Each example includes the role='list' pattern and inline comments explaining the Safari VoiceOver requirement.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Unordered List Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    a    { color: #2563eb; text-decoration: none; }\n    a:hover { text-decoration: underline; }\n\n    /* NAVIGATION: horizontal flex list */\n    nav.primary ul {\n      list-style: none;   /* removes bullets */\n      padding: 0; margin: 0;\n      display: flex; gap: 1.5rem; flex-wrap: wrap;\n      background: #0f172a; padding: .65rem 1.25rem;\n      border-radius: 8px;\n    }\n    nav.primary a { color: #93c5fd; font-size: .88rem; }\n    nav.primary a:hover { color: #fff; }\n\n    /* SIDEBAR NAV: vertical list */\n    nav.sidebar ul {\n      list-style: none;\n      padding: 0; margin: 0;\n      border: 1px solid #e5e7eb; border-radius: 8px;\n      overflow: hidden;\n    }\n    nav.sidebar li { border-bottom: 1px solid #f1f5f9; }\n    nav.sidebar li:last-child { border-bottom: none; }\n    nav.sidebar a { display: block; padding: .5rem .9rem;\n                    color: #334155; font-size: .88rem; }\n    nav.sidebar a:hover { background: #f8fafc; }\n\n    /* FEATURE LIST: checkmark bullets via ::marker */\n    ul.features {\n      list-style: none;\n      padding: 0; margin: 0;\n    }\n    ul.features li {\n      padding: .3rem 0 .3rem 1.6rem;\n      position: relative;\n      font-size: .92rem;\n    }\n    ul.features li::before {\n      content: \"\\2713\";\n      position: absolute; left: 0;\n      color: #16a34a; font-weight: 700;\n    }\n\n    /* NESTED MENU */\n    ul.menu { list-style: disc; padding-left: 1.4rem;\n              font-size: .9rem; }\n    ul.menu ul { list-style: circle; margin-top: .25rem; }\n    ul.menu ul ul { list-style: square; }\n\n    /* TAG LIST */\n    ul.tags {\n      list-style: none; padding: 0; margin: 0;\n      display: flex; flex-wrap: wrap; gap: .4rem;\n    }\n    ul.tags li {\n      background: #eff6ff; color: #1d4ed8;\n      padding: .2rem .65rem; border-radius: 999px;\n      font-size: .78rem; font-weight: 600;\n    }\n  </style>\n</head>\n<body>\n\n  <h1>Unordered List Patterns</h1>\n\n\n  <!-- PATTERN 1: HORIZONTAL NAVIGATION -->\n  <h2>1. Horizontal navigation (list-style: none + role='list')</h2>\n  <nav class=\"primary\" aria-label=\"Primary navigation\">\n    <!--\n      list-style: none removes bullets.\n      role=\"list\" is required to restore list semantics\n      in Safari + VoiceOver after removing list-style.\n      Without role: VoiceOver announces each link individually\n      with no list context.\n      With role: \"List, 4 items - HTML - CSS - ...\".\n    -->\n    <ul role=\"list\">\n      <li><a href=\"/html\">HTML</a></li>\n      <li><a href=\"/css\">CSS</a></li>\n      <li><a href=\"/js\">JavaScript</a></li>\n      <li><a href=\"/a11y\">Accessibility</a></li>\n    </ul>\n  </nav>\n\n\n  <!-- PATTERN 2: VERTICAL SIDEBAR NAVIGATION -->\n  <h2>2. Vertical sidebar navigation</h2>\n  <nav class=\"sidebar\" aria-label=\"Module navigation\">\n    <ul role=\"list\">\n      <li><a href=\"/html/intro\">Introduction to HTML</a></li>\n      <li><a href=\"/html/structure\">Document Structure</a></li>\n      <li><a href=\"/html/semantics\">Semantic Elements</a></li>\n      <li><a href=\"/html/forms\">Forms and Inputs</a></li>\n      <li><a href=\"/html/accessibility\">Accessibility</a></li>\n    </ul>\n  </nav>\n\n\n  <!-- PATTERN 3: FEATURE LIST with custom markers -->\n  <h2>3. Feature list with checkmark markers</h2>\n  <!--\n    list-style: none + role=\"list\".\n    Custom marker via ::before pseudo-element.\n    ::marker is the preferred way in modern CSS\n    but ::before gives more styling control.\n  -->\n  <ul class=\"features\" role=\"list\">\n    <li>Semantic HTML with full accessibility support</li>\n    <li>Responsive layouts for all screen sizes</li>\n    <li>WCAG 2.1 AA compliant components</li>\n    <li>Downloadable source code for every module</li>\n    <li>Certificate of completion after assessment</li>\n  </ul>\n\n\n  <!-- PATTERN 4: NESTED UL (multi-level site menu) -->\n  <h2>4. Nested ul: multi-level menu</h2>\n  <!--\n    list-style NOT removed here: bullet markers aid visual hierarchy.\n    disc > circle > square is the default nested bullet progression.\n    role=\"list\" not needed since list-style is present.\n  -->\n  <ul class=\"menu\">\n    <li>\n      HTML\n      <ul>\n        <li>Document Structure</li>\n        <li>\n          Semantic Elements\n          <ul>\n            <li>Landmarks</li>\n            <li>Sectioning</li>\n          </ul>\n        </li>\n        <li>Forms</li>\n      </ul>\n    </li>\n    <li>\n      CSS\n      <ul>\n        <li>Selectors</li>\n        <li>Box Model</li>\n        <li>Flexbox</li>\n        <li>Grid</li>\n      </ul>\n    </li>\n    <li>JavaScript</li>\n  </ul>\n\n\n  <!-- PATTERN 5: TAG GROUP -->\n  <h2>5. Tag list (pill badges)</h2>\n  <!--\n    A group of tags is semantically a list:\n    each tag is an item in a set.\n    list-style: none + role=\"list\".\n    Flex display makes the tags flow as inline pills.\n  -->\n  <ul class=\"tags\" role=\"list\">\n    <li>HTML</li>\n    <li>CSS</li>\n    <li>Accessibility</li>\n    <li>Web Standards</li>\n    <li>WCAG</li>\n    <li>Semantic HTML</li>\n  </ul>\n\n</body>\n</html>",
+          "output": "Page renders five unordered list patterns. The horizontal navigation shows a dark navbar with four white-on-dark links. The vertical sidebar nav shows a bordered list with five module links. The feature list shows five items with green checkmarks instead of bullets. The nested menu shows three levels of indentation with disc, circle, and square bullet markers. The tag group shows six blue pill badges in a flex-wrapping horizontal row.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<ul>",
+              "highlight": true
+            },
+            {
+              "value": " element is the most used HTML element on the web after "
+            },
+            {
+              "value": "<div>",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "<p>",
+              "highlight": true
+            },
+            {
+              "value": ". Nearly every navigation component, feature list, and tag group is a "
+            },
+            {
+              "value": "<ul>",
+              "highlight": true
+            },
+            {
+              "value": ". Its ubiquity means the "
+            },
+            {
+              "value": "list-style: none",
+              "highlight": true
+            },
+            {
+              "value": " + "
+            },
+            {
+              "value": "role='list'",
+              "highlight": true
+            },
+            {
+              "value": " pattern is not a rare edge case but a standard requirement in almost every component library and CSS reset."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Default nested "
+            },
+            {
+              "value": "<ul>",
+              "highlight": true
+            },
+            {
+              "value": " rendering produces three bullet levels: disc (filled circle), circle (hollow circle), and square. This visual hierarchy mirrors outline depth. In most component designs the default markers are replaced by CSS, but the structural nesting (each sub-list inside an "
+            },
+            {
+              "value": "<li>",
+              "highlight": true
+            },
+            {
+              "value": ") must be preserved regardless of visual style, because screen readers use the nesting depth to announce '"
+            },
+            {
+              "value": "sub-list, level 2, 3 items",
+              "bold": true
+            },
+            {
+              "value": "'."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Target "
+            },
+            {
+              "value": "li::marker",
+              "highlight": true
+            },
+            {
+              "value": " in CSS to replace bullet characters without the "
+            },
+            {
+              "value": "::before",
+              "highlight": true
+            },
+            {
+              "value": " workaround. "
+            },
+            {
+              "value": "li::marker { content: '\\2713'; color: #16a34a; }",
+              "highlight": true
+            },
+            {
+              "value": " replaces the default disc with a green checkmark. "
+            },
+            {
+              "value": "::marker",
+              "highlight": true
+            },
+            {
+              "value": " is the semantically correct pseudo-element for list markers and is supported in all modern browsers. It avoids the positioning complexity of "
+            },
+            {
+              "value": "::before",
+              "highlight": true
+            },
+            {
+              "value": " and does not interfere with the accessible list structure."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "Core List Types",
+        "Ordered List Elements",
+        "HTML Description List",
+        "CSS List Styling",
+        "HTML Navigation Patterns"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Core List Types | ol, ul, li Elements Complete Guide",
+    "meta_description": "Master HTML list elements: ordered list ol with type, start, reversed attributes, unordered list ul with role='list' for accessibility, and nested list patterns.",
+    "keywords": [
+      "HTML ordered list ol",
+      "HTML unordered list ul",
+      "HTML list item li",
+      "HTML ol type attribute",
+      "HTML ol start reversed",
+      "HTML ul role list Safari",
+      "HTML nested list",
+      "HTML list style none accessibility",
+      "HTML navigation ul list",
+      "HTML list ARIA semantics"
+    ],
+    "canonical_url": "/html/core-list-types",
+    "robots": "index, follow"
+  }
+}

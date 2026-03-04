@@ -1,0 +1,521 @@
+{
+  "topic": {
+    "id": 17,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 5,
+    "slug": "structured-and-nested-lists",
+    "title": "Structured and Nested Lists",
+    "description": "HTML ul, ol, and dl elements group related content with semantic meaning and accessibility support.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "HTML List Types and When to Use Each"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          { "value": "HTML provides three native list elements to group related content semantically. " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " creates an " },
+          { "value": "unordered list", "bold": true },
+          { "value": " where sequence does not matter, rendered with bullet markers by default. " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": " creates an " },
+          { "value": "ordered list", "bold": true },
+          { "value": " where sequence is meaningful, rendered with numbers or letters. " },
+          { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+          { "value": " creates a " },
+          { "value": "description list", "bold": true },
+          { "value": " pairing terms with their definitions or metadata. All three expose their structure to assistive technologies through " },
+          { "value": "ARIA list roles", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/list_role" },
+          { "value": ", allowing screen readers to announce item counts and navigate by list item." }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": ["Element", "Child Elements", "Use Case", "Screen Reader Announcement"],
+        "rows": [
+          ["<ul>", "<li>", "Items with no meaningful order: features, links, ingredients", "\"list, N items\""],
+          ["<ol>", "<li>", "Steps, rankings, instructions where order matters", "\"list, N items\" with position"],
+          ["<dl>", "<dt> + <dd>", "Term-definition pairs, metadata, glossaries, FAQs", "Varies by screen reader"],
+          ["Nested list", "<ul> or <ol> inside <li>", "Hierarchical content: outlines, subcategories, submenus", "\"list, N items\" per level"]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "Lists Communicate Grouping to Assistive Technologies",
+        "text": "Screen readers announce the number of items in a list before reading them, giving users a mental map of the content. Using divs with bullet-point characters instead of real list elements removes this announcement entirely."
+      }
+    ],
+    "examples": [
+      {
+        "title": "All Three List Types Side by Side",
+        "description": "Demonstrates ul, ol, and dl in a single page, showing the correct child elements for each type and the situations each list type is best suited for.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>HTML List Types</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }\n      h2 { color: #1a1a2e; border-bottom: 2px solid #eee; padding-bottom: 0.4rem; }\n      dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 1.5rem; }\n      dt { font-weight: bold; color: #0077cc; }\n      dd { margin: 0; color: #333; }\n    </style>\n  </head>\n  <body>\n\n    <!-- ul: order of features does not matter -->\n    <h2>Key Features</h2>\n    <ul>\n      <li>Responsive design out of the box</li>\n      <li>Built-in dark mode support</li>\n      <li>Zero runtime dependencies</li>\n      <li>Accessible by default</li>\n    </ul>\n\n    <!-- ol: steps must be followed in this exact order -->\n    <h2>Getting Started</h2>\n    <ol>\n      <li>Install the package with <code>npm install acme-ui</code></li>\n      <li>Import the stylesheet into your entry file</li>\n      <li>Wrap your app in the ThemeProvider component</li>\n      <li>Use components directly from the package</li>\n    </ol>\n\n    <!-- dl: term-definition pairs for a glossary or metadata block -->\n    <h2>Glossary</h2>\n    <dl>\n      <dt>Accessibility</dt>\n      <dd>The practice of designing products usable by people with disabilities.</dd>\n\n      <dt>Semantic HTML</dt>\n      <dd>Using HTML elements that convey meaning about their content to browsers and assistive tools.</dd>\n\n      <dt>ARIA</dt>\n      <dd>Accessible Rich Internet Applications, a set of attributes that extend HTML semantics.</dd>\n    </dl>\n\n  </body>\n</html>",
+        "output": "The page shows three sections. The first is a bulleted list of four features. The second is a numbered list of four setup steps. The third is a two-column glossary layout with bold blue terms on the left and their definitions on the right. Screen readers announce 'list, 4 items' before each list and read each term and description pair in the glossary sequentially.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "WRONG vs RIGHT: Fake Lists vs Semantic Lists",
+        "description": "Contrasts using paragraphs and manual bullet characters against real list elements, showing what screen readers miss when fake lists are used.",
+        "code_snippet": "<!-- WRONG: manual bullet characters in paragraphs -->\n<!-- Screen readers read these as plain paragraphs with no list structure -->\n<!-- Users do not hear item counts or list navigation shortcuts -->\n<p>• Responsive design out of the box</p>\n<p>• Built-in dark mode support</p>\n<p>• Zero runtime dependencies</p>\n\n<!-- WRONG: div-based fake ordered list -->\n<div>1. Install the package</div>\n<div>2. Import the stylesheet</div>\n<div>3. Wrap your app</div>\n<!-- Screen readers announce three separate generic elements, not a 3-item list -->\n\n\n<!-- RIGHT: semantic ul for unordered items -->\n<!-- Screen reader: \"list, 3 items\" then reads each item -->\n<ul>\n  <li>Responsive design out of the box</li>\n  <li>Built-in dark mode support</li>\n  <li>Zero runtime dependencies</li>\n</ul>\n\n<!-- RIGHT: semantic ol for sequential steps -->\n<!-- Screen reader: \"list, 3 items\" with step position for each item -->\n<ol>\n  <li>Install the package</li>\n  <li>Import the stylesheet</li>\n  <li>Wrap your app</li>\n</ol>",
+        "output": "The WRONG versions display visually similar to the RIGHT versions but lose all list semantics. Screen readers reading the WRONG versions announce three separate paragraph or generic elements with no item count, no list navigation, and no positional context. The RIGHT versions trigger list announcements, allow screen reader users to jump between items with keyboard shortcuts, and report the total item count before reading.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "ol with type and start Attributes",
+        "description": "Shows how the type and start attributes on ol control the marker style and starting number, useful for multi-part documents, legal numbering, and resuming lists after interrupting content.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Ordered List Attributes</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 600px; }\n      h3 { margin-top: 1.5rem; }\n    </style>\n  </head>\n  <body>\n\n    <h3>Alphabetical list (type=\"a\")</h3>\n    <!-- type=\"a\" uses lowercase letters as markers -->\n    <ol type=\"a\">\n      <li>Define the problem statement</li>\n      <li>Research existing solutions</li>\n      <li>Prototype and test</li>\n    </ol>\n\n    <h3>Uppercase Roman numerals (type=\"I\")</h3>\n    <!-- type=\"I\" uses uppercase Roman numerals -->\n    <ol type=\"I\">\n      <li>Introduction</li>\n      <li>Methodology</li>\n      <li>Results</li>\n    </ol>\n\n    <h3>Continuing from item 4 (start=\"4\")</h3>\n    <!-- start=\"4\" resumes numbering after a break in the document -->\n    <!-- Use this when content interrupts a continuous list -->\n    <ol start=\"4\">\n      <li>Deploy to staging environment</li>\n      <li>Run end-to-end tests</li>\n      <li>Promote to production</li>\n    </ol>\n\n    <h3>Reversed countdown (reversed)</h3>\n    <!-- reversed counts down from the total to 1 -->\n    <ol reversed>\n      <li>Gold medal: Team Alpha</li>\n      <li>Silver medal: Team Beta</li>\n      <li>Bronze medal: Team Gamma</li>\n    </ol>\n\n  </body>\n</html>",
+        "output": "The page shows four ordered lists: the first uses a, b, c markers; the second uses I, II, III Roman numerals; the third starts at number 4 and counts 4, 5, 6; the fourth counts down as 3, 2, 1 for the reversed ranking. All are read by screen readers as standard ordered lists with the correct positional context for each item.",
+        "images": null,
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": null,
+    "video_url": null,
+    "when_to_use": [
+      {
+        "text": [
+          { "value": "Use " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " when listing items where changing the order would not affect the meaning, such as features, ingredients, or navigation links." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Use " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": " when sequence is essential, such as installation steps, ranked results, legal clauses, or recipe instructions where order changes the outcome." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Use " },
+          { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+          { "value": " when presenting term-value pairs such as glossaries, metadata blocks, FAQs, or product specification tables with label and value relationships." }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "text": [
+          { "value": "Avoid using " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": " when the numbers are for visual decoration only and the items have no meaningful sequence, as this misrepresents the content structure to assistive technologies." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Avoid placing block-level elements like " },
+          { "value": "<p>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p" },
+          { "value": " or " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": " as direct children of " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " or " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": ". Only " },
+          { "value": "<li>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li" },
+          { "value": " is a valid direct child." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Avoid using " },
+          { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+          { "value": " for content that is not genuinely a term-description relationship. For simple grouped content, " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " or " },
+          { "value": "<table>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table" },
+          { "value": " is more appropriate." }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "text": [
+          { "value": "Using plain " },
+          { "value": "<p>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p" },
+          { "value": " tags with manual bullet characters removes the " },
+          { "value": "ARIA list role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/list_role" },
+          { "value": ", so screen readers cannot announce item counts or enable list navigation shortcuts." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Without " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": ", sequential steps rendered as plain text give no positional context, making it easy for users to lose their place in multi-step instructions." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Without " },
+          { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+          { "value": ", term-value pairs formatted as two-column " },
+          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+          { "value": " grids have no machine-readable association between a term and its description." }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "text": [
+          { "value": "A " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " is like a shopping bag: you toss items in and the order you pull them out does not matter. A " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": " is like a recipe: you must follow the steps in sequence or the dish fails. The element you choose tells both humans and machines which situation they are in." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "A " },
+          { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+          { "value": " is like a dictionary page: each entry has a bold headword (" },
+          { "value": "<dt>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt" },
+          { "value": ") followed by its definition (" },
+          { "value": "<dd>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd" },
+          { "value": "). The pairing is not just visual, it is a machine-readable relationship that assistive technologies can traverse and expose to users." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "The " },
+          { "value": "ARIA list role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/list_role" },
+          { "value": " exposed by " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " and " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": " is like the chapter counter in an audiobook player. Before reading a chapter the player tells you 'chapter 3 of 12', giving you a mental map of where you are. Without list semantics, every item is read as an isolated sentence with no map." }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "text": [
+          { "value": "Placing non-" },
+          { "value": "<li>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li" },
+          { "value": " children in " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " or " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": ": invalid HTML that browsers silently fix but that breaks the list item count for screen readers." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Using " },
+          { "value": "<br>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/br" },
+          { "value": " to fake list items: line breaks inside a single " },
+          { "value": "<p>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p" },
+          { "value": " produce no list role, no item count, and no keyboard navigation for screen reader users." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Using " },
+          { "value": "<dt>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt" },
+          { "value": " without a following " },
+          { "value": "<dd>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd" },
+          { "value": ": an orphaned term in a " },
+          { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+          { "value": " breaks the term-description pairing that assistive technologies depend on." }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "text": [
+          { "value": "In CSS, use " },
+          { "value": "list-style: none", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/list-style" },
+          { "value": " to remove bullet markers from a " },
+          { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+          { "value": " used for navigation, but note that Safari removes the " },
+          { "value": "ARIA list role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/list_role" },
+          { "value": " when this style is applied. Add " },
+          { "value": "role=\"list\"", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/list_role" },
+          { "value": " explicitly to the " },
+          { "value": "<ul>", "bold": true, "highlight": true },
+          { "value": " to restore the semantic role in Safari." }
+        ]
+      },
+      {
+        "text": [
+          { "value": "Use the " },
+          { "value": "value", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li#value" },
+          { "value": " attribute on individual " },
+          { "value": "<li>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li" },
+          { "value": " elements inside an " },
+          { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+          { "value": " to override the counter for a specific item, with all subsequent items continuing from that new value automatically." }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Document Structure",
+      "HTML Semantic Elements",
+      "HTML Tables",
+      "HTML Accessibility Basics",
+      "HTML Navigation Element"
+    ],
+    "is_active": true,
+    "order_index": 17,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 5,
+      "topic_id": 17,
+      "slug": "description-list-elements",
+      "title": "Description List Elements",
+      "description": "The dl element pairs terms with descriptions, making it ideal for glossaries, metadata, and FAQs.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            { "value": "A description list is created with " },
+            { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+            { "value": ", which acts as the container. Inside it, " },
+            { "value": "<dt>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt" },
+            { "value": " marks a " },
+            { "value": "description term", "bold": true },
+            { "value": " and " },
+            { "value": "<dd>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd" },
+            { "value": " marks the " },
+            { "value": "description details", "bold": true },
+            { "value": " that follow it. One " },
+            { "value": "<dt>", "bold": true, "highlight": true },
+            { "value": " can have multiple " },
+            { "value": "<dd>", "bold": true, "highlight": true },
+            { "value": " siblings, and multiple " },
+            { "value": "<dt>", "bold": true, "highlight": true },
+            { "value": " elements can share a single " },
+            { "value": "<dd>", "bold": true, "highlight": true },
+            { "value": ", making the element flexible for synonyms and multi-value metadata. The only valid direct children of " },
+            { "value": "<dl>", "bold": true, "highlight": true },
+            { "value": " are " },
+            { "value": "<dt>", "bold": true, "highlight": true },
+            { "value": ", " },
+            { "value": "<dd>", "bold": true, "highlight": true },
+            { "value": ", and " },
+            { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
+            { "value": " wrappers used to group a " },
+            { "value": "<dt>", "bold": true, "highlight": true },
+            { "value": " and its " },
+            { "value": "<dd>", "bold": true, "highlight": true },
+            { "value": " for styling purposes." }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "dl is not just for glossaries",
+          "text": "The dl element suits any name-value pair structure: product specifications, article metadata (author, date, category), configuration key-value lists, and FAQ question-answer pairs all fit naturally into dl, dt, and dd."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Description List Patterns: Glossary, Metadata, and FAQ",
+          "description": "Shows three real-world uses of dl in a single page: a CSS glossary with one term per definition, an article metadata block with multiple values per term, and an FAQ where each question is a dt and the answer is a dd.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Description List Patterns</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 720px; margin: 0 auto; }\n      h2 { color: #1a1a2e; }\n\n      /* Pattern 1: two-column glossary layout */\n      .glossary { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 2rem; }\n      .glossary dt { font-weight: 700; color: #0077cc; }\n      .glossary dd { margin: 0; }\n\n      /* Pattern 2: metadata block */\n      .meta { display: grid; grid-template-columns: 130px 1fr; gap: 0.3rem 1rem; font-size: 0.9rem; }\n      .meta dt { font-weight: 600; color: #555; }\n      .meta dd { margin: 0; }\n\n      /* Pattern 3: FAQ */\n      .faq dt { font-weight: 700; margin-top: 1rem; }\n      .faq dd { margin-left: 0; color: #444; line-height: 1.6; }\n    </style>\n  </head>\n  <body>\n\n    <!-- Pattern 1: Glossary — one dt, one dd per entry -->\n    <h2>CSS Glossary</h2>\n    <dl class=\"glossary\">\n      <dt>Cascade</dt>\n      <dd>The algorithm that determines which CSS rules apply when multiple rules target the same element.</dd>\n\n      <dt>Specificity</dt>\n      <dd>A weight assigned to a CSS selector that determines which rule wins when rules conflict.</dd>\n\n      <dt>Inheritance</dt>\n      <dd>The mechanism by which some CSS properties are passed from parent elements to their children.</dd>\n    </dl>\n\n    <!-- Pattern 2: Article metadata — one dt, multiple dd values -->\n    <h2>Article Metadata</h2>\n    <dl class=\"meta\">\n      <dt>Author</dt>\n      <dd>Sarah Chen</dd>\n\n      <dt>Published</dt>\n      <dd>15 January 2024</dd>\n\n      <!-- One term with two values: dt shares multiple dd siblings -->\n      <dt>Tags</dt>\n      <dd>CSS</dd>\n      <dd>Web Standards</dd>\n      <dd>Frontend</dd>\n    </dl>\n\n    <!-- Pattern 3: FAQ — question as dt, answer as dd -->\n    <h2>FAQ</h2>\n    <dl class=\"faq\">\n      <dt>What browsers support CSS nesting?</dt>\n      <dd>All major browsers including Chrome 112+, Firefox 117+, and Safari 17+ support CSS nesting natively.</dd>\n\n      <dt>Do I need a preprocessor for CSS variables?</dt>\n      <dd>No. CSS custom properties are a native browser feature and require no build step or preprocessor.</dd>\n    </dl>\n\n  </body>\n</html>",
+          "output": "The page shows three sections. The glossary renders as a two-column grid with blue bold terms on the left and definitions on the right. The metadata block shows label-value pairs where the Tags entry lists three values stacked under one label. The FAQ shows bold questions followed by paragraph-style answers. Screen readers traverse each dt and dd in sequence, associating each term with its description.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            { "value": "A " },
+            { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+            { "value": " is like a two-column spreadsheet where the left column holds labels (" },
+            { "value": "<dt>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt" },
+            { "value": ") and the right column holds values (" },
+            { "value": "<dd>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd" },
+            { "value": "). Unlike a visual table, the pairing is encoded in the HTML itself, so assistive technologies can read 'Author: Sarah Chen' as a single connected unit rather than two unrelated cells." }
+          ]
+        },
+        {
+          "text": [
+            { "value": "Multiple " },
+            { "value": "<dd>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd" },
+            { "value": " elements after one " },
+            { "value": "<dt>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt" },
+            { "value": " are like tags on a product in a shop. One product (the term) can have many tags (colours, sizes, materials) and the tags all belong to that one product, not to separate products." }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            { "value": "To style " },
+            { "value": "<dt>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt" },
+            { "value": " and " },
+            { "value": "<dd>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd" },
+            { "value": " pairs as a grid without extra wrapper divs, set " },
+            { "value": "display: grid", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/display" },
+            { "value": " and " },
+            { "value": "grid-template-columns: max-content 1fr", "bold": true, "highlight": true },
+            { "value": " directly on the " },
+            { "value": "<dl>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl" },
+            { "value": " element. This places each term and description side by side without any additional markup." }
+          ]
+        }
+      ],
+      "related_topics": [
+        "Structured and Nested Lists",
+        "Nested List Structures",
+        "HTML Tables"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 5,
+      "topic_id": 17,
+      "slug": "nested-list-structures",
+      "title": "Nested List Structures",
+      "description": "Nested lists place a ul or ol inside an li to represent hierarchical content at multiple levels.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            { "value": "A nested list is created by placing a " },
+            { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+            { "value": " or " },
+            { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+            { "value": " element " },
+            { "value": "inside an", "bold": true },
+            { "value": " " },
+            { "value": "<li>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li" },
+            { "value": " element of a parent list. The nested list must always be a child of an " },
+            { "value": "<li>", "bold": true, "highlight": true },
+            { "value": ", never a direct child of the parent " },
+            { "value": "<ul>", "bold": true, "highlight": true },
+            { "value": " or " },
+            { "value": "<ol>", "bold": true, "highlight": true },
+            { "value": ". Browsers apply progressively different default bullet styles at each level: filled circle at level one, open circle at level two, and filled square at level three. Screen readers announce the depth of each nested list, so users always know their position in the hierarchy. Lists can be mixed: an " },
+            { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+            { "value": " can nest inside a " },
+            { "value": "<ul>", "bold": true, "highlight": true },
+            { "value": " and vice versa when the content warrants it." }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Never place a list directly inside another list",
+          "text": "Placing a ul or ol as a direct child of another ul or ol without wrapping it in an li is invalid HTML. Browsers silently correct it, but the item count reported to screen readers becomes wrong and the nesting depth is lost."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Multi-level Navigation Menu and Document Outline",
+          "description": "Shows two common nested list patterns: a three-level site navigation menu using nested ul elements, and a document outline mixing ol and ul to represent chapters with unordered sub-points.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Nested List Examples</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 700px; }\n      h2 { color: #1a1a2e; }\n\n      /* Navigation menu styles */\n      nav ul { list-style: none; padding: 0; margin: 0; }\n      nav > ul > li { margin-bottom: 0.25rem; }\n      nav a { text-decoration: none; color: #0077cc; display: block; padding: 0.3rem 0; }\n      nav a:hover { color: #005fa3; }\n      /* Indent nested levels visually */\n      nav ul ul { padding-left: 1.25rem; border-left: 2px solid #e0e0e0; margin-top: 0.25rem; }\n    </style>\n  </head>\n  <body>\n\n    <!-- Pattern 1: Nested ul for site navigation -->\n    <h2>Site Navigation</h2>\n    <nav aria-label=\"Site map\">\n      <ul role=\"list\">\n        <li><a href=\"/\">Home</a></li>\n        <li>\n          <a href=\"/docs\">Documentation</a>\n          <!-- Nested ul MUST be inside the li, not after it -->\n          <ul role=\"list\">\n            <li><a href=\"/docs/start\">Getting Started</a></li>\n            <li>\n              <a href=\"/docs/api\">API Reference</a>\n              <!-- Third level nesting -->\n              <ul role=\"list\">\n                <li><a href=\"/docs/api/auth\">Authentication</a></li>\n                <li><a href=\"/docs/api/users\">Users</a></li>\n              </ul>\n            </li>\n            <li><a href=\"/docs/examples\">Examples</a></li>\n          </ul>\n        </li>\n        <li><a href=\"/blog\">Blog</a></li>\n        <li><a href=\"/contact\">Contact</a></li>\n      </ul>\n    </nav>\n\n    <!-- Pattern 2: Mixed ol/ul for a document outline -->\n    <h2>Course Outline</h2>\n    <!-- ol for chapters: order is meaningful -->\n    <ol>\n      <li>\n        Introduction to HTML\n        <!-- ul for topics inside the chapter: order is not critical -->\n        <ul>\n          <li>History and evolution</li>\n          <li>Document structure basics</li>\n          <li>Setting up a development environment</li>\n        </ul>\n      </li>\n      <li>\n        Semantic Elements\n        <ul>\n          <li>Sectioning elements</li>\n          <li>Text-level semantics</li>\n          <li>Embedded content</li>\n        </ul>\n      </li>\n      <li>\n        Forms and Validation\n        <ul>\n          <li>Input types and attributes</li>\n          <li>Constraint validation API</li>\n        </ul>\n      </li>\n    </ol>\n\n  </body>\n</html>",
+          "output": "The navigation section shows a vertically stacked link list. 'Documentation' expands visually to show three indented child links, with 'API Reference' further indented to reveal two more links, all separated by a thin left border. The course outline shows three numbered chapters, each with a bulleted sub-list of topics. Screen readers announce each nested list as a new list with its own item count and nesting level.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            { "value": "A nested list is like a folder structure on a computer: the top-level " },
+            { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+            { "value": " is the root drive, each " },
+            { "value": "<li>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li" },
+            { "value": " is a folder, and the nested " },
+            { "value": "<ul>", "bold": true, "highlight": true },
+            { "value": " inside it is a subfolder. Assistive technologies read the depth the same way a file manager reads the folder level, always telling you where you are in the hierarchy." }
+          ]
+        },
+        {
+          "text": [
+            { "value": "Mixing " },
+            { "value": "<ol>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol" },
+            { "value": " and " },
+            { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+            { "value": " in nested lists is like a book's table of contents: chapters are numbered (" },
+            { "value": "<ol>", "bold": true, "highlight": true },
+            { "value": ") because their order defines the narrative arc, but the topics within each chapter are bulleted (" },
+            { "value": "<ul>", "bold": true, "highlight": true },
+            { "value": ") because they can be covered in any order without breaking the chapter's meaning." }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            { "value": "When using " },
+            { "value": "list-style: none", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/list-style" },
+            { "value": " on a nested navigation " },
+            { "value": "<ul>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul" },
+            { "value": " in Safari, add " },
+            { "value": "role=\"list\"", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/list_role" },
+            { "value": " to every " },
+            { "value": "<ul>", "bold": true, "highlight": true },
+            { "value": " at every nesting level, not just the outermost one. Safari strips the list role from all levels independently when the style is applied." }
+          ]
+        }
+      ],
+      "related_topics": [
+        "Structured and Nested Lists",
+        "Description List Elements",
+        "HTML Navigation Element"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "Structured and Nested Lists in HTML | ul, ol, dl Complete Guide",
+    "meta_description": "Learn how to use HTML ul, ol, dl, and nested list elements to structure content semantically for better accessibility, SEO, and screen reader support.",
+    "keywords": [
+      "html list elements",
+      "html ul element",
+      "html ol element",
+      "html dl element",
+      "html nested lists",
+      "html description list",
+      "html ordered list",
+      "html unordered list",
+      "html list accessibility",
+      "html dt dd elements"
+    ],
+    "canonical_url": "/html/structured-and-nested-lists",
+    "robots": "index, follow"
+  }
+}

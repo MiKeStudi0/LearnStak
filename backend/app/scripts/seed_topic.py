@@ -37,7 +37,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     sys.exit("❌  DATABASE_URL not set. Add it to your .env file.")
 
-DEFAULT_JSON = Path(__file__).parent.parent / "json" / "frontend" / "html" / "topics_9.json"
+DEFAULT_JSON = Path(__file__).parent.parent / "json" / "frontend" / "html" / "topics_16.json"
 
 # ── JSON fields that map to DB JSON columns ───────────────────────────────────
 DB_JSON_COLUMNS = [

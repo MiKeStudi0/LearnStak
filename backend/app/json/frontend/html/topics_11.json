@@ -1,0 +1,1401 @@
+{
+  "topic": {
+    "id": 11,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 4,
+    "slug": "html-link-actions-and-safety",
+    "title": "HTML Link Actions and Safety",
+    "description": "HTML links trigger email, calls, and file downloads and need safety attributes for new-tab targets.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Link Actions, Downloads, and Security Attributes"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<a>",
+            "highlight": true
+          },
+          {
+            "value": " element does more than navigate to pages. The "
+          },
+          {
+            "value": "href",
+            "highlight": true
+          },
+          {
+            "value": " attribute accepts special URL schemes: "
+          },
+          {
+            "value": "mailto:",
+            "highlight": true
+          },
+          {
+            "value": " opens an email client, "
+          },
+          {
+            "value": "tel:",
+            "highlight": true
+          },
+          {
+            "value": " dials a phone number on mobile devices, and "
+          },
+          {
+            "value": "sms:",
+            "highlight": true
+          },
+          {
+            "value": " opens a messaging app. The "
+          },
+          {
+            "value": "download",
+            "highlight": true
+          },
+          {
+            "value": " attribute instructs the browser to save the linked file rather than navigate to it. Opening links in a new tab with "
+          },
+          {
+            "value": "target='_blank'",
+            "highlight": true
+          },
+          {
+            "value": " requires "
+          },
+          {
+            "value": "rel='noopener noreferrer'",
+            "highlight": true
+          },
+          {
+            "value": " to prevent the opened page from accessing "
+          },
+          {
+            "value": "window.opener",
+            "highlight": true
+          },
+          {
+            "value": " and reading or redirecting the originating page. Together these attributes cover the full range of link behaviours required in real HTML documents. Reference: "
+          },
+          {
+            "value": "MDN: anchor element",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Link pattern",
+          "href value",
+          "Key attributes",
+          "Use case"
+        ],
+        "rows": [
+          [
+            "Email",
+            "mailto:name@example.com",
+            "href only",
+            "Contact forms, support links"
+          ],
+          [
+            "Email with subject/body",
+            "mailto:?subject=...&body=...",
+            "URL-encode values",
+            "Pre-filled enquiry links"
+          ],
+          [
+            "Phone call",
+            "tel:+911234567890",
+            "href only",
+            "Mobile click-to-call"
+          ],
+          [
+            "SMS",
+            "sms:+911234567890",
+            "href only",
+            "Mobile messaging"
+          ],
+          [
+            "File download",
+            "/files/report.pdf",
+            "download (optional filename)",
+            "PDFs, zips, images"
+          ],
+          [
+            "New tab (safe)",
+            "/page",
+            "target='_blank' rel='noopener noreferrer'",
+            "External links, documents"
+          ],
+          [
+            "New tab (unsafe)",
+            "/page",
+            "target='_blank' only",
+            "Vulnerable to tab-napping"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "target='_blank' Without rel='noopener' Is a Security Risk",
+        "text": "When a page opens a link with target='_blank', the opened page gets a reference to the opener via window.opener. A malicious page can use this to redirect the original tab to a phishing URL while the user is reading the new tab. Adding rel='noopener noreferrer' severs this connection. Modern browsers apply noopener automatically for cross-origin blank links, but explicit rel attributes remain best practice for all blank-target links."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Email, Phone, and SMS Links with Pre-filled Parameters",
+        "description": "This example shows every special scheme link: a plain mailto link, a mailto with subject and body pre-filled using URL encoding, a telephone link with international format, an SMS link, and a combined contact card using all three. It also shows the accessible pattern for links that open non-web resources.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Contact Link Actions</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    a     { color: #2563eb; }\n    .card { border: 1px solid #e5e7eb; border-radius: 8px;\n            padding: 1rem 1.25rem; margin-bottom: 1rem; }\n    .card h3 { margin: 0 0 .5rem; font-size: .95rem; }\n    .contact-row { display: flex; gap: 1rem; flex-wrap: wrap;\n                   margin-top: .75rem; }\n    .contact-btn { display: inline-flex; align-items: center; gap: .4rem;\n                   padding: .45rem .9rem; border-radius: 6px;\n                   font-size: .88rem; text-decoration: none;\n                   font-weight: 600; }\n    .btn-email { background: #eff6ff; color: #1d4ed8; }\n    .btn-tel   { background: #f0fdf4; color: #15803d; }\n    .btn-sms   { background: #fdf4ff; color: #7e22ce; }\n    .btn-email:hover { background: #dbeafe; }\n    .btn-tel:hover   { background: #dcfce7; }\n    .btn-sms:hover   { background: #f3e8ff; }\n    /* visually-hidden helper for screen reader labels */\n    .sr-only { position: absolute; width: 1px; height: 1px;\n               padding: 0; margin: -1px; overflow: hidden;\n               clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Email, Phone, and SMS Link Actions</h1>\n\n\n  <!-- MAILTO: basic -->\n  <h2>1. Basic mailto link</h2>\n  <!--\n    mailto: opens the default email client.\n    The email address is the path portion of the URL.\n    On desktop: opens Mail, Outlook, Thunderbird, etc.\n    On mobile: opens the default mail app.\n  -->\n  <a href=\"mailto:hello@devdocs.in\">hello@devdocs.in</a>\n\n\n  <!-- MAILTO: with subject and body -->\n  <h2>2. mailto with pre-filled subject and body</h2>\n  <!--\n    Parameters follow a ? just like a query string.\n    subject= sets the email subject line.\n    body=    sets the email body.\n    Values must be URL-encoded:\n      Space -> %20 (or +)\n      Newline -> %0A\n      @ -> %40 (inside body text)\n    Multiple parameters are separated by & (not &amp; in href).\n  -->\n  <a href=\"mailto:hello@devdocs.in?subject=Course%20Enquiry&body=Hi%20team%2C%0A%0AI%20am%20interested%20in%20the%20HTML%20course.%0A%0ARegards\">\n    Send course enquiry\n  </a>\n\n  <p>Raw href value for reference:</p>\n  <code>mailto:hello@devdocs.in?subject=Course%20Enquiry&amp;body=Hi%20team...</code>\n\n\n  <!-- TEL: phone link -->\n  <h2>3. tel: phone link</h2>\n  <!--\n    tel: opens the phone dialler on mobile devices.\n    On desktop: opens FaceTime, Skype, or similar if configured.\n    Always use international format with country code.\n    +91 = India country code.\n    The display text can be formatted; the href must be digits-only\n    (plus the leading + and country code).\n  -->\n  <a href=\"tel:+919876543210\">\n    +91 98765 43210\n  </a>\n\n  <!--\n    WRONG: local format without country code.\n    Works only in India; fails internationally.\n  -->\n  <!-- <a href=\"tel:09876543210\">Call</a> -->\n\n\n  <!-- SMS: text message link -->\n  <h2>4. sms: text message link</h2>\n  <!--\n    sms: opens the messaging app.\n    Primarily useful on mobile.\n    body= pre-fills the message text.\n    iOS and Android handle sms: differently; body parameter\n    support is inconsistent on Android.\n  -->\n  <a href=\"sms:+919876543210\">Send SMS</a>\n  <br>\n  <a href=\"sms:+919876543210?body=I%20would%20like%20to%20enrol\">\n    Send pre-filled SMS\n  </a>\n\n\n  <!-- COMBINED: contact card -->\n  <h2>5. Contact card with all three link types</h2>\n  <div class=\"card\">\n    <h3>DevDocs India Support</h3>\n    <p style=\"font-size:.88rem;color:#64748b;margin:.2rem 0 .75rem;\">\n      Available Monday to Friday, 9 AM to 6 PM IST\n    </p>\n    <div class=\"contact-row\">\n\n      <!--\n        Icon SVG is aria-hidden because the link text is visible.\n        The link text itself is the accessible name.\n      -->\n      <a href=\"mailto:support@devdocs.in\" class=\"contact-btn btn-email\">\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"\n             fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" aria-hidden=\"true\">\n          <path d=\"M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4\n                   c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z\"/>\n          <polyline points=\"22,6 12,13 2,6\"/>\n        </svg>\n        Email support\n      </a>\n\n      <a href=\"tel:+918001234567\" class=\"contact-btn btn-tel\">\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"\n             fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" aria-hidden=\"true\">\n          <path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07\n                   19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67\n                   A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81\n                   a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27\n                   a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7\n                   A2 2 0 0 1 22 16.92z\"/>\n        </svg>\n        Call us\n      </a>\n\n      <a href=\"sms:+918001234567?body=Support%20request%3A%20\" class=\"contact-btn btn-sms\">\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"\n             fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" aria-hidden=\"true\">\n          <path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14\n                   a2 2 0 0 1 2 2z\"/>\n        </svg>\n        Send SMS\n      </a>\n\n    </div>\n  </div>\n\n\n  <!-- ACCESSIBILITY NOTE -->\n  <h2>6. Accessible labels for action links</h2>\n  <!--\n    When the link text IS the phone number, it is self-describing.\n    When the link text is generic ('Call us'), ensure the surrounding\n    context makes the destination clear.\n    Avoid hiding the address entirely behind 'click here'.\n  -->\n  <p>\n    <!-- Good: number is both the label and the destination -->\n    <a href=\"tel:+919876543210\">+91 98765 43210</a>\n  </p>\n  <p>\n    <!-- Good: context makes destination clear -->\n    Call our Kozhikode office:\n    <a href=\"tel:+914952345678\">+91 495 234 5678</a>\n  </p>\n  <p>\n    <!-- Avoid: 'click here' has no destination context -->\n    <!-- <a href=\"tel:+914952345678\">Click here to call</a> -->\n  </p>\n\n</body>\n</html>",
+        "output": "Page renders six sections. The basic mailto shows a blue email link. The pre-filled mailto link opens a mail client with subject 'Course Enquiry' and a multi-line body. The tel link shows a formatted Indian phone number. The sms section shows both a plain SMS link and one with a pre-filled body. The contact card renders three coloured buttons for email, call, and SMS with inline SVG icons. The accessibility section shows the correct and incorrect labelling patterns for action links.",
+        "images": null,
+        "video_url": null
+      },
+      {
+        "title": "Download Links, New-Tab Safety, and rel Attributes",
+        "description": "This example shows the download attribute for file links with custom filenames, the safe target='_blank' pattern with rel='noopener noreferrer', the noreferrer effect on the Referer header, and a comparison of safe versus unsafe blank links. It also demonstrates rel='external' and rel='sponsored' for content classification.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Download and Safe Link Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    a     { color: #2563eb; }\n    .download-card { display: flex; align-items: center; gap: .85rem;\n                     border: 1px solid #e5e7eb; border-radius: 8px;\n                     padding: .75rem 1rem; margin-bottom: .65rem;\n                     text-decoration: none; color: inherit; }\n    .download-card:hover { background: #f8fafc; }\n    .file-icon { width: 36px; height: 36px; border-radius: 6px;\n                 display: flex; align-items: center; justify-content: center;\n                 font-size: .65rem; font-weight: 700; color: #fff;\n                 flex-shrink: 0; }\n    .pdf  { background: #dc2626; }\n    .zip  { background: #ca8a04; }\n    .csv  { background: #16a34a; }\n    .png  { background: #7c3aed; }\n    .file-info { flex: 1; }\n    .file-name { font-weight: 600; font-size: .9rem; color: #1e293b; }\n    .file-meta { font-size: .78rem; color: #64748b; }\n    .dl-icon { color: #64748b; flex-shrink: 0; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .label { font-size: .7rem; font-weight: 700; text-transform: uppercase;\n             letter-spacing: .06em; margin-bottom: .25rem; }\n    .bad .label  { color: #dc2626; }\n    .good .label { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>Download Links and Secure External Links</h1>\n\n\n  <!-- DOWNLOAD ATTRIBUTE -->\n  <h2>1. The download attribute</h2>\n  <!--\n    download attribute tells the browser: save this file, do not navigate.\n    Without download: browser navigates to the URL or shows it inline.\n    With download (no value): saves with the filename from the URL.\n    With download=\"custom-name.pdf\": saves with the specified filename.\n\n    RESTRICTION: download only works for same-origin URLs.\n    Cross-origin download links navigate to the file instead of saving.\n    The Content-Disposition: attachment header on the server also\n    forces a download regardless of the download attribute.\n  -->\n\n  <a class=\"download-card\" href=\"/downloads/html-cheatsheet.pdf\" download=\"DevDocs-HTML-Cheatsheet.pdf\">\n    <div class=\"file-icon pdf\">PDF</div>\n    <div class=\"file-info\">\n      <div class=\"file-name\">HTML Cheatsheet</div>\n      <div class=\"file-meta\">PDF &middot; 2.4 MB &middot; Updated March 2025</div>\n    </div>\n    <svg class=\"dl-icon\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"\n         fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n         stroke-linecap=\"round\" aria-hidden=\"true\">\n      <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>\n      <polyline points=\"7 10 12 15 17 10\"/>\n      <line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/>\n    </svg>\n  </a>\n\n  <a class=\"download-card\" href=\"/downloads/course-assets.zip\" download>\n    <div class=\"file-icon zip\">ZIP</div>\n    <div class=\"file-info\">\n      <div class=\"file-name\">Course Assets</div>\n      <div class=\"file-meta\">ZIP &middot; 14.7 MB &middot; Starter files for all modules</div>\n    </div>\n    <svg class=\"dl-icon\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"\n         fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n         stroke-linecap=\"round\" aria-hidden=\"true\">\n      <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>\n      <polyline points=\"7 10 12 15 17 10\"/>\n      <line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/>\n    </svg>\n  </a>\n\n  <a class=\"download-card\" href=\"/data/students.csv\" download=\"DevDocs-Students-Export.csv\">\n    <div class=\"file-icon csv\">CSV</div>\n    <div class=\"file-info\">\n      <div class=\"file-name\">Student Data Export</div>\n      <div class=\"file-meta\">CSV &middot; 48 KB &middot; Comma-separated values</div>\n    </div>\n    <svg class=\"dl-icon\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"\n         fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n         stroke-linecap=\"round\" aria-hidden=\"true\">\n      <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>\n      <polyline points=\"7 10 12 15 17 10\"/>\n      <line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/>\n    </svg>\n  </a>\n\n\n  <!-- SAFE NEW TAB LINKS -->\n  <h2>2. target=\"_blank\" — unsafe vs safe</h2>\n\n  <div class=\"bad\">\n    <p class=\"label\">Unsafe — window.opener exposed</p>\n    <!--\n      Without rel=\"noopener\", the opened page can call:\n      window.opener.location = 'https://phishing-site.com'\n      This redirects the original tab while the user reads the new one.\n      This is called \"tab-napping\" or \"reverse tab-napping\".\n    -->\n    <code>&lt;a href=\"https://example.com\" target=\"_blank\"&gt;Example&lt;/a&gt;</code>\n  </div>\n\n  <div class=\"good\">\n    <p class=\"label\">Safe — window.opener severed</p>\n    <!--\n      rel=\"noopener\": sets window.opener to null in the new tab.\n      rel=\"noreferrer\": also suppresses the Referer header AND\n                        implies noopener.\n      Using both is belt-and-suspenders for maximum compatibility.\n      noopener alone is sufficient in all modern browsers.\n    -->\n    <code>&lt;a href=\"https://example.com\" target=\"_blank\"\n    rel=\"noopener noreferrer\"&gt;Example&lt;/a&gt;</code>\n  </div>\n\n  <!-- Real working examples -->\n  <p>\n    <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a\"\n       target=\"_blank\"\n       rel=\"noopener noreferrer\">\n      MDN anchor element (opens in new tab, safe)\n    </a>\n  </p>\n\n\n  <!-- REL VALUES REFERENCE -->\n  <h2>3. rel attribute values for links</h2>\n  <!--\n    rel describes the relationship between the current document\n    and the linked resource. Multiple values are space-separated.\n  -->\n  <table style=\"border-collapse:collapse;width:100%;font-size:.87rem;\">\n    <thead style=\"background:#0f172a;color:#fff;\">\n      <tr>\n        <th style=\"padding:.45rem .75rem;text-align:left;\">rel value</th>\n        <th style=\"padding:.45rem .75rem;text-align:left;\">Effect</th>\n        <th style=\"padding:.45rem .75rem;text-align:left;\">Use when</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr style=\"border-bottom:1px solid #e2e8f0;\">\n        <td style=\"padding:.45rem .75rem;\"><code>noopener</code></td>\n        <td style=\"padding:.45rem .75rem;\">Sets window.opener to null</td>\n        <td style=\"padding:.45rem .75rem;\">All target=_blank links</td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #e2e8f0;\">\n        <td style=\"padding:.45rem .75rem;\"><code>noreferrer</code></td>\n        <td style=\"padding:.45rem .75rem;\">Suppresses Referer header + implies noopener</td>\n        <td style=\"padding:.45rem .75rem;\">External links where referrer privacy matters</td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #e2e8f0;\">\n        <td style=\"padding:.45rem .75rem;\"><code>external</code></td>\n        <td style=\"padding:.45rem .75rem;\">Semantic: link goes outside the site</td>\n        <td style=\"padding:.45rem .75rem;\">Any cross-domain link for SEO clarity</td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #e2e8f0;\">\n        <td style=\"padding:.45rem .75rem;\"><code>nofollow</code></td>\n        <td style=\"padding:.45rem .75rem;\">Tells search engines not to follow</td>\n        <td style=\"padding:.45rem .75rem;\">User-generated content, paid links</td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #e2e8f0;\">\n        <td style=\"padding:.45rem .75rem;\"><code>sponsored</code></td>\n        <td style=\"padding:.45rem .75rem;\">Declares a paid or sponsored link</td>\n        <td style=\"padding:.45rem .75rem;\">Affiliate or advertising links</td>\n      </tr>\n      <tr>\n        <td style=\"padding:.45rem .75rem;\"><code>ugc</code></td>\n        <td style=\"padding:.45rem .75rem;\">Marks user-generated content links</td>\n        <td style=\"padding:.45rem .75rem;\">Comments, forum posts, reviews</td>\n      </tr>\n    </tbody>\n  </table>\n\n\n  <!-- DOWNLOAD + NEW TAB COMBINATION -->\n  <h2>4. Combining download with target=\"_blank\"</h2>\n  <!--\n    download and target=\"_blank\" are mutually exclusive in practice.\n    If you want a download, use download without target.\n    If you want new tab navigation, use target=\"_blank\" without download.\n    Some browsers ignore download when target=\"_blank\" is also set.\n  -->\n  <div class=\"good\">\n    <p class=\"label\">Download (same tab, browser saves file)</p>\n    <code>&lt;a href=\"/report.pdf\" download&gt;Download report&lt;/a&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"label\">New tab (opens PDF in browser viewer)</p>\n    <code>&lt;a href=\"/report.pdf\" target=\"_blank\" rel=\"noopener\"&gt;View report&lt;/a&gt;</code>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders four sections. The download section shows three styled file cards for PDF, ZIP, and CSV with file icons, sizes, and download arrows; clicking each triggers a browser save dialog with the custom filename. The unsafe vs safe section shows red and green code cards illustrating the vulnerable and secure blank-target patterns, followed by a live MDN link that opens safely in a new tab. The rel reference table covers noopener, noreferrer, external, nofollow, sponsored, and ugc values. The final section clarifies that download and target='_blank' are mutually exclusive.",
+        "images": null,
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": null,
+    "video_url": null,
+    "when_to_use": [
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "mailto:",
+            "highlight": true
+          },
+          {
+            "value": " links with "
+          },
+          {
+            "value": "subject",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "body",
+            "highlight": true
+          },
+          {
+            "value": " parameters for support and enquiry links to save users the effort of composing a new email from scratch."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "download",
+            "highlight": true
+          },
+          {
+            "value": " attribute with a descriptive filename value for all file links so users receive a clearly named file rather than a URL-derived name."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "rel='noopener noreferrer'",
+            "highlight": true
+          },
+          {
+            "value": " on every "
+          },
+          {
+            "value": "target='_blank'",
+            "highlight": true
+          },
+          {
+            "value": " link, including internal links, to sever the "
+          },
+          {
+            "value": "window.opener",
+            "highlight": true
+          },
+          {
+            "value": " reference and prevent tab-napping."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "target='_blank'",
+            "highlight": true
+          },
+          {
+            "value": " without "
+          },
+          {
+            "value": "rel='noopener'",
+            "highlight": true
+          },
+          {
+            "value": "; the opened page can read and redirect "
+          },
+          {
+            "value": "window.opener",
+            "highlight": true
+          },
+          {
+            "value": ", exposing users to phishing via tab-napping."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid using the "
+          },
+          {
+            "value": "download",
+            "highlight": true
+          },
+          {
+            "value": " attribute on cross-origin URLs; browsers treat cross-origin download links as navigation and ignore the attribute entirely."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Avoid bare "
+          },
+          {
+            "value": "tel:",
+            "highlight": true
+          },
+          {
+            "value": " links without international country codes; local-format numbers fail on devices with a different country setting."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "text": [
+          {
+            "value": "Special URL schemes ("
+          },
+          {
+            "value": "mailto:",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "tel:",
+            "highlight": true
+          },
+          {
+            "value": ") give mobile users one-tap access to communication actions without requiring a separate contact form or app."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "download",
+            "highlight": true
+          },
+          {
+            "value": " attribute gives developers control over how the browser handles file links, preventing unwanted in-browser navigation to PDFs and other viewable files."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "rel='noopener noreferrer'",
+            "highlight": true
+          },
+          {
+            "value": " combination closes the "
+          },
+          {
+            "value": "tab-napping",
+            "bold": true
+          },
+          {
+            "value": " vulnerability where a newly opened tab can silently redirect its opener to a malicious URL."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "href",
+            "highlight": true
+          },
+          {
+            "value": " attribute is a universal resource locator, not just a web page address. The scheme prefix determines what the browser does with it. "
+          },
+          {
+            "value": "https://",
+            "highlight": true
+          },
+          {
+            "value": " triggers navigation. "
+          },
+          {
+            "value": "mailto:",
+            "highlight": true
+          },
+          {
+            "value": " triggers the OS email handler. "
+          },
+          {
+            "value": "tel:",
+            "highlight": true
+          },
+          {
+            "value": " triggers the phone dialler. "
+          },
+          {
+            "value": "blob:",
+            "highlight": true
+          },
+          {
+            "value": " points to an in-memory object. "
+          },
+          {
+            "value": "data:",
+            "highlight": true
+          },
+          {
+            "value": " embeds the content inline. The browser delegates to the operating system for any scheme it does not handle natively."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "When a page opens a new tab with "
+          },
+          {
+            "value": "target='_blank'",
+            "highlight": true
+          },
+          {
+            "value": ", the browser creates a new browsing context. Without "
+          },
+          {
+            "value": "rel='noopener'",
+            "highlight": true
+          },
+          {
+            "value": ", the two tabs share a "
+          },
+          {
+            "value": "window.opener",
+            "highlight": true
+          },
+          {
+            "value": " reference. The new tab can set "
+          },
+          {
+            "value": "window.opener.location",
+            "highlight": true
+          },
+          {
+            "value": " to any URL, replacing the original page behind the user's back. "
+          },
+          {
+            "value": "noopener",
+            "highlight": true
+          },
+          {
+            "value": " nullifies this reference at the moment the new context is created."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "noreferrer",
+            "highlight": true
+          },
+          {
+            "value": " value serves two purposes: it implies "
+          },
+          {
+            "value": "noopener",
+            "highlight": true
+          },
+          {
+            "value": " (security) and it instructs the browser to omit the "
+          },
+          {
+            "value": "Referer",
+            "highlight": true
+          },
+          {
+            "value": " request header (privacy). Without it, the destination server sees the full URL of the page the user clicked from. "
+          },
+          {
+            "value": "noreferrer",
+            "highlight": true
+          },
+          {
+            "value": " is appropriate for links to external sites where revealing the originating URL would expose internal URLs or user session tokens in query strings."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "text": [
+          {
+            "value": "Using "
+          },
+          {
+            "value": "target='_blank'",
+            "highlight": true
+          },
+          {
+            "value": " without "
+          },
+          {
+            "value": "rel='noopener'",
+            "highlight": true
+          },
+          {
+            "value": " lets the opened page redirect the original tab."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Omitting the country code from "
+          },
+          {
+            "value": "tel:",
+            "highlight": true
+          },
+          {
+            "value": " links causes them to fail on devices in different regions."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Not encoding spaces in "
+          },
+          {
+            "value": "mailto:",
+            "highlight": true
+          },
+          {
+            "value": " query values creates malformed links that open an empty email draft."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "text": [
+          {
+            "value": "Add "
+          },
+          {
+            "value": "aria-label",
+            "highlight": true
+          },
+          {
+            "value": " to download links to announce the file type and size to screen reader users: "
+          },
+          {
+            "value": "aria-label='Download HTML cheatsheet, PDF, 2.4 MB'",
+            "highlight": true
+          },
+          {
+            "value": ". Without it, screen readers read only the visible link text, giving no indication that the link triggers a download rather than navigation."
+          }
+        ]
+      },
+      {
+        "text": [
+          {
+            "value": "Pair "
+          },
+          {
+            "value": "tel:",
+            "highlight": true
+          },
+          {
+            "value": " links with a "
+          },
+          {
+            "value": "media query",
+            "bold": true
+          },
+          {
+            "value": " or JavaScript check to show the call button only on touch devices. On desktop, a click-to-call link opens video conferencing apps unexpectedly. CSS "
+          },
+          {
+            "value": "@media (hover: none)",
+            "highlight": true
+          },
+          {
+            "value": " targets touch-primary devices and can be used to show or hide the telephone link without any JavaScript."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Anchor and Linking Elements",
+      "HTML URL Foundations",
+      "HTML Forms and Input Elements",
+      "Accessibility and ARIA",
+      "HTTP Basics and Status Codes"
+    ],
+    "is_active": true,
+    "order_index": 11,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 11,
+      "slug": "email-and-telephone-links",
+      "title": "Email and Telephone Links",
+      "description": "mailto and tel URL schemes open the email client or phone dialler directly from a link click.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "mailto:",
+              "highlight": true
+            },
+            {
+              "value": " scheme in an "
+            },
+            {
+              "value": "href",
+              "highlight": true
+            },
+            {
+              "value": " opens the user's default email client with the address pre-filled. Optional query parameters "
+            },
+            {
+              "value": "subject",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "body",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "cc",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "bcc",
+              "highlight": true
+            },
+            {
+              "value": " pre-populate those fields. All parameter values must be "
+            },
+            {
+              "value": "URL-encoded",
+              "bold": true
+            },
+            {
+              "value": ": spaces become "
+            },
+            {
+              "value": "%20",
+              "highlight": true
+            },
+            {
+              "value": ", newlines become "
+            },
+            {
+              "value": "%0A",
+              "highlight": true
+            },
+            {
+              "value": ". The "
+            },
+            {
+              "value": "tel:",
+              "highlight": true
+            },
+            {
+              "value": " scheme opens the phone dialler on mobile and a VOIP app on desktop. Always use "
+            },
+            {
+              "value": "E.164 format",
+              "bold": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "+[country code][number]",
+              "highlight": true
+            },
+            {
+              "value": ") for "
+            },
+            {
+              "value": "tel:",
+              "highlight": true
+            },
+            {
+              "value": " links to ensure correct dialling internationally. Reference: "
+            },
+            {
+              "value": "MDN: mailto links",
+              "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks#email_links"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Parameter",
+            "Applies to",
+            "URL-encoded example"
+          ],
+          "rows": [
+            [
+              "address",
+              "mailto:",
+              "mailto:user@example.com"
+            ],
+            [
+              "subject",
+              "mailto:",
+              "?subject=Course%20Enquiry"
+            ],
+            [
+              "body",
+              "mailto:",
+              "&body=Hello%20team%2C%0A%0AMessage%20here"
+            ],
+            [
+              "cc",
+              "mailto:",
+              "&cc=manager@example.com"
+            ],
+            [
+              "bcc",
+              "mailto:",
+              "&bcc=archive@example.com"
+            ],
+            [
+              "number",
+              "tel:",
+              "tel:+919876543210"
+            ],
+            [
+              "body",
+              "sms:",
+              "sms:+91...?body=Hi%20there"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "mailto and tel Links with All Parameters",
+          "description": "This example shows every mailto parameter combination, the correct URL-encoding for multi-line body text, the international tel format, and the sms scheme. It also demonstrates the accessible labelling approach when the link text is not the phone number itself.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Email and Phone Links</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    a    { color: #2563eb; }\n    .box { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: .85rem 1rem;\n           font-size: .87rem; margin-bottom: .75rem; }\n    .box p { margin: 0 0 .35rem; }\n    .box p:last-child { margin: 0; }\n  </style>\n</head>\n<body>\n\n  <h1>mailto and tel Link Reference</h1>\n\n\n  <h2>1. Plain mailto</h2>\n  <div class=\"box\">\n    <p><code>href=\"mailto:hello@devdocs.in\"</code></p>\n    <p>\n      <a href=\"mailto:hello@devdocs.in\">hello@devdocs.in</a>\n    </p>\n  </div>\n\n\n  <h2>2. mailto with subject only</h2>\n  <div class=\"box\">\n    <p><code>href=\"mailto:hello@devdocs.in?subject=Course%20Enquiry\"</code></p>\n    <p>\n      <a href=\"mailto:hello@devdocs.in?subject=Course%20Enquiry\">\n        Send course enquiry\n      </a>\n    </p>\n  </div>\n\n\n  <h2>3. mailto with subject and multi-line body</h2>\n  <div class=\"box\">\n    <!--\n      URL encoding reference:\n        Space    -> %20\n        Newline  -> %0A\n        Comma    -> %2C\n        @        -> %40 (inside body text, not the address)\n        :        -> %3A\n      Multiple parameters joined with & (ampersand).\n      Do NOT HTML-encode & as &amp; inside an href attribute;\n      the browser handles & correctly in href values.\n    -->\n    <p>\n      <code>href=\"mailto:hello@devdocs.in<br>\n        &nbsp;&nbsp;?subject=HTML%20Course%20Enquiry<br>\n        &nbsp;&nbsp;&amp;body=Hi%20team%2C%0A%0A...<br>\n        &nbsp;&nbsp;&amp;cc=courses@devdocs.in\"</code>\n    </p>\n    <p>\n      <a href=\"mailto:hello@devdocs.in?subject=HTML%20Course%20Enquiry&body=Hi%20team%2C%0A%0AI%20would%20like%20to%20enquire%20about%20the%20HTML%20course.%0A%0AName%3A%0ACourse%20interest%3A%0A%0ARegards&cc=courses@devdocs.in\">\n        Send detailed enquiry (pre-filled)\n      </a>\n    </p>\n  </div>\n\n\n  <h2>4. tel link — E.164 international format</h2>\n  <div class=\"box\">\n    <!--\n      E.164 format: + country_code local_number\n      India: +91\n      No spaces, dashes, or brackets in the href value.\n      The display text may be formatted for readability.\n    -->\n    <p><code>href=\"tel:+919876543210\"</code></p>\n    <p>\n      <!-- Display text formatted; href is clean digits -->\n      <a href=\"tel:+919876543210\">+91 98765 43210</a>\n    </p>\n    <p>\n      <!-- Context label pattern -->\n      Kozhikode office:\n      <a href=\"tel:+914952345678\">+91 495 234 5678</a>\n    </p>\n  </div>\n\n\n  <h2>5. sms link</h2>\n  <div class=\"box\">\n    <!--\n      sms: opens the native messaging app.\n      body= pre-fills the message (support varies on Android).\n      Primarily useful on mobile; has no effect on most desktops.\n    -->\n    <p><code>href=\"sms:+919876543210\"</code></p>\n    <p><a href=\"sms:+919876543210\">Send us an SMS</a></p>\n    <p>\n      <a href=\"sms:+919876543210?body=I%20want%20to%20enrol%20in%20the%20HTML%20course\">\n        SMS with pre-filled message\n      </a>\n    </p>\n  </div>\n\n\n  <h2>6. Common encoding mistakes</h2>\n  <div class=\"box\">\n    <p><strong>Wrong:</strong> unencoded spaces break the mailto</p>\n    <p><code>href=\"mailto:x@x.com?subject=Hello World\"</code></p>\n    <!-- Space splits the href; email client may receive broken subject -->\n\n    <p style=\"margin-top:.75rem;\"><strong>Right:</strong> spaces as %20</p>\n    <p><code>href=\"mailto:x@x.com?subject=Hello%20World\"</code></p>\n\n    <p style=\"margin-top:.75rem;\"><strong>Wrong:</strong> local tel without country code</p>\n    <p><code>href=\"tel:09876543210\"</code> &mdash; fails outside India</p>\n\n    <p style=\"margin-top:.75rem;\"><strong>Right:</strong> E.164 with country code</p>\n    <p><code>href=\"tel:+919876543210\"</code></p>\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders six annotated sections. The plain mailto shows an email address as a link. The subject-only mailto opens a compose window with the subject pre-filled. The full mailto with subject, multi-line body, and CC parameter opens a compose window with all fields populated, the multi-line body using %0A for newlines. The tel section shows a formatted display number linking to the E.164 href, and a context-labelled office number. The sms section shows plain and pre-filled message links. The encoding mistakes section shows the wrong versus right patterns for spaces in subject and local versus international tel format.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "A "
+            },
+            {
+              "value": "mailto:",
+              "highlight": true
+            },
+            {
+              "value": " link is not a form submission. The browser hands the entire "
+            },
+            {
+              "value": "mailto:",
+              "highlight": true
+            },
+            {
+              "value": " URI to the operating system, which passes it to the registered email application. The pre-filled subject and body are suggestions, not guarantees: users can edit or clear them before sending. Each email client parses the URI slightly differently, so complex body formatting with special characters should be tested across Mail, Outlook, and Gmail."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "tel:",
+              "highlight": true
+            },
+            {
+              "value": " scheme was designed for PSTN phone numbers but modern devices route it to whatever app is registered for calling: Phone, FaceTime, Google Voice, WhatsApp, or Skype. On desktop it typically opens the last-registered VOIP app, which may surprise users expecting a phone call. Showing the number in visible text alongside the link gives users enough context to decide whether to click."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Build "
+            },
+            {
+              "value": "mailto:",
+              "highlight": true
+            },
+            {
+              "value": " URLs programmatically in JavaScript using "
+            },
+            {
+              "value": "encodeURIComponent()",
+              "highlight": true
+            },
+            {
+              "value": " on every parameter value rather than hand-encoding strings. "
+            },
+            {
+              "value": "encodeURIComponent('Hello World')",
+              "highlight": true
+            },
+            {
+              "value": " returns "
+            },
+            {
+              "value": "'Hello%20World'",
+              "highlight": true
+            },
+            {
+              "value": " automatically, handling all special characters including ampersands, quotes, and newlines that are easy to miss when encoding by hand."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Link Actions and Safety",
+        "Downloadable File Links",
+        "HTML Anchor and Linking Elements"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 11,
+      "slug": "downloadable-file-links",
+      "title": "Downloadable File Links",
+      "description": "The download attribute instructs the browser to save a linked file instead of navigating to it.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "Adding the "
+            },
+            {
+              "value": "download",
+              "highlight": true
+            },
+            {
+              "value": " attribute to an "
+            },
+            {
+              "value": "<a>",
+              "highlight": true
+            },
+            {
+              "value": " element changes the browser's behaviour from navigating to the linked URL to saving the resource as a file. The attribute can be used as a bare boolean ("
+            },
+            {
+              "value": "download",
+              "highlight": true
+            },
+            {
+              "value": ") to keep the server filename, or given a string value ("
+            },
+            {
+              "value": "download='report.pdf'",
+              "highlight": true
+            },
+            {
+              "value": ") to override the save-as filename. "
+            },
+            {
+              "value": "download",
+              "highlight": true
+            },
+            {
+              "value": " only works for "
+            },
+            {
+              "value": "same-origin",
+              "bold": true
+            },
+            {
+              "value": " URLs and "
+            },
+            {
+              "value": "blob:",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "data:",
+              "highlight": true
+            },
+            {
+              "value": " URLs. For cross-origin URLs the browser ignores "
+            },
+            {
+              "value": "download",
+              "highlight": true
+            },
+            {
+              "value": " and navigates instead. The server can also force a download for any URL by sending "
+            },
+            {
+              "value": "Content-Disposition: attachment",
+              "highlight": true
+            },
+            {
+              "value": " in the response header, regardless of whether "
+            },
+            {
+              "value": "download",
+              "highlight": true
+            },
+            {
+              "value": " is present on the link. Reference: "
+            },
+            {
+              "value": "MDN: download attribute",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Download Attribute with Custom Filenames and Blob URLs",
+          "description": "This example shows the download attribute without a value (keep server filename), with a custom filename string, a download link pointing to a blob URL generated by JavaScript, and the server Content-Disposition header as a server-side alternative. It also shows the accessibility pattern for download links.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Download Links Demo</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    a    { color: #2563eb; }\n    .dl-link { display: inline-flex; align-items: center;\n               gap: .45rem; padding: .45rem .9rem;\n               background: #2563eb; color: #fff;\n               border-radius: 6px; text-decoration: none;\n               font-size: .88rem; font-weight: 600; }\n    .dl-link:hover { background: #1d4ed8; }\n    .dl-link svg { flex-shrink: 0; }\n    pre  { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: .85rem 1rem;\n           font-size: .83rem; overflow-x: auto; }\n  </style>\n</head>\n<body>\n\n  <h1>Downloadable File Links</h1>\n\n\n  <h2>1. download with no value (keep server filename)</h2>\n  <!--\n    Bare download attribute: boolean, no value.\n    Browser saves using the filename from the URL path.\n    /downloads/html-guide.pdf -> saved as html-guide.pdf\n  -->\n  <p>\n    <a href=\"/downloads/html-guide.pdf\" download\n       aria-label=\"Download HTML guide PDF\">\n      Download HTML guide\n    </a>\n  </p>\n\n\n  <h2>2. download with custom filename</h2>\n  <!--\n    download=\"DevDocs-HTML-Guide-2025.pdf\" overrides the save-as name.\n    Useful when the URL path is not user-friendly\n    (e.g. /assets/d3f8a9.pdf -> saved as DevDocs-HTML-Guide-2025.pdf).\n    The extension in the download value sets the file type hint.\n  -->\n  <p>\n    <a href=\"/downloads/html-guide.pdf\"\n       download=\"DevDocs-HTML-Guide-2025.pdf\"\n       aria-label=\"Download HTML guide PDF, 2.4 MB\">\n      Download HTML Guide (PDF, 2.4 MB)\n    </a>\n  </p>\n\n\n  <h2>3. Styled download button with accessible label</h2>\n  <p>\n    <!--\n      aria-label overrides the visible text for screen readers.\n      Including file type and size in aria-label helps users\n      decide whether to download before triggering the save dialog.\n    -->\n    <a href=\"/downloads/course-assets.zip\"\n       download=\"DevDocs-Course-Assets.zip\"\n       class=\"dl-link\"\n       aria-label=\"Download course assets ZIP archive, 14.7 MB\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"\n           fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"\n           stroke-linecap=\"round\" aria-hidden=\"true\">\n        <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>\n        <polyline points=\"7 10 12 15 17 10\"/>\n        <line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/>\n      </svg>\n      Download Course Assets\n    </a>\n  </p>\n\n\n  <h2>4. Blob URL download (JavaScript-generated file)</h2>\n  <!--\n    Blob URLs (blob:) are same-origin by definition and support download.\n    Pattern: create content in JS, create a blob URL, trigger download.\n  -->\n  <p>\n    <button onclick=\"downloadCSV()\"\n            style=\"padding:.45rem .9rem;background:#16a34a;color:#fff;\n                   border:none;border-radius:6px;cursor:pointer;\n                   font-size:.88rem;font-weight:600;\">\n      Generate and download CSV\n    </button>\n  </p>\n  <script>\n    function downloadCSV() {\n      // Build CSV content in JavaScript\n      const rows = [\n        ['Name', 'Module', 'Score'],\n        ['Priya Sharma', 'HTML Basics', '94'],\n        ['Arjun Nair',   'HTML Forms',  '88'],\n        ['Meera Pillai', 'HTML Tables', '91'],\n      ];\n      const csv = rows.map(r => r.join(',')).join('\\n');\n\n      // Create a blob and a temporary object URL\n      const blob = new Blob([csv], { type: 'text/csv' });\n      const url  = URL.createObjectURL(blob);\n\n      // Create a temporary link, click it, then clean up\n      const a = document.createElement('a');\n      a.href     = url;\n      a.download = 'DevDocs-Student-Scores.csv';\n      document.body.appendChild(a);\n      a.click();\n      document.body.removeChild(a);\n\n      // Release the blob URL to free memory\n      URL.revokeObjectURL(url);\n    }\n  </script>\n\n\n  <h2>5. Server-side alternative: Content-Disposition header</h2>\n  <pre><!--\n    Any server response with this header forces a download,\n    regardless of whether the download attribute is on the link.\n    The filename= value sets the save-as name.\n    This works for cross-origin resources (download attribute does not).\n  -->\nContent-Disposition: attachment; filename=\"DevDocs-HTML-Guide-2025.pdf\"\nContent-Type: application/pdf</pre>\n\n\n  <h2>6. Cross-origin download limitation</h2>\n  <pre><!-- WRONG: cross-origin link — download attribute is ignored -->\n&lt;a href=\"https://cdn.external.com/file.pdf\" download&gt;\n  Download (won't work — browser navigates instead)\n&lt;/a&gt;\n\n<!-- RIGHT for cross-origin: fetch on the server, proxy as same-origin -->\n&lt;!-- OR set Content-Disposition: attachment on the CDN response --></pre>\n\n</body>\n</html>",
+          "output": "Page renders six sections. The bare download link saves with the URL filename. The custom filename link triggers a save dialog with the specified name. The styled download button shows a blue pill button with a download arrow SVG and an accessible aria-label. The blob URL section shows a green 'Generate and download CSV' button that creates a CSV file from JavaScript data and triggers an immediate download. The server-side section shows the Content-Disposition header syntax. The cross-origin section shows the limitation code block with the correct alternative patterns.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "download",
+              "highlight": true
+            },
+            {
+              "value": " attribute is a client-side instruction to the browser. It changes the browser's intent from "
+            },
+            {
+              "value": "navigate to this URL",
+              "bold": true
+            },
+            {
+              "value": " to "
+            },
+            {
+              "value": "save a file from this URL",
+              "bold": true
+            },
+            {
+              "value": ". However, the browser can only honour this instruction for resources it has "
+            },
+            {
+              "value": "same-origin access",
+              "bold": true
+            },
+            {
+              "value": " to. For cross-origin resources the server controls download behaviour through the "
+            },
+            {
+              "value": "Content-Disposition",
+              "highlight": true
+            },
+            {
+              "value": " response header, which works regardless of origin."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "A "
+            },
+            {
+              "value": "blob:",
+              "highlight": true
+            },
+            {
+              "value": " URL is a temporary local reference to an in-memory object. The pattern of creating a blob, making a temporary "
+            },
+            {
+              "value": "<a>",
+              "highlight": true
+            },
+            {
+              "value": ", programmatically clicking it, and then calling "
+            },
+            {
+              "value": "URL.revokeObjectURL()",
+              "highlight": true
+            },
+            {
+              "value": " is the standard way to trigger a file download from JavaScript-generated content without any server interaction. The "
+            },
+            {
+              "value": "revokeObjectURL",
+              "highlight": true
+            },
+            {
+              "value": " call is essential: without it the blob object stays in memory for the lifetime of the page."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "aria-label",
+              "highlight": true
+            },
+            {
+              "value": " to describe the file type and size on download links: "
+            },
+            {
+              "value": "aria-label='Download syllabus PDF 420 KB'",
+              "highlight": true
+            },
+            {
+              "value": ". Screen readers announce this before the user activates the link, so they can decide whether to wait for a large download. Without it, screen reader users hear only the visible link text with no indication that the link triggers a save dialog."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Link Actions and Safety",
+        "Email and Telephone Links",
+        "Secure Link Attributes"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 3,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 4,
+      "topic_id": 11,
+      "slug": "secure-link-attributes",
+      "title": "Secure Link Attributes (noopener, noreferrer)",
+      "description": "noopener severs window.opener on blank links and noreferrer also removes the Referer request header.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "When an "
+            },
+            {
+              "value": "<a target='_blank'>",
+              "highlight": true
+            },
+            {
+              "value": " link opens a new browsing context, the opened page receives a "
+            },
+            {
+              "value": "window.opener",
+              "highlight": true
+            },
+            {
+              "value": " reference pointing back to the originating page. A malicious site can exploit this to redirect the opener with "
+            },
+            {
+              "value": "window.opener.location = 'https://phishing.example.com'",
+              "highlight": true
+            },
+            {
+              "value": ", an attack known as "
+            },
+            {
+              "value": "tab-napping",
+              "bold": true
+            },
+            {
+              "value": ". Adding "
+            },
+            {
+              "value": "rel='noopener'",
+              "highlight": true
+            },
+            {
+              "value": " sets "
+            },
+            {
+              "value": "window.opener",
+              "highlight": true
+            },
+            {
+              "value": " to "
+            },
+            {
+              "value": "null",
+              "highlight": true
+            },
+            {
+              "value": " in the new context. "
+            },
+            {
+              "value": "rel='noreferrer'",
+              "highlight": true
+            },
+            {
+              "value": " does the same "
+            },
+            {
+              "value": "and",
+              "bold": true
+            },
+            {
+              "value": " suppresses the "
+            },
+            {
+              "value": "Referer",
+              "highlight": true
+            },
+            {
+              "value": " HTTP request header. Modern browsers apply "
+            },
+            {
+              "value": "noopener",
+              "highlight": true
+            },
+            {
+              "value": " automatically for cross-origin "
+            },
+            {
+              "value": "target='_blank'",
+              "highlight": true
+            },
+            {
+              "value": ", but explicit attributes remain required for same-origin blank links and for older browser support. Reference: "
+            },
+            {
+              "value": "MDN: rel=noopener",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/noopener"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "rel value",
+            "Sets opener null",
+            "Suppresses Referer",
+            "Browser support"
+          ],
+          "rows": [
+            [
+              "noopener",
+              "Yes",
+              "No",
+              "All modern browsers"
+            ],
+            [
+              "noreferrer",
+              "Yes (implies noopener)",
+              "Yes",
+              "All modern browsers"
+            ],
+            [
+              "noopener noreferrer",
+              "Yes",
+              "Yes",
+              "Widest compatibility, recommended"
+            ],
+            [
+              "(none, target=_blank)",
+              "No (cross-origin: auto in modern)",
+              "No",
+              "Vulnerable in older browsers"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Tab-napping Demo and Safe External Link Patterns",
+          "description": "This example shows the window.opener vulnerability with a code walkthrough, the correct rel attribute combination for all blank-target link scenarios, how noreferrer affects the Referer header, and a practical component that opens external documentation safely.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Secure Link Attributes</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: .85rem 1rem;\n           font-size: .82rem; overflow-x: auto; line-height: 1.65; }\n    a    { color: #2563eb; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            margin-bottom: .5rem; font-size: .87rem; }\n    .label { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n             letter-spacing: .06em; margin-bottom: .3rem; }\n    .bad .label  { color: #dc2626; }\n    .good .label { color: #16a34a; }\n    .resource-list { list-style: none; padding: 0; margin: 0; }\n    .resource-list li { display: flex; align-items: baseline;\n                        gap: .45rem; padding: .35rem 0;\n                        border-bottom: 1px solid #f1f5f9; }\n    .resource-list a { color: #2563eb; text-decoration: none;\n                       font-size: .9rem; }\n    .resource-list a:hover { text-decoration: underline; }\n    .ext-badge { font-size: .65rem; color: #94a3b8; flex-shrink: 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Secure Link Attributes: noopener and noreferrer</h1>\n\n\n  <!-- TAB-NAPPING VULNERABILITY -->\n  <h2>1. How tab-napping works (without noopener)</h2>\n  <pre><!-- Page A (your site) -->\n&lt;a href=\"https://malicious-site.example.com\" target=\"_blank\"&gt;\n  Read this article\n&lt;/a&gt;\n\n<!-- Malicious site's JavaScript (runs in the new tab) -->\nif (window.opener) {\n  // Redirect the original tab to a phishing page\n  // while the user is reading this new tab\n  window.opener.location = 'https://your-site-phishing-copy.com/login';\n}\n// User switches back to original tab and sees a fake login page\n// They may enter credentials, thinking they were logged out</pre>\n\n\n  <!-- SAFE PATTERN -->\n  <h2>2. The safe pattern</h2>\n  <div class=\"bad\">\n    <p class=\"label\">Unsafe — window.opener accessible</p>\n    <code>&lt;a href=\"https://ext.com\" target=\"_blank\"&gt;Read more&lt;/a&gt;</code>\n  </div>\n\n  <div class=\"good\">\n    <p class=\"label\">Safe — noopener + noreferrer</p>\n    <!--\n      noopener: window.opener = null in the new tab.\n      noreferrer: omits Referer header (also implies noopener).\n      Using both ensures compatibility with browsers that\n      only support one or the other (pre-2021 browsers).\n    -->\n    <code>&lt;a href=\"https://ext.com\" target=\"_blank\"\n   rel=\"noopener noreferrer\"&gt;Read more&lt;/a&gt;</code>\n  </div>\n\n\n  <!-- WHAT noreferrer DOES TO THE REFERER HEADER -->\n  <h2>3. Effect of noreferrer on the HTTP Referer header</h2>\n  <pre><!-- Without noreferrer: request from your page to ext.com includes -->\nGET /article HTTP/1.1\nHost: ext.com\nReferer: https://devdocs.in/html/forms?token=abc123&session=xyz\n\n<!-- With noreferrer: Referer header is omitted entirely -->\nGET /article HTTP/1.1\nHost: ext.com\n<!-- No Referer header: protects URL params and session data --></pre>\n\n  <p>Use <code>noreferrer</code> when your URLs contain session tokens,\n  user IDs, or sensitive query parameters that would be exposed\n  to the destination site via the Referer header.</p>\n\n\n  <!-- WHEN TO USE WHICH VALUE -->\n  <h2>4. Choosing the right rel value</h2>\n  <pre><!-- External link, privacy not critical -->\n&lt;a href=\"https://github.com/user/repo\"\n   target=\"_blank\"\n   rel=\"noopener noreferrer\"&gt;GitHub repo&lt;/a&gt;\n\n<!-- External link where Referer leaks private data -->\n&lt;a href=\"https://forum.example.com\"\n   target=\"_blank\"\n   rel=\"noreferrer\"&gt;Forum discussion&lt;/a&gt;\n\n<!-- Same-origin blank link (noopener still recommended) -->\n&lt;a href=\"/docs/api\"\n   target=\"_blank\"\n   rel=\"noopener\"&gt;Open API docs in new tab&lt;/a&gt;\n\n<!-- SEO: user-generated or paid content -->\n&lt;a href=\"https://sponsor.com\"\n   rel=\"noopener noreferrer sponsored nofollow\"&gt;\n  Sponsored link\n&lt;/a&gt;</pre>\n\n\n  <!-- PRACTICAL COMPONENT: external resource list -->\n  <h2>5. External resource links (all safe)</h2>\n  <ul class=\"resource-list\">\n    <li>\n      <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML\"\n         target=\"_blank\"\n         rel=\"noopener noreferrer\">\n        MDN HTML Reference\n      </a>\n      <span class=\"ext-badge\">[opens new tab]</span>\n    </li>\n    <li>\n      <a href=\"https://html.spec.whatwg.org/\"\n         target=\"_blank\"\n         rel=\"noopener noreferrer\">\n        WHATWG HTML Living Standard\n      </a>\n      <span class=\"ext-badge\">[opens new tab]</span>\n    </li>\n    <li>\n      <a href=\"https://www.w3.org/WAI/WCAG21/quickref/\"\n         target=\"_blank\"\n         rel=\"noopener noreferrer\">\n        WCAG 2.1 Quick Reference\n      </a>\n      <span class=\"ext-badge\">[opens new tab]</span>\n    </li>\n  </ul>\n\n</body>\n</html>",
+          "output": "Page renders five sections. The tab-napping section shows a code walkthrough of how window.opener is exploited in a new tab. The safe pattern section shows red and green code cards for unsafe and safe blank links. The Referer section shows HTTP request headers with and without noreferrer, illustrating how session tokens in query strings are exposed without it. The choosing section shows four code examples for the different link scenarios. The external resource list shows three live external links all using the safe rel combination.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "window.opener",
+              "highlight": true
+            },
+            {
+              "value": " reference is a relic of a web model where related tabs were expected to communicate freely. "
+            },
+            {
+              "value": "rel='noopener'",
+              "highlight": true
+            },
+            {
+              "value": " reflects a modern security principle: browsing contexts should be isolated by default. The new tab gets no reference back to the page that spawned it, just as a new browser window opened by typing a URL directly has no "
+            },
+            {
+              "value": "window.opener",
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "Referer",
+              "highlight": true
+            },
+            {
+              "value": " header (note: misspelled in the HTTP specification, historically) tells the destination server which page the user came from. This is useful for analytics but leaks information when the originating URL contains query parameters like "
+            },
+            {
+              "value": "?user_id=123&token=abc",
+              "highlight": true
+            },
+            {
+              "value": ". "
+            },
+            {
+              "value": "rel='noreferrer'",
+              "highlight": true
+            },
+            {
+              "value": " omits this header entirely. The newer "
+            },
+            {
+              "value": "Referrer-Policy",
+              "highlight": true
+            },
+            {
+              "value": " HTTP response header gives servers finer control over referrer behaviour across all links on a page."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use the "
+            },
+            {
+              "value": "Referrer-Policy",
+              "highlight": true
+            },
+            {
+              "value": " HTTP response header or "
+            },
+            {
+              "value": "<meta name='referrer' content='no-referrer-when-downgrade'>",
+              "highlight": true
+            },
+            {
+              "value": " in "
+            },
+            {
+              "value": "<head>",
+              "highlight": true
+            },
+            {
+              "value": " to apply a referrer policy page-wide instead of repeating "
+            },
+            {
+              "value": "noreferrer",
+              "highlight": true
+            },
+            {
+              "value": " on every individual link. The value "
+            },
+            {
+              "value": "'strict-origin-when-cross-origin'",
+              "highlight": true
+            },
+            {
+              "value": " sends the origin only (no path or query) to cross-origin destinations, which is a good default for most sites."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Link Actions and Safety",
+        "Downloadable File Links",
+        "HTML Anchor and Linking Elements"
+      ],
+      "is_active": true,
+      "order_index": 3,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Link Actions and Safety | mailto, tel, download, noopener Guide",
+    "meta_description": "Master HTML link actions: mailto and tel URL schemes, the download attribute, and rel noopener noreferrer for safe target='_blank' external links.",
+    "keywords": [
+      "HTML mailto link",
+      "HTML tel link phone",
+      "HTML download attribute",
+      "HTML noopener noreferrer",
+      "HTML target blank safe",
+      "HTML tab-napping security",
+      "HTML rel attribute values",
+      "HTML email link subject body",
+      "HTML file download link",
+      "HTML external link security"
+    ],
+    "canonical_url": "/html/html-link-actions-and-safety",
+    "robots": "index, follow"
+  }
+}

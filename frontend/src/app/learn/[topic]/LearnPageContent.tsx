@@ -502,8 +502,6 @@ export default function LearnPageContent({ topic }: { topic: string }) {
           )}
         >
           
-          {/* BACKGROUND PATTERN */}
-          <div className="fixed inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
 
           {/* STICKY HEADER */}
           <div className="sticky top-0 z-30 w-full bg-slate-50/95 dark:bg-[#0B0C10]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 md:px-6 py-3 flex items-center gap-4 shadow-sm">
@@ -518,11 +516,11 @@ export default function LearnPageContent({ topic }: { topic: string }) {
              </nav>
           </div>
 
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 md:py-12 space-y-12 md:space-y-16 relative z-10 flex-1">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 md:py-12 space-y-10 md:space-y-16 relative z-10 flex-1">
             
             {/* 1. IMAGE BANNER */}
             {currentLessonImageUrl && (
-              <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/50 mb-12">
+              <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="rounded-xl overflow-hidden mb-8 md:mb-12 border border-slate-200 dark:border-slate-800">
                 <img 
                   src={currentLessonImageUrl}
                   alt={currentLesson.title} 
@@ -536,25 +534,25 @@ export default function LearnPageContent({ topic }: { topic: string }) {
             {/* 2. TITLE & DESCRIPTION */}
             <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="space-y-6">
               <div className="space-y-4">
-                <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
                   {currentLesson.title}
                 </h1>
-                <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-none md:pr-12">
+                <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-none">
                   {currentLesson.description}
                 </p>
               </div>
             </motion.div>
-            <div className="flex flex-col gap-6">
+            
+            <div className="flex flex-col gap-8">
               {currentLesson.problem?.length > 0 && (
-                <div className="p-5 md:p-6 rounded-2xl bg-orange-50 dark:bg-orange-500/5 border border-orange-100 dark:border-orange-500/10 shadow-sm">
-                  <div className="flex items-center gap-2 mb-3 text-orange-600 dark:text-orange-400 font-bold uppercase text-xs tracking-wider">
-                    <AlertTriangle className="w-4 h-4" /> The Problem
+                <div className="border-l-4 border-orange-500 pl-5 py-2">
+                  <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                    <AlertTriangle className="w-4 h-4 text-orange-500" /> The Problem
                   </div>
                   <ul className="space-y-3">
                     {currentLesson.problem.map((prob: any, i: number) => (
-                      <li key={i} className="flex gap-3 text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-2 shrink-0" />
-                        <div className="flex-1"><RenderBlocks blocks={[prob]} /></div>
+                      <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                        <RenderBlocks blocks={[prob]} />
                       </li>
                     ))}
                   </ul>
@@ -562,15 +560,14 @@ export default function LearnPageContent({ topic }: { topic: string }) {
               )}
               
               {currentLesson.mentalModel?.length > 0 && (
-                <div className="p-5 md:p-6 rounded-2xl bg-indigo-50 dark:bg-indigo-500/5 border border-indigo-100 dark:border-indigo-500/10 shadow-sm">
-                  <div className="flex items-center gap-2 mb-3 text-indigo-600 dark:text-indigo-400 font-bold uppercase text-xs tracking-wider">
-                    <BrainCircuit className="w-4 h-4" /> Mental Model
+                <div className="border-l-4 border-indigo-500 pl-5 py-2">
+                  <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                    <BrainCircuit className="w-4 h-4 text-indigo-500" /> Mental Model
                   </div>
                   <ul className="space-y-3">
                     {currentLesson.mentalModel.map((model: any, i: number) => (
-                      <li key={i} className="flex gap-3 text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 shrink-0" />
-                        <div className="flex-1"><RenderBlocks blocks={[model]} /></div>
+                      <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                        <RenderBlocks blocks={[model]} />
                       </li>
                     ))}
                   </ul>
@@ -581,7 +578,7 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
             {/* 5. VIDEO */}
             {currentLessonVideoUrl && (
-              <motion.div variants={fadeInUp} className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/50 bg-black aspect-video relative group">
+              <motion.div variants={fadeInUp} className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-black aspect-video relative">
                 <iframe 
                   src={currentLessonVideoUrl}
                   className="w-full h-full" 
@@ -596,15 +593,15 @@ export default function LearnPageContent({ topic }: { topic: string }) {
             {/* 6. EXAMPLES / SYNTAX & CODE PLAYGROUND */}
             <motion.div variants={fadeInUp} className="space-y-4">
                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <h3 className="text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
-                    <Terminal className="w-6 h-6 text-primary" /> Interactive Playground
+                  <h3 className="text-xl md:text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+                    <Terminal className="w-5 h-5 text-primary" /> Interactive Playground
                   </h3>
-                  <Badge variant="outline" className="font-mono text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 w-fit">
+                  <Badge variant="secondary" className="font-mono text-xs w-fit">
                     syntax: {currentLesson.syntax}
                   </Badge>
                </div>
                
-               <div className="grid grid-cols-1 xl:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-black/50 bg-[#1e1e2e]">
+               <div className="grid grid-cols-1 xl:grid-cols-2 gap-0 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-[#1e1e2e]">
                   {/* Editor */}
                   <div className="flex flex-col h-[350px] md:h-[500px] border-b xl:border-b-0 xl:border-r border-white/5 relative group">
                     <div className="flex items-center justify-between px-4 py-2 bg-[#2a2a3c] border-b border-black/20">
@@ -662,16 +659,21 @@ export default function LearnPageContent({ topic }: { topic: string }) {
             </motion.div>
 
             {/* 11. SUBTOPICS */}
-            <div className="space-y-16 mt-8">
+            <div className="space-y-16 mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">
                {currentLesson.subtopics?.map((sub: any, idx: number) => (
-                 <motion.div key={idx} id={`subtopic-${sub.id}`} variants={fadeInUp} className="relative pl-6 md:pl-8 border-l-2 border-slate-200 dark:border-slate-800 space-y-8">
-                    <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-white dark:bg-slate-900 border-4 border-indigo-100 dark:border-indigo-900" >
-                        <span className="absolute inset-0 m-auto w-1.5 h-1.5 rounded-full bg-primary" />
-                    </span>
+                 <motion.div key={idx} id={`subtopic-${sub.id}`} variants={fadeInUp} className="space-y-8">
 
-                    {/* 1. IMAGE BANNER */}
+                    {/* 1. TITLE & DESCRIPTION */}
+                    <div>
+                      <h2 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900 dark:text-white tracking-tight">{sub.title}</h2>
+                      <div className="text-base md:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-none">
+                        <RenderBlocks blocks={[{ type: 'paragraph', text: [{ value: sub.content }] }]} />
+                      </div>
+                    </div>
+
+                    {/* 2. IMAGE BANNER */}
                     {toSafeAssetUrl(sub.imageUrl) && (
-                      <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/50">
+                      <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
                         <img 
                           src={toSafeAssetUrl(sub.imageUrl)}
                           alt={sub.title} 
@@ -681,41 +683,33 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                         />
                       </div>
                     )}
-                    
-                    {/* 2. TITLE & DESCRIPTION */}
-                    <div>
-                      <h3 className="text-xl md:text-2xl font-bold mb-3 text-slate-900 dark:text-white">{sub.title}</h3>
-                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{sub.content}</p>
-                    </div>
 
                     {/* 3 & 4. PROBLEMS & MENTAL MODELS */}
                     {(sub.problems?.length > 0 || sub.mentalModel?.length > 0) && (
-                      <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-8 my-8">
                         {sub.problems?.length > 0 && (
-                          <div className="p-4 md:p-5 rounded-2xl bg-orange-50 dark:bg-orange-500/5 border border-orange-100 dark:border-orange-500/10 shadow-sm transition-all hover:shadow-md">
-                            <div className="flex items-center gap-2 mb-2 text-orange-600 dark:text-orange-400 font-bold uppercase text-xs tracking-wider">
-                              <AlertTriangle className="w-4 h-4" /> The Problem
+                          <div className="border-l-4 border-orange-500 pl-5 py-2">
+                            <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                              <AlertTriangle className="w-4 h-4 text-orange-500" /> The Problem
                             </div>
                             <ul className="space-y-3">
                               {sub.problems.map((prob: any, i: number) => (
-                                <li key={i} className="flex gap-3 text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5 shrink-0" />
-                                  <div className="flex-1 text-slate-700 dark:text-slate-300"><RenderBlocks blocks={[prob]} /></div>
+                                <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                                  <RenderBlocks blocks={[prob]} />
                                 </li>
                               ))}
                             </ul>
                           </div>
                         )}
                         {sub.mentalModel?.length > 0 && (
-                          <div className="p-4 md:p-5 rounded-2xl bg-indigo-50 dark:bg-indigo-500/5 border border-indigo-100 dark:border-indigo-500/10 shadow-sm transition-all hover:shadow-md">
-                            <div className="flex items-center gap-2 mb-2 text-indigo-600 dark:text-indigo-400 font-bold uppercase text-xs tracking-wider">
-                              <BrainCircuit className="w-4 h-4" /> Mental Model
+                          <div className="border-l-4 border-indigo-500 pl-5 py-2">
+                            <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                              <BrainCircuit className="w-4 h-4 text-indigo-500" /> Mental Model
                             </div>
                             <ul className="space-y-3">
                               {sub.mentalModel.map((model: any, i: number) => (
-                                <li key={i} className="flex gap-3 text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
-                                  <div className="flex-1 text-slate-700 dark:text-slate-300"><RenderBlocks blocks={[model]} /></div>
+                                <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                                  <RenderBlocks blocks={[model]} />
                                 </li>
                               ))}
                             </ul>
@@ -726,7 +720,7 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
                     {/* 5. VIDEO */}
                     {getYouTubeEmbedUrl(sub.videoUrl) && (
-                      <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/50 bg-black aspect-video relative">
+                      <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-black aspect-video relative my-8">
                         <iframe 
                           src={getYouTubeEmbedUrl(sub.videoUrl)}
                           className="w-full h-full" 
@@ -740,11 +734,11 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
                     {/* 6. EXAMPLES (CODE) */}
                     {sub.example && (
-                      <div className="rounded-xl overflow-hidden border border-slate-800 shadow-inner mt-4 text-xs md:text-sm">
+                      <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#000000] text-sm md:text-base my-8">
                         <SyntaxHighlighter
                           language={urlTopic}
                           style={vscDarkPlus}
-                          customStyle={{ margin: 0, padding: '1.25rem', backgroundColor: '#000000' }}
+                          customStyle={{ margin: 0, padding: '1.5rem', backgroundColor: '#000000' }}
                           wrapLines={true}
                           wrapLongLines={true}
                         >
@@ -755,15 +749,14 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
                     {/* 7. COMMON MISTAKES */}
                     {sub.commonMistakes?.length > 0 && (
-                      <div className="p-4 md:p-5 rounded-xl border border-rose-100 dark:border-rose-900/30 bg-rose-50/50 dark:bg-rose-900/5 transition-all hover:shadow-sm">
-                        <h4 className="font-bold text-rose-700 dark:text-rose-400 mb-3 flex items-center gap-2 text-sm uppercase tracking-wider">
-                          <XCircle className="w-4 h-4" /> Common Mistakes
-                        </h4>
-                        <ul className="space-y-2">
+                      <div className="border-l-4 border-rose-500 pl-5 py-2 my-8">
+                        <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                          <XCircle className="w-4 h-4 text-rose-500" /> Common Mistakes
+                        </div>
+                        <ul className="space-y-3">
                           {sub.commonMistakes.map((mistake: any, i: number) => (
-                            <li key={i} className="flex gap-2 text-sm text-rose-900 dark:text-rose-200/80">
-                               <CornerDownRight className="w-3 h-3 shrink-0 opacity-50 mt-1" />
-                               <div className="flex-1"><RenderBlocks blocks={[mistake]} /></div>
+                            <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                               <RenderBlocks blocks={[mistake]} />
                             </li>
                           ))}
                         </ul>
@@ -772,16 +765,16 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
                     {/* 8 & 9. WHEN TO USE / NOT TO USE */}
                     {(sub.whenToUse?.length > 0 || sub.whenNotToUse?.length > 0) && (
-                      <div className="flex flex-col md:flex-row gap-6">
+                      <div className="flex flex-col md:flex-row gap-8 my-8">
                         {sub.whenToUse?.length > 0 && (
-                          <div className="flex-1 transition-all hover:translate-y-[-2px]">
-                            <h4 className="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white mb-3">
-                              <CheckCircle className="w-4 h-4 text-emerald-500" /> When to use
+                          <div className="flex-1">
+                            <h4 className="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white mb-4">
+                              <CheckCircle className="w-5 h-5 text-emerald-500" /> When to use
                             </h4>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                               {sub.whenToUse.map((item: any, i: number) => (
-                                <li key={i} className="flex gap-2 text-slate-600 dark:text-slate-400 p-2 text-sm">
-                                  <span className="w-1 h-1 rounded-full bg-emerald-500 mt-2 shrink-0" />
+                                <li key={i} className="flex gap-3 text-slate-600 dark:text-slate-400 text-sm md:text-base">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
                                   <div className="flex-1"><RenderBlocks blocks={[item]} /></div>
                                 </li>
                               ))}
@@ -789,14 +782,14 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                           </div>
                         )}
                         {sub.whenNotToUse?.length > 0 && (
-                          <div className="flex-1 transition-all hover:translate-y-[-2px]">
-                            <h4 className="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white mb-3">
-                              <XCircle className="w-4 h-4 text-rose-500" /> When NOT to use
+                          <div className="flex-1">
+                            <h4 className="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-white mb-4">
+                              <XCircle className="w-5 h-5 text-rose-500" /> When NOT to use
                             </h4>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                               {sub.whenNotToUse.map((item: any, i: number) => (
-                                <li key={i} className="flex gap-2 text-slate-600 dark:text-slate-400 p-2 text-sm">
-                                  <span className="w-1 h-1 rounded-full bg-rose-500 mt-2 shrink-0" />
+                                <li key={i} className="flex gap-3 text-slate-600 dark:text-slate-400 text-sm md:text-base">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-2 shrink-0" />
                                   <div className="flex-1"><RenderBlocks blocks={[item]} /></div>
                                 </li>
                               ))}
@@ -808,16 +801,14 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
                     {/* 10. BONUS TIPS */}
                     {sub.tip?.length > 0 && (
-                      <div className="flex flex-col gap-3 p-4 md:p-5 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 text-blue-900 dark:text-blue-100 text-sm transition-all hover:shadow-sm">
-                         <div className="flex items-center gap-2">
-                           <Zap className="w-5 h-5 shrink-0 text-blue-500" />
-                           <strong className="font-semibold text-blue-700 dark:text-blue-300">Pro Tips</strong>
+                      <div className="border-l-4 border-blue-500 pl-5 py-2 my-8">
+                         <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                           <Zap className="w-4 h-4 text-blue-500" /> Pro Tips
                          </div>
-                         <ul className="space-y-2 pl-7">
+                         <ul className="space-y-3">
                            {sub.tip.map((t: any, i: number) => (
-                             <li key={i} className="flex gap-2">
-                               <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
-                               <div className="flex-1"><RenderBlocks blocks={[t]} /></div>
+                             <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                               <RenderBlocks blocks={[t]} />
                              </li>
                            ))}
                          </ul>
@@ -827,17 +818,18 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                ))}
             </div>
 
+            {/* MAIN LESSON SHARED BLOCKS */}
+            
             {/* 7. COMMON MISTAKES */}
             {currentLesson.commonMistakes?.length > 0 && (
-              <motion.div variants={fadeInUp} className="p-6 rounded-2xl border border-rose-100 dark:border-rose-900/30 bg-rose-50/50 dark:bg-rose-900/5">
-                <h3 className="font-bold text-rose-700 dark:text-rose-400 mb-4 flex items-center gap-2 text-lg">
-                  <XCircle className="w-5 h-5" /> Common Mistakes
-                </h3>
+              <motion.div variants={fadeInUp} className="border-l-4 border-rose-500 pl-5 py-2 mt-8">
+                <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                  <XCircle className="w-4 h-4 text-rose-500" /> Common Mistakes
+                </div>
                 <ul className="space-y-3">
                   {currentLesson.commonMistakes.map((mistake: any, i: number) => (
-                    <li key={i} className="flex gap-3 text-sm md:text-base text-rose-900 dark:text-rose-200/80">
-                      <CornerDownRight className="w-4 h-4 shrink-0 opacity-50 mt-1" /> 
-                      <div className="flex-1"><RenderBlocks blocks={[mistake]} /></div>
+                    <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                      <RenderBlocks blocks={[mistake]} />
                     </li>
                   ))}
                 </ul>
@@ -846,7 +838,7 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
             {/* 8 & 9. USE CASES - Full width */}
             {(currentLesson.whenToUse?.length > 0 || currentLesson.whenNotToUse?.length > 0) && (
-              <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8">
+              <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-8 mt-8">
                 {currentLesson.whenToUse?.length > 0 && (
                   <div className="flex-1">
                     <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white mb-4">
@@ -854,7 +846,7 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                     </h3>
                     <ul className="space-y-3">
                       {currentLesson.whenToUse.map((item: any, i: number) => (
-                        <li key={i} className="flex gap-3 text-slate-600 dark:text-slate-400 p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-500/5 border border-emerald-100 dark:border-emerald-500/10 text-sm md:text-base">
+                        <li key={i} className="flex gap-3 text-slate-600 dark:text-slate-400 text-sm md:text-base">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
                           <div className="flex-1"><RenderBlocks blocks={[item]} /></div>
                         </li>
@@ -869,7 +861,7 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                     </h3>
                     <ul className="space-y-3">
                       {currentLesson.whenNotToUse.map((item: any, i: number) => (
-                        <li key={i} className="flex gap-3 text-slate-600 dark:text-slate-400 p-3 rounded-lg bg-rose-50/50 dark:bg-rose-500/5 border border-rose-100 dark:border-rose-500/10 text-sm md:text-base">
+                        <li key={i} className="flex gap-3 text-slate-600 dark:text-slate-400 text-sm md:text-base">
                           <span className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-2 shrink-0" />
                           <div className="flex-1"><RenderBlocks blocks={[item]} /></div>
                         </li>
@@ -882,16 +874,14 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
             {/* 10. BONUS TIPS */}
             {currentLesson.bonusTip?.length > 0 && (
-              <motion.div variants={fadeInUp} className="flex flex-col gap-4 p-6 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 text-blue-900 dark:text-blue-100">
-                <div className="flex items-center gap-3">
-                  <Zap className="w-6 h-6 shrink-0 text-blue-500" />
-                  <strong className="text-lg font-bold text-blue-700 dark:text-blue-300">Pro Tips</strong>
+              <motion.div variants={fadeInUp} className="border-l-4 border-blue-500 pl-5 py-2 mt-8">
+                <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
+                  <Zap className="w-4 h-4 text-blue-500" /> Pro Tips
                 </div>
-                <ul className="space-y-3 pl-9">
+                <ul className="space-y-3">
                   {currentLesson.bonusTip.map((t: any, i: number) => (
-                    <li key={i} className="flex gap-3 text-sm md:text-base">
-                      <span className="w-2 h-2 rounded-full bg-blue-400 mt-2.5 shrink-0" />
-                      <div className="flex-1"><RenderBlocks blocks={[t]} /></div>
+                    <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                      <RenderBlocks blocks={[t]} />
                     </li>
                   ))}
                 </ul>
