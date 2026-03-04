@@ -199,7 +199,8 @@
           {
             "value": " parameters for support and enquiry links to save users the effort of composing a new email from scratch."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -213,7 +214,8 @@
           {
             "value": " attribute with a descriptive filename value for all file links so users receive a clearly named file rather than a URL-derived name."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -241,7 +243,8 @@
           {
             "value": " reference and prevent tab-napping."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "when_to_avoid": [
@@ -271,7 +274,8 @@
           {
             "value": ", exposing users to phishing via tab-napping."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -285,7 +289,8 @@
           {
             "value": " attribute on cross-origin URLs; browsers treat cross-origin download links as navigation and ignore the attribute entirely."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -299,7 +304,8 @@
           {
             "value": " links without international country codes; local-format numbers fail on devices with a different country setting."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "what_it_solves": [
@@ -322,7 +328,8 @@
           {
             "value": ") give mobile users one-tap access to communication actions without requiring a separate contact form or app."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -336,7 +343,8 @@
           {
             "value": " attribute gives developers control over how the browser handles file links, preventing unwanted in-browser navigation to PDFs and other viewable files."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -357,7 +365,8 @@
           {
             "value": " vulnerability where a newly opened tab can silently redirect its opener to a malicious URL."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "conceptual_understanding": [
@@ -408,7 +417,8 @@
           {
             "value": " embeds the content inline. The browser delegates to the operating system for any scheme it does not handle natively."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -450,7 +460,8 @@
           {
             "value": " nullifies this reference at the moment the new context is created."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -485,7 +496,8 @@
           {
             "value": " is appropriate for links to external sites where revealing the originating URL would expose internal URLs or user session tokens in query strings."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "common_mistakes": [
@@ -508,7 +520,8 @@
           {
             "value": " lets the opened page redirect the original tab."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -522,7 +535,8 @@
           {
             "value": " links causes them to fail on devices in different regions."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -536,7 +550,8 @@
           {
             "value": " query values creates malformed links that open an empty email draft."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "bonus_tips": [
@@ -559,7 +574,8 @@
           {
             "value": ". Without it, screen readers read only the visible link text, giving no indication that the link triggers a download rather than navigation."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -587,7 +603,8 @@
           {
             "value": " targets touch-primary devices and can be used to show or hide the telephone link without any JavaScript."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "related_topics": [
@@ -778,9 +795,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -801,7 +818,8 @@
             {
               "value": " URI to the operating system, which passes it to the registered email application. The pre-filled subject and body are suggestions, not guarantees: users can edit or clear them before sending. Each email client parses the URI slightly differently, so complex body formatting with special characters should be tested across Mail, Outlook, and Gmail."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -815,10 +833,11 @@
             {
               "value": " scheme was designed for PSTN phone numbers but modern devices route it to whatever app is registered for calling: Phone, FaceTime, Google Voice, WhatsApp, or Skype. On desktop it typically opens the last-registered VOIP app, which may surprise users expecting a phone call. Showing the number in visible text alongside the link gives users enough context to decide whether to click."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -853,7 +872,8 @@
             {
               "value": " automatically, handling all special characters including ampersands, quotes, and newlines that are easy to miss when encoding by hand."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
@@ -982,9 +1002,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -1026,7 +1046,8 @@
             {
               "value": " response header, which works regardless of origin."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -1061,10 +1082,11 @@
             {
               "value": " call is essential: without it the blob object stays in memory for the lifetime of the page."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -1085,7 +1107,8 @@
             {
               "value": ". Screen readers announce this before the user activates the link, so they can decide whether to wait for a large download. Without it, screen reader users hear only the visible link text with no indication that the link triggers a save dialog."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
@@ -1256,9 +1279,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -1286,7 +1309,8 @@
             {
               "value": "."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -1321,10 +1345,11 @@
             {
               "value": " HTTP response header gives servers finer control over referrer behaviour across all links on a page."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -1366,7 +1391,8 @@
             {
               "value": " sends the origin only (no path or query) to cross-origin destinations, which is a good default for most sites."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [

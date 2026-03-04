@@ -1,0 +1,1304 @@
+{
+  "topic": {
+    "id": 19,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 6,
+    "slug": "html-table-accessibility-and-best-practices",
+    "title": "HTML Table Accessibility and Best Practices",
+    "description": "Accessible tables use caption, scope, and headers attributes so screen readers can announce cell context correctly.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Making HTML Tables Accessible and Purposeful"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "A table that looks correct visually can still be completely unusable for screen reader users if it lacks the right semantic attributes. The three most critical accessibility mechanisms for tables are: the "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " element, which gives the table a title announced before navigation begins; the "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " cells, which declares whether a header applies to a column, row, or group; and the "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#headers"
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " cells, which explicitly associates a data cell with one or more header cells by ID for complex tables where "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " alone is insufficient. Together these attributes satisfy "
+          },
+          {
+            "value": "WCAG 1.3.1 Info and Relationships",
+            "bold": true,
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "WCAG 1.3.2 Meaningful Sequence",
+            "bold": true,
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Technique",
+          "Element or Attribute",
+          "When Required"
+        ],
+        "rows": [
+          [
+            "Table title",
+            "<caption>",
+            "On every data table without exception"
+          ],
+          [
+            "Column header association",
+            "scope=\"col\" on <th>",
+            "On all column header cells"
+          ],
+          [
+            "Row header association",
+            "scope=\"row\" on <th>",
+            "On all row header cells"
+          ],
+          [
+            "Grouped column headers",
+            "scope=\"colgroup\" on <th>",
+            "When a header spans multiple columns via colspan"
+          ],
+          [
+            "Grouped row headers",
+            "scope=\"rowgroup\" on <th>",
+            "When a header spans multiple rows via rowspan"
+          ],
+          [
+            "Complex cell association",
+            "headers=\"id1 id2\" on <td>",
+            "When a cell has more than one applicable header"
+          ],
+          [
+            "Supplementary description",
+            "aria-describedby on <table>",
+            "When a table needs more context than caption provides"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "scope Covers Most Tables, headers for Complex Ones",
+        "text": "For simple and moderately complex tables, scope on th cells is sufficient and preferred. Reserve the headers attribute for irregular tables with multiple header levels or cells associated with more than two headers, as excessive use adds verbosity without benefit."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Simple Table with scope and caption",
+        "description": "A fully accessible simple data table demonstrating the minimum required accessibility attributes: caption, scope on all th cells, and th elements used for both column and row headers.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Accessible Simple Table</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; }\n      table { border-collapse: collapse; width: 100%; max-width: 620px; }\n      caption {\n        font-size: 1.05rem;\n        font-weight: 700;\n        text-align: left;\n        margin-bottom: 0.6rem;\n        color: #1a1a2e;\n      }\n      th, td { border: 1px solid #ddd; padding: 0.65rem 1rem; text-align: left; }\n      thead th { background: #1a1a2e; color: white; }\n      tbody th { background: #f5f5f5; }\n      tbody tr:nth-child(even) td { background: #fafafa; }\n    </style>\n  </head>\n  <body>\n    <table>\n      <!-- caption: must be first child of table -->\n      <!-- Screen readers announce this before the user enters the table -->\n      <caption>Server Response Time by Region (ms) — March 2024</caption>\n      <thead>\n        <tr>\n          <!-- scope=\"col\": each th labels its entire column -->\n          <th scope=\"col\">Region</th>\n          <th scope=\"col\">Average</th>\n          <th scope=\"col\">P95</th>\n          <th scope=\"col\">P99</th>\n          <th scope=\"col\">Status</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <!-- scope=\"row\": this th labels its entire row -->\n          <th scope=\"row\">North America</th>\n          <td>42 ms</td><td>98 ms</td><td>210 ms</td><td>Healthy</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Europe</th>\n          <td>61 ms</td><td>130 ms</td><td>290 ms</td><td>Healthy</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Asia Pacific</th>\n          <td>89 ms</td><td>195 ms</td><td>420 ms</td><td>Degraded</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">South America</th>\n          <td>105 ms</td><td>240 ms</td><td>510 ms</td><td>Degraded</td>\n        </tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+        "output": "The table renders with a bold title above it, a dark header row, and four data rows with alternating backgrounds. When a screen reader user navigates to '89 ms' in the Asia Pacific row, the reader announces 'Average, Asia Pacific, 89 ms', combining the column header, row header, and cell value.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Complex Table Using the headers Attribute",
+        "description": "A multi-level table where each data cell is associated with two header levels using the headers attribute and explicit id values, the correct pattern when scope alone cannot resolve the header chain.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Complex Table with headers Attribute</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; }\n      table { border-collapse: collapse; max-width: 680px; width: 100%; }\n      caption { font-weight: 700; text-align: left; margin-bottom: 0.5rem; }\n      th, td { border: 1px solid #ccc; padding: 0.6rem 1rem; text-align: right; }\n      th { text-align: left; }\n      .tier-header { background: #1a1a2e; color: white; }\n      .sub-header { background: #2c3e6e; color: white; }\n      .row-head { background: #f5f5f5; }\n    </style>\n  </head>\n  <body>\n    <table>\n      <caption>Cloud Infrastructure Costs by Tier and Service</caption>\n      <thead>\n        <tr>\n          <th id=\"service\" rowspan=\"2\" class=\"tier-header\">Service</th>\n          <th id=\"basic\" colspan=\"2\" class=\"tier-header\">Basic Tier</th>\n          <th id=\"pro\" colspan=\"2\" class=\"tier-header\">Pro Tier</th>\n        </tr>\n        <tr>\n          <th id=\"basic-monthly\" class=\"sub-header\">Monthly</th>\n          <th id=\"basic-annual\" class=\"sub-header\">Annual</th>\n          <th id=\"pro-monthly\" class=\"sub-header\">Monthly</th>\n          <th id=\"pro-annual\" class=\"sub-header\">Annual</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th id=\"compute\" class=\"row-head\">Compute</th>\n          <!-- headers chains: tier + sub-header + row header -->\n          <td headers=\"basic basic-monthly compute\">$29</td>\n          <td headers=\"basic basic-annual compute\">$290</td>\n          <td headers=\"pro pro-monthly compute\">$79</td>\n          <td headers=\"pro pro-annual compute\">$790</td>\n        </tr>\n        <tr>\n          <th id=\"storage\" class=\"row-head\">Storage</th>\n          <td headers=\"basic basic-monthly storage\">$9</td>\n          <td headers=\"basic basic-annual storage\">$90</td>\n          <td headers=\"pro pro-monthly storage\">$24</td>\n          <td headers=\"pro pro-annual storage\">$240</td>\n        </tr>\n        <tr>\n          <th id=\"bandwidth\" class=\"row-head\">Bandwidth</th>\n          <td headers=\"basic basic-monthly bandwidth\">$5</td>\n          <td headers=\"basic basic-annual bandwidth\">$50</td>\n          <td headers=\"pro pro-monthly bandwidth\">$15</td>\n          <td headers=\"pro pro-annual bandwidth\">$150</td>\n        </tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+        "output": "The table shows a two-row header: 'Service' spanning both rows, 'Basic Tier' and 'Pro Tier' each spanning two columns. Three data rows follow for Compute, Storage, and Bandwidth. When a screen reader navigates to '$790', it announces the full header chain: 'Pro Tier, Annual, Compute, $790'.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "WRONG vs RIGHT: Inaccessible vs Accessible Table Patterns",
+        "description": "Side-by-side comparison of three common accessibility failures and their correct counterparts, covering missing caption, td used as row header, and th without scope.",
+        "code_snippet": "<!-- WRONG 1: no caption -->\n<table>\n  <tr><th>Name</th><th>Score</th></tr>\n  <tr><td>Alice</td><td>98</td></tr>\n</table>\n\n<!-- RIGHT 1: caption identifies the table before navigation -->\n<table>\n  <caption>Quiz Results — Round 3</caption>\n  <thead><tr><th scope=\"col\">Name</th><th scope=\"col\">Score</th></tr></thead>\n  <tbody><tr><th scope=\"row\">Alice</th><td>98</td></tr></tbody>\n</table>\n\n\n<!-- WRONG 2: td used as row header -->\n<!-- Screen reader reads \"Rent\" as plain data, not as a row label -->\n<table>\n  <caption>Monthly Expenses</caption>\n  <thead><tr><th scope=\"col\">Category</th><th scope=\"col\">Amount</th></tr></thead>\n  <tbody>\n    <tr><td>Rent</td><td>$1,200</td></tr>\n  </tbody>\n</table>\n\n<!-- RIGHT 2: th scope=\"row\" makes category a true row header -->\n<table>\n  <caption>Monthly Expenses</caption>\n  <thead><tr><th scope=\"col\">Category</th><th scope=\"col\">Amount</th></tr></thead>\n  <tbody>\n    <tr><th scope=\"row\">Rent</th><td>$1,200</td></tr>\n  </tbody>\n</table>\n\n\n<!-- WRONG 3: th without scope on a two-axis table -->\n<table>\n  <caption>Sales Data</caption>\n  <tr><th>Region</th><th>Q1</th><th>Q2</th></tr>\n  <tr><th>North</th><td>$40k</td><td>$45k</td></tr>\n</table>\n\n<!-- RIGHT 3: explicit scope removes all ambiguity -->\n<table>\n  <caption>Sales Data</caption>\n  <thead><tr><th scope=\"col\">Region</th><th scope=\"col\">Q1</th><th scope=\"col\">Q2</th></tr></thead>\n  <tbody><tr><th scope=\"row\">North</th><td>$40k</td><td>$45k</td></tr></tbody>\n</table>",
+        "output": "All WRONG versions render identically to their RIGHT counterparts. The differences are entirely in screen reader announcements. WRONG 1 presents a nameless table. WRONG 2 reads 'Rent' as a plain value with no row context. WRONG 3 lets the reader guess scope and frequently gets it wrong. All RIGHT versions announce full header context for every cell.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Always add "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " to every data table so screen reader users hear a meaningful title before they begin navigating rows and columns, satisfying "
+          },
+          {
+            "value": "WCAG 1.3.1",
+            "bold": true,
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#headers"
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " cells when a table has multiple header levels and "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " alone cannot unambiguously associate each data cell with all of its applicable headers."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "aria-describedby",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby"
+          },
+          {
+            "value": " on the "
+          },
+          {
+            "value": "<table>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+          },
+          {
+            "value": " element pointing to a nearby paragraph when the table needs additional context beyond what "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " alone can provide."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " for cells that function as row or column headers. Always use "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " with the appropriate "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " so screen readers can correctly associate that header with its data cells."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid overusing the "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#headers"
+          },
+          {
+            "value": " attribute on simple tables where "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " is sufficient. Redundant "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " declarations make markup harder to maintain and add unnecessary verbosity to screen reader announcements."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid hiding the "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "display: none",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/display"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "visibility: hidden",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/visibility"
+          },
+          {
+            "value": ". If you want a visually hidden but screen-reader-visible caption, use a "
+          },
+          {
+            "value": "visually-hidden",
+            "bold": true
+          },
+          {
+            "value": " CSS utility class instead."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": ", screen reader users enter a table with no context about its purpose and must navigate several cells before they can infer what data it represents."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without the "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " cells, screen readers must algorithmically guess header direction, and in two-axis tables with both column and row headers they frequently guess incorrectly."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without the "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#headers"
+          },
+          {
+            "value": " attribute in complex multi-level tables, data cells deep in a merged header structure have no machine-readable path back to all of their applicable header labels."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Think of "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " as the sign above a shelf in a library. Before you read the book spines, the sign tells you 'this shelf contains Science Fiction'. Without it, you must pull out several books just to understand what section you are in."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " attribute is like a compass direction stamped on each signpost. "
+          },
+          {
+            "value": "scope=\"col\"",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " means 'this label points downward over everything below me'. "
+          },
+          {
+            "value": "scope=\"row\"",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " means 'this label points to the right over everything beside me'. Without the direction, a screen reader cannot know which axis the header controls."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#headers"
+          },
+          {
+            "value": " attribute is like a GPS coordinate. Instead of relying on relative direction to find a label, each "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " carries an explicit list of "
+          },
+          {
+            "value": "id",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id"
+          },
+          {
+            "value": " values pointing to every header that describes it. No matter how complex the table, the screen reader resolves the full label chain for any cell."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Hiding "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "display: none",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/display"
+          },
+          {
+            "value": ": removes the caption from the accessibility tree, defeating its only purpose for screen reader users."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Using "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " for row headers instead of "
+          },
+          {
+            "value": "<th scope=\"row\">",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": ": the cell is read as plain data, stripping row context from every cell in that row."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Mismatched "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#headers"
+          },
+          {
+            "value": " IDs: referencing an "
+          },
+          {
+            "value": "id",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id"
+          },
+          {
+            "value": " that does not exist causes screen readers to silently drop that header, producing incomplete cell context."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "To visually hide a "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " while keeping it readable by screen readers, apply the standard visually-hidden CSS pattern: "
+          },
+          {
+            "value": "position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " Never use "
+          },
+          {
+            "value": "display: none",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/display"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "visibility: hidden",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/visibility"
+          },
+          {
+            "value": " as both remove the element from the accessibility tree entirely."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Test every table with "
+          },
+          {
+            "value": "NVDA",
+            "bold": true
+          },
+          {
+            "value": " on Windows or "
+          },
+          {
+            "value": "VoiceOver",
+            "bold": true
+          },
+          {
+            "value": " on macOS by pressing "
+          },
+          {
+            "value": "Control + Option + Right Arrow",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " in VoiceOver table mode to move cell by cell. If any announcement is missing a header label, add or correct the "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "headers",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#headers"
+          },
+          {
+            "value": " attribute on that cell."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Table Structure and Spans",
+      "HTML Accessibility Basics",
+      "ARIA Roles and Attributes",
+      "WCAG Accessibility Guidelines",
+      "HTML Semantic Elements"
+    ],
+    "is_active": true,
+    "order_index": 19,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 6,
+      "topic_id": 19,
+      "slug": "accessible-table-markup",
+      "title": "Accessible Table Markup (scope, caption)",
+      "description": "The scope attribute and caption element are the two core tools for making HTML tables accessible to screen readers.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "scope",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+            },
+            {
+              "value": " attribute accepts four values: "
+            },
+            {
+              "value": "col",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "row",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "colgroup",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "rowgroup",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ". It must be placed on "
+            },
+            {
+              "value": "<th>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+            },
+            {
+              "value": " elements, not "
+            },
+            {
+              "value": "<td>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+            },
+            {
+              "value": " elements. The "
+            },
+            {
+              "value": "<caption>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+            },
+            {
+              "value": " element must be the very first child of "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": " and is rendered above the table by default. Alternatively, "
+            },
+            {
+              "value": "aria-labelledby",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby"
+            },
+            {
+              "value": " on the "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " pointing to an existing heading is acceptable when a visible heading already titles the table and a separate "
+            },
+            {
+              "value": "<caption>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " would duplicate it. Both techniques satisfy "
+            },
+            {
+              "value": "WCAG 1.3.1",
+              "bold": true,
+              "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "scope value",
+            "Applies to",
+            "Example usage"
+          ],
+          "rows": [
+            [
+              "col",
+              "All cells in the same column",
+              "<th scope=\"col\">January</th>"
+            ],
+            [
+              "row",
+              "All cells in the same row",
+              "<th scope=\"row\">North</th>"
+            ],
+            [
+              "colgroup",
+              "All cells in columns spanned by this header",
+              "<th scope=\"colgroup\" colspan=\"3\">Q1</th>"
+            ],
+            [
+              "rowgroup",
+              "All cells in rows spanned by this header",
+              "<th scope=\"rowgroup\" rowspan=\"2\">Engineering</th>"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "scope Values Across a Two-axis Table",
+          "description": "Demonstrates all four scope values applied correctly: col on column headers, row on row headers, colgroup on a header spanning multiple columns, and rowgroup on a header spanning multiple rows.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>scope Attribute Demo</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; }\n      table { border-collapse: collapse; max-width: 620px; width: 100%; }\n      caption { font-weight: 700; text-align: left; margin-bottom: 0.5rem; }\n      th, td { border: 1px solid #ccc; padding: 0.6rem 1rem; text-align: right; }\n      th { text-align: left; }\n      .top-header { background: #1a1a2e; color: white; text-align: center; }\n      .sub-header { background: #2c3e6e; color: white; }\n      .row-group { background: #e8f0fe; font-weight: 700; }\n    </style>\n  </head>\n  <body>\n    <table>\n      <caption>Quarterly Revenue by Team and Product</caption>\n      <thead>\n        <tr>\n          <th rowspan=\"2\" scope=\"col\">Team</th>\n          <!-- scope=\"colgroup\": covers Jan + Feb below -->\n          <th colspan=\"2\" scope=\"colgroup\" class=\"top-header\">Q1</th>\n          <!-- scope=\"colgroup\": covers Mar + Apr below -->\n          <th colspan=\"2\" scope=\"colgroup\" class=\"top-header\">Q2</th>\n        </tr>\n        <tr>\n          <!-- scope=\"col\": covers its individual column -->\n          <th scope=\"col\" class=\"sub-header\">Jan</th>\n          <th scope=\"col\" class=\"sub-header\">Feb</th>\n          <th scope=\"col\" class=\"sub-header\">Mar</th>\n          <th scope=\"col\" class=\"sub-header\">Apr</th>\n        </tr>\n      </thead>\n      <tbody>\n        <!-- scope=\"rowgroup\": covers both Frontend rows -->\n        <tr>\n          <th rowspan=\"2\" scope=\"rowgroup\" class=\"row-group\">Frontend</th>\n          <td>$32k</td><td>$28k</td><td>$35k</td><td>$40k</td>\n        </tr>\n        <tr><td>$18k</td><td>$22k</td><td>$20k</td><td>$25k</td></tr>\n        <!-- scope=\"rowgroup\": covers both Backend rows -->\n        <tr>\n          <th rowspan=\"2\" scope=\"rowgroup\" class=\"row-group\">Backend</th>\n          <td>$55k</td><td>$60k</td><td>$62k</td><td>$58k</td>\n        </tr>\n        <tr><td>$30k</td><td>$35k</td><td>$38k</td><td>$42k</td></tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+          "output": "The table renders with a two-row header showing 'Q1' and 'Q2' spanning two columns each, and 'Frontend' and 'Backend' row group headers each spanning two rows. Screen readers announce the full header chain for every cell, for example 'Q2, Apr, Frontend, $25k'.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The four values of "
+            },
+            {
+              "value": "scope",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+            },
+            {
+              "value": " are like four arrows on a compass. "
+            },
+            {
+              "value": "col",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " points straight down its column, "
+            },
+            {
+              "value": "row",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " points straight across its row, "
+            },
+            {
+              "value": "colgroup",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " fans out downward over a group of columns, and "
+            },
+            {
+              "value": "rowgroup",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " fans out across a group of rows. Each value tells the screen reader exactly which cells fall under that header's authority."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Using "
+            },
+            {
+              "value": "aria-labelledby",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby"
+            },
+            {
+              "value": " on "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": " instead of "
+            },
+            {
+              "value": "<caption>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+            },
+            {
+              "value": " is like posting the shelf label on the wall above the bookcase rather than on the shelf itself. The label still identifies the shelf correctly, but it lives separately. Choose based on whether a title already exists elsewhere on the page."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "When a table already has a visible heading above it such as an "
+            },
+            {
+              "value": "<h2>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements"
+            },
+            {
+              "value": ", use "
+            },
+            {
+              "value": "aria-labelledby",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby"
+            },
+            {
+              "value": " on the "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": " pointing to that heading's "
+            },
+            {
+              "value": "id",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id"
+            },
+            {
+              "value": " instead of adding a redundant "
+            },
+            {
+              "value": "<caption>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+            },
+            {
+              "value": ". This prevents screen readers from announcing the same title twice in sequence."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Table Accessibility and Best Practices",
+        "Proper Table Usage Guidelines",
+        "WCAG Accessibility Guidelines"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 6,
+      "topic_id": 19,
+      "slug": "proper-table-usage-guidelines",
+      "title": "Proper Table Usage Guidelines",
+      "description": "Tables must only contain genuine tabular data, stay responsive using overflow wrappers, and never layout content.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The most fundamental rule for tables is that they exist for "
+            },
+            {
+              "value": "tabular data",
+              "bold": true
+            },
+            {
+              "value": " only: data that has a meaningful relationship between its rows and columns. Using "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": " for layout violates "
+            },
+            {
+              "value": "WCAG 1.3.1",
+              "bold": true,
+              "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+            },
+            {
+              "value": ", breaks screen reader navigation, and prevents responsive reflow on small screens. For responsive data tables, wrap the "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " in a "
+            },
+            {
+              "value": "<div>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+            },
+            {
+              "value": " with "
+            },
+            {
+              "value": "overflow-x: auto",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/overflow"
+            },
+            {
+              "value": " so users can scroll horizontally on narrow screens. Never set a fixed "
+            },
+            {
+              "value": "width",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/width"
+            },
+            {
+              "value": " on the table; use "
+            },
+            {
+              "value": "max-width: 100%",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " or let it size naturally. Add "
+            },
+            {
+              "value": "role=\"region\"",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/region_role"
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "aria-labelledby",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby"
+            },
+            {
+              "value": " to the wrapper "
+            },
+            {
+              "value": "<div>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " so keyboard users can navigate directly to the scrollable region."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Never use role=\"presentation\" to suppress table semantics",
+          "text": "Adding role=\"presentation\" or role=\"none\" to a data table removes all table semantics from the accessibility tree, making every cell unnavigable for screen reader users. Only use role=\"presentation\" on a table that contains absolutely no data relationship between rows and columns."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Responsive Table with Overflow Wrapper and Sticky Headers",
+          "description": "A production-ready responsive table using an overflow wrapper for horizontal scroll on small screens, sticky column headers via CSS on th cells, and print styles that reset for paper output.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Responsive Table</title>\n    <style>\n      body { font-family: sans-serif; padding: 1.5rem; }\n\n      /* Wrapper enables horizontal scroll without breaking outer layout */\n      .table-wrapper {\n        overflow-x: auto;\n        -webkit-overflow-scrolling: touch;\n        border: 1px solid #ddd;\n        border-radius: 8px;\n      }\n\n      table {\n        border-collapse: collapse;\n        width: 100%;\n        /* min-width triggers scroll before cells compress too much */\n        min-width: 600px;\n      }\n\n      caption {\n        font-weight: 700;\n        text-align: left;\n        padding: 0.75rem 1rem 0.25rem;\n        color: #1a1a2e;\n      }\n\n      th, td {\n        padding: 0.65rem 1.25rem;\n        text-align: left;\n        border-bottom: 1px solid #eee;\n        white-space: nowrap;\n      }\n\n      thead th {\n        background: #1a1a2e;\n        color: white;\n        /* Apply sticky to th cells, NOT to thead element --\n           Applying to thead itself does not work in most browsers */\n        position: sticky;\n        top: 0;\n        z-index: 1;\n      }\n\n      tbody tr:hover { background: #f5f8ff; }\n\n      @media print {\n        .table-wrapper { overflow: visible; border: none; }\n        table { min-width: 0; }\n        thead th { background: #eee; color: #000; position: static; }\n      }\n    </style>\n  </head>\n  <body>\n\n    <!-- role=\"region\" + aria-labelledby makes the wrapper a named landmark -->\n    <div class=\"table-wrapper\"\n         role=\"region\"\n         aria-labelledby=\"gdp-title\">\n\n      <table aria-labelledby=\"gdp-title\">\n        <caption id=\"gdp-title\">Top 5 Countries by GDP (USD Trillion, 2023)</caption>\n        <thead>\n          <tr>\n            <th scope=\"col\">Rank</th>\n            <th scope=\"col\">Country</th>\n            <th scope=\"col\">GDP (USD T)</th>\n            <th scope=\"col\">Growth Rate</th>\n            <th scope=\"col\">Population (M)</th>\n            <th scope=\"col\">GDP per Capita</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr><th scope=\"row\">1</th><td>United States</td><td>$26.9T</td><td>2.5%</td><td>335</td><td>$80,300</td></tr>\n          <tr><th scope=\"row\">2</th><td>China</td><td>$19.4T</td><td>5.2%</td><td>1,410</td><td>$13,700</td></tr>\n          <tr><th scope=\"row\">3</th><td>Germany</td><td>$4.4T</td><td>-0.3%</td><td>84</td><td>$52,800</td></tr>\n          <tr><th scope=\"row\">4</th><td>Japan</td><td>$4.2T</td><td>1.9%</td><td>125</td><td>$33,800</td></tr>\n          <tr><th scope=\"row\">5</th><td>India</td><td>$3.7T</td><td>6.3%</td><td>1,430</td><td>$2,600</td></tr>\n        </tbody>\n      </table>\n    </div>\n\n  </body>\n</html>",
+          "output": "On a wide screen the table fills its container with a sticky dark header row and five data rows with hover highlighting. On a narrow mobile screen the table scrolls horizontally within its rounded border container while the page layout remains intact. The overflow wrapper is exposed as a named region landmark by screen readers. When printed, the table resets to full width with a plain light header.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "A data table is like a train timetable: every cell only makes sense when you know both its column (the destination) and its row (the departure time). That two-axis relationship is exactly what "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": " is designed to represent. If removing one axis still leaves the data meaningful, a table is probably not the right element."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Wrapping a "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": " in a "
+            },
+            {
+              "value": "<div>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+            },
+            {
+              "value": " with "
+            },
+            {
+              "value": "overflow-x: auto",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/overflow"
+            },
+            {
+              "value": " is like putting a wide map in a scroll case. The map stays fully intact and readable, but the case lets it pass through a narrow doorway without being folded or distorted."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Add "
+            },
+            {
+              "value": "role=\"region\"",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/region_role"
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "aria-labelledby",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby"
+            },
+            {
+              "value": " pointing to the table's caption "
+            },
+            {
+              "value": "id",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id"
+            },
+            {
+              "value": " on the overflow wrapper "
+            },
+            {
+              "value": "<div>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+            },
+            {
+              "value": ". This exposes the scrollable container as a named landmark so keyboard users can jump directly to the table region without tabbing through all preceding content."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Table Accessibility and Best Practices",
+        "Accessible Table Markup (scope, caption)",
+        "HTML Table Structure and Spans"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Table Accessibility and Best Practices | scope, caption, headers Guide",
+    "meta_description": "Learn how to make HTML tables fully accessible using caption, scope, headers attributes, and responsive patterns that satisfy WCAG 1.3.1 requirements.",
+    "keywords": [
+      "html table accessibility",
+      "html caption element",
+      "html th scope attribute",
+      "html headers attribute",
+      "accessible html tables",
+      "wcag table requirements",
+      "html table best practices",
+      "responsive html table",
+      "screen reader table navigation",
+      "html table aria attributes"
+    ],
+    "canonical_url": "/html/html-table-accessibility-and-best-practices",
+    "robots": "index, follow"
+  }
+}

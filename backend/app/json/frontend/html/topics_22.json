@@ -1,0 +1,1398 @@
+{
+  "topic": {
+    "id": 23,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 7,
+    "slug": "html-audio-element",
+    "title": "HTML Audio Element",
+    "description": "The audio element embeds sound with native controls, source format fallbacks, and preload hints.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "HTML Audio Element: audio, source, and Playback Attributes"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<audio>",
+            "highlight": true
+          },
+          {
+            "value": " element embeds a sound resource directly in an HTML document. It accepts a "
+          },
+          {
+            "value": "src",
+            "highlight": true
+          },
+          {
+            "value": " attribute for a single source or one or more "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " child elements to provide "
+          },
+          {
+            "value": "format fallbacks",
+            "bold": true
+          },
+          {
+            "value": ". The browser evaluates each "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " in order and uses the first it can decode. Key boolean attributes include "
+          },
+          {
+            "value": "controls",
+            "highlight": true
+          },
+          {
+            "value": " (renders the native browser UI), "
+          },
+          {
+            "value": "autoplay",
+            "highlight": true
+          },
+          {
+            "value": " (begins playback on load, blocked by browsers unless "
+          },
+          {
+            "value": "muted",
+            "highlight": true
+          },
+          {
+            "value": " is also set), "
+          },
+          {
+            "value": "loop",
+            "highlight": true
+          },
+          {
+            "value": " (repeats indefinitely), and "
+          },
+          {
+            "value": "muted",
+            "highlight": true
+          },
+          {
+            "value": " (starts silent). The "
+          },
+          {
+            "value": "preload",
+            "highlight": true
+          },
+          {
+            "value": " attribute hints to the browser how much audio data to buffer: "
+          },
+          {
+            "value": "none",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "metadata",
+            "highlight": true
+          },
+          {
+            "value": " (duration and track info only), or "
+          },
+          {
+            "value": "auto",
+            "highlight": true
+          },
+          {
+            "value": " (full file). Reference: "
+          },
+          {
+            "value": "MDN: audio element",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Attribute",
+          "Type",
+          "Purpose",
+          "Notes"
+        ],
+        "rows": [
+          [
+            "controls",
+            "Boolean",
+            "Show native browser audio UI",
+            "Required for keyboard-accessible playback"
+          ],
+          [
+            "src",
+            "URL",
+            "Single audio source",
+            "Omit when using <source> children"
+          ],
+          [
+            "autoplay",
+            "Boolean",
+            "Begin playback immediately on load",
+            "Blocked by browsers unless muted is also set"
+          ],
+          [
+            "muted",
+            "Boolean",
+            "Start with audio silenced",
+            "Required for autoplay to work in most browsers"
+          ],
+          [
+            "loop",
+            "Boolean",
+            "Repeat audio when it ends",
+            "Pair with a visible stop control for accessibility"
+          ],
+          [
+            "preload",
+            "none | metadata | auto",
+            "Buffering hint to browser",
+            "metadata is the recommended default"
+          ],
+          [
+            "<source type>",
+            "MIME type",
+            "Codec hint for format negotiation",
+            "audio/mpeg, audio/ogg, audio/wav, audio/webm"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "autoplay Without muted Is Blocked by Browsers",
+        "text": "Chrome, Firefox, Safari, and Edge all block autoplay audio unless the user has previously interacted with the page or the audio is muted. An <audio autoplay> element that is not also muted will silently fail to play on first load in most browsers. For background audio or ambient sound, use autoplay muted and provide a visible unmute button. For content-critical audio (a podcast, a lesson recording), omit autoplay entirely and let the user initiate playback."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Audio Element with Controls, Multiple Sources, and Accessible Player",
+        "description": "This example shows a native browser audio player with controls, a multi-source fallback chain (Opus, MP3, OGG), the preload attribute options, a custom accessible audio player built with the HTMLAudioElement JavaScript API, and an autoplay muted ambient background track with an unmute button.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Audio Element Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n\n    /* Custom audio player */\n    .player { background: #0f172a; border-radius: 12px;\n              padding: 1.25rem 1.5rem; color: #fff;\n              display: flex; flex-direction: column; gap: .75rem; }\n    .player-title { font-size: .95rem; font-weight: 600; }\n    .player-meta  { font-size: .78rem; color: #94a3b8; }\n    .controls-row { display: flex; align-items: center; gap: .75rem; }\n    .btn { background: #2563eb; color: #fff; border: none;\n           border-radius: 8px; padding: .5rem .9rem;\n           font-size: .82rem; cursor: pointer; font-weight: 600; }\n    .btn:hover { background: #1d4ed8; }\n    .btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }\n    .progress-wrap { flex: 1; display: flex; align-items: center; gap: .5rem; }\n    .progress { flex: 1; height: 4px; background: #334155;\n                border-radius: 2px; overflow: hidden; cursor: pointer; }\n    .progress-fill { height: 100%; background: #2563eb;\n                     border-radius: 2px; transition: width .1s linear; }\n    .time { font-size: .75rem; color: #94a3b8; font-variant-numeric: tabular-nums; }\n    .volume-row { display: flex; align-items: center; gap: .5rem;\n                  font-size: .8rem; color: #94a3b8; }\n    .volume-row input[type=range] { width: 80px; accent-color: #2563eb; }\n\n    /* Ambient player */\n    .ambient { background: #f0fdf4; border: 1px solid #bbf7d0;\n               border-radius: 10px; padding: .85rem 1rem;\n               display: flex; align-items: center; gap: .85rem;\n               font-size: .88rem; }\n    .ambient-btn { background: #16a34a; color: #fff; border: none;\n                   border-radius: 8px; padding: .4rem .85rem;\n                   cursor: pointer; font-size: .8rem; font-weight: 600; }\n    .ambient-btn:hover { background: #15803d; }\n  </style>\n</head>\n<body>\n\n  <h1>HTML Audio Element</h1>\n\n\n  <!-- PATTERN 1: NATIVE CONTROLS with multi-source fallback -->\n  <h2>1. Native browser player with format fallback</h2>\n  <p>The browser tries each <code>&lt;source&gt;</code> in order\n     and uses the first it can decode.</p>\n\n  <!--\n    controls: renders the browser's built-in audio UI.\n    preload=\"metadata\": fetches duration and track info only;\n      does NOT download the full audio file on page load.\n    No src on <audio>: use <source> children for format fallback.\n  -->\n  <audio controls preload=\"metadata\">\n    <!--\n      Opus: best compression, modern browsers (Chrome, Firefox, Edge).\n      Declared first so modern browsers use the smallest file.\n    -->\n    <source src=\"/audio/lesson-intro.opus\" type=\"audio/ogg; codecs=opus\">\n    <!--\n      MP3: universal fallback, supported in all browsers.\n      Larger file than Opus but maximum compatibility.\n    -->\n    <source src=\"/audio/lesson-intro.mp3\"  type=\"audio/mpeg\">\n    <!--\n      OGG Vorbis: Firefox fallback if Opus is not supported.\n    -->\n    <source src=\"/audio/lesson-intro.ogg\"  type=\"audio/ogg\">\n    <!--\n      Fallback text for browsers that do not support <audio> at all.\n      Link to download the file directly.\n    -->\n    <p>\n      Your browser does not support the audio element.\n      <a href=\"/audio/lesson-intro.mp3\">Download the lesson audio</a>.\n    </p>\n  </audio>\n\n\n  <!-- PATTERN 2: CUSTOM ACCESSIBLE AUDIO PLAYER -->\n  <h2>2. Custom accessible audio player</h2>\n  <!--\n    The hidden <audio> element is controlled entirely by JavaScript.\n    The custom UI exposes all controls as accessible buttons.\n    aria-label on each button names the action for screen readers.\n  -->\n  <audio id=\"lesson-audio\" preload=\"metadata\">\n    <source src=\"/audio/html-basics.opus\" type=\"audio/ogg; codecs=opus\">\n    <source src=\"/audio/html-basics.mp3\"  type=\"audio/mpeg\">\n  </audio>\n\n  <div class=\"player\" role=\"region\" aria-label=\"Audio player: HTML Basics lesson\">\n    <div class=\"player-title\">HTML Basics: Introduction</div>\n    <div class=\"player-meta\">Module 1, Lesson 1 &middot; <span id=\"duration-label\">Loading...</span></div>\n\n    <div class=\"controls-row\">\n      <!--\n        aria-label: names the button action for screen readers.\n        Without it, a screen reader announces the button text only\n        (which changes between Play and Pause as state changes).\n        aria-pressed could also be used to convey toggle state.\n      -->\n      <button class=\"btn\" id=\"play-btn\"\n              aria-label=\"Play HTML Basics lesson\">\n        Play\n      </button>\n\n      <div class=\"progress-wrap\">\n        <span class=\"time\" id=\"current-time\">0:00</span>\n        <!--\n          Progress bar: role=\"progressbar\" with aria-valuenow/min/max\n          for screen reader announcements of playback position.\n        -->\n        <div class=\"progress\"\n             role=\"progressbar\"\n             aria-label=\"Playback progress\"\n             aria-valuenow=\"0\"\n             aria-valuemin=\"0\"\n             aria-valuemax=\"100\"\n             id=\"progress-bar\"\n             tabindex=\"0\">\n          <div class=\"progress-fill\" id=\"progress-fill\" style=\"width:0%\"></div>\n        </div>\n        <span class=\"time\" id=\"duration-time\">0:00</span>\n      </div>\n    </div>\n\n    <div class=\"volume-row\">\n      <label for=\"volume-slider\">Volume</label>\n      <input type=\"range\" id=\"volume-slider\"\n             min=\"0\" max=\"1\" step=\"0.05\" value=\"1\"\n             aria-label=\"Volume control\">\n    </div>\n  </div>\n\n  <script>\n    const audio    = document.getElementById('lesson-audio');\n    const playBtn  = document.getElementById('play-btn');\n    const curTime  = document.getElementById('current-time');\n    const durTime  = document.getElementById('duration-time');\n    const durLabel = document.getElementById('duration-label');\n    const fill     = document.getElementById('progress-fill');\n    const bar      = document.getElementById('progress-bar');\n    const vol      = document.getElementById('volume-slider');\n\n    function fmt(s) {\n      const m = Math.floor(s / 60);\n      const ss = String(Math.floor(s % 60)).padStart(2, '0');\n      return `${m}:${ss}`;\n    }\n\n    audio.addEventListener('loadedmetadata', () => {\n      durTime.textContent  = fmt(audio.duration);\n      durLabel.textContent = fmt(audio.duration);\n      bar.setAttribute('aria-valuemax', Math.round(audio.duration));\n    });\n\n    audio.addEventListener('timeupdate', () => {\n      curTime.textContent = fmt(audio.currentTime);\n      const pct = audio.duration\n        ? (audio.currentTime / audio.duration) * 100\n        : 0;\n      fill.style.width = pct + '%';\n      bar.setAttribute('aria-valuenow', Math.round(audio.currentTime));\n    });\n\n    playBtn.addEventListener('click', () => {\n      if (audio.paused) {\n        audio.play();\n        playBtn.textContent  = 'Pause';\n        playBtn.setAttribute('aria-label', 'Pause HTML Basics lesson');\n      } else {\n        audio.pause();\n        playBtn.textContent  = 'Play';\n        playBtn.setAttribute('aria-label', 'Play HTML Basics lesson');\n      }\n    });\n\n    // Seek on progress bar click\n    bar.addEventListener('click', e => {\n      const rect = bar.getBoundingClientRect();\n      const ratio = (e.clientX - rect.left) / rect.width;\n      audio.currentTime = ratio * audio.duration;\n    });\n\n    vol.addEventListener('input', () => {\n      audio.volume = parseFloat(vol.value);\n    });\n  </script>\n\n\n  <!-- PATTERN 3: AUTOPLAY MUTED AMBIENT with unmute button -->\n  <h2>3. Autoplay muted ambient audio</h2>\n  <!--\n    autoplay + muted: the only combination most browsers allow\n    for autoplay. Audio starts silently; user must unmute.\n    Provide a visible unmute control so users know audio exists.\n  -->\n  <audio id=\"ambient-audio\" autoplay muted loop preload=\"auto\">\n    <source src=\"/audio/ambient-focus.mp3\" type=\"audio/mpeg\">\n  </audio>\n\n  <div class=\"ambient\">\n    <span>&#127925; Focus music is ready</span>\n    <button class=\"ambient-btn\" id=\"unmute-btn\"\n            aria-label=\"Unmute background focus music\">\n      Unmute\n    </button>\n    <button class=\"ambient-btn\"\n            style=\"background:#64748b;\"\n            onclick=\"document.getElementById('ambient-audio').pause()\"\n            aria-label=\"Stop background focus music\">\n      Stop\n    </button>\n  </div>\n\n  <script>\n    document.getElementById('unmute-btn').addEventListener('click', function() {\n      const a = document.getElementById('ambient-audio');\n      a.muted = !a.muted;\n      this.textContent = a.muted ? 'Unmute' : 'Mute';\n      this.setAttribute('aria-label',\n        a.muted ? 'Unmute background focus music'\n                : 'Mute background focus music');\n    });\n  </script>\n\n</body>\n</html>",
+        "output": "Page renders three audio patterns. The native player shows the browser's default audio controls with a track ready to play. The custom player shows a dark card with a play button, a progress bar with accessible ARIA attributes, current and duration time readouts, and a volume slider. The ambient section shows a green card with focus music status and unmute and stop buttons. The JavaScript wires all custom player interactions including progress seeking and volume control.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Audio Format Support, preload Strategies, and Accessibility Patterns",
+        "description": "This example demonstrates the browser audio format support table, the three preload values with their bandwidth implications, a podcast player with chapter markers and transcript toggle, and the accessible audio pattern for screen reader users including aria-live announcements for playback state changes.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Audio Patterns Reference</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    table { border-collapse: collapse; width: 100%; font-size: .87rem;\n            margin: .75rem 0; }\n    th, td{ border: 1px solid #e2e8f0; padding: .45rem .75rem;\n            text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    .yes  { color: #16a34a; font-weight: 700; }\n    .no   { color: #dc2626; }\n    .part { color: #ca8a04; }\n\n    /* Podcast player */\n    .podcast { border: 1px solid #e5e7eb; border-radius: 10px;\n               overflow: hidden; margin: .75rem 0; }\n    .podcast-header { background: #0f172a; color: #fff;\n                      padding: .85rem 1rem; }\n    .podcast-header h3 { margin: 0; font-size: .95rem; }\n    .podcast-header p  { margin: .2rem 0 0; font-size: .78rem;\n                         color: #94a3b8; }\n    .podcast audio { width: 100%; display: block; }\n    .chapters { padding: .5rem 0; }\n    .chapter  { display: flex; gap: .75rem; align-items: center;\n                padding: .4rem 1rem; font-size: .86rem;\n                border-bottom: 1px solid #f8fafc;\n                cursor: pointer; }\n    .chapter:hover { background: #f8fafc; }\n    .chapter-time { font-size: .75rem; color: #2563eb;\n                    font-variant-numeric: tabular-nums; min-width: 36px; }\n    .transcript { padding: .85rem 1rem; font-size: .85rem;\n                  border-top: 1px solid #e5e7eb;\n                  color: #475569; line-height: 1.75;\n                  display: none; }\n    .transcript.open { display: block; }\n    .toggle-btn { background: none; border: 1px solid #e5e7eb;\n                  border-radius: 6px; padding: .35rem .75rem;\n                  font-size: .8rem; cursor: pointer; margin: .5rem 1rem;\n                  color: #475569; }\n    .toggle-btn:hover { background: #f8fafc; }\n\n    /* Screen reader live region */\n    .sr-only { position: absolute; width: 1px; height: 1px;\n               padding: 0; margin: -1px; overflow: hidden;\n               clip: rect(0,0,0,0); white-space: nowrap;\n               border: 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Audio Format and Accessibility Reference</h1>\n\n\n  <!-- AUDIO FORMAT SUPPORT TABLE -->\n  <h2>1. Browser audio format support</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>Format</th><th>MIME type</th>\n        <th>Chrome</th><th>Firefox</th><th>Safari</th><th>Edge</th>\n        <th>Notes</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td>MP3</td>\n        <td><code>audio/mpeg</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td>Universal fallback; use as the last source</td>\n      </tr>\n      <tr>\n        <td>Opus (in OGG)</td>\n        <td><code>audio/ogg; codecs=opus</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td>Best quality-per-bit; use as first source</td>\n      </tr>\n      <tr>\n        <td>OGG Vorbis</td>\n        <td><code>audio/ogg</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"no\">No</td><td class=\"yes\">Yes</td>\n        <td>Open format; no Safari support</td>\n      </tr>\n      <tr>\n        <td>WAV</td>\n        <td><code>audio/wav</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td>Uncompressed; large files; avoid for web</td>\n      </tr>\n      <tr>\n        <td>AAC</td>\n        <td><code>audio/mp4</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td>Apple ecosystem strength; similar to MP3</td>\n      </tr>\n      <tr>\n        <td>WebM Opus</td>\n        <td><code>audio/webm; codecs=opus</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"no\">No</td><td class=\"yes\">Yes</td>\n        <td>WebM container; no Safari support</td>\n      </tr>\n    </tbody>\n  </table>\n\n  <p style=\"font-size:.85rem;color:#64748b;\">\n    <strong>Recommended source order:</strong>\n    Opus &rarr; MP3 (or AAC for Apple-first audiences)\n  </p>\n\n\n  <!-- PRELOAD STRATEGY -->\n  <h2>2. preload attribute strategies</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>Value</th><th>Browser behaviour</th>\n        <th>Bandwidth cost</th><th>Best for</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td><code>none</code></td>\n        <td>No buffering until user presses play</td>\n        <td>Zero</td>\n        <td>Pages with many audio elements; mobile data saving</td>\n      </tr>\n      <tr>\n        <td><code>metadata</code></td>\n        <td>Fetches duration, track info; no audio data</td>\n        <td>Minimal (a few KB)</td>\n        <td>Most use cases; shows duration before play</td>\n      </tr>\n      <tr>\n        <td><code>auto</code></td>\n        <td>Downloads enough (or all) of the file proactively</td>\n        <td>Full file size</td>\n        <td>Audio the user is likely to play; podcast pages</td>\n      </tr>\n    </tbody>\n  </table>\n\n\n  <!-- PODCAST PLAYER WITH CHAPTERS AND TRANSCRIPT -->\n  <h2>3. Podcast player with chapters and transcript</h2>\n\n  <div class=\"podcast\">\n    <div class=\"podcast-header\">\n      <h3>Ep 12: Understanding HTML Semantics</h3>\n      <p>DevDocs India Podcast &middot; 42 min &middot; 3 March 2025</p>\n    </div>\n\n    <!--\n      preload=\"auto\": user arrived at a podcast episode page;\n      they are likely to play the full episode.\n      controls: native browser UI handles play/pause/seek/volume.\n    -->\n    <audio id=\"podcast-audio\" controls preload=\"auto\">\n      <source src=\"/audio/ep12.opus\" type=\"audio/ogg; codecs=opus\">\n      <source src=\"/audio/ep12.mp3\"  type=\"audio/mpeg\">\n    </audio>\n\n    <!-- Chapter markers: clicking jumps the audio to that time -->\n    <div class=\"chapters\" role=\"list\" aria-label=\"Chapter list\">\n      <div class=\"chapter\" role=\"listitem\"\n           onclick=\"seekTo(0)\" tabindex=\"0\"\n           onkeydown=\"if(event.key==='Enter'||event.key===' ')seekTo(0)\">\n        <span class=\"chapter-time\">0:00</span>\n        <span>Introduction and overview</span>\n      </div>\n      <div class=\"chapter\" role=\"listitem\"\n           onclick=\"seekTo(180)\" tabindex=\"0\"\n           onkeydown=\"if(event.key==='Enter'||event.key===' ')seekTo(180)\">\n        <span class=\"chapter-time\">3:00</span>\n        <span>Why semantics matter for accessibility</span>\n      </div>\n      <div class=\"chapter\" role=\"listitem\"\n           onclick=\"seekTo(720)\" tabindex=\"0\"\n           onkeydown=\"if(event.key==='Enter'||event.key===' ')seekTo(720)\">\n        <span class=\"chapter-time\">12:00</span>\n        <span>Landmark elements deep dive</span>\n      </div>\n      <div class=\"chapter\" role=\"listitem\"\n           onclick=\"seekTo(1800)\" tabindex=\"0\"\n           onkeydown=\"if(event.key==='Enter'||event.key===' ')seekTo(1800)\">\n        <span class=\"chapter-time\">30:00</span>\n        <span>Live coding: semantic refactor</span>\n      </div>\n    </div>\n\n    <!-- Transcript toggle -->\n    <button class=\"toggle-btn\" id=\"transcript-btn\"\n            aria-expanded=\"false\"\n            aria-controls=\"transcript-content\"\n            onclick=\"toggleTranscript()\">\n      Show transcript\n    </button>\n\n    <div id=\"transcript-content\" class=\"transcript\"\n         role=\"region\" aria-label=\"Episode transcript\">\n      <p><strong>[0:00]</strong> Welcome to DevDocs India Podcast.\n         In this episode we explore why semantic HTML matters\n         beyond aesthetics and how it directly affects the\n         experience of users relying on assistive technology.</p>\n      <p><strong>[3:00]</strong> Screen readers build a virtual\n         document model from HTML semantics. When we use a div\n         instead of a button, the user loses keyboard access,\n         role information, and state announcements...</p>\n    </div>\n  </div>\n\n\n  <!-- ARIA LIVE REGION for playback state -->\n  <h2>4. aria-live for playback state announcements</h2>\n  <!--\n    Screen readers do not automatically announce when audio\n    starts or stops. An aria-live region lets us announce\n    state changes programmatically.\n  -->\n  <audio id=\"announced-audio\" controls preload=\"metadata\">\n    <source src=\"/audio/sample.mp3\" type=\"audio/mpeg\">\n  </audio>\n\n  <!-- polite: announces after user's current action completes -->\n  <div aria-live=\"polite\" aria-atomic=\"true\" class=\"sr-only\"\n       id=\"audio-status\">\n    <!-- Updated by JS: \"Audio playing\" / \"Audio paused\" -->\n  </div>\n\n  <script>\n    function seekTo(seconds) {\n      const a = document.getElementById('podcast-audio');\n      a.currentTime = seconds;\n      a.play();\n    }\n\n    function toggleTranscript() {\n      const btn     = document.getElementById('transcript-btn');\n      const content = document.getElementById('transcript-content');\n      const open    = content.classList.toggle('open');\n      btn.setAttribute('aria-expanded', open);\n      btn.textContent = open ? 'Hide transcript' : 'Show transcript';\n    }\n\n    const announcedAudio = document.getElementById('announced-audio');\n    const statusEl       = document.getElementById('audio-status');\n\n    announcedAudio.addEventListener('play',  () => {\n      statusEl.textContent = 'Audio playing';\n    });\n    announcedAudio.addEventListener('pause', () => {\n      statusEl.textContent = 'Audio paused';\n    });\n    announcedAudio.addEventListener('ended', () => {\n      statusEl.textContent = 'Audio finished';\n    });\n  </script>\n\n</body>\n</html>",
+        "output": "Page renders four sections. The format support table shows six audio formats with browser compatibility columns in green, red, and amber. The preload table shows the three values with bandwidth cost and best-use guidance. The podcast player shows a dark header card with native controls, four chapter markers that are keyboard navigable, and a transcript toggle button that expands a text region with aria-expanded. The aria-live section shows a second native audio player with an invisible live region that announces play and pause state to screen readers.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<audio controls>",
+            "highlight": true
+          },
+          {
+            "value": " for any audio content the user should be able to play: lesson recordings, podcast episodes, pronunciation guides, and sound effects in interactive learning tools."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use multiple "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " children (Opus first, MP3 last) to provide a "
+          },
+          {
+            "value": "format fallback chain",
+            "bold": true
+          },
+          {
+            "value": " that gives modern browsers the most efficient codec while ensuring compatibility with older engines."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "preload='metadata'",
+            "highlight": true
+          },
+          {
+            "value": " as the default on audio players to show the duration before play without downloading the full file, and "
+          },
+          {
+            "value": "preload='auto'",
+            "highlight": true
+          },
+          {
+            "value": " only on dedicated podcast or audio pages where playback is the primary action."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "autoplay",
+            "highlight": true
+          },
+          {
+            "value": " on audio that has sound; it is blocked by browsers, disruptive to screen reader users, and violates "
+          },
+          {
+            "value": "WCAG 1.4.2 Audio Control",
+            "bold": true
+          },
+          {
+            "value": " if audio plays for more than three seconds without user initiation."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using a single "
+          },
+          {
+            "value": "src",
+            "highlight": true
+          },
+          {
+            "value": " attribute when broad browser support is needed; always use "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " children with "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attributes to give the browser codec negotiation information without fetching files speculatively."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "preload='auto'",
+            "highlight": true
+          },
+          {
+            "value": " on pages that are not dedicated audio pages; it downloads the full audio file on page load even if the user never plays it, wasting bandwidth on mobile connections."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<audio>",
+            "highlight": true
+          },
+          {
+            "value": " element provides a "
+          },
+          {
+            "value": "native, keyboard-accessible playback control",
+            "bold": true
+          },
+          {
+            "value": " without requiring Flash, external plugins, or custom JavaScript for the basic play/pause/seek/volume workflow, satisfying "
+          },
+          {
+            "value": "WCAG 2.1.1 Keyboard",
+            "bold": true
+          },
+          {
+            "value": " out of the box."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " fallback chain solves "
+          },
+          {
+            "value": "cross-browser codec fragmentation",
+            "bold": true
+          },
+          {
+            "value": ": instead of serving a single large MP3 to all browsers, modern browsers receive the compressed Opus format while legacy browsers fall back to MP3, reducing bandwidth without sacrificing compatibility."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "preload",
+            "highlight": true
+          },
+          {
+            "value": " attribute separates the "
+          },
+          {
+            "value": "page load cost",
+            "bold": true
+          },
+          {
+            "value": " from the "
+          },
+          {
+            "value": "play intent",
+            "bold": true
+          },
+          {
+            "value": ": "
+          },
+          {
+            "value": "preload='none'",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "preload='metadata'",
+            "highlight": true
+          },
+          {
+            "value": " prevent audio files from consuming bandwidth before the user has expressed intent to listen, improving page performance for users who never play the audio."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The browser's "
+          },
+          {
+            "value": "format negotiation algorithm",
+            "bold": true
+          },
+          {
+            "value": " evaluates "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " elements by checking the "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attribute's MIME type and optional "
+          },
+          {
+            "value": "codecs",
+            "highlight": true
+          },
+          {
+            "value": " parameter against its internal list of supported formats. If the "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " is present and the browser knows it cannot decode it, the source is skipped without a network request. If "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " is absent, the browser must fetch the file to determine its format, wasting a network round-trip. Always include the "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attribute on every "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "HTMLAudioElement",
+            "highlight": true
+          },
+          {
+            "value": " JavaScript API exposes "
+          },
+          {
+            "value": "play()",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "pause()",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "currentTime",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "duration",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "volume",
+            "highlight": true
+          },
+          {
+            "value": ", and events including "
+          },
+          {
+            "value": "timeupdate",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "loadedmetadata",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "play",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "pause",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "ended",
+            "highlight": true
+          },
+          {
+            "value": ". Custom audio players are built by hiding the native "
+          },
+          {
+            "value": "<audio>",
+            "highlight": true
+          },
+          {
+            "value": " element and driving it entirely through this API, while exposing accessible custom controls as "
+          },
+          {
+            "value": "<button>",
+            "highlight": true
+          },
+          {
+            "value": " elements with "
+          },
+          {
+            "value": "aria-label",
+            "highlight": true
+          },
+          {
+            "value": " attributes."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Audio accessibility has two layers. The first is "
+          },
+          {
+            "value": "playback control accessibility",
+            "bold": true
+          },
+          {
+            "value": ": the controls must be keyboard-operable (use "
+          },
+          {
+            "value": "controls",
+            "highlight": true
+          },
+          {
+            "value": " or build custom controls from "
+          },
+          {
+            "value": "<button>",
+            "highlight": true
+          },
+          {
+            "value": " elements). The second is "
+          },
+          {
+            "value": "content accessibility",
+            "bold": true
+          },
+          {
+            "value": ": audio content must have a text alternative such as a transcript or captions ("
+          },
+          {
+            "value": "WCAG 1.2.1",
+            "bold": true
+          },
+          {
+            "value": ") for deaf and hard-of-hearing users and for users in noisy or silent environments."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "autoplay",
+            "highlight": true
+          },
+          {
+            "value": " without "
+          },
+          {
+            "value": "muted",
+            "highlight": true
+          },
+          {
+            "value": " is silently blocked by browsers, making audio appear broken on first load."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Missing "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " on "
+          },
+          {
+            "value": "source",
+            "highlight": true
+          },
+          {
+            "value": " forces the browser to fetch each file speculatively to detect its format."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Mixing native "
+          },
+          {
+            "value": "controls",
+            "highlight": true
+          },
+          {
+            "value": " with a custom UI renders two sets of controls for the same audio element."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "Web Audio API",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API"
+          },
+          {
+            "value": " ("
+          },
+          {
+            "value": "new AudioContext()",
+            "highlight": true
+          },
+          {
+            "value": ") for advanced audio processing: equalisation, spatial panning, real-time effects, and audio visualisers. Connect the "
+          },
+          {
+            "value": "<audio>",
+            "highlight": true
+          },
+          {
+            "value": " element to the Audio Context using "
+          },
+          {
+            "value": "createMediaElementSource(audioEl)",
+            "highlight": true
+          },
+          {
+            "value": " and route its output through the node graph to "
+          },
+          {
+            "value": "context.destination",
+            "highlight": true
+          },
+          {
+            "value": ". The "
+          },
+          {
+            "value": "<audio>",
+            "highlight": true
+          },
+          {
+            "value": " element still handles src, format negotiation, and "
+          },
+          {
+            "value": "preload",
+            "highlight": true
+          },
+          {
+            "value": "; the Web Audio API handles the signal processing."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Always provide a "
+          },
+          {
+            "value": "transcript",
+            "bold": true
+          },
+          {
+            "value": " alongside audio content to satisfy "
+          },
+          {
+            "value": "WCAG 1.2.1 Audio-only (Prerecorded)",
+            "bold": true
+          },
+          {
+            "value": ". A transcript link or collapsible "
+          },
+          {
+            "value": "<details>",
+            "highlight": true
+          },
+          {
+            "value": " element next to the "
+          },
+          {
+            "value": "<audio>",
+            "highlight": true
+          },
+          {
+            "value": " player covers deaf users, search engine indexing of spoken content, and users in environments where playing audio is not possible."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Video Element",
+      "HTML Media and Time Semantics",
+      "HTML Image Performance and Branding",
+      "Web Audio API",
+      "Accessibility and ARIA"
+    ],
+    "is_active": true,
+    "order_index": 23,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 23,
+      "slug": "audio-source-formats",
+      "title": "Audio Source Formats",
+      "description": "source elements define a format fallback chain so the browser uses the best codec it can decode.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "When "
+            },
+            {
+              "value": "<audio>",
+              "highlight": true
+            },
+            {
+              "value": " uses "
+            },
+            {
+              "value": "<source>",
+              "highlight": true
+            },
+            {
+              "value": " children instead of a "
+            },
+            {
+              "value": "src",
+              "highlight": true
+            },
+            {
+              "value": " attribute, the browser evaluates each "
+            },
+            {
+              "value": "<source>",
+              "highlight": true
+            },
+            {
+              "value": " element in document order. It checks the "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute's MIME type (and optional "
+            },
+            {
+              "value": "codecs",
+              "highlight": true
+            },
+            {
+              "value": " parameter) against its supported format list. The first source the browser can decode is used; the rest are ignored. If no "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute is present, the browser must issue a "
+            },
+            {
+              "value": "HEAD",
+              "bold": true
+            },
+            {
+              "value": " or partial "
+            },
+            {
+              "value": "GET",
+              "bold": true
+            },
+            {
+              "value": " request to detect the format, wasting a network round-trip per skipped source. The recommended source order is "
+            },
+            {
+              "value": "Opus",
+              "bold": true
+            },
+            {
+              "value": " first (best compression, widely supported), then "
+            },
+            {
+              "value": "MP3",
+              "bold": true
+            },
+            {
+              "value": " as the universal fallback. Reference: "
+            },
+            {
+              "value": "MDN: source element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Source Fallback Chain and Format Decision Guide",
+          "description": "This example shows the full source fallback chain for audio, the type attribute MIME strings for every common format, a JavaScript canPlayType check for runtime format detection, and the wrong versus right patterns for source declarations.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Audio Source Formats</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    table{ border-collapse: collapse; width: 100%; font-size: .87rem;\n           margin: .75rem 0; }\n    th,td{ border: 1px solid #e2e8f0; padding: .4rem .75rem;\n           text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .2rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n    #support-output { background: #f8fafc; border: 1px solid #e2e8f0;\n                      border-radius: 8px; padding: .75rem 1rem;\n                      font-size: .84rem; line-height: 1.65; }\n  </style>\n</head>\n<body>\n\n  <h1>Audio Source Formats</h1>\n\n\n  <!-- RECOMMENDED SOURCE ORDER -->\n  <h2>1. Recommended source fallback chain</h2>\n  <pre>&lt;audio controls preload=\"metadata\"&gt;\n\n  &lt;!-- 1st: Opus — best compression, all modern browsers --&gt;\n  &lt;source src=\"/audio/lesson.opus\"\n          type=\"audio/ogg; codecs=opus\"&gt;\n\n  &lt;!-- 2nd: AAC — Apple ecosystem, Safari strength --&gt;\n  &lt;source src=\"/audio/lesson.m4a\"\n          type=\"audio/mp4\"&gt;\n\n  &lt;!-- 3rd: MP3 — universal fallback, largest file --&gt;\n  &lt;source src=\"/audio/lesson.mp3\"\n          type=\"audio/mpeg\"&gt;\n\n  &lt;!-- Fallback for browsers with no audio support --&gt;\n  &lt;p&gt;Download: &lt;a href=\"/audio/lesson.mp3\"&gt;lesson.mp3&lt;/a&gt;&lt;/p&gt;\n\n&lt;/audio&gt;</pre>\n\n\n  <!-- MIME TYPE REFERENCE -->\n  <h2>2. MIME type strings for the type attribute</h2>\n  <table>\n    <thead>\n      <tr><th>Format</th><th>type attribute value</th><th>File extension</th></tr>\n    </thead>\n    <tbody>\n      <tr><td>Opus in OGG</td>\n          <td><code>audio/ogg; codecs=opus</code></td>\n          <td>.opus, .ogg</td></tr>\n      <tr><td>Opus in WebM</td>\n          <td><code>audio/webm; codecs=opus</code></td>\n          <td>.webm</td></tr>\n      <tr><td>AAC in MP4</td>\n          <td><code>audio/mp4</code></td>\n          <td>.m4a, .mp4</td></tr>\n      <tr><td>MP3</td>\n          <td><code>audio/mpeg</code></td>\n          <td>.mp3</td></tr>\n      <tr><td>OGG Vorbis</td>\n          <td><code>audio/ogg</code></td>\n          <td>.ogg</td></tr>\n      <tr><td>WAV PCM</td>\n          <td><code>audio/wav</code></td>\n          <td>.wav</td></tr>\n      <tr><td>FLAC</td>\n          <td><code>audio/flac</code></td>\n          <td>.flac</td></tr>\n    </tbody>\n  </table>\n\n\n  <!-- JAVASCRIPT canPlayType -->\n  <h2>3. JavaScript canPlayType for runtime detection</h2>\n  <pre>const audio = document.createElement('audio');\n\n// Returns \"probably\", \"maybe\", or \"\" (empty = no support)\nconsole.log(audio.canPlayType('audio/ogg; codecs=opus'));  // \"probably\"\nconsole.log(audio.canPlayType('audio/mpeg'));              // \"probably\"\nconsole.log(audio.canPlayType('audio/ogg'));               // \"maybe\"\nconsole.log(audio.canPlayType('audio/x-fake'));            // \"\"\n\n// Feature detection before dynamic source selection\nfunction bestAudioSrc(opus, mp3) {\n  const a = document.createElement('audio');\n  return a.canPlayType('audio/ogg; codecs=opus') === 'probably'\n    ? opus : mp3;\n}\n\nconst src = bestAudioSrc('/audio/ep1.opus', '/audio/ep1.mp3');\n// Use src to set audio.src dynamically</pre>\n\n  <div id=\"support-output\">\n    <strong>Your browser format support:</strong>\n    <ul id=\"format-list\" style=\"margin:.35rem 0 0;padding-left:1.25rem;font-size:.83rem;\"></ul>\n  </div>\n\n  <script>\n    const a = document.createElement('audio');\n    const formats = [\n      { label: 'Opus (OGG)',  type: 'audio/ogg; codecs=opus' },\n      { label: 'Opus (WebM)', type: 'audio/webm; codecs=opus' },\n      { label: 'AAC / MP4',   type: 'audio/mp4' },\n      { label: 'MP3',         type: 'audio/mpeg' },\n      { label: 'OGG Vorbis',  type: 'audio/ogg' },\n      { label: 'WAV',         type: 'audio/wav' },\n      { label: 'FLAC',        type: 'audio/flac' },\n    ];\n    const list = document.getElementById('format-list');\n    formats.forEach(({ label, type }) => {\n      const result = a.canPlayType(type);\n      const li = document.createElement('li');\n      const color = result === 'probably' ? '#16a34a'\n                  : result === 'maybe'    ? '#ca8a04' : '#dc2626';\n      li.innerHTML = `<strong>${label}:</strong> `\n        + `<span style=\"color:${color};\">`\n        + (result || 'not supported') + '</span>';\n      list.appendChild(li);\n    });\n  </script>\n\n\n  <!-- WRONG vs RIGHT -->\n  <h2>4. Source declaration mistakes</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: no type attribute — browser must fetch to detect format</p>\n    <code>&lt;source src=\"/audio/lesson.opus\"&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: type attribute enables client-side format negotiation</p>\n    <code>&lt;source src=\"/audio/lesson.opus\" type=\"audio/ogg; codecs=opus\"&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: MP3 listed first — modern browsers never try Opus</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;source src=\"lesson.mp3\"  type=\"audio/mpeg\"&gt;\n&lt;source src=\"lesson.opus\" type=\"audio/ogg; codecs=opus\"&gt;</pre>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: Opus first, MP3 as fallback</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;source src=\"lesson.opus\" type=\"audio/ogg; codecs=opus\"&gt;\n&lt;source src=\"lesson.mp3\"  type=\"audio/mpeg\"&gt;</pre>\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders four sections. The recommended chain section shows a dark code block with a three-source fallback and a fallback paragraph. The MIME type table lists seven formats with their exact type attribute strings and extensions. The canPlayType section shows a code block then a live output card that runs JavaScript and lists every format with a colour-coded probably, maybe, or not supported result for the current browser. The wrong versus right section shows four code cards for the no-type mistake and the wrong source order mistake.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The browser's "
+            },
+            {
+              "value": "format negotiation algorithm",
+              "bold": true
+            },
+            {
+              "value": " for "
+            },
+            {
+              "value": "<source>",
+              "highlight": true
+            },
+            {
+              "value": " is "
+            },
+            {
+              "value": "client-side",
+              "bold": true
+            },
+            {
+              "value": " and zero-network-cost when "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " is present. The browser looks at its own codec registry, compares it against the "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute value, and skips incompatible sources without any network request. The network cost only occurs for the one source that is actually selected. This makes the format fallback chain essentially free: offering three formats costs no more than offering one."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "codecs",
+              "highlight": true
+            },
+            {
+              "value": " parameter inside the "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute (e.g. "
+            },
+            {
+              "value": "audio/ogg; codecs=opus",
+              "highlight": true
+            },
+            {
+              "value": ") is distinct from the container format. OGG is a "
+            },
+            {
+              "value": "container",
+              "bold": true
+            },
+            {
+              "value": " that can hold Vorbis or Opus encoded audio. Without the "
+            },
+            {
+              "value": "codecs",
+              "highlight": true
+            },
+            {
+              "value": " parameter, "
+            },
+            {
+              "value": "audio/ogg",
+              "highlight": true
+            },
+            {
+              "value": " only tells the browser the container type; with "
+            },
+            {
+              "value": "codecs=opus",
+              "highlight": true
+            },
+            {
+              "value": " it specifies the exact codec. A browser that supports OGG Vorbis but not Opus would correctly skip "
+            },
+            {
+              "value": "audio/ogg; codecs=opus",
+              "highlight": true
+            },
+            {
+              "value": " without fetching the file."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "FFmpeg",
+              "bold": true
+            },
+            {
+              "value": " to batch-encode audio files to all required formats from a single source: "
+            },
+            {
+              "value": "ffmpeg -i input.wav -c:a libopus output.opus",
+              "highlight": true
+            },
+            {
+              "value": " for Opus and "
+            },
+            {
+              "value": "ffmpeg -i input.wav -c:a libmp3lame -q:a 4 output.mp3",
+              "highlight": true
+            },
+            {
+              "value": " for MP3. Encoding at Opus bitrate 96kbps produces quality comparable to MP3 at 192kbps at half the file size, making Opus the clear choice for web audio delivery."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Audio Element",
+        "HTML Video Element",
+        "HTML Media and Time Semantics"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 23,
+      "slug": "audio-playback-attributes",
+      "title": "Audio Playback Attributes",
+      "description": "controls, autoplay, muted, loop, and preload govern when and how audio is fetched and played.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<audio>",
+              "highlight": true
+            },
+            {
+              "value": " element's playback behaviour is controlled by five key attributes. "
+            },
+            {
+              "value": "controls",
+              "highlight": true
+            },
+            {
+              "value": " renders the browser's native audio UI; omitting it creates an invisible audio element that must be driven by JavaScript. "
+            },
+            {
+              "value": "autoplay",
+              "highlight": true
+            },
+            {
+              "value": " instructs the browser to begin playback on load, but is blocked unless "
+            },
+            {
+              "value": "muted",
+              "highlight": true
+            },
+            {
+              "value": " is also set. "
+            },
+            {
+              "value": "loop",
+              "highlight": true
+            },
+            {
+              "value": " restarts the audio when it ends. "
+            },
+            {
+              "value": "muted",
+              "highlight": true
+            },
+            {
+              "value": " initialises volume at zero; the user or JavaScript must unmute. "
+            },
+            {
+              "value": "preload",
+              "highlight": true
+            },
+            {
+              "value": " hints how much data the browser should buffer before playback: "
+            },
+            {
+              "value": "none",
+              "highlight": true
+            },
+            {
+              "value": " buffers nothing, "
+            },
+            {
+              "value": "metadata",
+              "highlight": true
+            },
+            {
+              "value": " fetches only duration and track metadata, "
+            },
+            {
+              "value": "auto",
+              "highlight": true
+            },
+            {
+              "value": " downloads enough (or all) of the file. Reference: "
+            },
+            {
+              "value": "MDN: audio attributes",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio#attributes"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "controls Is Required for Keyboard Accessibility",
+          "text": "Without the controls attribute, the audio element is invisible and silent to keyboard users. There is no tab stop, no play button, and no way to control playback without JavaScript interaction. If you build a custom player, every control must be a real <button> element so it is keyboard reachable and screen reader operable. A div or span with a click handler is not keyboard accessible."
+        }
+      ],
+      "examples": [
+        {
+          "title": "All Playback Attributes in Practice",
+          "description": "This example shows each playback attribute in a practical context: a podcast player with controls and preload='auto', an ambient sound player with autoplay muted loop, a hidden audio element driven by custom JavaScript buttons, and a comparison of preload values and their network impact measured in DevTools.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Audio Playback Attributes</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    audio{ width: 100%; margin: .5rem 0; }\n    .btn { background: #2563eb; color: #fff; border: none;\n           border-radius: 8px; padding: .5rem 1rem;\n           font-size: .85rem; cursor: pointer; margin-right: .5rem; }\n    .btn:hover { background: #1d4ed8; }\n    .ambient { background: #f0fdf4; border: 1px solid #bbf7d0;\n               border-radius: 10px; padding: .85rem 1rem;\n               display: flex; align-items: center; gap: .85rem; }\n    .ambient span { font-size: .88rem; flex: 1; }\n    .ann  { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .75rem 1rem;\n            font-size: .84rem; line-height: 1.65; margin: .5rem 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Audio Playback Attributes</h1>\n\n\n  <!-- controls + preload=\"metadata\" (default recommendation) -->\n  <h2>1. controls with preload=\"metadata\"</h2>\n  <!--\n    controls: required for accessibility and keyboard navigation.\n    preload=\"metadata\": fetches duration for the time display.\n      Does NOT download the audio file on page load.\n      Best default for most audio players.\n  -->\n  <audio controls preload=\"metadata\">\n    <source src=\"/audio/lesson-01.opus\" type=\"audio/ogg; codecs=opus\">\n    <source src=\"/audio/lesson-01.mp3\"  type=\"audio/mpeg\">\n  </audio>\n  <div class=\"ann\">\n    Network cost: <strong>~1-5 KB</strong> for metadata only.\n    Full file downloaded only when user presses Play.\n  </div>\n\n\n  <!-- controls + preload=\"auto\" for podcast page -->\n  <h2>2. controls with preload=\"auto\"</h2>\n  <!--\n    preload=\"auto\": proactively buffer the audio.\n    Use on dedicated podcast/audio pages where the user\n    is very likely to play the entire episode.\n    Avoid on pages with multiple audio players.\n  -->\n  <audio controls preload=\"auto\">\n    <source src=\"/audio/podcast-ep12.opus\" type=\"audio/ogg; codecs=opus\">\n    <source src=\"/audio/podcast-ep12.mp3\"  type=\"audio/mpeg\">\n  </audio>\n  <div class=\"ann\">\n    Network cost: <strong>full file size</strong> loaded proactively.\n    Appropriate only when play intent is near-certain.\n  </div>\n\n\n  <!-- autoplay muted loop (ambient) -->\n  <h2>3. autoplay muted loop for ambient sound</h2>\n  <!--\n    autoplay: begin playing immediately.\n    muted: required for autoplay to work in modern browsers.\n    loop: repeat indefinitely.\n    Provide a visible unmute/stop control.\n  -->\n  <audio id=\"ambient\" autoplay muted loop preload=\"auto\">\n    <source src=\"/audio/rain-ambient.mp3\" type=\"audio/mpeg\">\n  </audio>\n\n  <div class=\"ambient\">\n    <span>&#127783; Ambient rain — playing (muted)</span>\n    <button class=\"btn\"\n            id=\"unmute-btn\"\n            aria-label=\"Unmute ambient rain audio\"\n            onclick=\"\n              const a = document.getElementById('ambient');\n              a.muted = !a.muted;\n              this.textContent = a.muted ? 'Unmute' : 'Mute';\n              this.setAttribute('aria-label',\n                a.muted\n                  ? 'Unmute ambient rain audio'\n                  : 'Mute ambient rain audio');\n            \">\n      Unmute\n    </button>\n    <button class=\"btn\"\n            style=\"background:#64748b;\"\n            aria-label=\"Stop ambient rain audio\"\n            onclick=\"document.getElementById('ambient').pause();\">\n      Stop\n    </button>\n  </div>\n\n\n  <!-- Hidden audio driven by JavaScript buttons -->\n  <h2>4. Hidden audio with custom JavaScript controls</h2>\n  <!--\n    No controls attribute: the <audio> is invisible.\n    Driven entirely by JavaScript.\n    Custom controls are <button> elements for accessibility.\n  -->\n  <audio id=\"js-audio\" preload=\"metadata\">\n    <source src=\"/audio/sound-effect.mp3\" type=\"audio/mpeg\">\n  </audio>\n\n  <button class=\"btn\"\n          aria-label=\"Play notification sound\"\n          onclick=\"document.getElementById('js-audio').play()\">\n    Play sound\n  </button>\n  <button class=\"btn\"\n          style=\"background:#64748b;\"\n          aria-label=\"Stop notification sound\"\n          onclick=\"\n            const a = document.getElementById('js-audio');\n            a.pause();\n            a.currentTime = 0;\n          \">\n    Stop\n  </button>\n\n\n  <!-- preload none: page with many audio elements -->\n  <h2>5. preload=\"none\" for pages with many audio players</h2>\n  <!--\n    preload=\"none\": no buffering at all until user presses Play.\n    Use when there are many audio elements on the page.\n    Avoids downloading audio files the user may never play.\n  -->\n  <audio controls preload=\"none\">\n    <source src=\"/audio/pronunciation-a.mp3\" type=\"audio/mpeg\">\n  </audio>\n  <audio controls preload=\"none\">\n    <source src=\"/audio/pronunciation-b.mp3\" type=\"audio/mpeg\">\n  </audio>\n  <audio controls preload=\"none\">\n    <source src=\"/audio/pronunciation-c.mp3\" type=\"audio/mpeg\">\n  </audio>\n  <div class=\"ann\">\n    Network cost: <strong>zero</strong> until each player is used.\n    Appropriate for vocabulary and pronunciation pages.\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders five sections. The first shows a full-width native audio player with preload=metadata and an annotation noting the minimal network cost. The second shows a player with preload=auto and an annotation about full file buffering. The ambient section shows a green card with play status and unmute and stop buttons wired to the hidden audio element. The custom controls section shows two accessible buttons driving a hidden audio element with no browser UI. The pronunciation section shows three consecutive native players all with preload=none and an annotation about zero upfront bandwidth.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "autoplay",
+              "highlight": true
+            },
+            {
+              "value": " browser block is not a bug but a "
+            },
+            {
+              "value": "user experience policy",
+              "bold": true
+            },
+            {
+              "value": ". Browsers track a per-origin "
+            },
+            {
+              "value": "Media Engagement Index",
+              "bold": true
+            },
+            {
+              "value": " (MEI): pages where users frequently play audio receive higher engagement scores and may be allowed to autoplay with sound. New visitors always start with a low MEI, so "
+            },
+            {
+              "value": "autoplay",
+              "highlight": true
+            },
+            {
+              "value": " without "
+            },
+            {
+              "value": "muted",
+              "highlight": true
+            },
+            {
+              "value": " silently fails on first visit. The correct pattern for unmuted autoplay is to call "
+            },
+            {
+              "value": "audio.play()",
+              "highlight": true
+            },
+            {
+              "value": " inside a user gesture handler (a button click), not in the page "
+            },
+            {
+              "value": "load",
+              "highlight": true
+            },
+            {
+              "value": " event."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "preload",
+              "highlight": true
+            },
+            {
+              "value": " attribute is a "
+            },
+            {
+              "value": "hint",
+              "bold": true
+            },
+            {
+              "value": ", not a command. Browsers are free to ignore it based on connection speed, battery level, and data saver mode. On metered connections or with "
+            },
+            {
+              "value": "Save-Data: on",
+              "highlight": true
+            },
+            {
+              "value": " in the request header, browsers treat "
+            },
+            {
+              "value": "preload='auto'",
+              "highlight": true
+            },
+            {
+              "value": " as "
+            },
+            {
+              "value": "preload='metadata'",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "preload='none'",
+              "highlight": true
+            },
+            {
+              "value": ". Developers should not depend on "
+            },
+            {
+              "value": "preload='auto'",
+              "highlight": true
+            },
+            {
+              "value": " to guarantee that audio is ready to play instantly; use the "
+            },
+            {
+              "value": "canplaythrough",
+              "highlight": true
+            },
+            {
+              "value": " event to know when the browser is confident it can play without buffering interruption."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Listen to the "
+            },
+            {
+              "value": "canplaythrough",
+              "highlight": true
+            },
+            {
+              "value": " event on "
+            },
+            {
+              "value": "<audio>",
+              "highlight": true
+            },
+            {
+              "value": " to know when the browser has buffered enough to play the full track without interruption. Enable the play button only after this event fires when "
+            },
+            {
+              "value": "preload='auto'",
+              "highlight": true
+            },
+            {
+              "value": " is set on a dedicated podcast page. For "
+            },
+            {
+              "value": "preload='metadata'",
+              "highlight": true
+            },
+            {
+              "value": " players, listen to "
+            },
+            {
+              "value": "loadedmetadata",
+              "highlight": true
+            },
+            {
+              "value": " to populate the duration display before the user presses play."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Audio Element",
+        "Audio Source Formats",
+        "HTML Video Element",
+        "Accessibility and ARIA"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Audio Element | audio, source, controls, autoplay Guide",
+    "meta_description": "Learn the HTML audio element: source format fallbacks, controls and autoplay attributes, preload strategies, accessible custom audio players, and audio transcript requirements.",
+    "keywords": [
+      "HTML audio element",
+      "HTML audio controls attribute",
+      "HTML audio source formats",
+      "HTML audio autoplay muted",
+      "HTML audio preload metadata",
+      "HTML audio loop attribute",
+      "HTML audio MIME type",
+      "HTML audio accessibility transcript",
+      "HTML audio JavaScript API",
+      "HTML audio Opus MP3 fallback"
+    ],
+    "canonical_url": "/html/html-audio-element",
+    "robots": "index, follow"
+  }
+}

@@ -276,7 +276,6 @@
       "JavaScript Basics",
       "Browser DevTools"
     ],
-    "seo_id": 1,
     "is_active": true,
     "order_index": 1,
     "created_at": null,
@@ -349,9 +348,9 @@
       "image_banner_url": "https://imgs.search.brave.com/OlsEKLcVHcOMtcB1-I0fnpBa7M-ruCRukhZmckPHxOQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/b25saW5lLnVjLmVk/dS9jb250ZW50L2Rh/bS9yZWZyZXNoL29u/bGluZS9XaGF0LUlz/LUlULUJsb2ctSW5m/b2dyYXBoaWMtSG93/LXRvLUJyZWFrLWlu/dG8tSVQtRmllbGQu/anBn",
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "type": "paragraph",
@@ -370,7 +369,7 @@
           ]
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "type": "paragraph",
@@ -386,7 +385,6 @@
         "How the Web Works",
         "HTML Document Structure"
       ],
-      "seo_id": 1,
       "is_active": true,
       "order_index": 1,
       "created_at": null,
@@ -497,9 +495,9 @@
       "image_banner_url": "https://imgs.search.brave.com/OlsEKLcVHcOMtcB1-I0fnpBa7M-ruCRukhZmckPHxOQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/b25saW5lLnVjLmVk/dS9jb250ZW50L2Rh/bS9yZWZyZXNoL29u/bGluZS9XaGF0LUlz/LUlULUJsb2ctSW5m/b2dyYXBoaWMtSW5m/b2dyYXBoaWMtSG93/LXRvLUJyZWFrLWlu/dG8tSVQtRmllbGQu/anBn",
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "type": "paragraph",
@@ -518,7 +516,7 @@
           ]
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "type": "paragraph",
@@ -534,7 +532,6 @@
         "HTML Document Structure",
         "HTTP and Web Security Basics"
       ],
-      "seo_id": 2,
       "is_active": true,
       "order_index": 2,
       "created_at": null,
@@ -613,9 +610,9 @@
       "image_banner_url": "https://imgs.search.brave.com/OlsEKLcVHcOMtcB1-I0fnpBa7M-ruCRukhZmckPHxOQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/b25saW5lLnVjLmVk/dS9jb250ZW50L2Rh/bS9yZWZyZXNoL29u/bGluZS9XaGF0LUlz/LUlULUJsb2ctSW5m/b2dyYXBoaWMtSG93/LXRvLUJyZWFrLWlu/dG8tSVQtRmllbGQu/anBn",
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "type": "paragraph",
@@ -634,7 +631,7 @@
           ]
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "type": "paragraph",
@@ -651,85 +648,28 @@
         "CSS Fundamentals",
         "JavaScript Basics"
       ],
-      "seo_id": 3,
       "is_active": true,
       "order_index": 3,
       "created_at": null,
       "updated_at": null
     }
   ],
-  "seo_metadata": [
-    {
-      "id": 1,
-      "meta_title": "HTML Introduction & Web Basics | Beginner Guide",
-      "meta_description": "Learn what HTML is, how the web works, and the roles of HTML, CSS, and JavaScript. Beginner-friendly guide with real examples and production best practices.",
-      "keywords": [
-        "HTML introduction",
-        "what is HTML",
-        "how the web works",
-        "HTML CSS JavaScript",
-        "separation of concerns",
-        "web basics",
-        "HTML for beginners",
-        "HTTP request response",
-        "web browser rendering",
-        "HTML fundamentals"
-      ],
-      "canonical_url": "/html/html-introduction-web-basics",
-      "robots": "index, follow"
-    },
-    {
-      "id": 1,
-      "meta_title": "What is HTML? Tags, Elements, and Attributes",
-      "meta_description": "Learn what HTML is, how tags and elements work, the difference between void and container elements, and where to find the official HTML specification.",
-      "keywords": [
-        "what is HTML",
-        "HTML tags",
-        "HTML elements",
-        "HTML attributes",
-        "HTML void elements",
-        "HTML markup language",
-        "HTML basics",
-        "HTML opening closing tags",
-        "HyperText Markup Language"
-      ],
-      "canonical_url": "/html/html-introduction-web-basics/what-is-html",
-      "robots": "index, follow"
-    },
-    {
-      "id": 2,
-      "meta_title": "How the Web Works | HTTP, DNS, and Browsers",
-      "meta_description": "Understand how the web works: DNS lookup, HTTP requests, server responses, and browser rendering. Includes HTTP status codes and the request-response cycle explained.",
-      "keywords": [
-        "how the web works",
-        "HTTP request response",
-        "DNS lookup",
-        "web browser rendering",
-        "HTTP status codes",
-        "client server model",
-        "URL to webpage",
-        "web server HTML",
-        "browser network request"
-      ],
-      "canonical_url": "/html/html-introduction-web-basics/how-the-web-works",
-      "robots": "index, follow"
-    },
-    {
-      "id": 3,
-      "meta_title": "HTML CSS JavaScript Separation of Concerns",
-      "meta_description": "Learn why separating HTML structure, CSS styling, and JavaScript behavior into distinct layers produces maintainable, scalable, and team-friendly web projects.",
-      "keywords": [
-        "separation of concerns HTML",
-        "HTML CSS JavaScript roles",
-        "inline CSS vs external CSS",
-        "HTML structure CSS style JS behavior",
-        "web development layers",
-        "external stylesheet HTML",
-        "maintainable HTML",
-        "HTML best practices"
-      ],
-      "canonical_url": "/html/html-introduction-web-basics/html-css-javascript-separation-of-concerns",
-      "robots": "index, follow"
-    }
-  ]
+  "seo_metadata": {
+    "meta_title": "HTML Introduction & Web Basics | Beginner Guide",
+    "meta_description": "Learn what HTML is, how the web works, and the roles of HTML, CSS, and JavaScript. Beginner-friendly guide with real examples and production best practices.",
+    "keywords": [
+      "HTML introduction",
+      "what is HTML",
+      "how the web works",
+      "HTML CSS JavaScript",
+      "separation of concerns",
+      "web basics",
+      "HTML for beginners",
+      "HTTP request response",
+      "web browser rendering",
+      "HTML fundamentals"
+    ],
+    "canonical_url": "/html/html-introduction-web-basics",
+    "robots": "index, follow"
+  }
 }

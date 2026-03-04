@@ -158,7 +158,8 @@
           {
             "value": " whenever the main text references a media element with phrases like 'as shown in', 'see figure', or 'the following listing', making the relationship between prose and media explicit."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -172,7 +173,8 @@
           {
             "value": " for every date and time displayed to users so that search engines, feed readers, calendar apps, and browser extensions can parse the value correctly."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -193,7 +195,8 @@
           {
             "value": " attribute: a figure number, the data source, the photographer credit, or an explanatory note."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "when_to_avoid": [
@@ -223,7 +226,8 @@
           {
             "value": " attribute."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -251,7 +255,8 @@
           {
             "value": " the element provides no machine value."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -272,7 +277,8 @@
           {
             "value": "; the specification requires it to be the first or the last child element of the figure."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "what_it_solves": [
@@ -302,7 +308,8 @@
           {
             "value": " without relying on visual proximity."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -323,7 +330,8 @@
           {
             "value": " is unambiguous forever."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -344,7 +352,8 @@
           {
             "value": " enables browser extensions, RSS readers, and calendar integrations to extract structured date data without requiring server-side structured data markup."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "conceptual_understanding": [
@@ -381,7 +390,8 @@
           {
             "value": " candidate."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -416,7 +426,8 @@
           {
             "value": " attribute is for machines and must always be ISO 8601. This separation means the same page can be localised in any language while keeping the machine-readable date format consistent."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -472,7 +483,8 @@
           {
             "value": " for sighted and non-sighted users alike: source attribution, figure numbers, analytical observations about the image content."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "common_mistakes": [
@@ -495,7 +507,8 @@
           {
             "value": " rather than as its first or last child is invalid HTML."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -516,7 +529,8 @@
           {
             "value": " causes screen readers to announce the same description twice."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -537,7 +551,8 @@
           {
             "value": " for relative text like yesterday leaves no machine-readable date value."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "bonus_tips": [
@@ -574,7 +589,8 @@
           {
             "value": ". This creates an explicit ARIA association between the figure and its caption that assistive tools surface in addition to the structural HTML relationship."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -616,7 +632,8 @@
           {
             "value": ", and format it for the user's locale. This keeps the HTML semantically correct while delivering locale-appropriate display without server-side rendering."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "related_topics": [
@@ -727,9 +744,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -757,7 +774,8 @@
             {
               "value": "; inline content belongs directly in the paragraph."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -813,10 +831,11 @@
             {
               "value": " is better than visual proximity for form inputs."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -851,7 +870,8 @@
             {
               "value": "). This creates a navigable cross-reference system in long documents: clicking 'Figure 2' in the text scrolls to the actual figure, and screen reader users can jump there directly without reading the entire document."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
@@ -988,9 +1008,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -1032,7 +1052,8 @@
             {
               "value": " is the archival record that remains correct regardless of when the page is accessed."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -1137,10 +1158,11 @@
             {
               "value": ")."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -1168,7 +1190,8 @@
             {
               "value": ". This JavaScript progressive enhancement pattern keeps HTML semantically correct for search engines and screen readers while giving users a friendlier 'published 3 days ago' experience without server-side personalisation."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [

@@ -1,0 +1,1313 @@
+{
+  "topic": {
+    "id": 18,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 6,
+    "slug": "html-table-structure-and-spans",
+    "title": "HTML Table Structure and Spans",
+    "description": "HTML tables present tabular data using rows, columns, headers, and spans for semantic structure.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Building Accessible and Semantic HTML Tables"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "An HTML table is built from a hierarchy of elements. The "
+          },
+          {
+            "value": "<table>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+          },
+          {
+            "value": " element is the outer container. Inside it, "
+          },
+          {
+            "value": "<tr>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr"
+          },
+          {
+            "value": " defines each row. "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " marks a "
+          },
+          {
+            "value": "header cell",
+            "bold": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " marks a "
+          },
+          {
+            "value": "data cell",
+            "bold": true
+          },
+          {
+            "value": ". Rows are grouped into "
+          },
+          {
+            "value": "<thead>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<tbody>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody"
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "<tfoot>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot"
+          },
+          {
+            "value": " sections for semantic grouping. The "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " element provides an accessible title for the table, and the "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " cells tells assistive technologies whether a header applies to a column, row, or group of cells."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Element / Attribute",
+          "Purpose",
+          "Required"
+        ],
+        "rows": [
+          [
+            "<table>",
+            "Outer container for all table content",
+            "Yes"
+          ],
+          [
+            "<caption>",
+            "Accessible title describing the table's purpose",
+            "Strongly recommended"
+          ],
+          [
+            "<thead>",
+            "Groups header rows at the top of the table",
+            "Recommended"
+          ],
+          [
+            "<tbody>",
+            "Groups the primary data rows of the table",
+            "Recommended"
+          ],
+          [
+            "<tfoot>",
+            "Groups summary or footer rows at the bottom",
+            "Optional"
+          ],
+          [
+            "<tr>",
+            "Defines a single row of cells",
+            "Yes"
+          ],
+          [
+            "<th>",
+            "Header cell, bold by default, exposes column or row label to screen readers",
+            "For headers"
+          ],
+          [
+            "<td>",
+            "Standard data cell",
+            "For data"
+          ],
+          [
+            "scope",
+            "Declares whether a th applies to a col, row, colgroup, or rowgroup",
+            "On all th cells"
+          ],
+          [
+            "colspan",
+            "Merges a cell across multiple columns",
+            "When merging columns"
+          ],
+          [
+            "rowspan",
+            "Merges a cell across multiple rows",
+            "When merging rows"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Tables Are for Tabular Data Only",
+        "text": "Never use table elements to control page layout. Layout tables were a pre-CSS pattern that breaks screen readers, prevents responsive design, and violates WCAG 1.3.1. Use CSS grid or flexbox for layout instead."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Complete Accessible Table with thead, tbody, tfoot, and caption",
+        "description": "A fully structured table showing all major elements in their correct positions, with scope attributes on header cells and a caption providing an accessible title for screen reader users.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Accessible Table Example</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; }\n      table {\n        border-collapse: collapse;\n        width: 100%;\n        max-width: 700px;\n      }\n      caption {\n        font-weight: 700;\n        font-size: 1.1rem;\n        margin-bottom: 0.75rem;\n        text-align: left;\n        color: #1a1a2e;\n      }\n      th, td {\n        border: 1px solid #ddd;\n        padding: 0.65rem 1rem;\n        text-align: left;\n      }\n      thead th { background: #1a1a2e; color: white; }\n      tfoot td { background: #f0f0f0; font-weight: 700; }\n      tbody tr:nth-child(even) { background: #f8f8f8; }\n    </style>\n  </head>\n  <body>\n\n    <table>\n      <!-- caption: first child of table, read by screen readers before the data -->\n      <caption>Q1 2024 Regional Sales Summary</caption>\n\n      <!-- thead: groups column header rows -->\n      <thead>\n        <tr>\n          <!-- scope=\"col\" tells screen readers this th labels its entire column -->\n          <th scope=\"col\">Region</th>\n          <th scope=\"col\">Jan</th>\n          <th scope=\"col\">Feb</th>\n          <th scope=\"col\">Mar</th>\n          <th scope=\"col\">Total</th>\n        </tr>\n      </thead>\n\n      <!-- tbody: contains the primary data rows -->\n      <tbody>\n        <tr>\n          <!-- scope=\"row\" tells screen readers this th labels its entire row -->\n          <th scope=\"row\">North</th>\n          <td>$42,000</td>\n          <td>$38,500</td>\n          <td>$51,200</td>\n          <td>$131,700</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">South</th>\n          <td>$29,800</td>\n          <td>$33,100</td>\n          <td>$27,600</td>\n          <td>$90,500</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">East</th>\n          <td>$55,400</td>\n          <td>$61,200</td>\n          <td>$58,900</td>\n          <td>$175,500</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">West</th>\n          <td>$47,300</td>\n          <td>$44,800</td>\n          <td>$49,100</td>\n          <td>$141,200</td>\n        </tr>\n      </tbody>\n\n      <!-- tfoot: summary row at the bottom -->\n      <tfoot>\n        <tr>\n          <td>All Regions</td>\n          <td>$174,500</td>\n          <td>$177,600</td>\n          <td>$186,800</td>\n          <td>$538,900</td>\n        </tr>\n      </tfoot>\n    </table>\n\n  </body>\n</html>",
+        "output": "A styled table renders with a bold left-aligned caption above it. The header row has a dark navy background with white text listing Region, Jan, Feb, Mar, and Total. Four data rows follow with alternating white and light grey backgrounds, each starting with a bold row header (North, South, East, West) followed by dollar figures. The totals row at the bottom has a light grey background with bold text. Screen readers announce the caption before the data, and each cell is announced with its column and row header context.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "WRONG vs RIGHT: Layout Table vs Semantic Table",
+        "description": "Contrasts a table misused for two-column page layout against a properly structured data table, showing exactly what breaks for accessibility and responsive design when tables are used for layout.",
+        "code_snippet": "<!-- WRONG: table used for page layout -->\n<!-- Screen readers announce row and column counts for layout regions -->\n<!-- Cannot reflow to single column on mobile without JavaScript -->\n<!-- Violates WCAG 1.3.1 Info and Relationships -->\n<table>\n  <tr>\n    <td>\n      <!-- WRONG: navigation in a table cell -->\n      <nav>...</nav>\n    </td>\n    <td>\n      <!-- WRONG: main content in a table cell -->\n      <main>...</main>\n    </td>\n  </tr>\n</table>\n\n\n<!-- RIGHT: CSS grid for layout, table only for tabular data -->\n<div style=\"display: grid; grid-template-columns: 240px 1fr; gap: 2rem;\">\n  <nav>...</nav>\n  <main>...</main>\n</div>\n\n<!-- RIGHT: table used correctly for actual data -->\n<table>\n  <caption>Product Comparison</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Feature</th>\n      <th scope=\"col\">Free Plan</th>\n      <th scope=\"col\">Pro Plan</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th scope=\"row\">Storage</th>\n      <td>5 GB</td>\n      <td>100 GB</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">Users</th>\n      <td>1</td>\n      <td>Unlimited</td>\n    </tr>\n  </tbody>\n</table>",
+        "output": "The WRONG layout table renders the navigation and main content side by side but announces column counts and cell positions to screen readers, confusing users who expect landmark navigation. On narrow screens it does not reflow. The RIGHT version uses a CSS grid div for layout and a properly captioned, scoped table for the product comparison data, which screen readers navigate correctly with full header context for every cell.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "colspan and rowspan for Complex Data Grids",
+        "description": "Shows colspan used to create a grouped column header that spans multiple columns, and rowspan used to merge a row header across multiple rows, a common pattern in financial and scheduling tables.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>colspan and rowspan</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; }\n      table { border-collapse: collapse; max-width: 600px; width: 100%; }\n      caption { font-weight: 700; margin-bottom: 0.5rem; text-align: left; }\n      th, td { border: 1px solid #ccc; padding: 0.6rem 1rem; text-align: center; }\n      thead th { background: #1a1a2e; color: white; }\n      .group-header { background: #2c3e6e; color: white; }\n      tbody th { background: #f5f5f5; font-weight: 600; text-align: left; }\n    </style>\n  </head>\n  <body>\n\n    <table>\n      <caption>Employee Schedule: Week of 15 Jan 2024</caption>\n      <thead>\n        <tr>\n          <!-- rowspan=\"2\": this header spans both header rows -->\n          <th scope=\"col\" rowspan=\"2\">Employee</th>\n\n          <!-- colspan=\"2\": \"Morning\" spans the 9am and 11am columns -->\n          <th scope=\"colgroup\" colspan=\"2\" class=\"group-header\">Morning</th>\n\n          <!-- colspan=\"2\": \"Afternoon\" spans the 1pm and 3pm columns -->\n          <th scope=\"colgroup\" colspan=\"2\" class=\"group-header\">Afternoon</th>\n        </tr>\n        <tr>\n          <!-- These four ths fill in under the colspan headers above -->\n          <th scope=\"col\">9:00 AM</th>\n          <th scope=\"col\">11:00 AM</th>\n          <th scope=\"col\">1:00 PM</th>\n          <th scope=\"col\">3:00 PM</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">Alice</th>\n          <td>Design Review</td>\n          <td>Team Standup</td>\n          <td>Client Call</td>\n          <td>Free</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Bob</th>\n          <td>Free</td>\n          <td>Team Standup</td>\n          <td>Free</td>\n          <td>Sprint Planning</td>\n        </tr>\n        <tr>\n          <!-- rowspan=\"2\": \"Eve\" label covers both the Eve and Frank rows -->\n          <th scope=\"rowgroup\" rowspan=\"2\">Pair Programming</th>\n          <td>Architecture</td>\n          <td>Code Review</td>\n          <td>Testing</td>\n          <td>Free</td>\n        </tr>\n        <tr>\n          <!-- No th needed here: rowspan above covers this row -->\n          <td>Documentation</td>\n          <td>Free</td>\n          <td>Deployment</td>\n          <td>Retrospective</td>\n        </tr>\n      </tbody>\n    </table>\n\n  </body>\n</html>",
+        "output": "The table renders with a two-row header. The top header row shows 'Employee' spanning both rows, then 'Morning' spanning two columns and 'Afternoon' spanning two columns in a darker navy. The second header row fills in the four time slots underneath. In the body, the 'Pair Programming' row header merges across two rows. Screen readers announce each cell with its full header chain, for example 'Afternoon, 3:00 PM, Pair Programming: Retrospective'.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<table>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+          },
+          {
+            "value": " when presenting data that has a genuine relationship between rows and columns, such as schedules, price comparisons, financial reports, or sports statistics."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "colspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "rowspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+          },
+          {
+            "value": " when data cells or headers logically span multiple columns or rows in the real-world data, such as grouped column headers or merged category labels."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " on every table so screen reader users hear a description of the table before navigating its cells, satisfying the "
+          },
+          {
+            "value": "WCAG 1.3.1 Info and Relationships",
+            "bold": true,
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html"
+          },
+          {
+            "value": " success criterion."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Never use "
+          },
+          {
+            "value": "<table>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+          },
+          {
+            "value": " for page layout. Use "
+          },
+          {
+            "value": "CSS grid",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "CSS flexbox",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout"
+          },
+          {
+            "value": " instead, as layout tables break screen reader navigation and prevent responsive reflow."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using excessive "
+          },
+          {
+            "value": "colspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "rowspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+          },
+          {
+            "value": " when the same data could be represented as multiple simpler tables, as deeply merged cells create confusing navigation paths for screen reader users."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid omitting the "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " attribute on "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " elements. Without "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": ", screen readers must guess whether a header applies to a column, row, or group, often getting it wrong."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without "
+          },
+          {
+            "value": "<thead>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<tbody>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody"
+          },
+          {
+            "value": ", screen readers cannot distinguish header rows from data rows, forcing users to mentally track which row contains column labels across a large table."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without "
+          },
+          {
+            "value": "colspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "rowspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+          },
+          {
+            "value": ", grouped data relationships that span multiple cells must be duplicated across individual cells, creating visual and semantic redundancy."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without a "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " attributes, screen readers read tables as grids of isolated values with no way to understand what each cell represents in relation to its headers."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "An HTML table is like a spreadsheet with labelled axes. "
+          },
+          {
+            "value": "<thead>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead"
+          },
+          {
+            "value": " is the frozen top row with column labels, "
+          },
+          {
+            "value": "<tbody>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody"
+          },
+          {
+            "value": " is the scrollable data region, and "
+          },
+          {
+            "value": "<tfoot>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot"
+          },
+          {
+            "value": " is the frozen totals row at the bottom. The "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " attribute tells assistive technology which axis each label belongs to."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Think of "
+          },
+          {
+            "value": "colspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "rowspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+          },
+          {
+            "value": " as the merge cells function in Excel. When two or more adjacent cells share the same label or value, you merge them into one cell that physically spans the space of the originals, rather than repeating the label in every cell."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " element is the table's headline. Just as a chart in a report has a figure title below it explaining what the chart shows, "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " gives screen reader users a meaningful description before they begin navigating the cells, preventing the disorientation of landing inside a grid with no context."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Omitting "
+          },
+          {
+            "value": "scope",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+          },
+          {
+            "value": " on "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " cells: screen readers guess header direction incorrectly, breaking cell announcements in complex tables."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Miscounting cells after "
+          },
+          {
+            "value": "colspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "rowspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+          },
+          {
+            "value": ": adding extra "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " cells in spanned rows shifts all subsequent columns, breaking the grid alignment."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Using "
+          },
+          {
+            "value": "<td>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+          },
+          {
+            "value": " instead of "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " for row headers: screen readers treat them as plain data, so row context is lost when navigating columns."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "On long tables, use "
+          },
+          {
+            "value": "position: sticky; top: 0",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/position"
+          },
+          {
+            "value": " on "
+          },
+          {
+            "value": "<thead>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead"
+          },
+          {
+            "value": " cells to keep column headers visible as users scroll. This works because "
+          },
+          {
+            "value": "<thead>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " is a distinct section that browsers can pin independently of "
+          },
+          {
+            "value": "<tbody>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody"
+          },
+          {
+            "value": ", and it requires no JavaScript."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Run your tables through the "
+          },
+          {
+            "value": "WAVE accessibility checker",
+            "bold": true,
+            "link": "https://wave.webaim.org/"
+          },
+          {
+            "value": " or axe DevTools to catch missing "
+          },
+          {
+            "value": "<caption>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+          },
+          {
+            "value": " elements, unscoped "
+          },
+          {
+            "value": "<th>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+          },
+          {
+            "value": " cells, and incorrect cell counts caused by miscalculated "
+          },
+          {
+            "value": "colspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "rowspan",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+          },
+          {
+            "value": " values."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Semantic Elements",
+      "HTML Accessibility Basics",
+      "HTML Description List Elements",
+      "CSS Grid Layout",
+      "WCAG Accessibility Guidelines"
+    ],
+    "is_active": true,
+    "order_index": 18,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 6,
+      "topic_id": 18,
+      "slug": "table-structure-elements",
+      "title": "Table Structure Elements (thead, tbody, tfoot)",
+      "description": "The thead, tbody, and tfoot elements group a table's rows into header, body, and footer sections.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "Row group elements give a table semantic structure beyond individual rows. "
+            },
+            {
+              "value": "<thead>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead"
+            },
+            {
+              "value": " wraps rows containing column headers, "
+            },
+            {
+              "value": "<tbody>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody"
+            },
+            {
+              "value": " wraps the primary data rows, and "
+            },
+            {
+              "value": "<tfoot>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot"
+            },
+            {
+              "value": " wraps summary or closing rows such as totals. All three are optional children of "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": ", though a "
+            },
+            {
+              "value": "<tbody>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " is implicitly created by browsers even when omitted. A table may contain multiple "
+            },
+            {
+              "value": "<tbody>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " elements to segment large datasets into logical groups. The "
+            },
+            {
+              "value": "<caption>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption"
+            },
+            {
+              "value": " element must be the "
+            },
+            {
+              "value": "first child",
+              "bold": true
+            },
+            {
+              "value": " of "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " when present. Header cells inside "
+            },
+            {
+              "value": "<thead>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " should always use "
+            },
+            {
+              "value": "<th>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+            },
+            {
+              "value": " with an appropriate "
+            },
+            {
+              "value": "scope",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+            },
+            {
+              "value": " attribute so assistive technologies can associate header labels with their data cells."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "tfoot can appear before tbody in source order",
+          "text": "The HTML spec allows tfoot to be written before tbody in the source. Browsers render it at the bottom regardless of source order, and when printing a long table across multiple pages, the tfoot content repeats at the bottom of each printed page automatically."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Table with Multiple tbody Sections for Grouped Data",
+          "description": "Demonstrates using multiple tbody elements to divide a large dataset into named sections, with a colgroup used to apply column-level styling, and a tfoot for grand totals.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Multiple tbody Groups</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; }\n      table { border-collapse: collapse; width: 100%; max-width: 650px; }\n      caption { font-weight: 700; text-align: left; margin-bottom: 0.5rem; font-size: 1.05rem; }\n      th, td { border: 1px solid #ddd; padding: 0.6rem 1rem; text-align: left; }\n      thead th { background: #1a1a2e; color: white; }\n      /* Style tbody group labels */\n      .group-label { background: #e8f0fe; font-weight: 700; color: #1a1a2e; }\n      tfoot td { background: #f0f0f0; font-weight: 700; }\n      /* colgroup: highlight the Total column across all rows */\n      col.total { background: #fafafa; }\n    </style>\n  </head>\n  <body>\n    <table>\n      <caption>Annual Budget by Department</caption>\n\n      <!-- colgroup: applies column-level styling without touching every cell -->\n      <colgroup>\n        <col />\n        <col />\n        <col />\n        <col class=\"total\" />\n      </colgroup>\n\n      <thead>\n        <tr>\n          <th scope=\"col\">Department</th>\n          <th scope=\"col\">Q1</th>\n          <th scope=\"col\">Q2</th>\n          <th scope=\"col\">Total</th>\n        </tr>\n      </thead>\n\n      <!-- First tbody: Engineering group -->\n      <tbody>\n        <tr>\n          <td colspan=\"4\" class=\"group-label\">Engineering</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Frontend</th>\n          <td>$80,000</td>\n          <td>$85,000</td>\n          <td>$165,000</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Backend</th>\n          <td>$95,000</td>\n          <td>$98,000</td>\n          <td>$193,000</td>\n        </tr>\n      </tbody>\n\n      <!-- Second tbody: Marketing group -->\n      <tbody>\n        <tr>\n          <td colspan=\"4\" class=\"group-label\">Marketing</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Content</th>\n          <td>$40,000</td>\n          <td>$42,000</td>\n          <td>$82,000</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Paid Ads</th>\n          <td>$60,000</td>\n          <td>$55,000</td>\n          <td>$115,000</td>\n        </tr>\n      </tbody>\n\n      <!-- tfoot: grand total across all groups -->\n      <tfoot>\n        <tr>\n          <td>Grand Total</td>\n          <td>$275,000</td>\n          <td>$280,000</td>\n          <td>$555,000</td>\n        </tr>\n      </tfoot>\n    </table>\n  </body>\n</html>",
+          "output": "The table shows a dark header row with four column labels. Below it, two distinct data groups appear separated by full-width blue section labels 'Engineering' and 'Marketing', each followed by their department rows with dollar figures. The Total column has a subtle background tint from the colgroup styling. A bold grey totals row closes the table at the bottom. Screen readers read each section header before the rows within it, and the grand total is announced last.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "Think of "
+            },
+            {
+              "value": "<thead>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead"
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<tbody>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody"
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "<tfoot>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot"
+            },
+            {
+              "value": " like the three zones of a printed report: the title and column headers at the top, the rows of data in the middle, and the signature and totals block at the bottom. Each zone has a different visual weight and a different semantic role, and printers know to repeat the top and bottom zones on every page."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Multiple "
+            },
+            {
+              "value": "<tbody>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody"
+            },
+            {
+              "value": " elements inside one table are like dividers in a binder. All the pages belong to the same binder ("
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": "), but the dividers visually and semantically separate Engineering from Marketing from Sales, making the data scannable without splitting it into separate tables."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Apply "
+            },
+            {
+              "value": "position: sticky; top: 0",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/position"
+            },
+            {
+              "value": " to "
+            },
+            {
+              "value": "<th>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+            },
+            {
+              "value": " cells inside "
+            },
+            {
+              "value": "<thead>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead"
+            },
+            {
+              "value": " (not to the "
+            },
+            {
+              "value": "<thead>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " element itself) for sticky column headers on scrollable tables. Applying sticky to the "
+            },
+            {
+              "value": "<thead>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " row group element rather than its cells is a common mistake that does not work in most browsers."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Table Structure and Spans",
+        "Table Span Attributes (colspan, rowspan)",
+        "HTML Accessibility Basics"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 6,
+      "topic_id": 18,
+      "slug": "table-span-attributes",
+      "title": "Table Span Attributes (colspan, rowspan)",
+      "description": "The colspan and rowspan attributes merge table cells across columns or rows for grouped layouts.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "colspan",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+            },
+            {
+              "value": " attribute on a "
+            },
+            {
+              "value": "<td>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "<th>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+            },
+            {
+              "value": " cell specifies how many columns that cell should occupy. The "
+            },
+            {
+              "value": "rowspan",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+            },
+            {
+              "value": " attribute specifies how many rows it should span downward. Both accept integer values of 1 or greater. When a cell spans multiple columns with "
+            },
+            {
+              "value": "colspan=\"N\"",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", the following "
+            },
+            {
+              "value": "N-1",
+              "bold": true
+            },
+            {
+              "value": " cells in that row must be omitted from the markup because the spanned cell already occupies that space. The same applies to rows below a cell with "
+            },
+            {
+              "value": "rowspan",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ". On "
+            },
+            {
+              "value": "<th>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " elements that span multiple columns or rows, use "
+            },
+            {
+              "value": "scope=\"colgroup\"",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "scope=\"rowgroup\"",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " to correctly associate the header with its group of cells."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Cell count must remain consistent across every row",
+          "text": "After applying colspan and rowspan, every row in the table must resolve to the same total number of columns when spanned cells are counted. A row with fewer cells than expected causes the browser to render a broken grid that is nearly impossible to fix without restarting the cell count from scratch."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Pricing Table Using colspan and rowspan",
+          "description": "A real-world pricing table where a 'Most Popular' badge spans multiple rows using rowspan, and a 'All Plans Include' footer row uses colspan to span the full table width, demonstrating both attributes together.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Pricing Table with Spans</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; }\n      table { border-collapse: collapse; width: 100%; max-width: 580px; }\n      caption { font-weight: 700; font-size: 1.1rem; text-align: left; margin-bottom: 0.5rem; }\n      th, td { border: 1px solid #ddd; padding: 0.65rem 1rem; text-align: left; }\n      thead th { background: #1a1a2e; color: white; }\n      .badge {\n        background: #0077cc;\n        color: white;\n        text-align: center;\n        font-weight: 700;\n        writing-mode: vertical-rl;\n        letter-spacing: 0.05em;\n      }\n      .all-plans { background: #f0f7ff; font-style: italic; text-align: center; color: #333; }\n      tbody th { background: #f9f9f9; font-weight: 600; }\n    </style>\n  </head>\n  <body>\n    <table>\n      <caption>Plan Comparison</caption>\n      <thead>\n        <tr>\n          <th scope=\"col\">Feature</th>\n          <th scope=\"col\">Starter</th>\n          <!-- colspan=\"2\": \"Pro\" header spans \"Pro\" and the badge column -->\n          <th scope=\"colgroup\" colspan=\"2\">Pro</th>\n          <th scope=\"col\">Enterprise</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">Price / mo</th>\n          <td>Free</td>\n          <td>$12</td>\n          <!-- rowspan=\"4\": badge spans the next 4 data rows -->\n          <td class=\"badge\" rowspan=\"4\">Most Popular</td>\n          <td>$49</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Storage</th>\n          <td>5 GB</td>\n          <td>50 GB</td>\n          <!-- No cell here: rowspan above fills this position -->\n          <td>500 GB</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Users</th>\n          <td>1</td>\n          <td>5</td>\n          <!-- No cell here: rowspan above fills this position -->\n          <td>Unlimited</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">Support</th>\n          <td>Community</td>\n          <td>Email</td>\n          <!-- No cell here: rowspan above fills this position -->\n          <td>24/7 Phone</td>\n        </tr>\n        <tr>\n          <!-- colspan=\"5\": spans all 5 columns for the full-width note -->\n          <td colspan=\"5\" class=\"all-plans\">\n            All plans include SSL, 99.9% uptime SLA, and free data migration.\n          </td>\n        </tr>\n      </tbody>\n    </table>\n  </body>\n</html>",
+          "output": "The table shows a header row with Starter, Pro (spanning two columns including the badge area), and Enterprise. Four feature rows follow. The Pro column has a blue vertical 'Most Popular' badge cell that spans all four feature rows. The table closes with a full-width light blue italic note spanning all five columns. Screen readers announce the Pro column header with its colgroup scope for each merged cell, and the badge is read once at the start of its rowspan.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "Think of "
+            },
+            {
+              "value": "colspan",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "rowspan",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+            },
+            {
+              "value": " like the merge cells button in Excel or Google Sheets. When you merge a 2x1 range horizontally, you get one wide cell that counts as two. You cannot add another cell in that space, and the spreadsheet automatically hides the ghost cells. HTML works the same way: you omit the cells that the span covers."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "A table with "
+            },
+            {
+              "value": "colspan",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+            },
+            {
+              "value": " group headers is like a time table with 'Morning' printed over two time slots. The word 'Morning' acts as a parent label for 9:00 AM and 11:00 AM. Using "
+            },
+            {
+              "value": "scope=\"colgroup\"",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th#scope"
+            },
+            {
+              "value": " on that header cell tells screen readers to associate it with all the columns it spans, not just the first one."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "When debugging a broken table grid caused by incorrect "
+            },
+            {
+              "value": "colspan",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#colspan"
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "rowspan",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#rowspan"
+            },
+            {
+              "value": " values, temporarily add "
+            },
+            {
+              "value": "border: 2px solid red",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " to all "
+            },
+            {
+              "value": "<td>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td"
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "<th>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th"
+            },
+            {
+              "value": " elements and set "
+            },
+            {
+              "value": "border-collapse: separate",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " on the "
+            },
+            {
+              "value": "<table>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"
+            },
+            {
+              "value": ". This makes every cell boundary visible and reveals which rows have too many or too few cells at a glance."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Table Structure and Spans",
+        "Table Structure Elements (thead, tbody, tfoot)",
+        "HTML Accessibility Basics"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Table Structure and Spans | thead, tbody, colspan, rowspan Guide",
+    "meta_description": "Learn how to build accessible HTML tables using thead, tbody, tfoot, caption, scope, colspan, and rowspan for correct screen reader support and semantic markup.",
+    "keywords": [
+      "html table structure",
+      "html thead tbody tfoot",
+      "html colspan rowspan",
+      "html table accessibility",
+      "html th scope attribute",
+      "html caption element",
+      "html table headers",
+      "html semantic table",
+      "html table span attributes",
+      "wcag table accessibility"
+    ],
+    "canonical_url": "/html/html-table-structure-and-spans",
+    "robots": "index, follow"
+  }
+}

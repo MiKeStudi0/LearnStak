@@ -1,0 +1,1560 @@
+{
+  "topic": {
+    "id": 20,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 7,
+    "slug": "html-core-image-techniques",
+    "title": "HTML Core Image Techniques",
+    "description": "HTML image techniques control how images load, scale, and adapt across devices using src, alt, srcset, and picture.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Images in HTML: Embedding, Accessibility, and Responsiveness"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " element is the foundation of all HTML image embedding. At minimum it requires a "
+          },
+          {
+            "value": "src",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#src"
+          },
+          {
+            "value": " attribute pointing to the image resource and an "
+          },
+          {
+            "value": "alt",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+          },
+          {
+            "value": " attribute providing a text alternative. Beyond the basics, the "
+          },
+          {
+            "value": "srcset",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "sizes",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#sizes"
+          },
+          {
+            "value": " attributes let the browser choose the most appropriate image resolution for the user's screen density and viewport, and the "
+          },
+          {
+            "value": "<picture>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+          },
+          {
+            "value": " element enables serving entirely different image files based on media conditions or format support. The "
+          },
+          {
+            "value": "loading=\"lazy\"",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading"
+          },
+          {
+            "value": " attribute defers off-screen image loading until the user scrolls near them, and "
+          },
+          {
+            "value": "decoding=\"async\"",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#decoding"
+          },
+          {
+            "value": " allows the browser to decode the image off the main thread. All image techniques are defined in the "
+          },
+          {
+            "value": "HTML Living Standard",
+            "link": "https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Attribute / Element",
+          "Purpose",
+          "Required"
+        ],
+        "rows": [
+          [
+            "src",
+            "URL of the image resource to load",
+            "Yes"
+          ],
+          [
+            "alt",
+            "Text alternative for screen readers and broken image fallback",
+            "Always (even if empty for decorative)"
+          ],
+          [
+            "width + height",
+            "Reserve layout space, prevent Cumulative Layout Shift (CLS)",
+            "Strongly recommended"
+          ],
+          [
+            "srcset",
+            "List of image candidates at different resolutions or widths",
+            "For responsive images"
+          ],
+          [
+            "sizes",
+            "Tells browser how wide the image will be rendered at each breakpoint",
+            "When using srcset with w descriptors"
+          ],
+          [
+            "loading=\"lazy\"",
+            "Defers loading until image is near the viewport",
+            "On below-the-fold images"
+          ],
+          [
+            "decoding=\"async\"",
+            "Decodes image off the main thread to avoid jank",
+            "On large or non-critical images"
+          ],
+          [
+            "<picture>",
+            "Container for art direction and format fallbacks",
+            "For art direction or format negotiation"
+          ],
+          [
+            "<source>",
+            "Candidate inside picture with media or type conditions",
+            "Inside <picture>"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Always Set width and height on img",
+        "text": "Omitting width and height causes the browser to allocate zero space for the image until it loads, then reflow the page when dimensions are known. This Cumulative Layout Shift (CLS) is a Core Web Vitals failure. Set both attributes to the image's natural dimensions even when CSS scales it."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Production-Ready img with All Performance and Accessibility Attributes",
+        "description": "A single img element demonstrating every recommended attribute in combination: alt for accessibility, width and height for CLS prevention, loading and decoding for performance, and srcset for resolution switching.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Production Image Example</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 900px; margin: 0 auto; }\n      .hero-img {\n        /* CSS can scale the image; browser uses width/height attrs for aspect ratio --\n           This prevents layout shift while the image loads */\n        width: 100%;\n        height: auto;\n        border-radius: 8px;\n        display: block;\n      }\n      figure { margin: 0; }\n      figcaption { font-size: 0.85rem; color: #666; margin-top: 0.5rem; }\n    </style>\n  </head>\n  <body>\n\n    <figure>\n      <img\n        src=\"/images/mountain-trail-800.jpg\"\n\n        <!-- alt: describes the image content for screen readers and broken image state -->\n        alt=\"Hikers on a pine-lined trail ascending Mount Takao at dawn\"\n\n        <!-- width + height: natural dimensions prevent CLS; CSS scales visually -->\n        width=\"800\"\n        height=\"533\"\n\n        <!-- srcset: offers 1x and 2x variants; browser picks based on device pixel ratio -->\n        srcset=\"/images/mountain-trail-800.jpg 800w,\n                /images/mountain-trail-1600.jpg 1600w\"\n\n        <!-- sizes: tells browser the image renders at 100vw up to 900px, then 900px fixed -->\n        sizes=\"(max-width: 900px) 100vw, 900px\"\n\n        <!-- loading=lazy: defer off-screen images; use eager on hero/above-fold images -->\n        loading=\"lazy\"\n\n        <!-- decoding=async: decode off main thread to avoid rendering jank -->\n        decoding=\"async\"\n\n        class=\"hero-img\"\n      />\n      <figcaption>Mount Takao Trail, Tokyo — Photo by Kenji Yamamoto</figcaption>\n    </figure>\n\n  </body>\n</html>",
+        "output": "The browser renders a full-width image of hikers on a mountain trail inside a figure element with a small grey caption below it. The image scales to the container width while maintaining its 3:2 aspect ratio. No layout shift occurs as the page loads because the browser reserved the correct space using the width and height attributes. On a Retina display the browser selects the 1600w variant from srcset automatically.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "WRONG vs RIGHT: Common img Mistakes",
+        "description": "Contrasts four common img mistakes against their correct counterparts, covering missing alt, missing dimensions, wrong lazy loading on hero images, and decorative image handling.",
+        "code_snippet": "<!-- WRONG 1: missing alt — fails WCAG 1.1.1, screen readers read the filename -->\n<img src=\"/images/team-photo.jpg\" />\n\n<!-- RIGHT 1: descriptive alt for meaningful images -->\n<img src=\"/images/team-photo.jpg\"\n     alt=\"The Acme engineering team gathered at the 2024 company offsite in Kerala\"\n     width=\"1200\" height=\"800\" />\n\n\n<!-- WRONG 2: missing width and height — causes Cumulative Layout Shift -->\n<img src=\"/images/product.jpg\" alt=\"Blue leather wallet\" />\n\n<!-- RIGHT 2: always set natural dimensions -->\n<img src=\"/images/product.jpg\"\n     alt=\"Blue leather wallet\"\n     width=\"600\"\n     height=\"600\" />\n\n\n<!-- WRONG 3: lazy loading on the hero/LCP image -->\n<!-- This delays the Largest Contentful Paint and hurts Core Web Vitals -->\n<img src=\"/images/hero.jpg\" alt=\"Homepage hero\" loading=\"lazy\" />\n\n<!-- RIGHT 3: hero images must use eager loading (or omit loading entirely) -->\n<img src=\"/images/hero.jpg\"\n     alt=\"Homepage hero\"\n     width=\"1440\" height=\"600\"\n     loading=\"eager\"\n     fetchpriority=\"high\" />\n\n\n<!-- WRONG 4: decorative image with descriptive alt -->\n<!-- A decorative divider should not be announced by screen readers -->\n<img src=\"/images/divider-wave.svg\" alt=\"Decorative wave divider\" />\n\n<!-- RIGHT 4: decorative images get empty alt and role=\"presentation\" -->\n<img src=\"/images/divider-wave.svg\" alt=\"\" role=\"presentation\" />",
+        "output": "All WRONG versions may display identically in the browser but fail in different ways. WRONG 1 causes screen readers to announce the filename. WRONG 2 causes a jarring layout jump when the image loads. WRONG 3 delays the hero image and hurts Lighthouse LCP scores. WRONG 4 interrupts screen reader users with an irrelevant announcement. The RIGHT versions solve each issue without changing the visual appearance.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "figure and figcaption for Contextual Images",
+        "description": "Demonstrates the correct pattern for images that need a visible caption, using figure and figcaption to associate the caption semantically with the image rather than using a nearby paragraph.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>figure and figcaption</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 720px; margin: 0 auto; }\n      figure {\n        margin: 0 0 2rem;\n        border: 1px solid #eee;\n        border-radius: 8px;\n        overflow: hidden;\n      }\n      figure img { width: 100%; height: auto; display: block; }\n      figcaption {\n        padding: 0.75rem 1rem;\n        font-size: 0.85rem;\n        color: #555;\n        background: #fafafa;\n        border-top: 1px solid #eee;\n      }\n    </style>\n  </head>\n  <body>\n\n    <!-- figure: groups an image with its caption as a self-contained unit -->\n    <!-- figcaption: the accessible semantic caption; screen readers associate it -->\n    <figure>\n      <img\n        src=\"/images/css-grid-diagram.png\"\n        alt=\"CSS grid layout diagram showing a 3-column, 2-row grid with named template areas\"\n        width=\"720\"\n        height=\"480\"\n        loading=\"lazy\"\n        decoding=\"async\"\n      />\n      <figcaption>\n        Figure 1: A CSS grid with three columns and two rows using\n        <code>grid-template-areas</code> for named placement.\n      </figcaption>\n    </figure>\n\n    <!-- figcaption supplements but does not replace alt -->\n    <!-- alt describes the image itself; figcaption provides editorial context -->\n    <figure>\n      <img\n        src=\"/images/lighthouse-score.png\"\n        alt=\"Lighthouse performance audit showing scores of 98 performance, 100 accessibility, 100 best practices\"\n        width=\"680\"\n        height=\"320\"\n        loading=\"lazy\"\n        decoding=\"async\"\n      />\n      <figcaption>\n        Figure 2: Lighthouse scores after implementing lazy loading and WebP conversion.\n      </figcaption>\n    </figure>\n\n  </body>\n</html>",
+        "output": "Two image cards render with a thin border and rounded corners. Each has the image on top and a light grey caption bar at the bottom. Screen readers announce the alt text of each image followed by the figcaption text, treating each figure as a self-contained unit with both image description and editorial context.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "srcset",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "sizes",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#sizes"
+          },
+          {
+            "value": " when serving the same image at multiple resolutions to let the browser pick the most efficient size for the user's device and screen density."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "loading=\"lazy\"",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading"
+          },
+          {
+            "value": " on all images that appear below the fold to defer their network requests until the user scrolls near them, improving initial page load time and "
+          },
+          {
+            "value": "Largest Contentful Paint",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Largest_contentful_paint"
+          },
+          {
+            "value": " scores."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<picture>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+          },
+          {
+            "value": " when you need art direction (serving a cropped or differently composed image at narrow viewports) or when you want to serve modern formats like "
+          },
+          {
+            "value": "WebP",
+            "bold": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "AVIF",
+            "bold": true
+          },
+          {
+            "value": " with a JPEG or PNG fallback for older browsers."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "loading=\"lazy\"",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading"
+          },
+          {
+            "value": " on the hero image or any above-the-fold image. Lazy loading the "
+          },
+          {
+            "value": "Largest Contentful Paint",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Largest_contentful_paint"
+          },
+          {
+            "value": " element delays rendering and directly hurts Core Web Vitals scores."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid omitting "
+          },
+          {
+            "value": "width",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#width"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "height",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#height"
+          },
+          {
+            "value": " on "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " elements. Missing dimensions cause "
+          },
+          {
+            "value": "Cumulative Layout Shift",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Cumulative_Layout_Shift"
+          },
+          {
+            "value": " as the page reflows when the image dimensions become known after load."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<picture>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+          },
+          {
+            "value": " for simple resolution switching. When you just need different sizes of the same image, "
+          },
+          {
+            "value": "srcset",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "sizes",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#sizes"
+          },
+          {
+            "value": " on a plain "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " are simpler and equally effective."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without "
+          },
+          {
+            "value": "alt",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+          },
+          {
+            "value": ", screen readers announce the image filename or skip the image entirely, leaving visually impaired users without any understanding of the image content, failing "
+          },
+          {
+            "value": "WCAG 1.1.1 Non-text Content",
+            "bold": true,
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without "
+          },
+          {
+            "value": "srcset",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+          },
+          {
+            "value": ", a mobile device downloads a full desktop-resolution image that is many times larger than needed, wasting bandwidth and slowing page load on limited connections."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Without "
+          },
+          {
+            "value": "<picture>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+          },
+          {
+            "value": ", there is no way to serve next-generation formats like "
+          },
+          {
+            "value": "AVIF",
+            "bold": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "WebP",
+            "bold": true
+          },
+          {
+            "value": " with a safe fallback, meaning users on modern browsers miss significant file size savings while older browsers would break without a fallback."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "alt",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+          },
+          {
+            "value": " attribute is like the caption on a photograph in a newspaper. If you remove the photo, the caption tells you exactly what was there. A good alt text gives the same information as the image itself, not a description of what an image looks like."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Think of "
+          },
+          {
+            "value": "srcset",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "sizes",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#sizes"
+          },
+          {
+            "value": " as a menu and an order form. "
+          },
+          {
+            "value": "srcset",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " is the menu of available image sizes. "
+          },
+          {
+            "value": "sizes",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " is the order form telling the browser how large the image will appear at each viewport width. The browser reads both and selects the most efficient option, the way a waiter picks the right portion based on your order."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<picture>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+          },
+          {
+            "value": " element is like a casting call with a fallback understudy. Each "
+          },
+          {
+            "value": "<source>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source"
+          },
+          {
+            "value": " is a candidate that auditions in order. The browser picks the first one it can support. If none qualify, the "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " fallback steps in, ensuring something always appears regardless of browser capability."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Lazy-loading the LCP image: applying "
+          },
+          {
+            "value": "loading=\"lazy\"",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading"
+          },
+          {
+            "value": " to the hero "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " delays the LCP element and directly lowers Lighthouse performance scores."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Descriptive alt on decorative images: giving a purely decorative "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " a non-empty "
+          },
+          {
+            "value": "alt",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+          },
+          {
+            "value": " causes screen readers to announce irrelevant content, cluttering the audio experience."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Omitting the "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " fallback inside "
+          },
+          {
+            "value": "<picture>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+          },
+          {
+            "value": ": without the required fallback "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " as the last child, no image renders in browsers that do not match any "
+          },
+          {
+            "value": "<source>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source"
+          },
+          {
+            "value": " condition."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Add "
+          },
+          {
+            "value": "fetchpriority=\"high\"",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/fetchPriority"
+          },
+          {
+            "value": " to the hero or above-the-fold "
+          },
+          {
+            "value": "<img>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+          },
+          {
+            "value": " to hint to the browser that this image is the highest-priority resource on the page. Combined with "
+          },
+          {
+            "value": "loading=\"eager\"",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": ", this can measurably improve "
+          },
+          {
+            "value": "Largest Contentful Paint",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Largest_contentful_paint"
+          },
+          {
+            "value": " scores in Chrome and Edge."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Run your page through "
+          },
+          {
+            "value": "Squoosh",
+            "bold": true,
+            "link": "https://squoosh.app/"
+          },
+          {
+            "value": " to convert images to "
+          },
+          {
+            "value": "AVIF",
+            "bold": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "WebP",
+            "bold": true
+          },
+          {
+            "value": " before deploying. AVIF typically achieves 50 percent smaller file sizes than JPEG at equivalent visual quality. Pair the modern format with a JPEG fallback inside "
+          },
+          {
+            "value": "<picture>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+          },
+          {
+            "value": " to support all browsers without serving oversized files to modern ones."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Accessibility Basics",
+      "HTML Picture Element",
+      "Core Web Vitals and Performance",
+      "HTML Semantic Elements",
+      "WCAG Non-text Content Guidelines"
+    ],
+    "is_active": true,
+    "order_index": 20,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 20,
+      "slug": "alt-attribute-usage",
+      "title": "Alt Attribute Usage",
+      "description": "The alt attribute provides a text alternative for images, required for screen readers and broken image fallback.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "alt",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+            },
+            {
+              "value": " attribute is required on every "
+            },
+            {
+              "value": "<img>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+            },
+            {
+              "value": " element without exception, though its value depends on the image's purpose. For "
+            },
+            {
+              "value": "meaningful images",
+              "bold": true
+            },
+            {
+              "value": " the value should describe the content or function of the image as concisely as possible. For "
+            },
+            {
+              "value": "decorative images",
+              "bold": true
+            },
+            {
+              "value": " that add no information, the value must be an "
+            },
+            {
+              "value": "empty string",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "alt=\"\"",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ") so screen readers skip it entirely. For "
+            },
+            {
+              "value": "functional images",
+              "bold": true
+            },
+            {
+              "value": " such as icon-only buttons, the alt text should describe the action, not the icon appearance. Omitting the "
+            },
+            {
+              "value": "alt",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " attribute entirely (not the same as empty) causes screen readers to fall back to reading the filename, which is a "
+            },
+            {
+              "value": "WCAG 1.1.1 Non-text Content",
+              "bold": true,
+              "link": "https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html"
+            },
+            {
+              "value": " failure."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Image Type",
+            "Correct alt Value",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Meaningful / informational",
+              "Concise description of content",
+              "alt=\"Bar chart showing 40% growth in Q3 revenue\""
+            ],
+            [
+              "Decorative",
+              "Empty string",
+              "alt=\"\""
+            ],
+            [
+              "Functional (linked image, icon button)",
+              "Describes the action or destination",
+              "alt=\"Search\" or alt=\"Go to homepage\""
+            ],
+            [
+              "Image of text",
+              "Exact text in the image",
+              "alt=\"Free shipping on orders over $50\""
+            ],
+            [
+              "Complex (charts, diagrams)",
+              "Short alt plus aria-describedby to long description",
+              "alt=\"Sales funnel diagram\" + nearby paragraph with full data"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Alt Text Patterns for Every Image Type",
+          "description": "Shows the correct alt value for five image categories: informational, decorative, functional, image of text, and a complex chart with an extended description pattern.",
+          "code_snippet": "<!-- Pattern 1: Informational image -->\n<!-- alt describes what the image shows, not \"image of\" or \"photo of\" -->\n<img\n  src=\"/images/team-photo.jpg\"\n  alt=\"The Acme engineering team of twelve people gathered at the 2024 offsite in Kerala\"\n  width=\"1200\" height=\"800\"\n  loading=\"lazy\" decoding=\"async\"\n/>\n\n\n<!-- Pattern 2: Decorative image -->\n<!-- alt=\"\" tells screen readers to skip it; omitting alt entirely is wrong -->\n<img src=\"/images/divider-wave.svg\" alt=\"\" role=\"presentation\" width=\"1440\" height=\"60\" />\n\n\n<!-- Pattern 3: Functional image (icon-only link) -->\n<!-- alt describes the link destination, not the icon appearance -->\n<a href=\"/\">\n  <img src=\"/images/logo.svg\" alt=\"Acme Corp homepage\" width=\"120\" height=\"40\" />\n</a>\n\n\n<!-- Pattern 4: Image of text -->\n<!-- alt reproduces the exact text shown in the image -->\n<img\n  src=\"/images/promo-banner.jpg\"\n  alt=\"Free shipping on all orders over $50 — limited time offer\"\n  width=\"800\" height=\"200\"\n/>\n\n\n<!-- Pattern 5: Complex chart with extended description -->\n<!-- Short alt for quick context; aria-describedby links to full data prose -->\n<img\n  src=\"/images/q3-sales-chart.png\"\n  alt=\"Q3 2024 regional sales bar chart\"\n  aria-describedby=\"chart-desc\"\n  width=\"800\" height=\"500\"\n  loading=\"lazy\" decoding=\"async\"\n/>\n<!-- Extended description in a visually styled paragraph below the chart -->\n<p id=\"chart-desc\" class=\"chart-description\">\n  North America led with $131,700, followed by East at $175,500,\n  West at $141,200, and South at $90,500.\n  East showed the strongest quarter-over-quarter growth at 12%.\n</p>",
+          "output": "Five images render on the page. The team photo shows a group of people; screen readers announce the full team description. The wave divider is completely skipped by screen readers. Clicking the logo navigates to the homepage; screen readers announce 'Acme Corp homepage, link'. The promo banner announces the offer text verbatim. The chart announces its title then reads the extended description paragraph for full data context.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "Think of "
+            },
+            {
+              "value": "alt",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+            },
+            {
+              "value": " as the radio broadcast description of a scene in a television show. A viewer who cannot see the screen still needs to understand what is happening. A good alt text communicates the meaning, not just the visual appearance. Writing 'a person' tells nothing; 'Sarah presenting the Q3 results to the board' tells the full story."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "An empty "
+            },
+            {
+              "value": "alt=\"\"",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+            },
+            {
+              "value": " is an intentional signal to screen readers that this image is purely decorative and carries no information. It is not laziness; it is a deliberate instruction. Omitting "
+            },
+            {
+              "value": "alt",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " entirely sends no signal at all and forces the reader to guess, usually resulting in the filename being announced."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Write "
+            },
+            {
+              "value": "alt",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+            },
+            {
+              "value": " text by asking: 'if this image failed to load, what text would give the user the same information?' For a chart, that means the key insight or data summary, not 'bar chart image'. Run your page through the "
+            },
+            {
+              "value": "WAVE accessibility checker",
+              "bold": true,
+              "link": "https://wave.webaim.org/"
+            },
+            {
+              "value": " to catch any "
+            },
+            {
+              "value": "<img>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+            },
+            {
+              "value": " elements that are missing the "
+            },
+            {
+              "value": "alt",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " attribute entirely."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Core Image Techniques",
+        "Responsive Image Techniques (srcset, sizes)",
+        "WCAG Non-text Content Guidelines"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 20,
+      "slug": "responsive-image-techniques",
+      "title": "Responsive Image Techniques (srcset, sizes)",
+      "description": "The srcset and sizes attributes let browsers select the most efficient image candidate for the user's screen and viewport.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "srcset",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+            },
+            {
+              "value": " attribute accepts a comma-separated list of image candidates. Each candidate is a URL followed by either a "
+            },
+            {
+              "value": "width descriptor",
+              "bold": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "800w",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ") indicating the image's pixel width, or a "
+            },
+            {
+              "value": "pixel density descriptor",
+              "bold": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "2x",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": "). Width descriptors are preferred for responsive layouts because the browser combines them with the "
+            },
+            {
+              "value": "sizes",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#sizes"
+            },
+            {
+              "value": " attribute to calculate the optimal candidate before the CSS layout is known. The "
+            },
+            {
+              "value": "sizes",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " attribute is a comma-separated list of media condition and slot-width pairs. The browser evaluates them top to bottom and uses the width from the first matching condition to look up the best candidate in "
+            },
+            {
+              "value": "srcset",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ". If no condition matches, the last value (without a media condition) is the default. The "
+            },
+            {
+              "value": "src",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#src"
+            },
+            {
+              "value": " attribute always serves as the final fallback for browsers that do not support "
+            },
+            {
+              "value": "srcset",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "The browser decides, not you",
+          "text": "With srcset and sizes you provide a menu of options and hints. The browser makes the final selection based on screen density, current network conditions, and its cache. This means you cannot force the browser to pick a specific candidate, and that is intentional: the browser has information about the user's conditions that your HTML does not."
+        }
+      ],
+      "examples": [
+        {
+          "title": "srcset with Width Descriptors and sizes for Responsive Layout",
+          "description": "A complete responsive image implementation using width descriptors in srcset and a multi-breakpoint sizes declaration, showing how the browser calculates which image to download.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Responsive Images with srcset</title>\n    <style>\n      body { font-family: sans-serif; padding: 1.5rem; }\n      .card-grid {\n        display: grid;\n        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n        gap: 1.5rem;\n      }\n      .card img { width: 100%; height: auto; display: block; border-radius: 6px; }\n      .card p { margin: 0.5rem 0 0; font-size: 0.9rem; color: #555; }\n    </style>\n  </head>\n  <body>\n\n    <h1>Trail Reports</h1>\n    <div class=\"card-grid\">\n\n      <div class=\"card\">\n        <img\n          src=\"/images/trail-a-800.jpg\"\n\n          <!--\n            srcset: three candidates at 400, 800, and 1600 pixel widths.\n            The browser knows the physical pixel width of each file.\n          -->\n          srcset=\"\n            /images/trail-a-400.jpg   400w,\n            /images/trail-a-800.jpg   800w,\n            /images/trail-a-1600.jpg 1600w\n          \"\n\n          <!--\n            sizes: tells the browser how wide this image WILL render.\n            - Below 640px viewport: image is 100% of viewport width (100vw)\n            - Below 1024px viewport: image fills one of two columns (~50vw minus gap)\n            - Otherwise (desktop): image fills one of three columns (~33vw minus gap)\n            The browser reads sizes BEFORE downloading, so it can pick the right file.\n          -->\n          sizes=\"\n            (max-width: 640px) 100vw,\n            (max-width: 1024px) calc(50vw - 1.5rem),\n            calc(33vw - 1.5rem)\n          \"\n\n          alt=\"Rocky alpine trail winding through sparse pine trees at 2000m elevation\"\n          width=\"800\"\n          height=\"533\"\n          loading=\"lazy\"\n          decoding=\"async\"\n        />\n        <p>Alpine Trail A — Difficulty: Moderate</p>\n      </div>\n\n    </div>\n\n    <!--\n      HOW THE BROWSER PICKS:\n      On a 390px wide mobile screen at 2x DPI:\n      - sizes resolves to: 390vw = 390px rendered width\n      - Needed pixels: 390 * 2 (DPI) = 780px\n      - srcset candidates: 400w, 800w, 1600w\n      - Browser picks 800w (closest above 780px)\n      - Downloads: trail-a-800.jpg (NOT the 1600px version)\n    -->\n\n  </body>\n</html>",
+          "output": "The page shows a responsive card grid. On a phone at 390px the image fills the full card width. On a tablet two cards appear side by side. On desktop three cards appear per row. In each case the browser downloads only the image variant that matches the rendered size and screen density, avoiding unnecessarily large downloads on small screens.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "Think of "
+            },
+            {
+              "value": "srcset",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+            },
+            {
+              "value": " as a restaurant menu of the same dish in different portion sizes (400w, 800w, 1600w). The "
+            },
+            {
+              "value": "sizes",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#sizes"
+            },
+            {
+              "value": " attribute is your pre-order that tells the kitchen how hungry you will be when you arrive. The kitchen (browser) then prepares exactly the right portion before you even sit down, avoiding waste in both directions."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Pixel density descriptors ("
+            },
+            {
+              "value": "1x",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "2x",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ") in "
+            },
+            {
+              "value": "srcset",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+            },
+            {
+              "value": " are like offering a standard print and a high-resolution print of the same photo. Width descriptors ("
+            },
+            {
+              "value": "400w",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "800w",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ") are more powerful because they let the browser factor in both screen density and rendered image size simultaneously, making a much smarter selection."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use the Chrome DevTools Network tab with throttling set to 'Fast 3G' and device emulation enabled to verify which "
+            },
+            {
+              "value": "srcset",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+            },
+            {
+              "value": " candidate the browser selects. Check the 'Initiator' column for image requests to see the resolved "
+            },
+            {
+              "value": "sizes",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#sizes"
+            },
+            {
+              "value": " value. If the wrong candidate is chosen, your "
+            },
+            {
+              "value": "sizes",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " declaration does not match the actual rendered width of the image in CSS."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Core Image Techniques",
+        "Picture Element Usage",
+        "Core Web Vitals and Performance"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 3,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 20,
+      "slug": "picture-element-usage",
+      "title": "Picture Element Usage",
+      "description": "The picture element enables art direction and format negotiation by offering multiple source candidates with conditions.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<picture>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+            },
+            {
+              "value": " element is a container that holds one or more "
+            },
+            {
+              "value": "<source>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source"
+            },
+            {
+              "value": " elements followed by a required "
+            },
+            {
+              "value": "<img>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+            },
+            {
+              "value": " fallback. The browser evaluates each "
+            },
+            {
+              "value": "<source>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " in source order and uses the first one whose "
+            },
+            {
+              "value": "media",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#media"
+            },
+            {
+              "value": " condition matches the current viewport and whose "
+            },
+            {
+              "value": "type",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#type"
+            },
+            {
+              "value": " MIME type is supported. It is used for two distinct purposes: "
+            },
+            {
+              "value": "art direction",
+              "bold": true
+            },
+            {
+              "value": ", where a differently cropped or composed image is served at different viewport sizes using the "
+            },
+            {
+              "value": "media",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " attribute; and "
+            },
+            {
+              "value": "format negotiation",
+              "bold": true
+            },
+            {
+              "value": ", where a modern format such as "
+            },
+            {
+              "value": "AVIF",
+              "bold": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "WebP",
+              "bold": true
+            },
+            {
+              "value": " is served to capable browsers using the "
+            },
+            {
+              "value": "type",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " attribute, with a JPEG or PNG fallback for older ones. The "
+            },
+            {
+              "value": "alt",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#alt"
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "width",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "height",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " attributes must always be on the fallback "
+            },
+            {
+              "value": "<img>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", never on "
+            },
+            {
+              "value": "<source>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Order sources from most to least specific",
+          "text": "List source elements from most restrictive condition to least restrictive. The browser picks the first match, so a broad media condition listed before a narrow one will always win. For format negotiation, list AVIF before WebP before the img fallback, and for art direction list the most narrow breakpoint first."
+        }
+      ],
+      "examples": [
+        {
+          "title": "picture for Format Negotiation and Art Direction Combined",
+          "description": "Demonstrates picture used for both purposes simultaneously: serving AVIF to capable browsers, WebP to those without AVIF support, and cropped portrait versions for mobile versus landscape versions for desktop.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Picture Element Demo</title>\n    <style>\n      body { font-family: sans-serif; padding: 2rem; max-width: 1000px; margin: 0 auto; }\n      picture img { width: 100%; height: auto; display: block; border-radius: 8px; }\n      h2 { margin-top: 2rem; }\n    </style>\n  </head>\n  <body>\n\n    <h2>Format Negotiation (AVIF > WebP > JPEG)</h2>\n    <!--\n      Pattern 1: Serve the smallest supported format.\n      No media conditions — format support is the only criterion.\n      Source order: AVIF first (most efficient), WebP second, JPEG fallback.\n    -->\n    <picture>\n      <!-- type=\"image/avif\": only used if browser supports AVIF -->\n      <source\n        srcset=\"/images/hero.avif\"\n        type=\"image/avif\"\n      />\n      <!-- type=\"image/webp\": used if browser supports WebP but not AVIF -->\n      <source\n        srcset=\"/images/hero.webp\"\n        type=\"image/webp\"\n      />\n      <!-- Fallback img: always present, used by all browsers -->\n      <!-- alt, width, height MUST be on img, never on source -->\n      <img\n        src=\"/images/hero.jpg\"\n        alt=\"Dense rainforest canopy viewed from above in morning light\"\n        width=\"1200\"\n        height=\"600\"\n        loading=\"eager\"\n        fetchpriority=\"high\"\n      />\n    </picture>\n\n\n    <h2>Art Direction (Portrait on Mobile, Landscape on Desktop)</h2>\n    <!--\n      Pattern 2: Serve a cropped portrait crop on mobile, landscape on desktop.\n      media conditions control which source is selected by viewport width.\n      Source order: narrowest first so broad conditions do not override narrow ones.\n    -->\n    <picture>\n      <!-- Mobile: portrait crop, max-width 767px -->\n      <source\n        media=\"(max-width: 767px)\"\n        srcset=\"\n          /images/chef-portrait-400.webp  400w,\n          /images/chef-portrait-800.webp  800w\n        \"\n        sizes=\"100vw\"\n        type=\"image/webp\"\n      />\n      <!-- Desktop: landscape crop, no media condition needed -->\n      <source\n        srcset=\"\n          /images/chef-landscape-800.webp   800w,\n          /images/chef-landscape-1600.webp 1600w\n        \"\n        sizes=\"(max-width: 1200px) 100vw, 1200px\"\n        type=\"image/webp\"\n      />\n      <!-- JPEG fallback for browsers that do not support WebP -->\n      <img\n        src=\"/images/chef-landscape-800.jpg\"\n        alt=\"Head chef Julia Lopes plating a dish in the open kitchen at Acme Restaurant\"\n        width=\"1200\"\n        height=\"600\"\n        loading=\"lazy\"\n        decoding=\"async\"\n      />\n    </picture>\n\n  </body>\n</html>",
+          "output": "On a modern desktop browser, the first picture element serves the AVIF file if supported, otherwise WebP, otherwise JPEG. The second picture element shows a wide landscape kitchen photo across the full container width. On a narrow mobile screen, the same chef image switches to a tightly cropped portrait orientation that fills the screen without showing empty counter space. The fallback img ensures the image appears on all browsers including Internet Explorer.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<picture>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+            },
+            {
+              "value": " element with "
+            },
+            {
+              "value": "<source>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source"
+            },
+            {
+              "value": " candidates is like a casting director who auditions actors in priority order. The first actor who fits the role (matches the media condition and format support) gets the part. If no one qualifies, the understudy ("
+            },
+            {
+              "value": "<img>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"
+            },
+            {
+              "value": " fallback) steps in to ensure the show goes on."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Art direction with "
+            },
+            {
+              "value": "<picture>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+            },
+            {
+              "value": " is like a magazine editor choosing a different crop of the same photograph for the print cover versus the website thumbnail. The subject is the same but the framing is intentionally adapted to the canvas size. "
+            },
+            {
+              "value": "srcset",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#srcset"
+            },
+            {
+              "value": " alone cannot do this because it always serves the same composition at different resolutions."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "When combining art direction and format negotiation in the same "
+            },
+            {
+              "value": "<picture>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+            },
+            {
+              "value": " element, add a "
+            },
+            {
+              "value": "type",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#type"
+            },
+            {
+              "value": " attribute to each "
+            },
+            {
+              "value": "<source>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source"
+            },
+            {
+              "value": " along with its "
+            },
+            {
+              "value": "media",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#media"
+            },
+            {
+              "value": " condition. List AVIF sources before WebP sources at each breakpoint. The browser evaluates both attributes simultaneously and selects the first source where both the media condition and the type are supported."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Core Image Techniques",
+        "Responsive Image Techniques (srcset, sizes)",
+        "Core Web Vitals and Performance"
+      ],
+      "is_active": true,
+      "order_index": 3,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Core Image Techniques | alt, srcset, sizes, and picture Guide",
+    "meta_description": "Learn HTML image techniques including alt text, srcset, sizes, and the picture element for accessible, responsive, and performant images on any device.",
+    "keywords": [
+      "html img element",
+      "html alt attribute",
+      "html srcset attribute",
+      "html sizes attribute",
+      "html picture element",
+      "responsive images html",
+      "html image accessibility",
+      "html lazy loading images",
+      "html avif webp fallback",
+      "html image best practices"
+    ],
+    "canonical_url": "/html/html-core-image-techniques",
+    "robots": "index, follow"
+  }
+}

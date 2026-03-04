@@ -213,7 +213,8 @@
           {
             "value": " landmarks in the screen reader navigation list."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -227,7 +228,8 @@
           {
             "value": " for any unit of content that makes sense on its own: blog posts, news stories, product cards, forum posts, and comment threads."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -241,7 +243,8 @@
           {
             "value": " for grouping elements that need CSS or JavaScript hooks but carry no semantic meaning distinct from their content."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "when_to_avoid": [
@@ -271,7 +274,8 @@
           {
             "value": " adds no landmark value and pollutes the document outline."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -285,7 +289,8 @@
           {
             "value": "; reserve it for content that is truly self-contained and could be extracted and re-used independently without losing meaning."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -306,7 +311,8 @@
           {
             "value": ", which makes no semantic claims about its content."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "what_it_solves": [
@@ -322,7 +328,8 @@
           {
             "value": ": the ability to jump directly between page regions (main, navigation, article, complementary) without reading every element."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -336,7 +343,8 @@
           {
             "value": " extraction and search result presentation."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -350,7 +358,8 @@
           {
             "value": " that development tools, screen readers, and automated testing frameworks can inspect to verify correct page structure."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "conceptual_understanding": [
@@ -394,7 +403,8 @@
           {
             "value": " without the headings conflicting in the document outline. The outline algorithm treats each sectioning element as starting a new sub-tree."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -436,7 +446,8 @@
           {
             "value": ". A list of product features is a section; a product review is an article."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -485,7 +496,8 @@
           {
             "value": ". This is not a flaw to work around; it is intentional design: not every section of a page deserves a named navigation landmark."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "common_mistakes": [
@@ -501,7 +513,8 @@
           {
             "value": " has no landmark role and is invisible to screen reader navigation."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -522,7 +535,8 @@
           {
             "value": "; article stands alone, section belongs to the surrounding document."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -543,7 +557,8 @@
           {
             "value": " leaves the region without a label for screen readers."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "bonus_tips": [
@@ -595,7 +610,8 @@
           {
             "value": " landmarks for each distinct area a keyboard user might want to jump to."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -638,7 +654,8 @@
           {
             "value": " (Info and Relationships) failures in automated accessibility audits."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "related_topics": [
@@ -755,9 +772,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -785,7 +802,8 @@
             {
               "value": " (fully independent content). It is the right choice when content belongs to the surrounding document context but forms a distinct enough unit to warrant its own heading and landmark. Think of chapters in a book: each chapter belongs to the book but can be named and navigated to directly."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -820,10 +838,11 @@
             {
               "value": " value must match exactly. A typo in either will silently break the landmark name, leaving the section unnamed despite the attribute being present."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -844,7 +863,8 @@
             {
               "value": " landmarks are used sparingly. Too many named sections clutter the screen reader landmark list and make navigation harder, not easier. A typical documentation page needs three to six named regions at most."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
@@ -986,9 +1006,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -1030,7 +1050,8 @@
             {
               "value": " is valid when the inner content is related to but independently meaningful from the outer: comment threads, review responses, and embedded quotes all fit this pattern."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -1086,10 +1107,11 @@
             {
               "value": "; they are structural roles within the article's own document model."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -1145,7 +1167,8 @@
             {
               "value": " element is one of the primary ways Google discovers rich result eligibility for articles, products, and reviews in search results."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [

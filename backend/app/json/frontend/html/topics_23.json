@@ -1,0 +1,1533 @@
+{
+  "topic": {
+    "id": 24,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 7,
+    "slug": "html-video-element",
+    "title": "HTML Video Element",
+    "description": "video embeds a browser-native player with controls, source fallbacks, poster, and a captions track.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "HTML Video Element: video, source, track, and Playback Attributes"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<video>",
+            "highlight": true
+          },
+          {
+            "value": " element embeds a video resource and renders an inline player. Like "
+          },
+          {
+            "value": "<audio>",
+            "highlight": true
+          },
+          {
+            "value": ", it accepts a single "
+          },
+          {
+            "value": "src",
+            "highlight": true
+          },
+          {
+            "value": " or multiple "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " children for "
+          },
+          {
+            "value": "codec fallback",
+            "bold": true
+          },
+          {
+            "value": ". In addition to the shared playback attributes ("
+          },
+          {
+            "value": "controls",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "autoplay",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "muted",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "loop",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "preload",
+            "highlight": true
+          },
+          {
+            "value": "), the video element adds "
+          },
+          {
+            "value": "width",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "height",
+            "highlight": true
+          },
+          {
+            "value": " to reserve layout space, "
+          },
+          {
+            "value": "poster",
+            "highlight": true
+          },
+          {
+            "value": " for a placeholder image shown before playback begins, and "
+          },
+          {
+            "value": "playsinline",
+            "highlight": true
+          },
+          {
+            "value": " to prevent iOS Safari from entering full-screen automatically. The "
+          },
+          {
+            "value": "<track>",
+            "highlight": true
+          },
+          {
+            "value": " child element attaches "
+          },
+          {
+            "value": "WebVTT",
+            "bold": true
+          },
+          {
+            "value": " subtitle, caption, and chapter files to the video. Captions are required by "
+          },
+          {
+            "value": "WCAG 1.2.2",
+            "bold": true
+          },
+          {
+            "value": " for all synchronised prerecorded video. Reference: "
+          },
+          {
+            "value": "MDN: video element",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Attribute / element",
+          "Purpose",
+          "Value / format",
+          "Notes"
+        ],
+        "rows": [
+          [
+            "width, height",
+            "Reserve layout space, prevent CLS",
+            "Pixels (integer)",
+            "Always set; browser computes aspect ratio"
+          ],
+          [
+            "poster",
+            "Placeholder image before play",
+            "URL to image file",
+            "Use a representative frame or branded image"
+          ],
+          [
+            "playsinline",
+            "Prevent iOS full-screen on play",
+            "Boolean",
+            "Required for inline video on mobile"
+          ],
+          [
+            "controls",
+            "Show native browser video UI",
+            "Boolean",
+            "Required for keyboard-accessible playback"
+          ],
+          [
+            "autoplay muted",
+            "Silent autoplay for background video",
+            "Both boolean",
+            "autoplay alone is blocked by browsers"
+          ],
+          [
+            "preload",
+            "Buffering hint: none / metadata / auto",
+            "String",
+            "metadata is the recommended default"
+          ],
+          [
+            "<track kind='captions'>",
+            "Closed captions WebVTT file",
+            "src + srclang + label",
+            "Required for WCAG 1.2.2 compliance"
+          ],
+          [
+            "<track kind='subtitles'>",
+            "Subtitles for foreign language",
+            "src + srclang + label",
+            "Separate from captions"
+          ],
+          [
+            "<track kind='chapters'>",
+            "Chapter navigation markers",
+            "src",
+            "Enables chapter UI in some browsers"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Captions Are a Legal and Ethical Requirement",
+        "text": "WCAG 1.2.2 (Level AA) requires captions for all prerecorded synchronised video. Captions are not subtitles: captions describe all auditory content including speech, sound effects, and music cues for deaf and hard-of-hearing users. A <track kind='captions'> element with a valid WebVTT file satisfies this requirement. Omitting captions is the most common accessibility failure in video content and may constitute a legal violation under laws such as the ADA, the UK Equality Act, and India's RPwD Act."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Video with Controls, Poster, Sources, and Captions Track",
+        "description": "This example shows a complete accessible video player: width and height to prevent layout shift, a poster image, a multi-format source chain (AV1, H.265, H.264), a captions track and a subtitles track, the playsinline attribute for iOS, and a fallback download link for unsupported browsers.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Video Element Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 800px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    video { max-width: 100%; height: auto; display: block;\n            border-radius: 10px; background: #0f172a; }\n    .fig  { margin: .75rem 0 1.25rem; }\n    figcaption { font-size: .82rem; color: #64748b; margin-top: .4rem; }\n    .ann  { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .75rem 1rem;\n            font-size: .84rem; line-height: 1.65; margin: .5rem 0; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .2rem; }\n    .bad .lbl { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>HTML Video Element</h1>\n\n\n  <!-- COMPLETE ACCESSIBLE VIDEO PLAYER -->\n  <h2>1. Complete accessible video with captions</h2>\n\n  <figure class=\"fig\">\n    <!--\n      width + height: reserve 16:9 layout space before load.\n        Prevents Cumulative Layout Shift (CLS).\n        CSS max-width:100% makes it responsive.\n\n      poster: image shown before playback begins.\n        Use a representative frame — not a blank black screen.\n\n      controls: renders the native browser video UI.\n        Required for keyboard-accessible play/pause/seek/volume.\n\n      playsinline: on iOS Safari, prevents the video from\n        automatically entering full-screen when play is pressed.\n        Required for inline video on mobile devices.\n\n      preload=\"metadata\": fetches duration for the time display.\n        Does not download the video data until play is pressed.\n    -->\n    <video\n      width=\"800\"\n      height=\"450\"\n      poster=\"/img/html-course-poster.jpg\"\n      controls\n      playsinline\n      preload=\"metadata\">\n\n      <!--\n        Source fallback chain: browser tries each in order.\n        AV1: best compression, Chrome 70+, Firefox 67+, Edge 79+.\n        H.265/HEVC: Apple ecosystem strength (Safari, iOS).\n        H.264/MP4: universal fallback, all modern browsers.\n        type attribute: enables client-side codec negotiation\n          with no network cost for skipped formats.\n      -->\n      <source\n        src=\"/video/lesson-01.av1.mp4\"\n        type=\"video/mp4; codecs=av01.0.05M.08\">\n      <source\n        src=\"/video/lesson-01.hevc.mp4\"\n        type=\"video/mp4; codecs=hvc1\">\n      <source\n        src=\"/video/lesson-01.h264.mp4\"\n        type=\"video/mp4\">\n\n      <!--\n        <track> elements attach text tracks to the video.\n\n        kind=\"captions\": WCAG 1.2.2 requirement.\n          Describes ALL audio content: speech, sound effects,\n          music. Intended for deaf/hard-of-hearing users.\n          Default: srclang=\"en\" with default attribute\n          makes captions active by default.\n\n        kind=\"subtitles\": foreign language translation.\n          Describes speech only, not sound effects.\n\n        kind=\"chapters\": chapter navigation markers.\n          Enables chapter jump UI in compatible browsers.\n      -->\n      <track\n        kind=\"captions\"\n        src=\"/tracks/lesson-01.en.vtt\"\n        srclang=\"en\"\n        label=\"English captions\"\n        default>\n      <track\n        kind=\"subtitles\"\n        src=\"/tracks/lesson-01.hi.vtt\"\n        srclang=\"hi\"\n        label=\"Hindi subtitles\">\n      <track\n        kind=\"chapters\"\n        src=\"/tracks/lesson-01.chapters.vtt\"\n        srclang=\"en\"\n        label=\"Chapters\">\n\n      <!--\n        Fallback content for browsers without video support.\n        Always provide a direct download link.\n      -->\n      <p>\n        Your browser does not support HTML video.\n        <a href=\"/video/lesson-01.h264.mp4\">Download the lesson video</a>.\n      </p>\n    </video>\n\n    <figcaption>\n      <strong>Lesson 1:</strong> Introduction to HTML Document Structure.\n      <a href=\"/transcripts/lesson-01.txt\">Read the full transcript</a>.\n    </figcaption>\n  </figure>\n\n\n  <!-- WEBVTT CAPTION FORMAT REFERENCE -->\n  <h2>2. WebVTT caption file format</h2>\n  <div class=\"ann\">\n    <p>Save as <code>/tracks/lesson-01.en.vtt</code>.</p>\n  </div>\n  <pre style=\"background:#0f172a;color:#e2e8f0;border-radius:8px;\n       padding:1rem;font-size:.82rem;overflow-x:auto;line-height:1.65;\">WEBVTT\n\n00:00:00.000 --> 00:00:05.000\nWelcome to the HTML Foundations course.\n\n00:00:05.000 --> 00:00:12.500\nIn this first lesson, we will explore\nthe structure of an HTML document.\n\n00:00:12.500 --> 00:00:18.000\n[Keyboard typing sound]\nLet's start by looking at the DOCTYPE declaration.\n\n00:00:18.000 --> 00:00:24.000\n[Background music fades out]\nThe DOCTYPE tells the browser which version\nof HTML to expect.\n</pre>\n  <div class=\"ann\">\n    <p>\n      <strong>Captions vs subtitles in WebVTT:</strong><br>\n      Captions include non-speech audio cues in square brackets:\n      <code>[Keyboard typing]</code>, <code>[Music fades]</code>,\n      <code>[Applause]</code>.<br>\n      Subtitles contain speech translation only.\n    </p>\n  </div>\n\n\n  <!-- WRONG vs RIGHT -->\n  <h2>3. Common mistakes</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: no width/height — causes layout shift</p>\n    <code>&lt;video controls src=\"lesson.mp4\"&gt;&lt;/video&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: width and height reserve layout space</p>\n    <code>&lt;video controls width=\"800\" height=\"450\" src=\"lesson.mp4\"&gt;&lt;/video&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: autoplay without muted — blocked by browsers</p>\n    <code>&lt;video autoplay src=\"intro.mp4\"&gt;&lt;/video&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: autoplay requires muted</p>\n    <code>&lt;video autoplay muted playsinline loop src=\"intro.mp4\"&gt;&lt;/video&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: no captions track — WCAG 1.2.2 failure</p>\n    <code>&lt;video controls src=\"lesson.mp4\"&gt;&lt;/video&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: captions track attached</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;video controls width=\"800\" height=\"450\"&gt;\n  &lt;source src=\"lesson.mp4\" type=\"video/mp4\"&gt;\n  &lt;track kind=\"captions\" src=\"lesson.en.vtt\"\n         srclang=\"en\" label=\"English\" default&gt;\n&lt;/video&gt;</pre>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders three sections. The complete player shows a 16:9 video element with a poster placeholder, native controls, and the source chain annotated inline. Below the video a figcaption provides a transcript link. The WebVTT section shows a dark code block with a four-cue caption file including a sound effect cue in square brackets, followed by an annotation distinguishing captions from subtitles. The mistakes section shows three pairs of red and green code cards for missing dimensions, autoplay without muted, and missing captions track.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Background Video, Custom Player, and Video Format Comparison",
+        "description": "This example shows a hero background video with autoplay muted playsinline loop, a custom accessible video player using the HTMLVideoElement JavaScript API with play/pause, seek, volume, fullscreen, and caption toggle controls, and a video format comparison table covering AV1, H.265, VP9, and H.264.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Video Patterns Reference</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 800px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    table { border-collapse: collapse; width: 100%; font-size: .87rem;\n            margin: .75rem 0; }\n    th,td { border: 1px solid #e2e8f0; padding: .45rem .75rem;\n            text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    .yes  { color: #16a34a; font-weight: 700; }\n    .part { color: #ca8a04; font-weight: 600; }\n    .no   { color: #dc2626; }\n\n    /* Background video hero */\n    .hero { position: relative; border-radius: 12px; overflow: hidden;\n            height: 260px; background: #0f172a; }\n    .hero video { position: absolute; inset: 0; width: 100%;\n                  height: 100%; object-fit: cover; opacity: .6; }\n    .hero-content { position: relative; z-index: 1; padding: 2rem;\n                    color: #fff; }\n    .hero-content h3 { margin: 0; font-size: 1.3rem; }\n    .hero-content p  { margin: .4rem 0 0; font-size: .88rem;\n                       color: #cbd5e1; }\n\n    /* Custom player */\n    .player { background: #0f172a; border-radius: 12px;\n              overflow: hidden; margin: .75rem 0; }\n    .player video { width: 100%; display: block; max-height: 360px;\n                    background: #000; }\n    .player-controls { padding: .65rem 1rem;\n                       display: flex; gap: .65rem; align-items: center;\n                       flex-wrap: wrap; }\n    .pc-btn { background: transparent; color: #e2e8f0; border: none;\n              cursor: pointer; font-size: .82rem; padding: .3rem .55rem;\n              border-radius: 6px; }\n    .pc-btn:hover { background: #1e293b; }\n    .pc-btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 1px; }\n    .pc-progress { flex: 1; height: 4px; background: #334155;\n                   border-radius: 2px; cursor: pointer; min-width: 80px; }\n    .pc-fill { height: 100%; background: #2563eb; border-radius: 2px;\n               pointer-events: none; }\n    .pc-time  { font-size: .72rem; color: #94a3b8;\n                font-variant-numeric: tabular-nums; }\n  </style>\n</head>\n<body>\n\n  <h1>Video Patterns Reference</h1>\n\n\n  <!-- PATTERN 1: BACKGROUND HERO VIDEO -->\n  <h2>1. Background hero video (autoplay muted loop)</h2>\n  <!--\n    autoplay + muted: only way to autoplay in modern browsers.\n    playsinline: prevents iOS from entering full-screen.\n    loop: repeats seamlessly.\n    No controls: decorative background, not content-critical.\n    aria-hidden=\"true\": hides from screen readers (decorative).\n    The text content overlay is the meaningful content.\n  -->\n  <div class=\"hero\">\n    <video\n      autoplay\n      muted\n      loop\n      playsinline\n      aria-hidden=\"true\"\n      preload=\"auto\">\n      <source src=\"/video/hero-bg.av1.mp4\"  type=\"video/mp4; codecs=av01.0.05M.08\">\n      <source src=\"/video/hero-bg.h264.mp4\" type=\"video/mp4\">\n    </video>\n    <div class=\"hero-content\">\n      <h3>HTML Foundations Course</h3>\n      <p>12 modules &middot; 48 lessons &middot; Certificate on completion</p>\n    </div>\n  </div>\n  <p style=\"font-size:.84rem;color:#64748b;margin-top:.4rem;\">\n    Background video: <code>aria-hidden=\"true\"</code> hides the\n    decorative video from screen readers. The text overlay is the\n    meaningful content — it must not be conveyed only through the video.\n  </p>\n\n\n  <!-- PATTERN 2: CUSTOM VIDEO PLAYER -->\n  <h2>2. Custom accessible video player</h2>\n  <!--\n    No controls attribute: all controls are custom.\n    Every control is a <button> for keyboard accessibility.\n    aria-label names each button for screen readers.\n  -->\n  <div class=\"player\">\n    <video\n      id=\"cv\"\n      width=\"800\"\n      height=\"450\"\n      preload=\"metadata\"\n      playsinline>\n      <source src=\"/video/lesson-01.av1.mp4\"  type=\"video/mp4; codecs=av01.0.05M.08\">\n      <source src=\"/video/lesson-01.h264.mp4\" type=\"video/mp4\">\n      <track kind=\"captions\" src=\"/tracks/lesson-01.en.vtt\"\n             srclang=\"en\" label=\"English\" default>\n    </video>\n\n    <div class=\"player-controls\"\n         role=\"group\"\n         aria-label=\"Video player controls\">\n\n      <button class=\"pc-btn\" id=\"cv-play\"\n              aria-label=\"Play lesson video\">\n        &#9654; Play\n      </button>\n\n      <span class=\"pc-time\" id=\"cv-cur\">0:00</span>\n\n      <div class=\"pc-progress\"\n           id=\"cv-bar\"\n           role=\"progressbar\"\n           aria-label=\"Video playback position\"\n           aria-valuenow=\"0\"\n           aria-valuemin=\"0\"\n           aria-valuemax=\"100\"\n           tabindex=\"0\">\n        <div class=\"pc-fill\" id=\"cv-fill\" style=\"width:0%\"></div>\n      </div>\n\n      <span class=\"pc-time\" id=\"cv-dur\">0:00</span>\n\n      <button class=\"pc-btn\" id=\"cv-cc\"\n              aria-label=\"Toggle captions\"\n              aria-pressed=\"false\">\n        CC\n      </button>\n\n      <button class=\"pc-btn\" id=\"cv-fs\"\n              aria-label=\"Enter full screen\">\n        &#x26F6;\n      </button>\n    </div>\n  </div>\n\n  <script>\n  (function() {\n    const v     = document.getElementById('cv');\n    const btn   = document.getElementById('cv-play');\n    const cur   = document.getElementById('cv-cur');\n    const dur   = document.getElementById('cv-dur');\n    const fill  = document.getElementById('cv-fill');\n    const bar   = document.getElementById('cv-bar');\n    const ccBtn = document.getElementById('cv-cc');\n    const fsBtn = document.getElementById('cv-fs');\n\n    const fmt = s => {\n      const m = Math.floor(s / 60);\n      return m + ':' + String(Math.floor(s % 60)).padStart(2, '0');\n    };\n\n    v.addEventListener('loadedmetadata', () => {\n      dur.textContent = fmt(v.duration);\n      bar.setAttribute('aria-valuemax', Math.round(v.duration));\n    });\n\n    v.addEventListener('timeupdate', () => {\n      cur.textContent = fmt(v.currentTime);\n      const pct = v.duration ? (v.currentTime / v.duration) * 100 : 0;\n      fill.style.width = pct + '%';\n      bar.setAttribute('aria-valuenow', Math.round(v.currentTime));\n    });\n\n    btn.addEventListener('click', () => {\n      if (v.paused) {\n        v.play();\n        btn.innerHTML = '&#9646;&#9646; Pause';\n        btn.setAttribute('aria-label', 'Pause lesson video');\n      } else {\n        v.pause();\n        btn.innerHTML = '&#9654; Play';\n        btn.setAttribute('aria-label', 'Play lesson video');\n      }\n    });\n\n    bar.addEventListener('click', e => {\n      const r = bar.getBoundingClientRect();\n      v.currentTime = ((e.clientX - r.left) / r.width) * v.duration;\n    });\n\n    // Caption toggle using TextTrack API\n    ccBtn.addEventListener('click', () => {\n      const track = v.textTracks[0];\n      if (!track) return;\n      const on = track.mode === 'showing';\n      track.mode = on ? 'hidden' : 'showing';\n      ccBtn.setAttribute('aria-pressed', !on);\n      ccBtn.style.color = on ? '' : '#60a5fa';\n    });\n\n    // Fullscreen API\n    fsBtn.addEventListener('click', () => {\n      if (document.fullscreenElement) {\n        document.exitFullscreen();\n        fsBtn.setAttribute('aria-label', 'Enter full screen');\n      } else {\n        v.requestFullscreen();\n        fsBtn.setAttribute('aria-label', 'Exit full screen');\n      }\n    });\n  })();\n  </script>\n\n\n  <!-- VIDEO FORMAT TABLE -->\n  <h2>3. Video format browser support</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>Codec</th><th>Container</th><th>type value</th>\n        <th>Chrome</th><th>Firefox</th><th>Safari</th><th>Edge</th>\n        <th>Quality</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td>AV1</td><td>MP4 / WebM</td>\n        <td><code>video/mp4; codecs=av01...</code></td>\n        <td class=\"yes\">70+</td><td class=\"yes\">67+</td>\n        <td class=\"yes\">17+</td><td class=\"yes\">79+</td>\n        <td>Best</td>\n      </tr>\n      <tr>\n        <td>H.265 (HEVC)</td><td>MP4</td>\n        <td><code>video/mp4; codecs=hvc1</code></td>\n        <td class=\"no\">No</td><td class=\"no\">No</td>\n        <td class=\"yes\">Yes</td><td class=\"part\">HW only</td>\n        <td>Excellent (Apple)</td>\n      </tr>\n      <tr>\n        <td>VP9</td><td>WebM</td>\n        <td><code>video/webm; codecs=vp9</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"part\">14.1+</td><td class=\"yes\">Yes</td>\n        <td>Very good</td>\n      </tr>\n      <tr>\n        <td>H.264 (AVC)</td><td>MP4</td>\n        <td><code>video/mp4</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td>Good (universal)</td>\n      </tr>\n      <tr>\n        <td>VP8</td><td>WebM</td>\n        <td><code>video/webm; codecs=vp8</code></td>\n        <td class=\"yes\">Yes</td><td class=\"yes\">Yes</td>\n        <td class=\"no\">No</td><td class=\"yes\">Yes</td>\n        <td>Acceptable</td>\n      </tr>\n    </tbody>\n  </table>\n  <p style=\"font-size:.84rem;color:#64748b;\">\n    <strong>Recommended source order:</strong>\n    AV1 &rarr; H.265 (for Apple) &rarr; H.264 (universal fallback)\n  </p>\n\n</body>\n</html>",
+        "output": "Page renders three sections. The background hero shows a 260px high section with a video element absolutely positioned as a dark overlay, text content centred on top, and a note about aria-hidden on decorative video. The custom player shows a dark card with a video element, a controls bar with play, progress, time readouts, a CC button, and a fullscreen button, all wired by JavaScript including the TextTrack API for caption toggling. The format table shows five codecs with browser columns colour-coded green, amber, and red, with a recommended source order note below.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<video controls>",
+            "highlight": true
+          },
+          {
+            "value": " with a "
+          },
+          {
+            "value": "<track kind='captions'>",
+            "highlight": true
+          },
+          {
+            "value": " for all prerecorded video content including course lessons, product demos, and tutorials where the user controls playback."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "autoplay muted playsinline loop",
+            "highlight": true
+          },
+          {
+            "value": " for purely decorative "
+          },
+          {
+            "value": "background video",
+            "bold": true
+          },
+          {
+            "value": " in hero sections, pairing it with "
+          },
+          {
+            "value": "aria-hidden='true'",
+            "highlight": true
+          },
+          {
+            "value": " to prevent screen readers from announcing the decorative element."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "poster",
+            "highlight": true
+          },
+          {
+            "value": " on every "
+          },
+          {
+            "value": "<video>",
+            "highlight": true
+          },
+          {
+            "value": " element to show a representative frame or branded image while the video loads, preventing a blank black rectangle before the user presses play."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Never omit "
+          },
+          {
+            "value": "<track kind='captions'>",
+            "highlight": true
+          },
+          {
+            "value": " on prerecorded video; missing captions violate "
+          },
+          {
+            "value": "WCAG 1.2.2 Level AA",
+            "bold": true
+          },
+          {
+            "value": " and may constitute a legal accessibility failure under disability discrimination laws."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "autoplay",
+            "highlight": true
+          },
+          {
+            "value": " on content-critical video; browsers block unmuted autoplay, and even muted autoplay of important content violates "
+          },
+          {
+            "value": "WCAG 1.4.2 Audio Control",
+            "bold": true
+          },
+          {
+            "value": " if the user cannot pause or stop it."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid omitting "
+          },
+          {
+            "value": "width",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "height",
+            "highlight": true
+          },
+          {
+            "value": " attributes on "
+          },
+          {
+            "value": "<video>",
+            "highlight": true
+          },
+          {
+            "value": "; without reserved dimensions the video has no size before it loads, causing "
+          },
+          {
+            "value": "Cumulative Layout Shift (CLS)",
+            "bold": true
+          },
+          {
+            "value": " that degrades Core Web Vitals scores."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<video>",
+            "highlight": true
+          },
+          {
+            "value": " element provides a "
+          },
+          {
+            "value": "native, plugin-free video player",
+            "bold": true
+          },
+          {
+            "value": " with built-in keyboard controls, full-screen support, and caption rendering, replacing Flash and third-party players that required JavaScript bundles and plugin installations."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<track>",
+            "highlight": true
+          },
+          {
+            "value": " element solves "
+          },
+          {
+            "value": "caption delivery",
+            "bold": true
+          },
+          {
+            "value": " natively: the browser renders captions directly in the video player UI, the user can toggle them via native controls, and no JavaScript or third-party caption library is required for "
+          },
+          {
+            "value": "WCAG 1.2.2",
+            "bold": true
+          },
+          {
+            "value": " compliance."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "poster",
+            "highlight": true
+          },
+          {
+            "value": " attribute and explicit "
+          },
+          {
+            "value": "width",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "height",
+            "highlight": true
+          },
+          {
+            "value": " together solve two "
+          },
+          {
+            "value": "perceived performance problems",
+            "bold": true
+          },
+          {
+            "value": ": the blank black rectangle before video loads and the layout shift when the video dimensions are computed after the first network response."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<track>",
+            "highlight": true
+          },
+          {
+            "value": " element connects a "
+          },
+          {
+            "value": "WebVTT text track",
+            "bold": true
+          },
+          {
+            "value": " to the video through the browser's "
+          },
+          {
+            "value": "TextTrack API",
+            "highlight": true
+          },
+          {
+            "value": ". JavaScript can access "
+          },
+          {
+            "value": "video.textTracks",
+            "highlight": true
+          },
+          {
+            "value": " to read, show, hide, or modify tracks at runtime. Each "
+          },
+          {
+            "value": "TextTrack",
+            "highlight": true
+          },
+          {
+            "value": " has a "
+          },
+          {
+            "value": "mode",
+            "highlight": true
+          },
+          {
+            "value": " property: "
+          },
+          {
+            "value": "'disabled'",
+            "highlight": true
+          },
+          {
+            "value": " (no rendering, no events), "
+          },
+          {
+            "value": "'hidden'",
+            "highlight": true
+          },
+          {
+            "value": " (events fire but no display), and "
+          },
+          {
+            "value": "'showing'",
+            "highlight": true
+          },
+          {
+            "value": " (captions rendered on screen). Toggling captions in a custom player requires setting "
+          },
+          {
+            "value": "track.mode = 'showing'",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "'hidden'",
+            "highlight": true
+          },
+          {
+            "value": ", not removing the "
+          },
+          {
+            "value": "<track>",
+            "highlight": true
+          },
+          {
+            "value": " element."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The distinction between "
+          },
+          {
+            "value": "captions",
+            "bold": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "subtitles",
+            "bold": true
+          },
+          {
+            "value": " is semantic, not technical: both use WebVTT format and the "
+          },
+          {
+            "value": "<track>",
+            "highlight": true
+          },
+          {
+            "value": " element. Captions ("
+          },
+          {
+            "value": "kind='captions'",
+            "highlight": true
+          },
+          {
+            "value": ") describe "
+          },
+          {
+            "value": "all auditory content",
+            "bold": true
+          },
+          {
+            "value": " including speech, sound effects, and music cues, targeted at deaf users. Subtitles ("
+          },
+          {
+            "value": "kind='subtitles'",
+            "highlight": true
+          },
+          {
+            "value": ") translate spoken dialogue into another language, targeted at hearing users who do not understand the source language. WCAG 1.2.2 requires captions, not subtitles."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Video for the web requires "
+          },
+          {
+            "value": "codec negotiation",
+            "bold": true
+          },
+          {
+            "value": " because no single codec is supported by all browsers. AV1 offers the best compression ratio but requires hardware decoding support for smooth high-resolution playback. H.264 has the broadest support but larger file sizes. H.265 excels on Apple hardware. The "
+          },
+          {
+            "value": "<source>",
+            "highlight": true
+          },
+          {
+            "value": " fallback chain with "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attributes lets each browser silently select its optimal codec at zero extra network cost."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Omitting a captions track on content video violates "
+          },
+          {
+            "value": "WCAG 1.2.2",
+            "bold": true
+          },
+          {
+            "value": " for deaf and hard-of-hearing users."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Forgetting "
+          },
+          {
+            "value": "playsinline",
+            "highlight": true
+          },
+          {
+            "value": " causes iOS Safari to open video in its own full-screen player unexpectedly."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "No "
+          },
+          {
+            "value": "width",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "height",
+            "highlight": true
+          },
+          {
+            "value": " on video leaves a zero-height placeholder that causes layout shift on load."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "Intersection Observer API",
+            "bold": true
+          },
+          {
+            "value": " to pause video when it scrolls out of the viewport: "
+          },
+          {
+            "value": "if (!entry.isIntersecting) video.pause()",
+            "highlight": true
+          },
+          {
+            "value": ". This prevents audio from an off-screen video playing while the user reads other content. Pair it with "
+          },
+          {
+            "value": "video.play()",
+            "highlight": true
+          },
+          {
+            "value": " when "
+          },
+          {
+            "value": "isIntersecting",
+            "highlight": true
+          },
+          {
+            "value": " is true only if the video was already playing, so that paused videos do not auto-resume on scroll."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Encode video for the web using "
+          },
+          {
+            "value": "FFmpeg",
+            "bold": true
+          },
+          {
+            "value": ": "
+          },
+          {
+            "value": "ffmpeg -i input.mov -c:v libx264 -crf 23 -preset slow output.mp4",
+            "highlight": true
+          },
+          {
+            "value": " for H.264, or "
+          },
+          {
+            "value": "ffmpeg -i input.mov -c:v libaom-av1 -crf 30 -b:v 0 output.av1.mp4",
+            "highlight": true
+          },
+          {
+            "value": " for AV1. AV1 at CRF 30 typically produces files "
+          },
+          {
+            "value": "40-50% smaller",
+            "bold": true
+          },
+          {
+            "value": " than H.264 at equivalent visual quality, significantly reducing bandwidth for course video delivery."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Audio Element",
+      "HTML Media and Time Semantics",
+      "HTML Image Performance and Branding",
+      "Web Accessibility WCAG",
+      "Core Web Vitals and Performance"
+    ],
+    "is_active": true,
+    "order_index": 24,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 24,
+      "slug": "video-formats-and-source",
+      "title": "Video Formats and Source",
+      "description": "source children with type give the browser a codec fallback from best compression to widest support.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<video>",
+              "highlight": true
+            },
+            {
+              "value": " element's "
+            },
+            {
+              "value": "<source>",
+              "highlight": true
+            },
+            {
+              "value": " fallback chain works identically to "
+            },
+            {
+              "value": "<audio>",
+              "highlight": true
+            },
+            {
+              "value": ": the browser evaluates each "
+            },
+            {
+              "value": "<source>",
+              "highlight": true
+            },
+            {
+              "value": " in order, using the "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute for client-side codec negotiation. The four codecs in common web use are "
+            },
+            {
+              "value": "AV1",
+              "bold": true
+            },
+            {
+              "value": " (best compression, all modern browsers since 2023), "
+            },
+            {
+              "value": "H.265/HEVC",
+              "bold": true
+            },
+            {
+              "value": " (excellent on Apple hardware, Safari), "
+            },
+            {
+              "value": "VP9",
+              "bold": true
+            },
+            {
+              "value": " (WebM, Chrome/Firefox/Edge), and "
+            },
+            {
+              "value": "H.264/AVC",
+              "bold": true
+            },
+            {
+              "value": " (universal fallback). AV1 in an MP4 container is the modern first choice. H.264 in MP4 remains the universal last fallback. The "
+            },
+            {
+              "value": "codecs",
+              "highlight": true
+            },
+            {
+              "value": " parameter in the "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " attribute specifies the exact codec profile, enabling the browser to confirm support without a network request. Reference: "
+            },
+            {
+              "value": "MDN: video source formats",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Codec",
+            "Container",
+            "type attribute",
+            "Recommended use"
+          ],
+          "rows": [
+            [
+              "AV1",
+              "MP4 or WebM",
+              "video/mp4; codecs=av01.0.05M.08",
+              "First source: best quality-per-bit"
+            ],
+            [
+              "H.265 (HEVC)",
+              "MP4",
+              "video/mp4; codecs=hvc1",
+              "Second source: Apple devices"
+            ],
+            [
+              "VP9",
+              "WebM",
+              "video/webm; codecs=vp9",
+              "Alternative to H.265 for Chrome/Firefox"
+            ],
+            [
+              "H.264 (AVC)",
+              "MP4",
+              "video/mp4",
+              "Last source: universal fallback"
+            ],
+            [
+              "VP8",
+              "WebM",
+              "video/webm; codecs=vp8",
+              "Legacy; avoid in new projects"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Source Chain, MIME Types, and canPlayType Detection",
+          "description": "This example shows the recommended three-source fallback chain for web video, the exact type attribute strings for every codec, a live JavaScript canPlayType detector that shows which codecs the current browser supports, and wrong versus right source ordering patterns.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Video Source Formats</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    table{ border-collapse: collapse; width: 100%; font-size: .87rem;\n           margin: .75rem 0; }\n    th,td{ border: 1px solid #e2e8f0; padding: .4rem .75rem;\n           text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    #detect { background: #f8fafc; border: 1px solid #e2e8f0;\n              border-radius: 8px; padding: .75rem 1rem;\n              font-size: .84rem; line-height: 1.65; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .2rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>Video Source Formats</h1>\n\n\n  <!-- RECOMMENDED SOURCE CHAIN -->\n  <h2>1. Recommended three-source fallback chain</h2>\n  <pre>&lt;video controls width=\"800\" height=\"450\"\n       poster=\"/img/poster.jpg\" preload=\"metadata\"&gt;\n\n  &lt;!-- 1st: AV1 — best compression, all modern browsers --&gt;\n  &lt;source src=\"/video/lesson.av1.mp4\"\n          type=\"video/mp4; codecs=av01.0.05M.08\"&gt;\n\n  &lt;!-- 2nd: H.265 — Apple devices (Safari, iOS) --&gt;\n  &lt;source src=\"/video/lesson.hevc.mp4\"\n          type=\"video/mp4; codecs=hvc1\"&gt;\n\n  &lt;!-- 3rd: H.264 — universal fallback --&gt;\n  &lt;source src=\"/video/lesson.h264.mp4\"\n          type=\"video/mp4\"&gt;\n\n  &lt;!-- Text track for accessibility --&gt;\n  &lt;track kind=\"captions\" src=\"/tracks/lesson.en.vtt\"\n         srclang=\"en\" label=\"English\" default&gt;\n\n  &lt;!-- Download fallback --&gt;\n  &lt;p&gt;Download: &lt;a href=\"/video/lesson.h264.mp4\"&gt;lesson.mp4&lt;/a&gt;&lt;/p&gt;\n\n&lt;/video&gt;</pre>\n\n\n  <!-- MIME TYPE REFERENCE -->\n  <h2>2. type attribute strings by codec</h2>\n  <table>\n    <thead><tr><th>Codec</th><th>type value</th><th>Notes</th></tr></thead>\n    <tbody>\n      <tr><td>AV1 (MP4)</td>\n          <td><code>video/mp4; codecs=av01.0.05M.08</code></td>\n          <td>Profile 0, level 5, 8-bit</td></tr>\n      <tr><td>AV1 (WebM)</td>\n          <td><code>video/webm; codecs=av01.0.05M.08</code></td>\n          <td>WebM container variant</td></tr>\n      <tr><td>H.265 / HEVC</td>\n          <td><code>video/mp4; codecs=hvc1</code></td>\n          <td>Safari and iOS only</td></tr>\n      <tr><td>VP9 (WebM)</td>\n          <td><code>video/webm; codecs=vp9</code></td>\n          <td>Chrome, Firefox, Edge</td></tr>\n      <tr><td>H.264 / AVC</td>\n          <td><code>video/mp4</code></td>\n          <td>Universal; no codec param needed</td></tr>\n      <tr><td>VP8 (WebM)</td>\n          <td><code>video/webm; codecs=vp8</code></td>\n          <td>Legacy; avoid in new projects</td></tr>\n    </tbody>\n  </table>\n\n\n  <!-- LIVE DETECTION -->\n  <h2>3. canPlayType live detection</h2>\n  <div id=\"detect\">\n    <strong>Video codec support in this browser:</strong>\n    <ul id=\"vlist\" style=\"margin:.35rem 0 0;padding-left:1.25rem;font-size:.83rem;\"></ul>\n  </div>\n  <script>\n    const v = document.createElement('video');\n    const codecs = [\n      { label: 'AV1 (MP4)',   type: 'video/mp4; codecs=av01.0.05M.08' },\n      { label: 'H.265 (HEVC)',type: 'video/mp4; codecs=hvc1' },\n      { label: 'VP9 (WebM)',  type: 'video/webm; codecs=vp9' },\n      { label: 'H.264 (AVC)', type: 'video/mp4' },\n      { label: 'VP8 (WebM)',  type: 'video/webm; codecs=vp8' },\n    ];\n    const ul = document.getElementById('vlist');\n    codecs.forEach(({ label, type }) => {\n      const r  = v.canPlayType(type);\n      const li = document.createElement('li');\n      const c  = r === 'probably' ? '#16a34a'\n               : r === 'maybe'    ? '#ca8a04' : '#dc2626';\n      li.innerHTML = `<strong>${label}:</strong> `\n        + `<span style=\"color:${c};\">${r || 'not supported'}</span>`;\n      ul.appendChild(li);\n    });\n  </script>\n\n\n  <!-- WRONG vs RIGHT -->\n  <h2>4. Source order mistakes</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: H.264 first — modern browsers never try AV1</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;source src=\"lesson.h264.mp4\" type=\"video/mp4\"&gt;\n&lt;source src=\"lesson.av1.mp4\"  type=\"video/mp4; codecs=av01.0.05M.08\"&gt;</pre>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: best codec first, universal fallback last</p>\n    <pre style=\"margin:0;font-size:.82rem;\">&lt;source src=\"lesson.av1.mp4\"  type=\"video/mp4; codecs=av01.0.05M.08\"&gt;\n&lt;source src=\"lesson.h264.mp4\" type=\"video/mp4\"&gt;</pre>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: no type attribute — forces speculative fetches</p>\n    <code>&lt;source src=\"/video/lesson.av1.mp4\"&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: type attribute enables zero-cost negotiation</p>\n    <code>&lt;source src=\"/video/lesson.av1.mp4\" type=\"video/mp4; codecs=av01.0.05M.08\"&gt;</code>\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders four sections. The source chain section shows a dark code block with a three-source fallback, a track element, and a download fallback paragraph. The MIME type table lists six codecs with exact type strings and notes. The canPlayType section shows a live JavaScript detector that lists each codec with a colour-coded support result. The mistakes section shows four code cards alternating wrong and right for source order and missing type attribute.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The AV1 "
+            },
+            {
+              "value": "type",
+              "highlight": true
+            },
+            {
+              "value": " string "
+            },
+            {
+              "value": "video/mp4; codecs=av01.0.05M.08",
+              "highlight": true
+            },
+            {
+              "value": " encodes a specific "
+            },
+            {
+              "value": "codec profile",
+              "bold": true
+            },
+            {
+              "value": ": profile 0 ("
+            },
+            {
+              "value": "Main",
+              "bold": true
+            },
+            {
+              "value": "), level 5 (up to 4K at 30fps), tier M ("
+            },
+            {
+              "value": "Main",
+              "bold": true
+            },
+            {
+              "value": " tier), 8-bit colour depth. Profile 0 is the widest-supported AV1 profile. Writing this full "
+            },
+            {
+              "value": "codecs",
+              "highlight": true
+            },
+            {
+              "value": " string allows browsers to confirm hardware-accelerated AV1 support before fetching the file, preventing software-decoding fallback on devices that cannot decode AV1 in hardware."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Unlike audio, video codec selection is also constrained by "
+            },
+            {
+              "value": "hardware decoding support",
+              "bold": true
+            },
+            {
+              "value": ". A browser may report "
+            },
+            {
+              "value": "'probably'",
+              "highlight": true
+            },
+            {
+              "value": " for AV1 via "
+            },
+            {
+              "value": "canPlayType",
+              "highlight": true
+            },
+            {
+              "value": " but fall back to software decoding on older devices, causing high CPU usage and dropped frames. The "
+            },
+            {
+              "value": "Media Capabilities API",
+              "bold": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "navigator.mediaCapabilities.decodingInfo()",
+              "highlight": true
+            },
+            {
+              "value": ") provides a more accurate signal: it reports whether decoding will be "
+            },
+            {
+              "value": "smooth",
+              "bold": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "powerEfficient",
+              "bold": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "supported",
+              "bold": true
+            },
+            {
+              "value": " for a specific codec, resolution, and bitrate combination."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use the "
+            },
+            {
+              "value": "Media Capabilities API",
+              "bold": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Media_Capabilities_API"
+            },
+            {
+              "value": " instead of "
+            },
+            {
+              "value": "canPlayType",
+              "highlight": true
+            },
+            {
+              "value": " for adaptive source selection: "
+            },
+            {
+              "value": "navigator.mediaCapabilities.decodingInfo({ type: 'file', video: { contentType: 'video/mp4; codecs=av01.0.05M.08', width: 1920, height: 1080, bitrate: 3000000, framerate: 30 } })",
+              "highlight": true
+            },
+            {
+              "value": " returns "
+            },
+            {
+              "value": "{ supported, smooth, powerEfficient }",
+              "highlight": true
+            },
+            {
+              "value": ". Select AV1 only if both "
+            },
+            {
+              "value": "smooth",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "powerEfficient",
+              "highlight": true
+            },
+            {
+              "value": " are true, otherwise fall back to H.264."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Video Element",
+        "HTML Audio Element",
+        "Audio Source Formats",
+        "Core Web Vitals and Performance"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 24,
+      "slug": "video-captions-and-tracks",
+      "title": "Video Captions and Tracks",
+      "description": "The track element attaches WebVTT captions, subtitles, and chapters to satisfy WCAG 1.2.2.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<track>",
+              "highlight": true
+            },
+            {
+              "value": " element links a "
+            },
+            {
+              "value": "WebVTT",
+              "bold": true
+            },
+            {
+              "value": " text track file to its parent "
+            },
+            {
+              "value": "<video>",
+              "highlight": true
+            },
+            {
+              "value": ". Required attributes are "
+            },
+            {
+              "value": "kind",
+              "highlight": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "captions",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "subtitles",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "descriptions",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "chapters",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "metadata",
+              "highlight": true
+            },
+            {
+              "value": "), "
+            },
+            {
+              "value": "src",
+              "highlight": true
+            },
+            {
+              "value": " (URL to the VTT file), and "
+            },
+            {
+              "value": "srclang",
+              "highlight": true
+            },
+            {
+              "value": " (BCP 47 language tag, e.g. "
+            },
+            {
+              "value": "en",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "hi",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "ta",
+              "highlight": true
+            },
+            {
+              "value": "). The "
+            },
+            {
+              "value": "label",
+              "highlight": true
+            },
+            {
+              "value": " attribute provides the human-readable name shown in the captions menu. The "
+            },
+            {
+              "value": "default",
+              "highlight": true
+            },
+            {
+              "value": " boolean attribute activates the track on load; only one "
+            },
+            {
+              "value": "<track>",
+              "highlight": true
+            },
+            {
+              "value": " per kind may carry "
+            },
+            {
+              "value": "default",
+              "highlight": true
+            },
+            {
+              "value": ". WebVTT captions for "
+            },
+            {
+              "value": "WCAG 1.2.2",
+              "bold": true
+            },
+            {
+              "value": " must describe all auditory content, not just speech. Reference: "
+            },
+            {
+              "value": "MDN: track element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "WebVTT File Must Be Served from the Same Origin or with CORS",
+          "text": "Browsers enforce the same-origin policy on WebVTT track files loaded by <track>. A VTT file hosted on a different domain will be blocked unless the server sends Access-Control-Allow-Origin headers. This is the most common reason captions appear to load but are never displayed. When using a CDN for VTT files, configure CORS headers on the CDN origin."
+        }
+      ],
+      "examples": [
+        {
+          "title": "WebVTT Format, Multiple Tracks, and TextTrack API",
+          "description": "This example shows the complete WebVTT file format with cue timing, speaker labels, and sound effect annotations, a video element with four track elements covering captions, Hindi subtitles, audio descriptions, and chapters, and the JavaScript TextTrack API for programmatic caption control including toggle, language switching, and cuechange events.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Video Captions and Tracks</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    video{ max-width: 100%; border-radius: 8px; display: block;\n           background: #0f172a; }\n    table{ border-collapse: collapse; width: 100%; font-size: .87rem;\n           margin: .75rem 0; }\n    th,td{ border: 1px solid #e2e8f0; padding: .4rem .75rem;\n           text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    .track-controls { display: flex; gap: .5rem; flex-wrap: wrap;\n                      margin: .65rem 0; }\n    .tc-btn { border: 1px solid #e5e7eb; border-radius: 6px;\n              background: #fff; padding: .35rem .7rem;\n              font-size: .8rem; cursor: pointer; }\n    .tc-btn.active { background: #2563eb; color: #fff;\n                     border-color: #2563eb; }\n    .cue-display { background: #f8fafc; border: 1px solid #e2e8f0;\n                   border-radius: 8px; padding: .65rem .9rem;\n                   font-size: .85rem; min-height: 2.2rem;\n                   color: #475569; font-style: italic; }\n  </style>\n</head>\n<body>\n\n  <h1>WebVTT Captions and Tracks</h1>\n\n\n  <!-- WEBVTT FORMAT REFERENCE -->\n  <h2>1. WebVTT file format</h2>\n  <pre>WEBVTT\n\n&lt;!-- File must begin with \"WEBVTT\" on the first line --&gt;\n\n&lt;!-- Basic cue: timestamp --> timestamp, then caption text --&gt;\n00:00:00.000 --> 00:00:04.500\nWelcome to the HTML Foundations course.\n\n&lt;!-- Multi-line cue --&gt;\n00:00:04.500 --> 00:00:10.000\nIn this lesson we will cover the\nstructure of an HTML document.\n\n&lt;!-- Speaker label (by convention, not a VTT standard) --&gt;\n00:00:10.000 --> 00:00:16.000\n&lt;v Priya&gt;The DOCTYPE declaration tells\nthe browser which HTML version to use.\n\n&lt;!-- Sound effect — REQUIRED for WCAG 1.2.2 captions --&gt;\n00:00:16.000 --> 00:00:19.000\n[Keyboard typing]\n\n&lt;!-- Music cue --&gt;\n00:00:19.000 --> 00:00:22.500\n[Upbeat intro music plays]\n\n&lt;!-- Named cue identifier (optional) --&gt;\nsection-intro\n00:00:22.500 --> 00:00:28.000\nLet's open a code editor and write\nour first HTML document together.</pre>\n\n\n  <!-- VIDEO WITH FOUR TRACKS -->\n  <h2>2. Video with captions, subtitles, descriptions, chapters</h2>\n  <video\n    id=\"demo-video\"\n    width=\"720\"\n    height=\"405\"\n    controls\n    playsinline\n    preload=\"metadata\"\n    poster=\"/img/lesson-poster.jpg\">\n\n    <source src=\"/video/lesson-01.av1.mp4\"  type=\"video/mp4; codecs=av01.0.05M.08\">\n    <source src=\"/video/lesson-01.h264.mp4\" type=\"video/mp4\">\n\n    <!--\n      kind=\"captions\": all auditory content; WCAG 1.2.2 requirement.\n      default: activate this track on load.\n      srclang=\"en\": BCP 47 language tag.\n    -->\n    <track\n      kind=\"captions\"\n      src=\"/tracks/lesson-01.en.captions.vtt\"\n      srclang=\"en\"\n      label=\"English captions\"\n      default>\n\n    <!--\n      kind=\"subtitles\": Hindi translation of speech only.\n      No default: user must enable from the CC menu.\n    -->\n    <track\n      kind=\"subtitles\"\n      src=\"/tracks/lesson-01.hi.vtt\"\n      srclang=\"hi\"\n      label=\"Hindi\">\n\n    <!--\n      kind=\"descriptions\": audio descriptions for blind users.\n      Describes visual content not conveyed in the audio.\n    -->\n    <track\n      kind=\"descriptions\"\n      src=\"/tracks/lesson-01.desc.vtt\"\n      srclang=\"en\"\n      label=\"Audio descriptions\">\n\n    <!--\n      kind=\"chapters\": chapter navigation markers.\n      Some browsers render a chapter menu in the native player.\n    -->\n    <track\n      kind=\"chapters\"\n      src=\"/tracks/lesson-01.chapters.vtt\"\n      srclang=\"en\"\n      label=\"Chapters\">\n\n  </video>\n\n\n  <!-- TEXTTRACK API: CAPTION TOGGLE AND LANGUAGE SWITCH -->\n  <h2>3. TextTrack API: toggle and language switch</h2>\n\n  <div class=\"track-controls\" role=\"group\" aria-label=\"Caption controls\">\n    <button class=\"tc-btn\" id=\"btn-off\"  onclick=\"setTrack(null)\">Off</button>\n    <button class=\"tc-btn active\" id=\"btn-en\" onclick=\"setTrack('en')\">English</button>\n    <button class=\"tc-btn\" id=\"btn-hi\"   onclick=\"setTrack('hi')\">Hindi</button>\n  </div>\n\n  <p style=\"font-size:.84rem;color:#64748b;margin:.2rem 0 .4rem;\">\n    Current cue text:\n  </p>\n  <div class=\"cue-display\" id=\"cue-display\" aria-live=\"polite\">\n    No cue active\n  </div>\n\n  <script>\n    const video = document.getElementById('demo-video');\n\n    function setTrack(lang) {\n      // Disable all text tracks first\n      Array.from(video.textTracks).forEach(t => {\n        t.mode = 'disabled';\n      });\n      // Update button states\n      document.querySelectorAll('.tc-btn').forEach(b => {\n        b.classList.remove('active');\n      });\n      if (lang === null) {\n        document.getElementById('btn-off').classList.add('active');\n        return;\n      }\n      // Enable the selected track\n      const track = Array.from(video.textTracks)\n        .find(t => t.language === lang);\n      if (track) {\n        track.mode = 'showing';\n        document.getElementById('btn-' + lang).classList.add('active');\n\n        // Listen for cue changes to display current cue text\n        track.addEventListener('cuechange', () => {\n          const cues = track.activeCues;\n          const display = document.getElementById('cue-display');\n          if (cues && cues.length > 0) {\n            display.textContent = cues[0].text.replace(/\\n/g, ' ');\n          } else {\n            display.textContent = 'No cue active';\n          }\n        });\n      }\n    }\n\n    // TextTrack kind reference\n    video.addEventListener('loadedmetadata', () => {\n      console.log('Tracks:', Array.from(video.textTracks)\n        .map(t => `${t.kind}: ${t.label} (${t.language})`));\n    });\n  </script>\n\n\n  <!-- TRACK KIND REFERENCE -->\n  <h2>4. track kind attribute reference</h2>\n  <table>\n    <thead><tr><th>kind</th><th>Target user</th><th>Content</th><th>WCAG</th></tr></thead>\n    <tbody>\n      <tr>\n        <td><code>captions</code></td>\n        <td>Deaf / hard-of-hearing</td>\n        <td>All audio: speech + sound effects + music</td>\n        <td>1.2.2 (AA)</td>\n      </tr>\n      <tr>\n        <td><code>subtitles</code></td>\n        <td>Non-native speakers</td>\n        <td>Speech translation only</td>\n        <td>1.2.2 (partially)</td>\n      </tr>\n      <tr>\n        <td><code>descriptions</code></td>\n        <td>Blind / low vision</td>\n        <td>Visual content not in audio</td>\n        <td>1.2.3 / 1.2.5 (AA)</td>\n      </tr>\n      <tr>\n        <td><code>chapters</code></td>\n        <td>All users</td>\n        <td>Named navigation points</td>\n        <td>Navigation aid</td>\n      </tr>\n      <tr>\n        <td><code>metadata</code></td>\n        <td>JavaScript only</td>\n        <td>Timed data for scripts; not displayed</td>\n        <td>N/A</td>\n      </tr>\n    </tbody>\n  </table>\n\n</body>\n</html>",
+          "output": "Page renders four sections. The WebVTT format section shows a dark code block with six cue examples covering basic cues, multi-line, speaker labels, sound effects, music cues, and named identifiers. The four-track video shows a player with all four track types declared. The TextTrack API section shows three toggle buttons (Off, English, Hindi) and a live cue display area wired to the cuechange event with an aria-live region. The kind reference table lists all five track kinds with target user, content description, and WCAG criterion.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "default",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<track>",
+              "highlight": true
+            },
+            {
+              "value": " activates the track on load without user interaction. For captions, "
+            },
+            {
+              "value": "default",
+              "highlight": true
+            },
+            {
+              "value": " should be set on the track matching the "
+            },
+            {
+              "value": "lang",
+              "highlight": true
+            },
+            {
+              "value": " attribute of the "
+            },
+            {
+              "value": "<html>",
+              "highlight": true
+            },
+            {
+              "value": " element to serve the majority of users without requiring them to manually enable captions. For subtitles in a secondary language, "
+            },
+            {
+              "value": "default",
+              "highlight": true
+            },
+            {
+              "value": " should be omitted so the subtitle track does not activate for users who understand the primary language."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "TextTrack API",
+              "bold": true
+            },
+            {
+              "value": " exposes all "
+            },
+            {
+              "value": "<track>",
+              "highlight": true
+            },
+            {
+              "value": " elements through "
+            },
+            {
+              "value": "video.textTracks",
+              "highlight": true
+            },
+            {
+              "value": ", a live "
+            },
+            {
+              "value": "TextTrackList",
+              "highlight": true
+            },
+            {
+              "value": ". Each track's "
+            },
+            {
+              "value": "mode",
+              "highlight": true
+            },
+            {
+              "value": " controls rendering: "
+            },
+            {
+              "value": "'disabled'",
+              "highlight": true
+            },
+            {
+              "value": " removes the track from the rendering pipeline entirely, "
+            },
+            {
+              "value": "'hidden'",
+              "highlight": true
+            },
+            {
+              "value": " fires "
+            },
+            {
+              "value": "cuechange",
+              "highlight": true
+            },
+            {
+              "value": " events without rendering, and "
+            },
+            {
+              "value": "'showing'",
+              "highlight": true
+            },
+            {
+              "value": " both fires events and renders captions. The "
+            },
+            {
+              "value": "cuechange",
+              "highlight": true
+            },
+            {
+              "value": " event fires when "
+            },
+            {
+              "value": "activeCues",
+              "highlight": true
+            },
+            {
+              "value": " changes, enabling real-time synchronisation of custom caption displays, interactive transcripts, and chapter highlighting."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Build an "
+            },
+            {
+              "value": "interactive transcript",
+              "bold": true
+            },
+            {
+              "value": " by listening to "
+            },
+            {
+              "value": "cuechange",
+              "highlight": true
+            },
+            {
+              "value": " on a "
+            },
+            {
+              "value": "kind='metadata'",
+              "highlight": true
+            },
+            {
+              "value": " track that maps cue IDs to transcript paragraph elements. When a cue becomes active, scroll the matching paragraph into view and highlight it. When a paragraph is clicked, set "
+            },
+            {
+              "value": "video.currentTime",
+              "highlight": true
+            },
+            {
+              "value": " to the cue's "
+            },
+            {
+              "value": "startTime",
+              "highlight": true
+            },
+            {
+              "value": ". This pattern gives users a searchable, clickable, screen-reader-accessible transcript with zero additional libraries."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Video Element",
+        "Video Formats and Source",
+        "HTML Audio Element",
+        "Web Accessibility WCAG",
+        "HTML Media and Time Semantics"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Video Element | video, source, track, captions Complete Guide",
+    "meta_description": "Master the HTML video element: source codec fallbacks, WebVTT captions with track element, poster and playsinline attributes, custom JavaScript players, and WCAG 1.2.2 compliance.",
+    "keywords": [
+      "HTML video element",
+      "HTML video source codec",
+      "HTML video track captions",
+      "HTML video WebVTT",
+      "HTML video WCAG 1.2.2",
+      "HTML video poster attribute",
+      "HTML video playsinline iOS",
+      "HTML video autoplay muted",
+      "HTML video custom player JavaScript",
+      "HTML video AV1 H.264 fallback"
+    ],
+    "canonical_url": "/html/html-video-element",
+    "robots": "index, follow"
+  }
+}

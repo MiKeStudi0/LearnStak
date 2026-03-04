@@ -16,25 +16,72 @@
       {
         "type": "paragraph",
         "text": [
-          { "value": "Beyond the primary content area, every page contains regions that support or close the main experience. HTML5 provides two dedicated elements for these roles: " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " for content that is tangentially related to the surrounding content, and " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " for closing information about its nearest sectioning ancestor. Both elements are " },
-          { "value": "sectioning elements", "bold": true },
-          { "value": " that automatically expose " },
-          { "value": "ARIA landmark roles", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles" },
-          { "value": " to assistive technologies, allowing screen reader users to jump directly to these regions without tabbing through the entire page. Their correct use is specified in the " },
-          { "value": "HTML Living Standard", "link": "https://html.spec.whatwg.org/multipage/sections.html" },
-          { "value": "." }
+          {
+            "value": "Beyond the primary content area, every page contains regions that support or close the main experience. HTML5 provides two dedicated elements for these roles: "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " for content that is tangentially related to the surrounding content, and "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " for closing information about its nearest sectioning ancestor. Both elements are "
+          },
+          {
+            "value": "sectioning elements",
+            "bold": true
+          },
+          {
+            "value": " that automatically expose "
+          },
+          {
+            "value": "ARIA landmark roles",
+            "bold": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles"
+          },
+          {
+            "value": " to assistive technologies, allowing screen reader users to jump directly to these regions without tabbing through the entire page. Their correct use is specified in the "
+          },
+          {
+            "value": "HTML Living Standard",
+            "link": "https://html.spec.whatwg.org/multipage/sections.html"
+          },
+          {
+            "value": "."
+          }
         ]
       },
       {
         "type": "table",
-        "headers": ["Element", "ARIA Role", "Scope", "Typical Content"],
+        "headers": [
+          "Element",
+          "ARIA Role",
+          "Scope",
+          "Typical Content"
+        ],
         "rows": [
-          ["<aside>", "complementary", "Page or sectioning ancestor", "Sidebars, related links, pull quotes, ads, author bios"],
-          ["<footer>", "contentinfo (page-level only)", "Page or sectioning ancestor", "Copyright, contact info, legal links, tag lists, author info"]
+          [
+            "<aside>",
+            "complementary",
+            "Page or sectioning ancestor",
+            "Sidebars, related links, pull quotes, ads, author bios"
+          ],
+          [
+            "<footer>",
+            "contentinfo (page-level only)",
+            "Page or sectioning ancestor",
+            "Copyright, contact info, legal links, tag lists, author info"
+          ]
         ]
       },
       {
@@ -76,176 +123,475 @@
     "when_to_use": [
       {
         "text": [
-          { "value": "Use " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " when the content enriches but is not essential to the surrounding content, such as related links, pull quotes, author bios, or advertisement blocks." }
-        ]
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " when the content enriches but is not essential to the surrounding content, such as related links, pull quotes, author bios, or advertisement blocks."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Use " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " at the page level for site-wide closing information like copyright, contact links, and legal notices, and inside " },
-          { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
-          { "value": " or " },
-          { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
-          { "value": " for scoped closing metadata like tags, publish dates, and author credits." }
-        ]
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " at the page level for site-wide closing information like copyright, contact links, and legal notices, and inside "
+          },
+          {
+            "value": "<article>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<section>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section"
+          },
+          {
+            "value": " for scoped closing metadata like tags, publish dates, and author credits."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Use both elements when you need assistive technology users to navigate directly to " },
-          { "value": "complementary", "bold": true },
-          { "value": " or " },
-          { "value": "contentinfo", "bold": true },
-          { "value": " landmark regions without tabbing through the entire page." }
-        ]
+          {
+            "value": "Use both elements when you need assistive technology users to navigate directly to "
+          },
+          {
+            "value": "complementary",
+            "bold": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "contentinfo",
+            "bold": true
+          },
+          {
+            "value": " landmark regions without tabbing through the entire page."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "when_to_avoid": [
       {
         "text": [
-          { "value": "Avoid using " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " for content that is a core part of the page's primary message. Use " },
-          { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
-          { "value": " or " },
-          { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
-          { "value": " instead when the content is integral to the page narrative." }
-        ]
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " for content that is a core part of the page's primary message. Use "
+          },
+          {
+            "value": "<section>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<article>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article"
+          },
+          {
+            "value": " instead when the content is integral to the page narrative."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Avoid placing more than one page-level " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " as a direct child of " },
-          { "value": "<body>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body" },
-          { "value": ", as this creates duplicate " },
-          { "value": "contentinfo", "bold": true },
-          { "value": " landmarks that confuse screen reader users." }
-        ]
+          {
+            "value": "Avoid placing more than one page-level "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " as a direct child of "
+          },
+          {
+            "value": "<body>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body"
+          },
+          {
+            "value": ", as this creates duplicate "
+          },
+          {
+            "value": "contentinfo",
+            "bold": true
+          },
+          {
+            "value": " landmarks that confuse screen reader users."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Avoid nesting " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " inside " },
-          { "value": "<aside>", "bold": true, "highlight": true },
-          { "value": ", as double-nesting complementary landmarks produces an illogical document outline with no meaningful hierarchy for assistive technologies." }
-        ]
+          {
+            "value": "Avoid nesting "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " inside "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": ", as double-nesting complementary landmarks produces an illogical document outline with no meaningful hierarchy for assistive technologies."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "what_it_solves": [
       {
         "text": [
-          { "value": "Without " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": ", supplementary content like sidebars has no semantic signal, so screen readers cannot expose a " },
-          { "value": "complementary", "bold": true },
-          { "value": " landmark for users to jump to or skip." }
-        ]
+          {
+            "value": "Without "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": ", supplementary content like sidebars has no semantic signal, so screen readers cannot expose a "
+          },
+          {
+            "value": "complementary",
+            "bold": true
+          },
+          {
+            "value": " landmark for users to jump to or skip."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Without a page-level " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": ", there is no " },
-          { "value": "contentinfo", "bold": true },
-          { "value": " landmark, forcing keyboard users to tab through the entire page to reach copyright, legal, and contact information." }
-        ]
+          {
+            "value": "Without a page-level "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": ", there is no "
+          },
+          {
+            "value": "contentinfo",
+            "bold": true
+          },
+          {
+            "value": " landmark, forcing keyboard users to tab through the entire page to reach copyright, legal, and contact information."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Using " },
-          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
-          { "value": " for both roles removes structural meaning from the document outline, making it harder for search engines to weight content regions accurately." }
-        ]
+          {
+            "value": "Using "
+          },
+          {
+            "value": "<div>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+          },
+          {
+            "value": " for both roles removes structural meaning from the document outline, making it harder for search engines to weight content regions accurately."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "conceptual_understanding": [
       {
         "text": [
-          { "value": "Think of " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " as the margin notes in a textbook. They add context and references that enrich the main text, but you can read the chapter completely without them. The core argument lives in the main column." }
-        ]
+          {
+            "value": "Think of "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " as the margin notes in a textbook. They add context and references that enrich the main text, but you can read the chapter completely without them. The core argument lives in the main column."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Think of " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " as the colophon at the back of a book. It tells you who published it, when, under what terms, and how to reach them. It closes and credits the work without being part of the story." }
-        ]
+          {
+            "value": "Think of "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " as the colophon at the back of a book. It tells you who published it, when, under what terms, and how to reach them. It closes and credits the work without being part of the story."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "The " },
-          { "value": "complementary", "bold": true },
-          { "value": " and " },
-          { "value": "contentinfo", "bold": true },
-          { "value": " ARIA landmark roles exposed by " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " and " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " are like the index tabs on a binder. A screen reader user can flip directly to the complementary section or the closing info tab without leafing through every page in between." }
-        ]
+          {
+            "value": "The "
+          },
+          {
+            "value": "complementary",
+            "bold": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "contentinfo",
+            "bold": true
+          },
+          {
+            "value": " ARIA landmark roles exposed by "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " are like the index tabs on a binder. A screen reader user can flip directly to the complementary section or the closing info tab without leafing through every page in between."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "common_mistakes": [
       {
         "text": [
-          { "value": "Using " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " for core content: misrepresents primary sections as supplementary, misleading screen reader landmark navigation." }
-        ]
+          {
+            "value": "Using "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " for core content: misrepresents primary sections as supplementary, misleading screen reader landmark navigation."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Multiple page-level " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " elements: duplicate " },
-          { "value": "contentinfo", "bold": true },
-          { "value": " landmarks violate ARIA rules and confuse assistive technology users." }
-        ]
+          {
+            "value": "Multiple page-level "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " elements: duplicate "
+          },
+          {
+            "value": "contentinfo",
+            "bold": true
+          },
+          {
+            "value": " landmarks violate ARIA rules and confuse assistive technology users."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Putting navigation in " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " without " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": ": footer links lack a navigation landmark, so keyboard users cannot skip or jump to them." }
-        ]
+          {
+            "value": "Putting navigation in "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " without "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": ": footer links lack a navigation landmark, so keyboard users cannot skip or jump to them."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "bonus_tips": [
       {
         "text": [
-          { "value": "Use the " },
-          { "value": "Landmarks browser extension", "bold": true },
-          { "value": " (available for Chrome and Firefox) to list all landmarks on any page in a panel. It instantly reveals whether your " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " is exposing a " },
-          { "value": "complementary", "bold": true },
-          { "value": " role and whether your " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " is correctly exposing " },
-          { "value": "contentinfo", "bold": true },
-          { "value": " versus being scoped to a sectioning ancestor." }
-        ]
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "Landmarks browser extension",
+            "bold": true
+          },
+          {
+            "value": " (available for Chrome and Firefox) to list all landmarks on any page in a panel. It instantly reveals whether your "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " is exposing a "
+          },
+          {
+            "value": "complementary",
+            "bold": true
+          },
+          {
+            "value": " role and whether your "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " is correctly exposing "
+          },
+          {
+            "value": "contentinfo",
+            "bold": true
+          },
+          {
+            "value": " versus being scoped to a sectioning ancestor."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "When a page has multiple " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": " elements, add a distinct " },
-          { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
-          { "value": " to each one, such as " },
-          { "value": "aria-label=\"Related Articles\"", "bold": true, "highlight": true },
-          { "value": " or " },
-          { "value": "aria-label=\"Newsletter Signup\"", "bold": true, "highlight": true },
-          { "value": ", so screen readers can distinguish between multiple complementary landmarks on the same page." }
-        ]
+          {
+            "value": "When a page has multiple "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": " elements, add a distinct "
+          },
+          {
+            "value": "aria-label",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+          },
+          {
+            "value": " to each one, such as "
+          },
+          {
+            "value": "aria-label=\"Related Articles\"",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "aria-label=\"Newsletter Signup\"",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": ", so screen readers can distinguish between multiple complementary landmarks on the same page."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "related_topics": [
@@ -274,19 +620,59 @@
         {
           "type": "paragraph",
           "text": [
-            { "value": "The " },
-            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-            { "value": " element represents content that is " },
-            { "value": "indirectly related", "bold": true },
-            { "value": " to the nearest sectioning ancestor. At the page level it is typically rendered as a sidebar. Inside an " },
-            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
-            { "value": " it is commonly used for pull quotes, author notes, or glossary terms. The element automatically maps to the " },
-            { "value": "ARIA complementary role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/complementary_role" },
-            { "value": ", which assistive technologies expose as a navigable landmark. When more than one " },
-            { "value": "<aside>", "bold": true, "highlight": true },
-            { "value": " exists on a page, each should have a unique " },
-            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
-            { "value": " so users can distinguish between them." }
+            {
+              "value": "The "
+            },
+            {
+              "value": "<aside>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+            },
+            {
+              "value": " element represents content that is "
+            },
+            {
+              "value": "indirectly related",
+              "bold": true
+            },
+            {
+              "value": " to the nearest sectioning ancestor. At the page level it is typically rendered as a sidebar. Inside an "
+            },
+            {
+              "value": "<article>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article"
+            },
+            {
+              "value": " it is commonly used for pull quotes, author notes, or glossary terms. The element automatically maps to the "
+            },
+            {
+              "value": "ARIA complementary role",
+              "bold": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/complementary_role"
+            },
+            {
+              "value": ", which assistive technologies expose as a navigable landmark. When more than one "
+            },
+            {
+              "value": "<aside>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " exists on a page, each should have a unique "
+            },
+            {
+              "value": "aria-label",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+            },
+            {
+              "value": " so users can distinguish between them."
+            }
           ]
         },
         {
@@ -309,39 +695,87 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
-            { "value": "Think of " },
-            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-            { "value": " as the footnotes in an academic paper. They provide extra context, citations, or tangential observations, but the paper's argument stands completely on its own without them. If the content would leave a hole in the main text when removed, it is not an aside." }
-          ]
+            {
+              "value": "Think of "
+            },
+            {
+              "value": "<aside>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+            },
+            {
+              "value": " as the footnotes in an academic paper. They provide extra context, citations, or tangential observations, but the paper's argument stands completely on its own without them. If the content would leave a hole in the main text when removed, it is not an aside."
+            }
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
-            { "value": "The " },
-            { "value": "ARIA complementary role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/complementary_role" },
-            { "value": " exposed by " },
-            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-            { "value": " is like a 'skip to sidebar' sign on a highway. Assistive technology users can take the exit to explore supplementary content and return to the main road whenever they choose." }
-          ]
+            {
+              "value": "The "
+            },
+            {
+              "value": "ARIA complementary role",
+              "bold": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/complementary_role"
+            },
+            {
+              "value": " exposed by "
+            },
+            {
+              "value": "<aside>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+            },
+            {
+              "value": " is like a 'skip to sidebar' sign on a highway. Assistive technology users can take the exit to explore supplementary content and return to the main road whenever they choose."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
-            { "value": "To quickly verify the " },
-            { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-            { "value": " is exposing the correct " },
-            { "value": "complementary", "bold": true },
-            { "value": " role, open Chrome DevTools, select the element, switch to the Accessibility tab, and confirm the role reads 'complementary'. If it reads 'generic', the element may be overridden by an explicit " },
-            { "value": "role", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles" },
-            { "value": " attribute." }
-          ]
+            {
+              "value": "To quickly verify the "
+            },
+            {
+              "value": "<aside>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+            },
+            {
+              "value": " is exposing the correct "
+            },
+            {
+              "value": "complementary",
+              "bold": true
+            },
+            {
+              "value": " role, open Chrome DevTools, select the element, switch to the Accessibility tab, and confirm the role reads 'complementary'. If it reads 'generic', the element may be overridden by an explicit "
+            },
+            {
+              "value": "role",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles"
+            },
+            {
+              "value": " attribute."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
@@ -367,33 +801,117 @@
         {
           "type": "paragraph",
           "text": [
-            { "value": "The " },
-            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-            { "value": " element represents the closing region of its nearest sectioning ancestor: " },
-            { "value": "<body>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body" },
-            { "value": ", " },
-            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
-            { "value": ", " },
-            { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
-            { "value": ", or " },
-            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-            { "value": ". A " },
-            { "value": "<footer>", "bold": true, "highlight": true },
-            { "value": " that is a direct child of " },
-            { "value": "<body>", "bold": true, "highlight": true },
-            { "value": " automatically exposes the " },
-            { "value": "ARIA contentinfo role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/contentinfo_role" },
-            { "value": ", a navigable page-level landmark. When nested inside " },
-            { "value": "<article>", "bold": true, "highlight": true },
-            { "value": " or " },
-            { "value": "<section>", "bold": true, "highlight": true },
-            { "value": ", it does not expose " },
-            { "value": "contentinfo", "bold": true },
-            { "value": " and is instead scoped as closing metadata for that ancestor. A " },
-            { "value": "<footer>", "bold": true, "highlight": true },
-            { "value": " may contain " },
-            { "value": "<nav>", "bold": true, "highlight": true },
-            { "value": " elements for secondary navigation links." }
+            {
+              "value": "The "
+            },
+            {
+              "value": "<footer>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+            },
+            {
+              "value": " element represents the closing region of its nearest sectioning ancestor: "
+            },
+            {
+              "value": "<body>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body"
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<article>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article"
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<section>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section"
+            },
+            {
+              "value": ", or "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+            },
+            {
+              "value": ". A "
+            },
+            {
+              "value": "<footer>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " that is a direct child of "
+            },
+            {
+              "value": "<body>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " automatically exposes the "
+            },
+            {
+              "value": "ARIA contentinfo role",
+              "bold": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/contentinfo_role"
+            },
+            {
+              "value": ", a navigable page-level landmark. When nested inside "
+            },
+            {
+              "value": "<article>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "<section>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": ", it does not expose "
+            },
+            {
+              "value": "contentinfo",
+              "bold": true
+            },
+            {
+              "value": " and is instead scoped as closing metadata for that ancestor. A "
+            },
+            {
+              "value": "<footer>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " may contain "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " elements for secondary navigation links."
+            }
           ]
         },
         {
@@ -416,41 +934,95 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
-            { "value": "A page-level " },
-            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-            { "value": " is like the final page of a contract. It does not add new arguments but closes the document with the parties' names, dates, terms, and contact details. Everything needed to act on the document is there, separate from the body of the agreement." }
-          ]
+            {
+              "value": "A page-level "
+            },
+            {
+              "value": "<footer>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+            },
+            {
+              "value": " is like the final page of a contract. It does not add new arguments but closes the document with the parties' names, dates, terms, and contact details. Everything needed to act on the document is there, separate from the body of the agreement."
+            }
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
-            { "value": "The scoped " },
-            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-            { "value": " inside an " },
-            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
-            { "value": " is like the byline and source citation at the end of a newspaper column. It closes that specific story with authorship and context, without claiming to represent the whole newspaper." }
-          ]
+            {
+              "value": "The scoped "
+            },
+            {
+              "value": "<footer>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+            },
+            {
+              "value": " inside an "
+            },
+            {
+              "value": "<article>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article"
+            },
+            {
+              "value": " is like the byline and source citation at the end of a newspaper column. It closes that specific story with authorship and context, without claiming to represent the whole newspaper."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
-            { "value": "Verify your page-level " },
-            { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-            { "value": " exposes the " },
-            { "value": "contentinfo", "bold": true },
-            { "value": " landmark by running axe DevTools or the WAVE accessibility checker. If the footer is nested inside " },
-            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-            { "value": " or another sectioning element by mistake, it will not expose " },
-            { "value": "contentinfo", "bold": true },
-            { "value": " and the landmark will be missing from the page." }
-          ]
+            {
+              "value": "Verify your page-level "
+            },
+            {
+              "value": "<footer>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+            },
+            {
+              "value": " exposes the "
+            },
+            {
+              "value": "contentinfo",
+              "bold": true
+            },
+            {
+              "value": " landmark by running axe DevTools or the WAVE accessibility checker. If the footer is nested inside "
+            },
+            {
+              "value": "<main>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+            },
+            {
+              "value": " or another sectioning element by mistake, it will not expose "
+            },
+            {
+              "value": "contentinfo",
+              "bold": true
+            },
+            {
+              "value": " and the landmark will be missing from the page."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [

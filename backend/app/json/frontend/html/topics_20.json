@@ -1,0 +1,1099 @@
+{
+  "topic": {
+    "id": 21,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 7,
+    "slug": "html-image-performance-and-branding",
+    "title": "HTML Image Performance and Branding",
+    "description": "loading=lazy reduces page weight for off-screen images; favicon links brand tabs and home screens.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Image Performance and Branding: loading, decoding, and favicon"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Two distinct concerns sit at the intersection of images and site quality. The first is "
+          },
+          {
+            "value": "performance",
+            "bold": true
+          },
+          {
+            "value": ": images are the largest contributors to page weight and "
+          },
+          {
+            "value": "Largest Contentful Paint (LCP)",
+            "bold": true
+          },
+          {
+            "value": ". The "
+          },
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": " attribute defers fetching off-screen images until the user scrolls near them, reducing initial page load cost. The "
+          },
+          {
+            "value": "decoding='async'",
+            "highlight": true
+          },
+          {
+            "value": " attribute lets the browser decode image data off the main thread. The "
+          },
+          {
+            "value": "fetchpriority='high'",
+            "highlight": true
+          },
+          {
+            "value": " attribute elevates the network priority of the LCP image. The second concern is "
+          },
+          {
+            "value": "branding",
+            "bold": true
+          },
+          {
+            "value": ": the "
+          },
+          {
+            "value": "<link rel='icon'>",
+            "highlight": true
+          },
+          {
+            "value": " element in "
+          },
+          {
+            "value": "<head>",
+            "highlight": true
+          },
+          {
+            "value": " specifies the favicon displayed in browser tabs, bookmarks, and app icons. Modern favicon implementation requires multiple "
+          },
+          {
+            "value": "<link>",
+            "highlight": true
+          },
+          {
+            "value": " declarations covering SVG, PNG at multiple sizes, Apple Touch icon, and a Web App Manifest entry. Reference: "
+          },
+          {
+            "value": "MDN: loading attribute",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "MDN: link rel=icon",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel#icon"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Attribute / element",
+          "Purpose",
+          "Value / format",
+          "When to use"
+        ],
+        "rows": [
+          [
+            "loading='lazy'",
+            "Defer image fetch until near viewport",
+            "lazy | eager (default)",
+            "All below-fold images"
+          ],
+          [
+            "loading='eager'",
+            "Fetch immediately regardless of position",
+            "eager",
+            "LCP image, above-fold images"
+          ],
+          [
+            "decoding='async'",
+            "Decode off main thread",
+            "async | sync | auto (default)",
+            "Large images below the fold"
+          ],
+          [
+            "fetchpriority='high'",
+            "Raise network priority for one image",
+            "high | low | auto",
+            "The single LCP hero image"
+          ],
+          [
+            "<link rel='icon'>",
+            "Browser tab favicon",
+            "SVG, PNG, ICO",
+            "Required in every page head"
+          ],
+          [
+            "<link rel='apple-touch-icon'>",
+            "iOS/iPadOS home screen icon",
+            "PNG 180x180",
+            "Required for PWA and iOS sharing"
+          ],
+          [
+            "<link rel='manifest'>",
+            "Web App Manifest with icons array",
+            "JSON file path",
+            "PWA, Android home screen"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Never Lazy-Load the LCP Image",
+        "text": "The Largest Contentful Paint image is the most important image on the page for Core Web Vitals. Adding loading='lazy' to the LCP image delays its network request until JavaScript has run and intersection observers have fired, which significantly degrades LCP scores. The LCP image should always use loading='eager' (or omit the attribute, since eager is the default) and should use fetchpriority='high' to raise its priority in the browser's preload scanner."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Lazy Loading, fetchpriority, and decoding Attributes",
+        "description": "This example builds a blog post page with a hero image using fetchpriority='high', a grid of article cards with lazy-loaded images, the decoding='async' pattern for large decorative images, and a native browser lazy loading demo. It shows the complete attribute set for both above-fold and below-fold images.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Image Performance Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 900px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n\n    /* Hero image */\n    .hero { position: relative; border-radius: 12px; overflow: hidden;\n            margin-bottom: 2rem; }\n    .hero img { width: 100%; height: 360px; object-fit: cover;\n                display: block; }\n    .hero-text { position: absolute; bottom: 0; left: 0; right: 0;\n                 padding: 1.5rem; background: linear-gradient(\n                   transparent, rgba(15,23,42,.85));\n                 color: #fff; }\n    .hero-text h1 { margin: 0; font-size: 1.35rem; }\n    .hero-text p  { margin: .3rem 0 0; font-size: .85rem;\n                    color: #cbd5e1; }\n\n    /* Article grid */\n    .card-grid { display: grid;\n                 grid-template-columns: repeat(auto-fill,minmax(220px,1fr));\n                 gap: 1.25rem; margin-top: 1rem; }\n    .card { border: 1px solid #e5e7eb; border-radius: 10px;\n            overflow: hidden; }\n    .card img { width: 100%; height: 140px; object-fit: cover;\n                display: block; background: #f1f5f9; }\n    .card-body { padding: .75rem .9rem; }\n    .card-body h3 { font-size: .9rem; margin: 0 0 .3rem; }\n    .card-body p  { font-size: .8rem; color: #64748b; margin: 0; }\n\n    /* Annotation boxes */\n    .ann { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: .85rem 1rem;\n           font-size: .85rem; margin: .75rem 0 1.25rem;\n           line-height: 1.65; }\n    .ann code { font-size: .82rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .5rem; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .5rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .25rem; }\n    .good .lbl { color: #16a34a; }\n    .bad  .lbl { color: #dc2626; }\n  </style>\n</head>\n<body>\n\n\n  <!-- HERO: LCP IMAGE — never lazy load -->\n  <section class=\"hero\">\n    <!--\n      This is the Largest Contentful Paint image.\n\n      loading=\"eager\": fetch immediately (this is the default;\n        writing it explicitly signals intent to reviewers).\n\n      fetchpriority=\"high\": elevates this image in the browser\n        preload scanner queue. Only ONE image per page should\n        have fetchpriority=\"high\" — the LCP image.\n\n      decoding=\"async\": decode off the main thread.\n        For the LCP image some argue decoding=\"sync\" (block\n        decode to paint sooner), but async is safe here since\n        fetchpriority=\"high\" ensures the data arrives early.\n\n      width + height: prevents Cumulative Layout Shift (CLS)\n        by reserving space before the image loads.\n    -->\n    <img\n      src=\"/img/html-course-hero.jpg\"\n      alt=\"Students learning HTML on laptops in a bright classroom\"\n      width=\"900\"\n      height=\"360\"\n      loading=\"eager\"\n      fetchpriority=\"high\"\n      decoding=\"async\">\n    <div class=\"hero-text\">\n      <h1>HTML Foundations Course</h1>\n      <p>12 modules &middot; 48 lessons &middot; Certificate on completion</p>\n    </div>\n  </section>\n\n\n  <!-- ARTICLE CARDS: lazy-load all below-fold images -->\n  <h2>Recent Articles</h2>\n  <div class=\"card-grid\">\n\n    <!--\n      loading=\"lazy\": browser will NOT fetch these images until\n        the user scrolls within ~1200px of the viewport edge\n        (distance threshold varies by browser and connection speed).\n\n      decoding=\"async\": decode in the background when loaded.\n\n      width + height: required on lazy images to prevent CLS.\n        Without dimensions, the image slot has zero height until\n        the image loads, causing layout to jump.\n    -->\n    <article class=\"card\">\n      <img\n        src=\"/img/css-cascade.jpg\"\n        alt=\"CSS rule specificity pyramid diagram\"\n        width=\"440\"\n        height=\"280\"\n        loading=\"lazy\"\n        decoding=\"async\">\n      <div class=\"card-body\">\n        <h3>Understanding the CSS Cascade</h3>\n        <p>How browsers decide which rule wins</p>\n      </div>\n    </article>\n\n    <article class=\"card\">\n      <img\n        src=\"/img/flexbox-guide.jpg\"\n        alt=\"Flexbox axis diagram with main and cross axis labels\"\n        width=\"440\"\n        height=\"280\"\n        loading=\"lazy\"\n        decoding=\"async\">\n      <div class=\"card-body\">\n        <h3>A Complete Guide to Flexbox</h3>\n        <p>Every property explained with examples</p>\n      </div>\n    </article>\n\n    <article class=\"card\">\n      <img\n        src=\"/img/grid-layout.jpg\"\n        alt=\"CSS Grid template area layout sketch\"\n        width=\"440\"\n        height=\"280\"\n        loading=\"lazy\"\n        decoding=\"async\">\n      <div class=\"card-body\">\n        <h3>CSS Grid Layout in Depth</h3>\n        <p>Two-dimensional layouts made simple</p>\n      </div>\n    </article>\n\n    <article class=\"card\">\n      <img\n        src=\"/img/a11y-checklist.jpg\"\n        alt=\"Accessibility checklist on a screen with tick marks\"\n        width=\"440\"\n        height=\"280\"\n        loading=\"lazy\"\n        decoding=\"async\">\n      <div class=\"card-body\">\n        <h3>HTML Accessibility Checklist</h3>\n        <p>WCAG 2.1 AA for everyday developers</p>\n      </div>\n    </article>\n\n  </div>\n\n\n  <!-- ANNOTATION: the full attribute decision guide -->\n  <h2>Image loading attribute decision guide</h2>\n  <div class=\"ann\">\n    <p><strong>Rule 1: First image in viewport (LCP candidate)</strong><br>\n       <code>loading=\"eager\" fetchpriority=\"high\" decoding=\"async\"</code></p>\n    <p><strong>Rule 2: Above-fold images (not the LCP image)</strong><br>\n       <code>loading=\"eager\"</code> (default; omit fetchpriority)</p>\n    <p><strong>Rule 3: Below-fold images (all article cards, gallery items)</strong><br>\n       <code>loading=\"lazy\" decoding=\"async\"</code></p>\n    <p><strong>Rule 4: All images, always</strong><br>\n       <code>width</code> and <code>height</code> attributes to prevent CLS</p>\n  </div>\n\n\n  <!-- WRONG vs RIGHT -->\n  <h2>Common loading attribute mistakes</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: lazy on the LCP image</p>\n    <code>&lt;img src=\"hero.jpg\" loading=\"lazy\" fetchpriority=\"high\"&gt;</code><br>\n    <small>loading=\"lazy\" delays the request; fetchpriority=\"high\" is wasted.</small>\n  </div>\n\n  <div class=\"good\">\n    <p class=\"lbl\">Right: eager + high priority for LCP</p>\n    <code>&lt;img src=\"hero.jpg\" loading=\"eager\" fetchpriority=\"high\"&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: missing width/height on lazy image</p>\n    <code>&lt;img src=\"card.jpg\" loading=\"lazy\"&gt;</code><br>\n    <small>No dimensions = layout shift when image loads.</small>\n  </div>\n\n  <div class=\"good\">\n    <p class=\"lbl\">Right: lazy with explicit dimensions</p>\n    <code>&lt;img src=\"card.jpg\" loading=\"lazy\" width=\"440\" height=\"280\"&gt;</code>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders a hero section with a full-width image overlaid with a course title. Below it, a four-column card grid shows article thumbnails with lazy-loaded images. The annotation section shows the four loading rules as a quick-reference guide. The wrong versus right section shows four code comparisons: lazy on LCP image (wrong) versus eager plus high priority (right), and missing dimensions (wrong) versus explicit width and height (right).",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Complete Favicon Implementation for All Platforms",
+        "description": "This example shows the full modern favicon head block: an SVG icon with light/dark mode support, a PNG fallback at 32x32, an Apple Touch icon at 180x180, a Web App Manifest reference, and a browserconfig.xml reference for legacy Windows tiles. It also shows the SVG favicon with prefers-color-scheme media query.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Favicon Implementation Reference</title>\n\n  <!--\n    ============================================================\n    COMPLETE FAVICON HEAD BLOCK\n    Copy this entire block for every new project.\n    ============================================================\n  -->\n\n  <!--\n    1. SVG favicon (modern browsers: Chrome 80+, Firefox 84+,\n       Safari 17+, Edge 80+).\n       SVG supports prefers-color-scheme media query inside the file,\n       giving automatic light/dark mode icon switching.\n       sizes=\"any\" is correct for SVG (it is scalable).\n  -->\n  <link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\" sizes=\"any\">\n\n  <!--\n    2. PNG fallback for older browsers that do not support SVG favicons.\n       32x32 is the standard browser tab size.\n       Declared after SVG so modern browsers use SVG first.\n  -->\n  <link rel=\"icon\" href=\"/favicon-32.png\" type=\"image/png\" sizes=\"32x32\">\n\n  <!--\n    3. Apple Touch Icon: used when a user adds the site to their\n       iOS/iPadOS home screen or bookmarks in Safari.\n       180x180 pixels is the required size for modern iPhones.\n       No rel=\"apple-touch-icon-precomposed\" needed in modern iOS.\n       Must be a PNG (not SVG).\n  -->\n  <link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\" sizes=\"180x180\">\n\n  <!--\n    4. Web App Manifest: provides icons for Android home screen,\n       PWA install prompts, and splash screens.\n       The icons array in the JSON file covers 192x192 and 512x512.\n  -->\n  <link rel=\"manifest\" href=\"/site.webmanifest\">\n\n  <!--\n    5. Theme colour: browser UI chrome colour on mobile.\n       Appears in Chrome on Android address bar and PWA titlebar.\n  -->\n  <meta name=\"theme-color\" content=\"#2563eb\">\n\n</head>\n<body>\n\n  <h1 style=\"font-family:system-ui;max-width:720px;margin:2rem auto;padding:0 1rem;\">\n    Favicon Implementation Reference\n  </h1>\n\n  <div style=\"font-family:system-ui;max-width:720px;margin:0 auto;padding:0 1rem;\n              line-height:1.8;font-size:.92rem;\">\n\n\n    <!-- SVG FAVICON SOURCE with dark mode support -->\n    <h2 style=\"font-size:1.05rem;margin-top:2rem;\">1. SVG favicon with dark mode</h2>\n    <p>Save as <code>/favicon.svg</code>. The\n       <code>prefers-color-scheme</code> media query inside the SVG\n       switches the icon colour automatically.</p>\n    <pre style=\"background:#0f172a;color:#e2e8f0;border-radius:8px;\n         padding:1rem;font-size:.82rem;overflow-x:auto;\">&lt;svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"&gt;\n  &lt;!-- Default (light mode): dark icon --&gt;\n  &lt;style&gt;\n    .icon-bg   { fill: #2563eb; }\n    .icon-text { fill: #ffffff; font-family: system-ui, sans-serif;\n                 font-weight: 700; }\n    @media (prefers-color-scheme: dark) {\n      /* Dark mode: white background, blue text */\n      .icon-bg   { fill: #ffffff; }\n      .icon-text { fill: #2563eb; }\n    }\n  &lt;/style&gt;\n  &lt;rect class=\"icon-bg\" width=\"32\" height=\"32\" rx=\"6\"/&gt;\n  &lt;text class=\"icon-text\" x=\"16\" y=\"22\"\n        text-anchor=\"middle\" font-size=\"18\"&gt;D&lt;/text&gt;\n&lt;/svg&gt;</pre>\n\n\n    <!-- WEB APP MANIFEST -->\n    <h2 style=\"font-size:1.05rem;margin-top:2rem;\">2. site.webmanifest</h2>\n    <p>Save as <code>/site.webmanifest</code>. This JSON file\n       provides icons for Android and PWA install prompts.</p>\n    <pre style=\"background:#0f172a;color:#e2e8f0;border-radius:8px;\n         padding:1rem;font-size:.82rem;overflow-x:auto;\">{\n  \"name\": \"DevDocs India\",\n  \"short_name\": \"DevDocs\",\n  \"description\": \"HTML, CSS, and JavaScript learning platform\",\n  \"start_url\": \"/\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#ffffff\",\n  \"theme_color\": \"#2563eb\",\n  \"icons\": [\n    {\n      \"src\": \"/icons/icon-192.png\",\n      \"sizes\": \"192x192\",\n      \"type\": \"image/png\",\n      \"purpose\": \"any maskable\"\n    },\n    {\n      \"src\": \"/icons/icon-512.png\",\n      \"sizes\": \"512x512\",\n      \"type\": \"image/png\",\n      \"purpose\": \"any maskable\"\n    }\n  ]\n}</pre>\n\n\n    <!-- REQUIRED FILES CHECKLIST -->\n    <h2 style=\"font-size:1.05rem;margin-top:2rem;\">3. Favicon file checklist</h2>\n    <table style=\"border-collapse:collapse;width:100%;font-size:.87rem;\">\n      <thead style=\"background:#0f172a;color:#fff;\">\n        <tr>\n          <th style=\"padding:.45rem .75rem;text-align:left;\">File</th>\n          <th style=\"padding:.45rem .75rem;text-align:left;\">Size</th>\n          <th style=\"padding:.45rem .75rem;text-align:left;\">Format</th>\n          <th style=\"padding:.45rem .75rem;text-align:left;\">Used by</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr style=\"border-bottom:1px solid #e2e8f0;\">\n          <td style=\"padding:.45rem .75rem;\"><code>favicon.svg</code></td>\n          <td style=\"padding:.45rem .75rem;\">Scalable</td>\n          <td style=\"padding:.45rem .75rem;\">SVG</td>\n          <td style=\"padding:.45rem .75rem;\">Chrome, Firefox, Edge (modern)</td>\n        </tr>\n        <tr style=\"border-bottom:1px solid #e2e8f0;\">\n          <td style=\"padding:.45rem .75rem;\"><code>favicon-32.png</code></td>\n          <td style=\"padding:.45rem .75rem;\">32 x 32 px</td>\n          <td style=\"padding:.45rem .75rem;\">PNG</td>\n          <td style=\"padding:.45rem .75rem;\">Older browsers, PNG fallback</td>\n        </tr>\n        <tr style=\"border-bottom:1px solid #e2e8f0;\">\n          <td style=\"padding:.45rem .75rem;\"><code>apple-touch-icon.png</code></td>\n          <td style=\"padding:.45rem .75rem;\">180 x 180 px</td>\n          <td style=\"padding:.45rem .75rem;\">PNG</td>\n          <td style=\"padding:.45rem .75rem;\">iOS/iPadOS home screen</td>\n        </tr>\n        <tr style=\"border-bottom:1px solid #e2e8f0;\">\n          <td style=\"padding:.45rem .75rem;\"><code>icon-192.png</code></td>\n          <td style=\"padding:.45rem .75rem;\">192 x 192 px</td>\n          <td style=\"padding:.45rem .75rem;\">PNG</td>\n          <td style=\"padding:.45rem .75rem;\">Android home screen, PWA</td>\n        </tr>\n        <tr>\n          <td style=\"padding:.45rem .75rem;\"><code>icon-512.png</code></td>\n          <td style=\"padding:.45rem .75rem;\">512 x 512 px</td>\n          <td style=\"padding:.45rem .75rem;\">PNG</td>\n          <td style=\"padding:.45rem .75rem;\">PWA splash screen, app store</td>\n        </tr>\n      </tbody>\n    </table>\n\n\n    <!-- LEGACY FALLBACK -->\n    <h2 style=\"font-size:1.05rem;margin-top:2rem;\">4. Legacy favicon.ico (optional)</h2>\n    <p>Place a <code>favicon.ico</code> file at the root of the domain\n       (<code>/favicon.ico</code>). Browsers request this path automatically\n       as a fallback even without a <code>&lt;link&gt;</code> tag.\n       A multi-resolution ICO file contains 16x16 and 32x32 copies.\n       Only needed if supporting Internet Explorer or very old browsers.</p>\n    <pre style=\"background:#0f172a;color:#e2e8f0;border-radius:8px;\n         padding:1rem;font-size:.82rem;\">&lt;!-- Only add this if you need IE11 support --&gt;\n&lt;link rel=\"shortcut icon\" href=\"/favicon.ico\" type=\"image/x-icon\"&gt;\n\n&lt;!-- Modern equivalent (use instead of shortcut icon) --&gt;\n&lt;link rel=\"icon\" href=\"/favicon.ico\" sizes=\"16x16 32x32\" type=\"image/x-icon\"&gt;</pre>\n\n  </div>\n</body>\n</html>",
+        "output": "Page renders a favicon implementation reference with four sections. The SVG favicon section shows a dark code block with the complete SVG markup including an embedded style block with prefers-color-scheme dark mode switch. The manifest section shows the site.webmanifest JSON with name, icons array at 192 and 512, and purpose fields. The file checklist table lists all five required files with sizes, formats, and which platforms use each. The legacy section explains favicon.ico placement and shows the modern versus legacy link element syntax.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": " on every image that is not visible on the initial page load: article card thumbnails, gallery images, author avatars in comment threads, and any image below the fold."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "fetchpriority='high'",
+            "highlight": true
+          },
+          {
+            "value": " on exactly one image per page: the "
+          },
+          {
+            "value": "LCP candidate",
+            "bold": true
+          },
+          {
+            "value": ", which is typically the hero image or the largest above-fold image. Elevating multiple images wastes the priority signal."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Implement the full favicon set (SVG + PNG-32 + Apple Touch + manifest) for every production site to ensure correct icon display across browser tabs, bookmarks, iOS home screens, and Android PWA install prompts."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Never use "
+          },
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": " on the "
+          },
+          {
+            "value": "LCP image",
+            "bold": true
+          },
+          {
+            "value": "; it delays the network request past the preload scanner, significantly worsening "
+          },
+          {
+            "value": "Core Web Vitals",
+            "bold": true
+          },
+          {
+            "value": " LCP scores."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid assigning "
+          },
+          {
+            "value": "fetchpriority='high'",
+            "highlight": true
+          },
+          {
+            "value": " to more than one image per page; the signal loses meaning when multiple images compete for elevated priority and the browser falls back to its own heuristics."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using only "
+          },
+          {
+            "value": "favicon.ico",
+            "highlight": true
+          },
+          {
+            "value": " for modern sites; ICO files do not support SVG scalability, dark mode, or the sizes required by iOS and Android home screen icons."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Native "
+          },
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": " replaces JavaScript "
+          },
+          {
+            "value": "IntersectionObserver",
+            "highlight": true
+          },
+          {
+            "value": " polyfills with a single HTML attribute, reducing initial page weight and time-to-interactive without any script dependency."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "fetchpriority",
+            "highlight": true
+          },
+          {
+            "value": " attribute solves the "
+          },
+          {
+            "value": "preload scanner conflict",
+            "bold": true
+          },
+          {
+            "value": ": the browser's speculative fetcher treats all images equally until this attribute signals which single image is the most important to the page's perceived load time."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "A complete favicon set solves "
+          },
+          {
+            "value": "cross-platform icon consistency",
+            "bold": true
+          },
+          {
+            "value": ": a single ICO or PNG appears blurry on Retina displays, missing on iOS home screens, and absent from PWA install prompts. The SVG + manifest approach covers all surfaces with one source file."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Native lazy loading works through the browser's "
+          },
+          {
+            "value": "HTML parser",
+            "bold": true
+          },
+          {
+            "value": ", not JavaScript. When the parser encounters "
+          },
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": ", it records the image URL but does not add it to the fetch queue. An internal "
+          },
+          {
+            "value": "IntersectionObserver",
+            "highlight": true
+          },
+          {
+            "value": "-equivalent mechanism triggers the fetch when the image enters a distance threshold from the viewport (typically 1200px on fast connections, closer on slow ones). This means lazy loading works even when JavaScript is disabled."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The browser's "
+          },
+          {
+            "value": "preload scanner",
+            "bold": true
+          },
+          {
+            "value": " is a secondary HTML parser that runs ahead of the main parser, scanning for "
+          },
+          {
+            "value": "<img src>",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<link rel=stylesheet>",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "<script src>",
+            "highlight": true
+          },
+          {
+            "value": " to initiate fetches early. "
+          },
+          {
+            "value": "fetchpriority='high'",
+            "highlight": true
+          },
+          {
+            "value": " tells this scanner to give the LCP image a higher queue position than other images. Without it, the hero image competes equally with all other images discovered at parse time, delaying the most important paint."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Modern favicon delivery uses "
+          },
+          {
+            "value": "content negotiation",
+            "bold": true
+          },
+          {
+            "value": " via the "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attribute. The browser picks the first "
+          },
+          {
+            "value": "<link rel='icon'>",
+            "highlight": true
+          },
+          {
+            "value": " it can render: SVG if supported, then PNG, then ICO. Declaring them in capability order (SVG first, ICO last) ensures each browser uses the best format it understands without JavaScript feature detection."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": " on the LCP hero image delays its fetch and worsens "
+          },
+          {
+            "value": "Core Web Vitals",
+            "bold": true
+          },
+          {
+            "value": " LCP scores."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Missing "
+          },
+          {
+            "value": "width",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "height",
+            "highlight": true
+          },
+          {
+            "value": " on lazy images causes layout shift when they load and push content down."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Using only "
+          },
+          {
+            "value": "favicon.ico",
+            "highlight": true
+          },
+          {
+            "value": " without an Apple Touch icon or manifest leaves iOS and PWA icons missing."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Add a "
+          },
+          {
+            "value": "<link rel='preload' as='image'>",
+            "highlight": true
+          },
+          {
+            "value": " declaration in "
+          },
+          {
+            "value": "<head>",
+            "highlight": true
+          },
+          {
+            "value": " for the LCP image when it is discovered late (inside CSS "
+          },
+          {
+            "value": "background-image",
+            "highlight": true
+          },
+          {
+            "value": " or JavaScript). Preload pulls the image into the fetch queue before the parser or preload scanner would normally discover it, improving LCP for dynamically rendered hero images."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Generate the full favicon set from a single high-resolution source using "
+          },
+          {
+            "value": "RealFaviconGenerator.net",
+            "bold": true,
+            "link": "https://realfavicongenerator.net/"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "Favicon.io",
+            "bold": true,
+            "link": "https://favicon.io/"
+          },
+          {
+            "value": ". Both tools output the correct file sizes, the manifest JSON, and the complete "
+          },
+          {
+            "value": "<head>",
+            "highlight": true
+          },
+          {
+            "value": " block. Starting from a 512x512 PNG or SVG produces the sharpest results at all target sizes."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Image Element",
+      "HTML Responsive Images",
+      "HTML Head Element and Meta Tags",
+      "Core Web Vitals and Performance",
+      "Progressive Web Apps"
+    ],
+    "is_active": true,
+    "order_index": 21,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 21,
+      "slug": "lazy-loading-images",
+      "title": "Lazy Loading Images",
+      "description": "loading='lazy' defers image fetches until the image nears the viewport, cutting initial page weight.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "loading",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<img>",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "<iframe>",
+              "highlight": true
+            },
+            {
+              "value": " controls when the browser initiates the fetch. "
+            },
+            {
+              "value": "loading='lazy'",
+              "highlight": true
+            },
+            {
+              "value": " defers the request until the element is within a browser-defined distance from the viewport. "
+            },
+            {
+              "value": "loading='eager'",
+              "highlight": true
+            },
+            {
+              "value": " (the default) fetches immediately. The "
+            },
+            {
+              "value": "decoding",
+              "highlight": true
+            },
+            {
+              "value": " attribute controls whether image decoding blocks the main thread: "
+            },
+            {
+              "value": "decoding='async'",
+              "highlight": true
+            },
+            {
+              "value": " allows decoding to happen off-thread, "
+            },
+            {
+              "value": "decoding='sync'",
+              "highlight": true
+            },
+            {
+              "value": " blocks until decoding completes, and "
+            },
+            {
+              "value": "decoding='auto'",
+              "highlight": true
+            },
+            {
+              "value": " (default) lets the browser decide. Always provide "
+            },
+            {
+              "value": "width",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "height",
+              "highlight": true
+            },
+            {
+              "value": " attributes on lazy images to allow the browser to reserve space and prevent "
+            },
+            {
+              "value": "Cumulative Layout Shift (CLS)",
+              "bold": true
+            },
+            {
+              "value": ". Reference: "
+            },
+            {
+              "value": "MDN: loading",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "loading='lazy' Has No Effect Without Dimensions",
+          "text": "When a lazy image lacks width and height attributes, the browser cannot compute the image's intrinsic size before the image loads. This means the browser may decide the image is already in the viewport (since its placeholder has zero height) and fetch it immediately, defeating the purpose of lazy loading. Always pair loading='lazy' with explicit width and height attributes or an aspect-ratio CSS rule."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Lazy Loading with Dimensions, decoding, and fetchpriority",
+          "description": "This example shows the full attribute set for the three image scenarios: LCP hero image with eager and high priority, standard above-fold images with eager, and below-fold gallery images with lazy and async decoding. It includes a JavaScript IntersectionObserver fallback pattern for older browsers and a demonstration of width and height preventing layout shift.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Lazy Loading Reference</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    pre   { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .85rem 1rem;\n            font-size: .82rem; overflow-x: auto; line-height: 1.65; }\n    img   { max-width: 100%; height: auto; display: block;\n            border-radius: 8px; background: #f1f5f9; }\n    .grid { display: grid;\n            grid-template-columns: repeat(3, 1fr); gap: .75rem;\n            margin: .75rem 0; }\n    .ann  { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .75rem 1rem;\n            font-size: .84rem; line-height: 1.65; margin: .5rem 0; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .55rem .85rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .55rem .85rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .lbl  { font-size: .68rem; font-weight: 700;\n            text-transform: uppercase; letter-spacing: .06em;\n            margin-bottom: .2rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>Lazy Loading: loading, decoding, fetchpriority</h1>\n\n\n  <!-- SCENARIO 1: LCP hero image -->\n  <h2>1. LCP hero image (eager + high priority)</h2>\n  <!--\n    The LCP image MUST use loading=\"eager\" (or omit the attribute).\n    fetchpriority=\"high\": signals to the preload scanner that this\n      image is the most important on the page. Use on ONE image only.\n    decoding=\"async\": decode off the main thread.\n    width + height: reserve space, prevent CLS.\n  -->\n  <img\n    src=\"/img/html-hero.jpg\"\n    alt=\"HTML5 document structure diagram on a screen\"\n    width=\"720\"\n    height=\"405\"\n    loading=\"eager\"\n    fetchpriority=\"high\"\n    decoding=\"async\">\n\n  <div class=\"ann\">\n    <strong>Attributes used:</strong><br>\n    <code>loading=\"eager\"</code> &mdash; fetch immediately (critical)<br>\n    <code>fetchpriority=\"high\"</code> &mdash; highest network priority<br>\n    <code>decoding=\"async\"</code> &mdash; decode off main thread<br>\n    <code>width=\"720\" height=\"405\"</code> &mdash; prevents CLS\n  </div>\n\n\n  <!-- SCENARIO 2: Above-fold supporting images -->\n  <h2>2. Above-fold supporting images (eager, no special priority)</h2>\n  <!--\n    Above-fold but not the LCP image.\n    loading=\"eager\" is the default; explicitly written for clarity.\n    No fetchpriority: let browser allocate priority automatically.\n  -->\n  <img\n    src=\"/img/instructor-priya.jpg\"\n    alt=\"Priya Sharma, HTML course instructor\"\n    width=\"120\"\n    height=\"120\"\n    loading=\"eager\"\n    decoding=\"async\"\n    style=\"border-radius:50%;float:left;margin:0 1rem .5rem 0;\">\n  <p>\n    Priya Sharma is the lead instructor for the HTML and accessibility\n    modules. She has taught web development to over 12,000 students\n    across India and is a contributor to the W3C HTML specification.\n  </p>\n  <div style=\"clear:both;\"></div>\n\n\n  <!-- SCENARIO 3: Below-fold gallery (lazy + async) -->\n  <h2>3. Below-fold gallery images (lazy + async)</h2>\n  <!--\n    loading=\"lazy\": browser defers fetch until image is ~1200px\n      from the viewport edge (threshold varies by connection).\n    decoding=\"async\": decode in background when image arrives.\n    width + height: REQUIRED for lazy images.\n      Without them the placeholder has zero height, the browser\n      thinks the image is in the viewport, and fetches it anyway.\n  -->\n  <div class=\"grid\">\n    <img src=\"/img/course-html.jpg\" alt=\"HTML course thumbnail\"\n         width=\"240\" height=\"160\" loading=\"lazy\" decoding=\"async\">\n    <img src=\"/img/course-css.jpg\" alt=\"CSS course thumbnail\"\n         width=\"240\" height=\"160\" loading=\"lazy\" decoding=\"async\">\n    <img src=\"/img/course-js.jpg\" alt=\"JavaScript course thumbnail\"\n         width=\"240\" height=\"160\" loading=\"lazy\" decoding=\"async\">\n    <img src=\"/img/course-react.jpg\" alt=\"React course thumbnail\"\n         width=\"240\" height=\"160\" loading=\"lazy\" decoding=\"async\">\n    <img src=\"/img/course-node.jpg\" alt=\"Node.js course thumbnail\"\n         width=\"240\" height=\"160\" loading=\"lazy\" decoding=\"async\">\n    <img src=\"/img/course-a11y.jpg\" alt=\"Accessibility course thumbnail\"\n         width=\"240\" height=\"160\" loading=\"lazy\" decoding=\"async\">\n  </div>\n\n\n  <!-- WRONG vs RIGHT -->\n  <h2>4. Common mistakes</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: lazy on LCP image</p>\n    <code>&lt;img src=\"hero.jpg\" alt=\"...\" loading=\"lazy\"&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: eager + fetchpriority on LCP image</p>\n    <code>&lt;img src=\"hero.jpg\" alt=\"...\" loading=\"eager\" fetchpriority=\"high\"&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: lazy image without dimensions</p>\n    <code>&lt;img src=\"thumb.jpg\" alt=\"...\" loading=\"lazy\"&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: lazy image with width and height</p>\n    <code>&lt;img src=\"thumb.jpg\" alt=\"...\" loading=\"lazy\" width=\"240\" height=\"160\"&gt;</code>\n  </div>\n\n\n  <!-- JS FALLBACK for browsers without native lazy loading -->\n  <h2>5. JavaScript fallback (for browsers without native lazy loading)</h2>\n  <pre>&lt;!-- Use data-src instead of src for the fallback pattern --&gt;\n&lt;img\n  data-src=\"/img/course-html.jpg\"\n  src=\"/img/placeholder-1x1.gif\"\n  alt=\"HTML course thumbnail\"\n  width=\"240\"\n  height=\"160\"\n  class=\"lazyload\"&gt;\n\n&lt;script&gt;\n  // Only run if loading attribute is not supported\n  if ('loading' in HTMLImageElement.prototype) {\n    // Native lazy loading: convert data-src to src\n    document.querySelectorAll('img[data-src]').forEach(img =&gt; {\n      img.src = img.dataset.src;\n    });\n  } else {\n    // Polyfill: IntersectionObserver for older browsers\n    const observer = new IntersectionObserver(entries =&gt; {\n      entries.forEach(entry =&gt; {\n        if (entry.isIntersecting) {\n          const img = entry.target;\n          img.src = img.dataset.src;\n          observer.unobserve(img);\n        }\n      });\n    }, { rootMargin: '200px' });\n\n    document.querySelectorAll('img.lazyload').forEach(img =&gt; {\n      observer.observe(img);\n    });\n  }\n&lt;/script&gt;</pre>\n\n</body>\n</html>",
+          "output": "Page renders five sections. The LCP hero image section shows a full-width image with an annotation card listing all four attributes. The above-fold section shows a circular instructor avatar floating left with wrapping text. The gallery section shows a six-image grid with lazy-loaded thumbnails. The common mistakes section shows four code cards alternating red wrong and green right. The JavaScript fallback section shows a dark code block with the feature detection pattern and IntersectionObserver polyfill.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "Native lazy loading is implemented in the browser's "
+            },
+            {
+              "value": "HTML parser",
+              "bold": true
+            },
+            {
+              "value": ", not in JavaScript. When "
+            },
+            {
+              "value": "loading='lazy'",
+              "highlight": true
+            },
+            {
+              "value": " is encountered, the parser marks the image as deferred and does not add it to the network fetch queue. The browser's internal viewport proximity algorithm determines when to actually fetch the image. This means lazy loading functions correctly in environments where JavaScript is slow to execute or disabled entirely, unlike "
+            },
+            {
+              "value": "IntersectionObserver",
+              "highlight": true
+            },
+            {
+              "value": "-based solutions."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "width",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "height",
+              "highlight": true
+            },
+            {
+              "value": " attributes on "
+            },
+            {
+              "value": "<img>",
+              "highlight": true
+            },
+            {
+              "value": " create an "
+            },
+            {
+              "value": "aspect-ratio reservation",
+              "bold": true
+            },
+            {
+              "value": " in the layout. The browser computes "
+            },
+            {
+              "value": "height / width",
+              "highlight": true
+            },
+            {
+              "value": " as the intrinsic aspect ratio and applies it via the CSS "
+            },
+            {
+              "value": "aspect-ratio",
+              "highlight": true
+            },
+            {
+              "value": " property automatically. Without these attributes, lazy images have zero height when deferred, the browser thinks they are already in the viewport, may fetch them immediately, and when they do load they cause "
+            },
+            {
+              "value": "Cumulative Layout Shift (CLS)",
+              "bold": true
+            },
+            {
+              "value": " by pushing content down."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "<link rel='preload' as='image' href='hero.jpg'>",
+              "highlight": true
+            },
+            {
+              "value": " in "
+            },
+            {
+              "value": "<head>",
+              "highlight": true
+            },
+            {
+              "value": " for the LCP image when it is inside a CSS "
+            },
+            {
+              "value": "background-image",
+              "highlight": true
+            },
+            {
+              "value": " or a JavaScript-rendered component. The preload scanner cannot see CSS backgrounds or dynamically inserted images; an explicit "
+            },
+            {
+              "value": "<link rel='preload'>",
+              "highlight": true
+            },
+            {
+              "value": " pushes the fetch into the queue as early as the browser parses "
+            },
+            {
+              "value": "<head>",
+              "highlight": true
+            },
+            {
+              "value": ", matching the performance of a native "
+            },
+            {
+              "value": "<img>",
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Image Performance and Branding",
+        "HTML Image Element",
+        "HTML Responsive Images",
+        "Core Web Vitals and Performance"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 21,
+      "slug": "favicon-implementation",
+      "title": "Favicon Implementation",
+      "description": "Complete favicon setup requires SVG, PNG at 32px, Apple Touch icon, and a Web App Manifest entry.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "A favicon is declared with "
+            },
+            {
+              "value": "<link rel='icon'>",
+              "highlight": true
+            },
+            {
+              "value": " in "
+            },
+            {
+              "value": "<head>",
+              "highlight": true
+            },
+            {
+              "value": ". Modern implementation requires multiple declarations. "
+            },
+            {
+              "value": "<link rel='icon' href='favicon.svg' type='image/svg+xml' sizes='any'>",
+              "highlight": true
+            },
+            {
+              "value": " provides a scalable icon with optional dark-mode support via an embedded "
+            },
+            {
+              "value": "prefers-color-scheme",
+              "highlight": true
+            },
+            {
+              "value": " media query. "
+            },
+            {
+              "value": "<link rel='icon' href='favicon-32.png' sizes='32x32'>",
+              "highlight": true
+            },
+            {
+              "value": " provides a PNG fallback for older browsers. "
+            },
+            {
+              "value": "<link rel='apple-touch-icon' href='apple-touch-icon.png' sizes='180x180'>",
+              "highlight": true
+            },
+            {
+              "value": " specifies the iOS home screen icon. "
+            },
+            {
+              "value": "<link rel='manifest'>",
+              "highlight": true
+            },
+            {
+              "value": " references a JSON file whose "
+            },
+            {
+              "value": "icons",
+              "highlight": true
+            },
+            {
+              "value": " array covers Android and PWA install surfaces. Browsers resolve icon declarations in source order, using the first format they support. Reference: "
+            },
+            {
+              "value": "MDN: rel=icon",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel#icon"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Full Favicon Head Block and SVG with Dark Mode",
+          "description": "This example shows the complete copy-paste favicon head block for a production site, the SVG favicon source with embedded dark mode media query, the site.webmanifest JSON, the full file checklist, and the legacy favicon.ico fallback pattern for older browser support.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Favicon Implementation</title>\n\n  <!--\n    =========================================================\n    COPY-PASTE FAVICON HEAD BLOCK FOR EVERY NEW PROJECT\n    =========================================================\n  -->\n\n  <!-- SVG: scalable, supports dark mode, modern browsers -->\n  <link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\" sizes=\"any\">\n\n  <!-- PNG fallback: 32x32 for older browsers -->\n  <link rel=\"icon\" href=\"/favicon-32.png\" type=\"image/png\" sizes=\"32x32\">\n\n  <!-- Apple Touch Icon: iOS/iPadOS home screen, 180x180 PNG -->\n  <link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\" sizes=\"180x180\">\n\n  <!-- Web App Manifest: Android PWA icons and app metadata -->\n  <link rel=\"manifest\" href=\"/site.webmanifest\">\n\n  <!-- Theme colour for mobile browser chrome -->\n  <meta name=\"theme-color\" content=\"#2563eb\">\n\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    pre   { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n            padding: 1rem; font-size: .82rem; overflow-x: auto;\n            line-height: 1.65; }\n    table { border-collapse: collapse; width: 100%; font-size: .87rem;\n            margin: .75rem 0; }\n    th, td{ border: 1px solid #e2e8f0; padding: .45rem .75rem;\n            text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n  </style>\n</head>\n<body>\n\n  <h1>Favicon Implementation Reference</h1>\n\n\n  <!-- 1: SVG FAVICON SOURCE with dark mode -->\n  <h2>1. favicon.svg with prefers-color-scheme</h2>\n  <p>Place at <code>/favicon.svg</code>. The embedded style block\n     switches icon colours automatically in dark mode.</p>\n  <pre>&lt;svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"&gt;\n  &lt;style&gt;\n    .bg   { fill: #2563eb; }\n    .glyph{ fill: #ffffff;\n            font-family: system-ui, sans-serif;\n            font-weight: 700; }\n    @media (prefers-color-scheme: dark) {\n      .bg    { fill: #ffffff; }\n      .glyph { fill: #2563eb; }\n    }\n  &lt;/style&gt;\n  &lt;rect class=\"bg\" width=\"32\" height=\"32\" rx=\"6\"/&gt;\n  &lt;text class=\"glyph\" x=\"16\" y=\"22\"\n        text-anchor=\"middle\" font-size=\"18\"&gt;D&lt;/text&gt;\n&lt;/svg&gt;</pre>\n\n  <p>In <strong>light mode</strong>: blue square, white letter D.<br>\n     In <strong>dark mode</strong>: white square, blue letter D.<br>\n     No JavaScript required. No server-side logic required.</p>\n\n\n  <!-- 2: WEB APP MANIFEST JSON -->\n  <h2>2. site.webmanifest</h2>\n  <pre>{\n  \"name\": \"DevDocs India\",\n  \"short_name\": \"DevDocs\",\n  \"description\": \"HTML, CSS, and JavaScript courses\",\n  \"start_url\": \"/\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#ffffff\",\n  \"theme_color\": \"#2563eb\",\n  \"icons\": [\n    {\n      \"src\": \"/icons/icon-192.png\",\n      \"sizes\": \"192x192\",\n      \"type\": \"image/png\",\n      \"purpose\": \"any maskable\"\n    },\n    {\n      \"src\": \"/icons/icon-512.png\",\n      \"sizes\": \"512x512\",\n      \"type\": \"image/png\",\n      \"purpose\": \"any maskable\"\n    }\n  ]\n}</pre>\n\n\n  <!-- 3: FILE CHECKLIST -->\n  <h2>3. Required files and sizes</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>File</th><th>Dimensions</th><th>Format</th><th>Platform</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td><code>favicon.svg</code></td>\n        <td>Scalable</td><td>SVG</td>\n        <td>Chrome, Firefox, Edge (modern)</td>\n      </tr>\n      <tr>\n        <td><code>favicon-32.png</code></td>\n        <td>32 x 32</td><td>PNG</td>\n        <td>Older browsers, PNG fallback</td>\n      </tr>\n      <tr>\n        <td><code>apple-touch-icon.png</code></td>\n        <td>180 x 180</td><td>PNG</td>\n        <td>iOS and iPadOS home screen</td>\n      </tr>\n      <tr>\n        <td><code>icon-192.png</code></td>\n        <td>192 x 192</td><td>PNG</td>\n        <td>Android home screen, PWA</td>\n      </tr>\n      <tr>\n        <td><code>icon-512.png</code></td>\n        <td>512 x 512</td><td>PNG</td>\n        <td>PWA splash screen, app store</td>\n      </tr>\n    </tbody>\n  </table>\n\n\n  <!-- 4: LEGACY ICO -->\n  <h2>4. Legacy favicon.ico (IE11 and older)</h2>\n  <pre>&lt;!-- Place a multi-resolution ICO at the root.\n     Browsers auto-request /favicon.ico as a last resort. --&gt;\n\n&lt;!-- Modern link element (use this) --&gt;\n&lt;link rel=\"icon\"\n      href=\"/favicon.ico\"\n      sizes=\"16x16 32x32\"\n      type=\"image/x-icon\"&gt;\n\n&lt;!-- Old shortcut icon syntax (avoid in new projects) --&gt;\n&lt;link rel=\"shortcut icon\" href=\"/favicon.ico\"&gt;</pre>\n\n\n  <!-- 5: TESTING -->\n  <h2>5. Testing your favicon</h2>\n  <ul style=\"font-size:.9rem;\">\n    <li>Open the page in Chrome, Firefox, and Safari — check the tab icon.</li>\n    <li>Bookmark the page — check the bookmark icon.</li>\n    <li>On iOS: tap Share &rarr; Add to Home Screen — check the home icon.</li>\n    <li>Use <a href=\"https://realfavicongenerator.net/favicon_checker\"\n               target=\"_blank\" rel=\"noopener noreferrer\">\n        RealFaviconGenerator checker</a> for a full platform audit.</li>\n    <li>Open DevTools &rarr; Application &rarr; Manifest to inspect\n        the manifest icons.</li>\n  </ul>\n\n</body>\n</html>",
+          "output": "Page renders five sections. The SVG favicon section shows a dark code block with the complete SVG including an embedded style element with prefers-color-scheme, and a text description of light versus dark mode appearance. The manifest section shows the complete JSON with two icon entries. The file checklist table lists all five files. The legacy section shows both modern and old-style ICO link syntax. The testing section shows a five-step checklist with a link to the RealFaviconGenerator checker.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "Browsers resolve favicon "
+            },
+            {
+              "value": "<link>",
+              "highlight": true
+            },
+            {
+              "value": " declarations using "
+            },
+            {
+              "value": "format preference order",
+              "bold": true
+            },
+            {
+              "value": ", not source order. A browser that supports SVG favicons will use the SVG "
+            },
+            {
+              "value": "<link>",
+              "highlight": true
+            },
+            {
+              "value": " regardless of where in "
+            },
+            {
+              "value": "<head>",
+              "highlight": true
+            },
+            {
+              "value": " it appears. A browser that only supports ICO will skip SVG and PNG declarations and use the ICO. Declaring all formats in "
+            },
+            {
+              "value": "<head>",
+              "highlight": true
+            },
+            {
+              "value": " gives every browser the best format it can render without any JavaScript feature detection."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The SVG favicon's "
+            },
+            {
+              "value": "prefers-color-scheme",
+              "highlight": true
+            },
+            {
+              "value": " media query works because the browser renders the SVG into a bitmap for the tab icon. Since the browser applies its own light/dark mode when rendering SVG, the embedded CSS media query fires correctly. This means a single SVG file serves both light and dark mode users without requiring two separate "
+            },
+            {
+              "value": "<link>",
+              "highlight": true
+            },
+            {
+              "value": " declarations or JavaScript."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Set "
+            },
+            {
+              "value": "purpose: 'any maskable'",
+              "highlight": true
+            },
+            {
+              "value": " on both entries in the manifest "
+            },
+            {
+              "value": "icons",
+              "highlight": true
+            },
+            {
+              "value": " array. "
+            },
+            {
+              "value": "maskable",
+              "highlight": true
+            },
+            {
+              "value": " icons allow Android to apply platform-specific shape masks (circle, squircle, teardrop) to the icon. Without "
+            },
+            {
+              "value": "maskable",
+              "highlight": true
+            },
+            {
+              "value": ", Android crops the icon in a white circle, often cutting off the logo. Design the icon with a safe zone: keep the main graphic inside the central 80% of the canvas to avoid clipping by any mask shape."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Image Performance and Branding",
+        "HTML Head Element and Meta Tags",
+        "Progressive Web Apps",
+        "HTML Responsive Images"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Image Performance and Branding | Lazy Loading and Favicon Guide",
+    "meta_description": "Master HTML image performance with loading='lazy', fetchpriority, and decoding attributes, plus complete favicon implementation with SVG, PNG, Apple Touch, and Web App Manifest.",
+    "keywords": [
+      "HTML lazy loading images",
+      "HTML loading lazy attribute",
+      "HTML fetchpriority high LCP",
+      "HTML decoding async",
+      "HTML favicon implementation",
+      "HTML link rel icon SVG",
+      "HTML apple touch icon",
+      "HTML web app manifest icons",
+      "HTML LCP optimization",
+      "HTML cumulative layout shift CLS"
+    ],
+    "canonical_url": "/html/html-image-performance-and-branding",
+    "robots": "index, follow"
+  }
+}

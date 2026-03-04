@@ -16,36 +16,122 @@
       {
         "type": "paragraph",
         "text": [
-          { "value": "A well-structured HTML page uses " },
-          { "value": "semantic layout elements", "bold": true },
-          { "value": " to divide content into meaningful regions. Rather than wrapping everything in generic " },
-          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
-          { "value": " tags, HTML5 introduced dedicated elements such as " },
-          { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
-          { "value": ", " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": ", " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": ", " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": ", and " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": ". Each element communicates its role to browsers, screen readers, and search engines without requiring extra attributes. This approach is defined in the " },
-          { "value": "HTML Living Standard sectioning elements spec", "link": "https://html.spec.whatwg.org/multipage/sections.html" },
-          { "value": "." }
+          {
+            "value": "A well-structured HTML page uses "
+          },
+          {
+            "value": "semantic layout elements",
+            "bold": true
+          },
+          {
+            "value": " to divide content into meaningful regions. Rather than wrapping everything in generic "
+          },
+          {
+            "value": "<div>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+          },
+          {
+            "value": " tags, HTML5 introduced dedicated elements such as "
+          },
+          {
+            "value": "<header>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": ". Each element communicates its role to browsers, screen readers, and search engines without requiring extra attributes. This approach is defined in the "
+          },
+          {
+            "value": "HTML Living Standard sectioning elements spec",
+            "link": "https://html.spec.whatwg.org/multipage/sections.html"
+          },
+          {
+            "value": "."
+          }
         ]
       },
       {
         "type": "table",
-        "headers": ["Element", "Role", "Typical Content"],
+        "headers": [
+          "Element",
+          "Role",
+          "Typical Content"
+        ],
         "rows": [
-          ["<header>", "Introductory region for a page or section", "Logo, site title, hero area, section heading"],
-          ["<nav>", "Primary or secondary navigation block", "Site menu links, breadcrumbs, pagination"],
-          ["<main>", "Dominant unique content of the page", "Articles, product details, search results"],
-          ["<aside>", "Tangentially related content", "Sidebars, related links, pull quotes, ads"],
-          ["<footer>", "Closing region for a page or section", "Copyright, contact info, secondary links"],
-          ["<section>", "Thematic grouping with a heading", "Chapters, tabbed panels, feature blocks"],
-          ["<article>", "Self-contained, independently distributable content", "Blog posts, news items, user comments"]
+          [
+            "<header>",
+            "Introductory region for a page or section",
+            "Logo, site title, hero area, section heading"
+          ],
+          [
+            "<nav>",
+            "Primary or secondary navigation block",
+            "Site menu links, breadcrumbs, pagination"
+          ],
+          [
+            "<main>",
+            "Dominant unique content of the page",
+            "Articles, product details, search results"
+          ],
+          [
+            "<aside>",
+            "Tangentially related content",
+            "Sidebars, related links, pull quotes, ads"
+          ],
+          [
+            "<footer>",
+            "Closing region for a page or section",
+            "Copyright, contact info, secondary links"
+          ],
+          [
+            "<section>",
+            "Thematic grouping with a heading",
+            "Chapters, tabbed panels, feature blocks"
+          ],
+          [
+            "<article>",
+            "Self-contained, independently distributable content",
+            "Blog posts, news items, user comments"
+          ]
         ]
       },
       {
@@ -87,174 +173,480 @@
     "when_to_use": [
       {
         "text": [
-          { "value": "When building any multi-section page that has distinct regions like " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": ", " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": ", and " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" }
-        ]
+          {
+            "value": "When building any multi-section page that has distinct regions like "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "When accessibility is a requirement and users need to navigate by " },
-          { "value": "landmark regions", "bold": true },
-          { "value": " using screen readers" }
-        ]
+          {
+            "value": "When accessibility is a requirement and users need to navigate by "
+          },
+          {
+            "value": "landmark regions",
+            "bold": true
+          },
+          {
+            "value": " using screen readers"
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "When SEO matters and you want search engines to correctly identify the " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": " content versus supplementary regions like " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" }
-        ]
+          {
+            "value": "When SEO matters and you want search engines to correctly identify the "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": " content versus supplementary regions like "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "when_to_avoid": [
       {
         "text": [
-          { "value": "Avoid using semantic layout elements purely for styling purposes when a " },
-          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
-          { "value": " with a class would be clearer and has no structural meaning" }
-        ]
+          {
+            "value": "Avoid using semantic layout elements purely for styling purposes when a "
+          },
+          {
+            "value": "<div>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+          },
+          {
+            "value": " with a class would be clearer and has no structural meaning"
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Avoid placing more than one " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": " element on a page as it is intended to represent a single dominant content region" }
-        ]
+          {
+            "value": "Avoid placing more than one "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": " element on a page as it is intended to represent a single dominant content region"
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Avoid nesting a " },
-          { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
-          { "value": " or " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": " inside another " },
-          { "value": "<header>", "bold": true, "highlight": true },
-          { "value": " or " },
-          { "value": "<footer>", "bold": true, "highlight": true },
-          { "value": " as this creates confusing landmark hierarchy for assistive technologies" }
-        ]
+          {
+            "value": "Avoid nesting a "
+          },
+          {
+            "value": "<header>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header"
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": " inside another "
+          },
+          {
+            "value": "<header>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " as this creates confusing landmark hierarchy for assistive technologies"
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "what_it_solves": [
       {
         "text": [
-          { "value": "Generic " },
-          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
-          { "value": "-only layouts give screen readers no " },
-          { "value": "landmark regions", "bold": true },
-          { "value": " to navigate, forcing users to tab through every element to find content." }
-        ]
+          {
+            "value": "Generic "
+          },
+          {
+            "value": "<div>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+          },
+          {
+            "value": "-only layouts give screen readers no "
+          },
+          {
+            "value": "landmark regions",
+            "bold": true
+          },
+          {
+            "value": " to navigate, forcing users to tab through every element to find content."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Without semantic structure, search engines cannot reliably distinguish " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": " page content from " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": " and boilerplate, weakening SEO." }
-        ]
+          {
+            "value": "Without semantic structure, search engines cannot reliably distinguish "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": " page content from "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": " and boilerplate, weakening SEO."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Code written with only " },
-          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
-          { "value": " tags requires developers to read every class name to understand layout intent, increasing maintenance cost over time." }
-        ]
+          {
+            "value": "Code written with only "
+          },
+          {
+            "value": "<div>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+          },
+          {
+            "value": " tags requires developers to read every class name to understand layout intent, increasing maintenance cost over time."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "conceptual_understanding": [
       {
         "text": [
-          { "value": "Think of semantic page structure like the layout of a newspaper: the masthead is the " },
-          { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
-          { "value": ", the table of contents is the " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": ", the front-page story is the " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": ", the sidebar column is " },
-          { "value": "<aside>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside" },
-          { "value": ", and the publication details at the bottom are the " },
-          { "value": "<footer>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer" },
-          { "value": ". Each zone has a clear role anyone can recognize at a glance." }
-        ]
+          {
+            "value": "Think of semantic page structure like the layout of a newspaper: the masthead is the "
+          },
+          {
+            "value": "<header>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header"
+          },
+          {
+            "value": ", the table of contents is the "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": ", the front-page story is the "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": ", the sidebar column is "
+          },
+          {
+            "value": "<aside>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside"
+          },
+          {
+            "value": ", and the publication details at the bottom are the "
+          },
+          {
+            "value": "<footer>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer"
+          },
+          {
+            "value": ". Each zone has a clear role anyone can recognize at a glance."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Using only " },
-          { "value": "<div>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" },
-          { "value": " for layout is like labeling every room in a house 'room'. You can still find the kitchen eventually, but a visitor, a fire marshal, or a real-estate listing would struggle to understand the building without named rooms. Semantic elements name the rooms." }
-        ]
+          {
+            "value": "Using only "
+          },
+          {
+            "value": "<div>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div"
+          },
+          {
+            "value": " for layout is like labeling every room in a house 'room'. You can still find the kitchen eventually, but a visitor, a fire marshal, or a real-estate listing would struggle to understand the building without named rooms. Semantic elements name the rooms."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Semantic layout elements are the page's table of contents embedded in the code itself. A screen reader user can ask 'take me to the " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": " content' and jump there instantly, the same way a reader flips to a chapter without reading every page before it." }
-        ]
+          {
+            "value": "Semantic layout elements are the page's table of contents embedded in the code itself. A screen reader user can ask 'take me to the "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": " content' and jump there instantly, the same way a reader flips to a chapter without reading every page before it."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "common_mistakes": [
       {
         "text": [
-          { "value": "Using multiple " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": " elements: only one visible " },
-          { "value": "<main>", "bold": true, "highlight": true },
-          { "value": " is allowed per page; extras break screen reader landmark navigation." }
-        ]
+          {
+            "value": "Using multiple "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": " elements: only one visible "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " is allowed per page; extras break screen reader landmark navigation."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Using " },
-          { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
-          { "value": " without a heading: a " },
-          { "value": "<section>", "bold": true, "highlight": true },
-          { "value": " without an " },
-          { "value": "<h1>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements" },
-          { "value": "-" },
-          { "value": "<h6>", "bold": true, "highlight": true },
-          { "value": " produces an unnamed landmark that pollutes the accessibility tree." }
-        ]
+          {
+            "value": "Using "
+          },
+          {
+            "value": "<section>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section"
+          },
+          {
+            "value": " without a heading: a "
+          },
+          {
+            "value": "<section>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " without an "
+          },
+          {
+            "value": "<h1>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements"
+          },
+          {
+            "value": "-"
+          },
+          {
+            "value": "<h6>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " produces an unnamed landmark that pollutes the accessibility tree."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "Placing navigation links outside " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": ": links in a bare " },
-          { "value": "<div>", "bold": true, "highlight": true },
-          { "value": " are invisible to landmark navigation, failing WCAG keyboard accessibility." }
-        ]
+          {
+            "value": "Placing navigation links outside "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": ": links in a bare "
+          },
+          {
+            "value": "<div>",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " are invisible to landmark navigation, failing WCAG keyboard accessibility."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "bonus_tips": [
       {
         "text": [
-          { "value": "Install the 'Accessibility Insights for Web' Chrome extension and run FastPass to visualise all " },
-          { "value": "landmark regions", "bold": true },
-          { "value": " with colour-coded overlays, instantly revealing missing " },
-          { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-          { "value": " elements, unlabelled " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": " elements, or incorrect nesting." }
-        ]
+          {
+            "value": "Install the 'Accessibility Insights for Web' Chrome extension and run FastPass to visualise all "
+          },
+          {
+            "value": "landmark regions",
+            "bold": true
+          },
+          {
+            "value": " with colour-coded overlays, instantly revealing missing "
+          },
+          {
+            "value": "<main>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+          },
+          {
+            "value": " elements, unlabelled "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": " elements, or incorrect nesting."
+          }
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
-          { "value": "When a page has more than one " },
-          { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-          { "value": " element, add a distinct " },
-          { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
-          { "value": " to each one, such as " },
-          { "value": "aria-label=\"Primary\"", "bold": true, "highlight": true },
-          { "value": " and " },
-          { "value": "aria-label=\"Breadcrumb\"", "bold": true, "highlight": true },
-          { "value": ", to prevent screen readers from announcing two identical navigation landmarks." }
-        ]
+          {
+            "value": "When a page has more than one "
+          },
+          {
+            "value": "<nav>",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+          },
+          {
+            "value": " element, add a distinct "
+          },
+          {
+            "value": "aria-label",
+            "bold": true,
+            "highlight": true,
+            "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+          },
+          {
+            "value": " to each one, such as "
+          },
+          {
+            "value": "aria-label=\"Primary\"",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "aria-label=\"Breadcrumb\"",
+            "bold": true,
+            "highlight": true
+          },
+          {
+            "value": ", to prevent screen readers from announcing two identical navigation landmarks."
+          }
+        ],
+        "type": "paragraph"
       }
     ],
     "related_topics": [
@@ -283,23 +675,77 @@
         {
           "type": "paragraph",
           "text": [
-            { "value": "The " },
-            { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
-            { "value": " element represents an introductory region for its nearest sectioning ancestor, which can be the page itself, an " },
-            { "value": "<article>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article" },
-            { "value": ", or a " },
-            { "value": "<section>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section" },
-            { "value": ". It typically contains a logo, site name, or section heading. The " },
-            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-            { "value": " element is reserved for " },
-            { "value": "major navigation blocks", "bold": true },
-            { "value": " only, such as the primary site menu or a breadcrumb trail. Minor groups of links, such as those in a footer, do not require a " },
-            { "value": "<nav>", "bold": true, "highlight": true },
-            { "value": " wrapper. When multiple " },
-            { "value": "<nav>", "bold": true, "highlight": true },
-            { "value": " elements exist on a page, each should carry a distinct " },
-            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
-            { "value": " so screen readers can tell them apart." }
+            {
+              "value": "The "
+            },
+            {
+              "value": "<header>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header"
+            },
+            {
+              "value": " element represents an introductory region for its nearest sectioning ancestor, which can be the page itself, an "
+            },
+            {
+              "value": "<article>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article"
+            },
+            {
+              "value": ", or a "
+            },
+            {
+              "value": "<section>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section"
+            },
+            {
+              "value": ". It typically contains a logo, site name, or section heading. The "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+            },
+            {
+              "value": " element is reserved for "
+            },
+            {
+              "value": "major navigation blocks",
+              "bold": true
+            },
+            {
+              "value": " only, such as the primary site menu or a breadcrumb trail. Minor groups of links, such as those in a footer, do not require a "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " wrapper. When multiple "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " elements exist on a page, each should carry a distinct "
+            },
+            {
+              "value": "aria-label",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+            },
+            {
+              "value": " so screen readers can tell them apart."
+            }
           ]
         },
         {
@@ -322,39 +768,90 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
-            { "value": "The " },
-            { "value": "<header>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header" },
-            { "value": " element is the front door and signage of a building. It tells you whose building it is and where the main entrances are before you step inside. The " },
-            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-            { "value": " is the directory board just inside that door, listing which floor each department is on." }
-          ]
+            {
+              "value": "The "
+            },
+            {
+              "value": "<header>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header"
+            },
+            {
+              "value": " element is the front door and signage of a building. It tells you whose building it is and where the main entrances are before you step inside. The "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+            },
+            {
+              "value": " is the directory board just inside that door, listing which floor each department is on."
+            }
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
-            { "value": "Adding " },
-            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
-            { "value": " to multiple " },
-            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-            { "value": " elements is like labelling the emergency exits in a building. Without labels, you know exits exist but not which one leads to the car park and which to the street. With labels, every exit is immediately understood." }
-          ]
+            {
+              "value": "Adding "
+            },
+            {
+              "value": "aria-label",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+            },
+            {
+              "value": " to multiple "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+            },
+            {
+              "value": " elements is like labelling the emergency exits in a building. Without labels, you know exits exist but not which one leads to the car park and which to the street. With labels, every exit is immediately understood."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
-            { "value": "Test your navigation landmarks in Chrome DevTools by opening the Elements panel, then the Accessibility tab. Every " },
-            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-            { "value": " should appear as a named 'navigation' landmark. An unnamed one means a missing " },
-            { "value": "aria-label", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label" },
-            { "value": " attribute." }
-          ]
+            {
+              "value": "Test your navigation landmarks in Chrome DevTools by opening the Elements panel, then the Accessibility tab. Every "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+            },
+            {
+              "value": " should appear as a named 'navigation' landmark. An unnamed one means a missing "
+            },
+            {
+              "value": "aria-label",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label"
+            },
+            {
+              "value": " attribute."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
@@ -380,21 +877,65 @@
         {
           "type": "paragraph",
           "text": [
-            { "value": "The " },
-            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-            { "value": " element identifies the " },
-            { "value": "primary content region", "bold": true },
-            { "value": " of a page: the content that is unique to this page and not repeated across the site. Navigation, headers, footers, and sidebars are excluded. There must be " },
-            { "value": "exactly one visible main element", "bold": true },
-            { "value": " per page at any given time. A page may contain additional " },
-            { "value": "<main>", "bold": true, "highlight": true },
-            { "value": " elements only if they carry the " },
-            { "value": "hidden", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden" },
-            { "value": " attribute, a pattern used in single-page applications to pre-render inactive views. The " },
-            { "value": "<main>", "bold": true, "highlight": true },
-            { "value": " element maps directly to the " },
-            { "value": "ARIA main landmark role", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/main_role" },
-            { "value": ", giving assistive technology users a direct jump target to skip past repeated navigation." }
+            {
+              "value": "The "
+            },
+            {
+              "value": "<main>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+            },
+            {
+              "value": " element identifies the "
+            },
+            {
+              "value": "primary content region",
+              "bold": true
+            },
+            {
+              "value": " of a page: the content that is unique to this page and not repeated across the site. Navigation, headers, footers, and sidebars are excluded. There must be "
+            },
+            {
+              "value": "exactly one visible main element",
+              "bold": true
+            },
+            {
+              "value": " per page at any given time. A page may contain additional "
+            },
+            {
+              "value": "<main>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " elements only if they carry the "
+            },
+            {
+              "value": "hidden",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden"
+            },
+            {
+              "value": " attribute, a pattern used in single-page applications to pre-render inactive views. The "
+            },
+            {
+              "value": "<main>",
+              "bold": true,
+              "highlight": true
+            },
+            {
+              "value": " element maps directly to the "
+            },
+            {
+              "value": "ARIA main landmark role",
+              "bold": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/main_role"
+            },
+            {
+              "value": ", giving assistive technology users a direct jump target to skip past repeated navigation."
+            }
           ]
         },
         {
@@ -417,37 +958,81 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
-            { "value": "The " },
-            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-            { "value": " element is the main stage at a concert venue. Everything else, the entrance, the bar, the cloakroom, exists to support the experience, but the stage is why people came. Screen readers let users teleport directly to the stage and skip the lobby." }
-          ]
+            {
+              "value": "The "
+            },
+            {
+              "value": "<main>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+            },
+            {
+              "value": " element is the main stage at a concert venue. Everything else, the entrance, the bar, the cloakroom, exists to support the experience, but the stage is why people came. Screen readers let users teleport directly to the stage and skip the lobby."
+            }
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
-            { "value": "Using a skip link with " },
-            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-            { "value": " is like the express elevator in a tall office building. Regular visitors tab through every " },
-            { "value": "<nav>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav" },
-            { "value": " link, but the express elevator takes you straight to the floor you need in one move." }
-          ]
+            {
+              "value": "Using a skip link with "
+            },
+            {
+              "value": "<main>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+            },
+            {
+              "value": " is like the express elevator in a tall office building. Regular visitors tab through every "
+            },
+            {
+              "value": "<nav>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav"
+            },
+            {
+              "value": " link, but the express elevator takes you straight to the floor you need in one move."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
-            { "value": "Add " },
-            { "value": "tabindex=\"-1\"", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex" },
-            { "value": " to your " },
-            { "value": "<main>", "bold": true, "highlight": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main" },
-            { "value": " whenever you use a skip link pointing to it. Without this attribute, some browsers move visual focus but not keyboard focus, leaving keyboard-only users stranded at the top of the document." }
-          ]
+            {
+              "value": "Add "
+            },
+            {
+              "value": "tabindex=\"-1\"",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex"
+            },
+            {
+              "value": " to your "
+            },
+            {
+              "value": "<main>",
+              "bold": true,
+              "highlight": true,
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main"
+            },
+            {
+              "value": " whenever you use a skip link pointing to it. Without this attribute, some browsers move visual focus but not keyboard focus, leaving keyboard-only users stranded at the top of the document."
+            }
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [

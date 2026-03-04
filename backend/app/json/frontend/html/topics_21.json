@@ -1,0 +1,1765 @@
+{
+  "topic": {
+    "id": 22,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 7,
+    "slug": "html-svg-graphics",
+    "title": "HTML SVG Graphics",
+    "description": "SVG embeds resolution-independent vector graphics directly in HTML with full CSS and DOM access.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "SVG in HTML: Inline, External, and Accessible"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "SVG ("
+          },
+          {
+            "value": "Scalable Vector Graphics",
+            "bold": true
+          },
+          {
+            "value": ") is an XML-based format for two-dimensional vector graphics. SVG images scale to any size without pixelation, making them ideal for logos, icons, illustrations, and data visualisations. SVG can be embedded in HTML in three ways: "
+          },
+          {
+            "value": "inline",
+            "bold": true
+          },
+          {
+            "value": " (the SVG markup sits directly in the HTML document), "
+          },
+          {
+            "value": "via img src",
+            "bold": true
+          },
+          {
+            "value": " (treated as a raster image, no DOM access), or "
+          },
+          {
+            "value": "via CSS background-image",
+            "bold": true
+          },
+          {
+            "value": " (decorative, no accessibility). Inline SVG gives full access to individual elements via CSS and JavaScript, supports "
+          },
+          {
+            "value": "ARIA attributes",
+            "bold": true
+          },
+          {
+            "value": " for accessibility, and eliminates an extra network request. The root "
+          },
+          {
+            "value": "<svg>",
+            "highlight": true
+          },
+          {
+            "value": " element requires a "
+          },
+          {
+            "value": "viewBox",
+            "highlight": true
+          },
+          {
+            "value": " attribute to scale correctly at any size. Reference: "
+          },
+          {
+            "value": "MDN: SVG element reference",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/SVG/Element"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Embedding method",
+          "CSS styling",
+          "JS/DOM access",
+          "Accessibility",
+          "Extra request"
+        ],
+        "rows": [
+          [
+            "Inline <svg>",
+            "Full (including :hover on paths)",
+            "Yes, full DOM",
+            "Best (title, desc, aria-label)",
+            "No"
+          ],
+          [
+            "<img src='file.svg'>",
+            "No (external file)",
+            "No",
+            "Via alt attribute only",
+            "Yes"
+          ],
+          [
+            "CSS background-image: url()",
+            "No",
+            "No",
+            "None (decorative only)",
+            "Yes"
+          ],
+          [
+            "<object data='file.svg'>",
+            "Limited (scoped CSS)",
+            "Via contentDocument",
+            "Via title element in SVG",
+            "Yes"
+          ],
+          [
+            "<use href='sprite.svg#id'>",
+            "CSS on use element",
+            "Partial",
+            "Inherited from symbol",
+            "Yes (once)"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "SVG viewBox Is Required for Scalability",
+        "text": "The viewBox attribute defines the coordinate system of the SVG canvas. Without it, the SVG renders at a fixed pixel size and cannot scale responsively. The format is viewBox='minX minY width height'. For a standard icon: viewBox='0 0 24 24'. Setting width and height to 100% in CSS scales the SVG to any container size while viewBox maintains proportions."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Inline SVG Shapes, Paths, and CSS Styling",
+        "description": "This example shows inline SVG with basic shape elements, a path element with d attribute, SVG text, CSS animations on SVG elements, and the viewBox coordinate system. It demonstrates that SVG elements respond to CSS hover, transitions, and custom properties like any HTML element.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>SVG Graphics Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n\n    /* SVG elements respond to CSS exactly like HTML elements */\n    svg   { display: block; overflow: visible; }\n\n    /* CSS custom properties inside SVG */\n    :root { --brand: #2563eb; --accent: #7c3aed; }\n\n    /* Hover on individual SVG paths */\n    .card-shape { transition: transform .2s, fill .2s; cursor: pointer; }\n    .card-shape:hover { transform: translateY(-4px);\n                        fill: var(--accent); }\n\n    /* CSS animation on SVG circle */\n    @keyframes pulse {\n      0%, 100% { r: 30; opacity: 1; }\n      50%       { r: 38; opacity: .6; }\n    }\n    .pulse-circle { animation: pulse 2s ease-in-out infinite; }\n\n    /* CSS animation on SVG path (stroke dash) */\n    @keyframes draw {\n      from { stroke-dashoffset: 200; }\n      to   { stroke-dashoffset: 0; }\n    }\n    .draw-path {\n      stroke-dasharray: 200;\n      stroke-dashoffset: 200;\n      animation: draw 1.8s ease forwards;\n    }\n  </style>\n</head>\n<body>\n\n  <h1>Inline SVG: Shapes, Paths, and CSS</h1>\n\n\n  <!-- BASIC SHAPES -->\n  <h2>1. Basic Shapes</h2>\n  <!--\n    viewBox=\"0 0 400 120\":\n    Defines a 400x120 unit coordinate space.\n    The SVG scales to its CSS width while maintaining proportions.\n    width=\"100%\" makes it fluid.\n  -->\n  <svg viewBox=\"0 0 400 120\" width=\"100%\"\n       aria-label=\"SVG basic shapes: rectangle, circle, ellipse, line, polygon\"\n       role=\"img\">\n\n    <!-- rect: x, y, width, height; rx for rounded corners -->\n    <rect x=\"10\" y=\"20\" width=\"80\" height=\"80\"\n          rx=\"8\" fill=\"#2563eb\" opacity=\".9\"/>\n\n    <!-- circle: cx, cy = centre; r = radius -->\n    <circle cx=\"155\" cy=\"60\" r=\"40\"\n            fill=\"#7c3aed\" opacity=\".9\"/>\n\n    <!-- ellipse: cx, cy, rx, ry (separate x and y radii) -->\n    <ellipse cx=\"260\" cy=\"60\" rx=\"55\" ry=\"35\"\n             fill=\"#0891b2\" opacity=\".9\"/>\n\n    <!-- line: x1,y1 to x2,y2 -->\n    <line x1=\"340\" y1=\"20\" x2=\"390\" y2=\"100\"\n          stroke=\"#16a34a\" stroke-width=\"4\"\n          stroke-linecap=\"round\"/>\n\n    <!-- polygon: list of x,y pairs -->\n    <polygon points=\"330,100 360,20 390,100\"\n             fill=\"#dc2626\" opacity=\".8\"/>\n  </svg>\n\n\n  <!-- PATH ELEMENT -->\n  <h2>2. Path Element</h2>\n  <!--\n    Path d commands:\n    M x,y = Move to (start a subpath)\n    L x,y = Line to\n    H x   = Horizontal line\n    V y   = Vertical line\n    C cx1,cy1 cx2,cy2 x,y = Cubic bezier curve\n    Q cx,cy x,y = Quadratic bezier curve\n    A rx,ry rotation large-arc sweep x,y = Arc\n    Z     = Close path\n    Lowercase = relative coordinates\n  -->\n  <svg viewBox=\"0 0 400 120\" width=\"100%\" aria-hidden=\"true\">\n\n    <!-- Simple shape built with path -->\n    <path\n      d=\"M 10,60 L 80,20 L 150,60 L 80,100 Z\"\n      fill=\"#eff6ff\" stroke=\"#2563eb\" stroke-width=\"2\"/>\n\n    <!-- Bezier curve -->\n    <path\n      d=\"M 180,100 C 200,20 280,20 300,100\"\n      fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"3\"\n      stroke-linecap=\"round\"\n      class=\"draw-path\"/>\n\n    <!-- Arc: drawing a checkmark -->\n    <path\n      d=\"M 340,60 m -30,0 a 30,30 0 1,0 60,0 a 30,30 0 1,0 -60,0\"\n      fill=\"none\" stroke=\"#e2e8f0\" stroke-width=\"4\"/>\n    <path\n      d=\"M 322,62 L 333,73 L 358,48\"\n      fill=\"none\" stroke=\"#16a34a\" stroke-width=\"4\"\n      stroke-linecap=\"round\" stroke-linejoin=\"round\"\n      class=\"draw-path\"/>\n  </svg>\n\n\n  <!-- CSS HOVER ON SVG SHAPES -->\n  <h2>3. CSS Hover on SVG Shapes (hover each card)</h2>\n  <svg viewBox=\"0 0 400 100\" width=\"100%\" aria-hidden=\"true\">\n    <rect x=\"10\"  y=\"10\" width=\"80\" height=\"80\" rx=\"10\"\n          fill=\"var(--brand)\" class=\"card-shape\"/>\n    <rect x=\"110\" y=\"10\" width=\"80\" height=\"80\" rx=\"10\"\n          fill=\"var(--brand)\" class=\"card-shape\"/>\n    <rect x=\"210\" y=\"10\" width=\"80\" height=\"80\" rx=\"10\"\n          fill=\"var(--brand)\" class=\"card-shape\"/>\n    <rect x=\"310\" y=\"10\" width=\"80\" height=\"80\" rx=\"10\"\n          fill=\"var(--brand)\" class=\"card-shape\"/>\n  </svg>\n\n\n  <!-- SVG TEXT -->\n  <h2>4. SVG Text</h2>\n  <svg viewBox=\"0 0 400 80\" width=\"100%\" aria-label=\"DevDocs India\" role=\"img\">\n    <!-- text: x,y positions the baseline -->\n    <text x=\"20\" y=\"55\"\n          font-family=\"system-ui, sans-serif\"\n          font-size=\"42\"\n          font-weight=\"700\"\n          fill=\"url(#grad)\">\n      DevDocs India\n    </text>\n    <defs>\n      <!-- linearGradient: fill text with a gradient -->\n      <linearGradient id=\"grad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">\n        <stop offset=\"0%\"   stop-color=\"#2563eb\"/>\n        <stop offset=\"100%\" stop-color=\"#7c3aed\"/>\n      </linearGradient>\n    </defs>\n  </svg>\n\n\n  <!-- PULSE ANIMATION -->\n  <h2>5. CSS Animation on SVG</h2>\n  <svg viewBox=\"0 0 120 120\" width=\"120\" aria-hidden=\"true\">\n    <circle cx=\"60\" cy=\"60\" r=\"30\"\n            fill=\"#2563eb\" opacity=\".2\"\n            class=\"pulse-circle\"/>\n    <circle cx=\"60\" cy=\"60\" r=\"22\"\n            fill=\"#2563eb\"/>\n    <path d=\"M 45,62 L 56,73 L 78,52\"\n          fill=\"none\" stroke=\"#fff\"\n          stroke-width=\"4\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"/>\n  </svg>\n\n</body>\n</html>",
+        "output": "Page renders five SVG sections. The basic shapes section shows a blue rounded rectangle, purple circle, teal ellipse, green diagonal line, and red triangle. The path section shows a diamond built with L commands, a purple bezier arc with a drawing animation, and a green checkmark inside a circle that draws itself on load. The hover section shows four blue cards that lift and turn purple individually on hover. The text section shows 'DevDocs India' in a blue-to-purple gradient. The animation section shows a pulsing concentric circle with a white checkmark.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Accessible SVG Icons and an SVG Sprite System",
+        "description": "This example builds accessible inline SVG icons using title and desc elements for screen readers, demonstrates the SVG sprite pattern using symbol and use elements for reusable icon libraries, and shows the img src embedding method with alt text as the simplest accessible approach for decorative contexts.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>SVG Accessibility and Sprites</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    .icon { width: 24px; height: 24px; display: inline-block;\n            vertical-align: middle; }\n    .icon-lg { width: 48px; height: 48px; }\n    button { display: flex; align-items: center; gap: .5rem;\n             padding: .5rem 1rem; background: #2563eb; color: #fff;\n             border: none; border-radius: 6px; cursor: pointer;\n             font-size: .9rem; margin-bottom: .5rem; }\n    button:hover { background: #1d4ed8; }\n    .stat-card { display: flex; align-items: center; gap: 1rem;\n                 border: 1px solid #e5e7eb; border-radius: 8px;\n                 padding: .85rem 1rem; margin-bottom: .75rem; }\n    .stat-card svg { flex-shrink: 0; }\n    .stat-value { font-size: 1.4rem; font-weight: 700;\n                  color: #1e293b; line-height: 1; }\n    .stat-label { font-size: .82rem; color: #64748b; }\n  </style>\n</head>\n<body>\n\n  <h1>SVG Accessibility and Sprite System</h1>\n\n\n  <!--\n    HIDDEN SVG SPRITE SHEET:\n    Define all icons once using <symbol> elements.\n    <symbol> elements are never rendered directly.\n    Reference them anywhere with <use href=\"#id\">.\n    Place this block as early in <body> as possible.\n  -->\n  <svg aria-hidden=\"true\" focusable=\"false\"\n       style=\"position:absolute;width:0;height:0;overflow:hidden\">\n    <defs>\n      <!-- Each symbol defines one reusable icon -->\n\n      <symbol id=\"icon-check\" viewBox=\"0 0 24 24\">\n        <polyline points=\"20 6 9 17 4 12\"\n                  fill=\"none\" stroke=\"currentColor\"\n                  stroke-width=\"2.5\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"/>\n      </symbol>\n\n      <symbol id=\"icon-arrow-right\" viewBox=\"0 0 24 24\">\n        <path d=\"M5 12h14M12 5l7 7-7 7\"\n              fill=\"none\" stroke=\"currentColor\"\n              stroke-width=\"2.5\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"/>\n      </symbol>\n\n      <symbol id=\"icon-book\" viewBox=\"0 0 24 24\">\n        <path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n        <path d=\"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n      </symbol>\n\n      <symbol id=\"icon-users\" viewBox=\"0 0 24 24\">\n        <path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n        <circle cx=\"9\" cy=\"7\" r=\"4\"\n                fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n        <path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n        <path d=\"M16 3.13a4 4 0 0 1 0 7.75\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n      </symbol>\n\n      <symbol id=\"icon-star\" viewBox=\"0 0 24 24\">\n        <polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02\n                         12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"\n                 fill=\"currentColor\" stroke=\"currentColor\"\n                 stroke-width=\"1\" stroke-linejoin=\"round\"/>\n      </symbol>\n\n    </defs>\n  </svg>\n\n\n  <!-- PATTERN 1: Icon-only button (needs aria-label) -->\n  <h2>1. Accessible Icon Buttons</h2>\n  <!--\n    Icon-only button: the SVG carries no text.\n    aria-label on the <button> provides the accessible name.\n    aria-hidden on the SVG prevents double-announcement.\n  -->\n  <button aria-label=\"Go to next lesson\">\n    <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\">\n      <use href=\"#icon-arrow-right\"/>\n    </svg>\n  </button>\n\n  <!-- Icon + text button: SVG is purely decorative -->\n  <button>\n    <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\">\n      <use href=\"#icon-check\"/>\n    </svg>\n    Mark as complete\n  </button>\n\n\n  <!-- PATTERN 2: Standalone meaningful SVG -->\n  <h2>2. Standalone Meaningful Icon (title + desc)</h2>\n  <!--\n    For a standalone SVG that conveys information without\n    accompanying text, use:\n    - role=\"img\" so assistive tools treat it as an image\n    - aria-labelledby pointing to the <title> element\n    - <title> as first child for the accessible name\n    - <desc> for additional detail (optional)\n  -->\n  <svg class=\"icon-lg\" role=\"img\"\n       aria-labelledby=\"book-title book-desc\"\n       viewBox=\"0 0 24 24\">\n    <title id=\"book-title\">Course library</title>\n    <desc id=\"book-desc\">Open book icon representing the course content library</desc>\n    <use href=\"#icon-book\"/>\n  </svg>\n\n\n  <!-- PATTERN 3: use element for stat cards -->\n  <h2>3. Icon Reuse with use Element</h2>\n\n  <div class=\"stat-card\">\n    <svg class=\"icon-lg\" aria-hidden=\"true\" focusable=\"false\"\n         style=\"color:#2563eb;\">\n      <use href=\"#icon-book\"/>\n    </svg>\n    <div>\n      <div class=\"stat-value\">48</div>\n      <div class=\"stat-label\">Courses available</div>\n    </div>\n  </div>\n\n  <div class=\"stat-card\">\n    <svg class=\"icon-lg\" aria-hidden=\"true\" focusable=\"false\"\n         style=\"color:#7c3aed;\">\n      <use href=\"#icon-users\"/>\n    </svg>\n    <div>\n      <div class=\"stat-value\">12,400</div>\n      <div class=\"stat-label\">Enrolled learners</div>\n    </div>\n  </div>\n\n  <div class=\"stat-card\">\n    <svg class=\"icon-lg\" aria-hidden=\"true\" focusable=\"false\"\n         style=\"color:#ca8a04;\">\n      <use href=\"#icon-star\"/>\n    </svg>\n    <div>\n      <div class=\"stat-value\">4.8</div>\n      <div class=\"stat-label\">Average rating</div>\n    </div>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders a hidden sprite sheet block followed by three sections. The icon buttons section shows a square arrow-right button with aria-label, and a blue button with a checkmark icon and 'Mark as complete' label. The standalone icon section shows a large book icon with a title and desc element for screen readers. The stat cards section shows three cards each using the same sprite icons in different colours via the use element and CSS currentColor.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use inline "
+          },
+          {
+            "value": "<svg>",
+            "highlight": true
+          },
+          {
+            "value": " for icons, logos, and illustrations that need CSS hover effects, JavaScript interactivity, or accessible "
+          },
+          {
+            "value": "<title>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<desc>",
+            "highlight": true
+          },
+          {
+            "value": " elements."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<img src='file.svg'>",
+            "highlight": true
+          },
+          {
+            "value": " for static decorative SVGs where no DOM access is needed, keeping HTML cleaner with a single attribute for alt text."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use the SVG "
+          },
+          {
+            "value": "<symbol>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<use>",
+            "highlight": true
+          },
+          {
+            "value": " sprite pattern for icon libraries to define each icon once and reference it any number of times."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid inline SVG for very complex illustrations with hundreds of paths; the HTML payload grows large and parsing slows down the initial render."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "CSS background-image: url('.svg')",
+            "highlight": true
+          },
+          {
+            "value": " for meaningful graphics; CSS background images have no accessibility hook and cannot carry alt text."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid omitting "
+          },
+          {
+            "value": "viewBox",
+            "highlight": true
+          },
+          {
+            "value": " on SVG elements; without it the SVG renders at a fixed pixel size and cannot scale responsively."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "SVG images scale to any resolution without pixelation, unlike raster formats, making them ideal for HiDPI screens and responsive layouts."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Inline SVG eliminates the extra network request required by "
+          },
+          {
+            "value": "<img>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<object>",
+            "highlight": true
+          },
+          {
+            "value": ", improving "
+          },
+          {
+            "value": "Largest Contentful Paint",
+            "bold": true
+          },
+          {
+            "value": " for icon-heavy pages."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "SVG files are typically 60 to 80 percent smaller than equivalent PNG images for geometric shapes and icons, reducing total page weight significantly."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "SVG is a document inside a document. An inline "
+          },
+          {
+            "value": "<svg>",
+            "highlight": true
+          },
+          {
+            "value": " element introduces its own "
+          },
+          {
+            "value": "coordinate system",
+            "bold": true
+          },
+          {
+            "value": " defined by "
+          },
+          {
+            "value": "viewBox",
+            "highlight": true
+          },
+          {
+            "value": ". Every shape is positioned within that coordinate space, not the HTML page coordinate space. The "
+          },
+          {
+            "value": "viewBox",
+            "highlight": true
+          },
+          {
+            "value": " tells the browser how to map the internal coordinates to the CSS size of the SVG element in the page."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "SVG graphics and HTML elements share the same "
+          },
+          {
+            "value": "DOM tree",
+            "bold": true
+          },
+          {
+            "value": " when inlined. CSS "
+          },
+          {
+            "value": "color",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "currentColor",
+            "highlight": true
+          },
+          {
+            "value": " cascade into SVG paths. JavaScript "
+          },
+          {
+            "value": "querySelector",
+            "highlight": true
+          },
+          {
+            "value": " can select individual "
+          },
+          {
+            "value": "<circle>",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "<path>",
+            "highlight": true
+          },
+          {
+            "value": " elements. Animations written in CSS or JavaScript apply to SVG shapes just as they do to "
+          },
+          {
+            "value": "<div>",
+            "highlight": true
+          },
+          {
+            "value": " elements."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "currentColor",
+            "highlight": true
+          },
+          {
+            "value": " CSS value is the bridge between HTML theming and SVG icons. When "
+          },
+          {
+            "value": "stroke",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "fill",
+            "highlight": true
+          },
+          {
+            "value": " is set to "
+          },
+          {
+            "value": "currentColor",
+            "highlight": true
+          },
+          {
+            "value": " on an SVG path, the icon inherits the "
+          },
+          {
+            "value": "color",
+            "highlight": true
+          },
+          {
+            "value": " property of its HTML ancestor. Changing the parent element's "
+          },
+          {
+            "value": "color",
+            "highlight": true
+          },
+          {
+            "value": " in CSS automatically recolours the icon without touching the SVG markup."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Omitting "
+          },
+          {
+            "value": "aria-hidden='true'",
+            "highlight": true
+          },
+          {
+            "value": " on decorative SVGs lets screen readers announce path data or filenames."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Using fixed SVG "
+          },
+          {
+            "value": "width",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "height",
+            "highlight": true
+          },
+          {
+            "value": " without "
+          },
+          {
+            "value": "viewBox",
+            "highlight": true
+          },
+          {
+            "value": " prevents CSS from scaling the graphic responsively."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Repeating SVG icon markup inline instead of using "
+          },
+          {
+            "value": "symbol",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "use",
+            "highlight": true
+          },
+          {
+            "value": " inflates the HTML document size."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Run SVG files through "
+          },
+          {
+            "value": "SVGO",
+            "bold": true,
+            "link": "https://svgo.dev/"
+          },
+          {
+            "value": " before embedding them. SVGO removes redundant attributes, empty groups, metadata, and editor-specific namespaces, typically reducing SVG file size by 20 to 60 percent without any visual change."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "currentColor",
+            "highlight": true
+          },
+          {
+            "value": " as the value of "
+          },
+          {
+            "value": "fill",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "stroke",
+            "highlight": true
+          },
+          {
+            "value": " on all icon paths so the icon automatically inherits the CSS "
+          },
+          {
+            "value": "color",
+            "highlight": true
+          },
+          {
+            "value": " of its container. This makes a single icon definition theme-aware: change the parent "
+          },
+          {
+            "value": "color",
+            "highlight": true
+          },
+          {
+            "value": " in CSS and the icon recolours without any SVG attribute changes."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Image Element",
+      "HTML Canvas Element",
+      "Accessibility and ARIA",
+      "CSS Animations and Transitions",
+      "Core Web Vitals and Performance"
+    ],
+    "is_active": true,
+    "order_index": 15,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 15,
+      "slug": "svg-coordinate-system-and-viewbox",
+      "title": "SVG Coordinate System and viewBox",
+      "description": "The SVG coordinate system and viewBox attribute map internal units to CSS display size for scaling.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "Every SVG element lives inside a "
+            },
+            {
+              "value": "user coordinate system",
+              "bold": true
+            },
+            {
+              "value": " established by the root "
+            },
+            {
+              "value": "<svg>",
+              "highlight": true
+            },
+            {
+              "value": " element. The "
+            },
+            {
+              "value": "viewBox",
+              "highlight": true
+            },
+            {
+              "value": " attribute, written as four numbers "
+            },
+            {
+              "value": "'min-x min-y width height'",
+              "highlight": true
+            },
+            {
+              "value": ", defines the extent of this coordinate system. The browser maps this internal space to the CSS size of the "
+            },
+            {
+              "value": "<svg>",
+              "highlight": true
+            },
+            {
+              "value": " element. The "
+            },
+            {
+              "value": "preserveAspectRatio",
+              "highlight": true
+            },
+            {
+              "value": " attribute controls how the viewBox is fitted when the CSS aspect ratio differs from the viewBox ratio. Nested "
+            },
+            {
+              "value": "<svg>",
+              "highlight": true
+            },
+            {
+              "value": " elements and "
+            },
+            {
+              "value": "<g>",
+              "highlight": true
+            },
+            {
+              "value": " groups with "
+            },
+            {
+              "value": "transform",
+              "highlight": true
+            },
+            {
+              "value": " attributes create sub-coordinate systems. Reference: "
+            },
+            {
+              "value": "MDN: viewBox",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Remove width and height, Keep viewBox",
+          "text": "For inline SVG icons meant to be sized by CSS, remove the width and height SVG attributes and keep only viewBox. Then set width and height in CSS. The viewBox establishes the proportions; CSS controls the display size. Adding explicit SVG width and height attributes prevents CSS from overriding them in some browsers."
+        }
+      ],
+      "examples": [
+        {
+          "title": "viewBox, preserveAspectRatio, and Coordinate System Transforms",
+          "description": "This example demonstrates the viewBox coordinate system by showing the same shapes at different viewBox values, the effect of preserveAspectRatio on non-square viewBoxes, and how transform translate and scale create sub-coordinate systems inside a group element.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>SVG viewBox Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 720px;\n            margin: 2rem auto; padding: 0 1rem; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    svg   { display: block; border: 1px solid #e5e7eb;\n            border-radius: 6px; }\n    .label { font-size: .78rem; color: #64748b; margin-top: .3rem;\n             font-family: monospace; }\n    .grid  { display: grid; grid-template-columns: 1fr 1fr;\n             gap: 1rem; margin-bottom: 1rem; }\n  </style>\n</head>\n<body>\n\n  <h1>SVG Coordinate System and viewBox</h1>\n\n\n  <!-- PART 1: viewBox maps internal coords to CSS size -->\n  <h2>1. How viewBox maps internal units to display size</h2>\n  <div class=\"grid\">\n    <div>\n      <!--\n        viewBox=\"0 0 100 100\":\n        The internal canvas is 100x100 units.\n        CSS width is 200px, so 1 unit = 2px.\n        The circle at cx=50, cy=50, r=40 fills the canvas.\n      -->\n      <svg width=\"200\" height=\"200\" viewBox=\"0 0 100 100\"\n           aria-hidden=\"true\">\n        <rect width=\"100\" height=\"100\" fill=\"#f8fafc\"\n              stroke=\"#e2e8f0\"/>\n        <!-- Grid lines showing the 100x100 coord space -->\n        <line x1=\"50\" y1=\"0\" x2=\"50\" y2=\"100\"\n              stroke=\"#e2e8f0\" stroke-width=\".5\"/>\n        <line x1=\"0\" y1=\"50\" x2=\"100\" y2=\"50\"\n              stroke=\"#e2e8f0\" stroke-width=\".5\"/>\n        <circle cx=\"50\" cy=\"50\" r=\"40\"\n                fill=\"#2563eb\" opacity=\".8\"/>\n        <text x=\"50\" y=\"54\" text-anchor=\"middle\"\n              font-size=\"12\" fill=\"#fff\" font-weight=\"600\">cx=50</text>\n      </svg>\n      <p class=\"label\">viewBox=\"0 0 100 100\" — circle at cx=50</p>\n    </div>\n    <div>\n      <!--\n        viewBox=\"0 0 200 200\":\n        Same CSS size (200x200px) but internal canvas is 200x200.\n        1 unit = 1px. Circle at cx=100, cy=100, r=80 fills same area.\n        Moving the circle to cx=50 puts it in the top-left quadrant.\n      -->\n      <svg width=\"200\" height=\"200\" viewBox=\"0 0 200 200\"\n           aria-hidden=\"true\">\n        <rect width=\"200\" height=\"200\" fill=\"#f8fafc\"\n              stroke=\"#e2e8f0\"/>\n        <line x1=\"100\" y1=\"0\" x2=\"100\" y2=\"200\"\n              stroke=\"#e2e8f0\" stroke-width=\".5\"/>\n        <line x1=\"0\" y1=\"100\" x2=\"200\" y2=\"100\"\n              stroke=\"#e2e8f0\" stroke-width=\".5\"/>\n        <circle cx=\"50\" cy=\"50\" r=\"40\"\n                fill=\"#7c3aed\" opacity=\".8\"/>\n        <text x=\"50\" y=\"54\" text-anchor=\"middle\"\n              font-size=\"12\" fill=\"#fff\" font-weight=\"600\">cx=50</text>\n      </svg>\n      <p class=\"label\">viewBox=\"0 0 200 200\" — same cx=50, different position</p>\n    </div>\n  </div>\n\n\n  <!-- PART 2: preserveAspectRatio -->\n  <h2>2. preserveAspectRatio</h2>\n  <div class=\"grid\">\n    <div>\n      <!--\n        viewBox is 100x50 (wide), container is 200x200 (square).\n        Default preserveAspectRatio=\"xMidYMid meet\":\n        Letterbox: maintains aspect ratio, centres, adds whitespace.\n      -->\n      <svg width=\"200\" height=\"200\" viewBox=\"0 0 100 50\"\n           preserveAspectRatio=\"xMidYMid meet\"\n           style=\"background:#f8fafc;\" aria-hidden=\"true\">\n        <rect x=\"5\" y=\"5\" width=\"90\" height=\"40\"\n              rx=\"6\" fill=\"#2563eb\" opacity=\".8\"/>\n        <text x=\"50\" y=\"30\" text-anchor=\"middle\"\n              font-size=\"12\" fill=\"#fff\">meet (letterbox)</text>\n      </svg>\n      <p class=\"label\">preserveAspectRatio=\"xMidYMid meet\"</p>\n    </div>\n    <div>\n      <!--\n        preserveAspectRatio=\"xMidYMid slice\":\n        Fills the container, cropping overflow.\n      -->\n      <svg width=\"200\" height=\"200\" viewBox=\"0 0 100 50\"\n           preserveAspectRatio=\"xMidYMid slice\"\n           style=\"background:#f8fafc;overflow:hidden;\" aria-hidden=\"true\">\n        <rect x=\"5\" y=\"5\" width=\"90\" height=\"40\"\n              rx=\"6\" fill=\"#7c3aed\" opacity=\".8\"/>\n        <text x=\"50\" y=\"30\" text-anchor=\"middle\"\n              font-size=\"12\" fill=\"#fff\">slice (fill+crop)</text>\n      </svg>\n      <p class=\"label\">preserveAspectRatio=\"xMidYMid slice\"</p>\n    </div>\n  </div>\n\n\n  <!-- PART 3: transform on groups -->\n  <h2>3. transform: translate, scale, rotate</h2>\n  <svg viewBox=\"0 0 400 120\" width=\"100%\" aria-hidden=\"true\">\n    <!-- Base shape -->\n    <rect x=\"10\" y=\"10\" width=\"80\" height=\"80\"\n          rx=\"8\" fill=\"#e2e8f0\"/>\n    <text x=\"50\" y=\"55\" text-anchor=\"middle\"\n          font-size=\"11\" fill=\"#64748b\">origin</text>\n\n    <!-- translate: shift coordinate origin -->\n    <g transform=\"translate(120, 0)\">\n      <rect x=\"10\" y=\"10\" width=\"80\" height=\"80\"\n            rx=\"8\" fill=\"#2563eb\" opacity=\".8\"/>\n      <text x=\"50\" y=\"55\" text-anchor=\"middle\"\n            font-size=\"11\" fill=\"#fff\">translate</text>\n    </g>\n\n    <!-- scale: zoom the coordinate system -->\n    <g transform=\"translate(240, 10) scale(0.6)\">\n      <rect x=\"10\" y=\"10\" width=\"80\" height=\"80\"\n            rx=\"8\" fill=\"#7c3aed\" opacity=\".8\"/>\n      <text x=\"50\" y=\"55\" text-anchor=\"middle\"\n            font-size=\"14\" fill=\"#fff\">scale(.6)</text>\n    </g>\n\n    <!-- rotate: spin around a point -->\n    <g transform=\"translate(360, 55) rotate(20)\">\n      <rect x=\"-40\" y=\"-40\" width=\"80\" height=\"80\"\n            rx=\"8\" fill=\"#0891b2\" opacity=\".8\"/>\n      <text x=\"0\" y=\"5\" text-anchor=\"middle\"\n            font-size=\"11\" fill=\"#fff\">rotate(20)</text>\n    </g>\n  </svg>\n\n</body>\n</html>",
+          "output": "Page renders three sections. The first shows two 200x200 SVG containers with identical circles at cx=50 cy=50: in the 100x100 viewBox the circle is centred, in the 200x200 viewBox the same cx=50 places it in the top-left quadrant, illustrating how viewBox changes the meaning of coordinates. The second shows two versions of a wide viewBox in a square container: meet letterboxes the shape with whitespace, slice fills and crops. The third shows four shapes in a row: the base grey rectangle, a blue version shifted with translate, a purple version scaled to 60%, and a teal version rotated 20 degrees.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "viewBox",
+              "highlight": true
+            },
+            {
+              "value": " is a camera pointed at the SVG canvas. The four numbers define what part of the infinite SVG coordinate plane the camera frames. "
+            },
+            {
+              "value": "min-x min-y",
+              "highlight": true
+            },
+            {
+              "value": " pans the camera. "
+            },
+            {
+              "value": "width height",
+              "highlight": true
+            },
+            {
+              "value": " sets the zoom level. A "
+            },
+            {
+              "value": "viewBox='0 0 24 24'",
+              "highlight": true
+            },
+            {
+              "value": " frames a 24-unit square starting at the origin. A "
+            },
+            {
+              "value": "viewBox='-12 -12 24 24'",
+              "highlight": true
+            },
+            {
+              "value": " frames the same area but centres the origin, useful for symmetric shapes drawn around zero."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "transform",
+              "highlight": true
+            },
+            {
+              "value": " attribute on a "
+            },
+            {
+              "value": "<g>",
+              "highlight": true
+            },
+            {
+              "value": " group creates a new coordinate system for everything inside it. "
+            },
+            {
+              "value": "translate(120, 0)",
+              "highlight": true
+            },
+            {
+              "value": " shifts the origin 120 units to the right. "
+            },
+            {
+              "value": "scale(0.5)",
+              "highlight": true
+            },
+            {
+              "value": " makes every unit inside the group half as large. "
+            },
+            {
+              "value": "rotate(45)",
+              "highlight": true
+            },
+            {
+              "value": " spins the axis. These transforms stack: a group with both translate and scale applies them in the order listed."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "For icons that need a transparent hit area larger than the visible graphic, add an invisible "
+            },
+            {
+              "value": "<rect>",
+              "highlight": true
+            },
+            {
+              "value": " with "
+            },
+            {
+              "value": "fill='none'",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "pointer-events='all'",
+              "highlight": true
+            },
+            {
+              "value": " spanning the full "
+            },
+            {
+              "value": "viewBox",
+              "highlight": true
+            },
+            {
+              "value": ". Without it, a 2px stroke icon may have a tiny click area; with it, the entire viewBox bounds are interactive even though the invisible rect is not visible."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML SVG Graphics",
+        "SVG Shapes and Path Elements",
+        "SVG Accessibility"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 15,
+      "slug": "svg-shapes-and-path-elements",
+      "title": "SVG Shapes and Path Elements",
+      "description": "SVG provides rect, circle, ellipse, line, polyline, polygon, and path for drawing vector shapes.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "SVG has seven basic shape elements: "
+            },
+            {
+              "value": "<rect>",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<circle>",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<ellipse>",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<line>",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<polyline>",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "<polygon>",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "<path>",
+              "highlight": true
+            },
+            {
+              "value": ". The "
+            },
+            {
+              "value": "<path>",
+              "highlight": true
+            },
+            {
+              "value": " element can describe any shape using the "
+            },
+            {
+              "value": "d",
+              "highlight": true
+            },
+            {
+              "value": " attribute, which is a mini-language of moveto ("
+            },
+            {
+              "value": "M",
+              "highlight": true
+            },
+            {
+              "value": "), lineto ("
+            },
+            {
+              "value": "L",
+              "highlight": true
+            },
+            {
+              "value": "), bezier curves ("
+            },
+            {
+              "value": "C",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "Q",
+              "highlight": true
+            },
+            {
+              "value": "), arcs ("
+            },
+            {
+              "value": "A",
+              "highlight": true
+            },
+            {
+              "value": "), and closepath ("
+            },
+            {
+              "value": "Z",
+              "highlight": true
+            },
+            {
+              "value": "). Uppercase commands use absolute coordinates; lowercase commands use relative coordinates. All shapes accept "
+            },
+            {
+              "value": "fill",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "stroke",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "stroke-width",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "opacity",
+              "highlight": true
+            },
+            {
+              "value": " as attributes or CSS properties. Reference: "
+            },
+            {
+              "value": "MDN: SVG shapes",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Basic_Shapes"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Element",
+            "Key attributes",
+            "Use for"
+          ],
+          "rows": [
+            [
+              "<rect>",
+              "x, y, width, height, rx, ry",
+              "Boxes, cards, backgrounds, UI chrome"
+            ],
+            [
+              "<circle>",
+              "cx, cy, r",
+              "Dots, avatars, progress rings, pie charts"
+            ],
+            [
+              "<ellipse>",
+              "cx, cy, rx, ry",
+              "Oval shapes, shadow effects"
+            ],
+            [
+              "<line>",
+              "x1, y1, x2, y2",
+              "Axis lines, dividers, chart grid lines"
+            ],
+            [
+              "<polyline>",
+              "points (x,y pairs)",
+              "Line charts, open polygons"
+            ],
+            [
+              "<polygon>",
+              "points (x,y pairs, auto-closed)",
+              "Stars, triangles, custom markers"
+            ],
+            [
+              "<path>",
+              "d (path data string)",
+              "Any shape: icons, logos, curves, arcs"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "SVG Shapes Reference and a Path-Built Icon Set",
+          "description": "This example shows all seven shape elements with their key attributes annotated, then builds three common UI icons entirely from path elements to demonstrate the d attribute command vocabulary. It also shows stroke-dasharray and stroke-dashoffset for the drawing animation technique.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>SVG Shapes and Paths</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    svg  { display: block; }\n    /* Drawing animation */\n    @keyframes draw { from { stroke-dashoffset: 300; } to { stroke-dashoffset: 0; } }\n    .draw { stroke-dasharray: 300; stroke-dashoffset: 300;\n            animation: draw 1.4s ease forwards .3s; }\n    /* Icon grid */\n    .icon-row { display: flex; gap: 1.5rem; align-items: center;\n                flex-wrap: wrap; margin-top: .75rem; }\n    .icon-item { display: flex; flex-direction: column;\n                 align-items: center; gap: .4rem; }\n    .icon-item span { font-size: .72rem; color: #64748b;\n                      font-family: monospace; }\n  </style>\n</head>\n<body>\n\n  <h1>SVG Shapes and Path Reference</h1>\n\n\n  <!-- ALL SEVEN SHAPES -->\n  <h2>1. All Seven Shape Elements</h2>\n  <svg viewBox=\"0 0 700 100\" width=\"100%\" aria-hidden=\"true\">\n\n    <!-- rect: x, y, width, height, rx for corner radius -->\n    <rect x=\"10\" y=\"10\" width=\"80\" height=\"80\"\n          rx=\"10\" ry=\"10\"\n          fill=\"#2563eb\"/>\n    <text x=\"50\" y=\"110\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">rect</text>\n\n    <!-- circle: centre cx,cy and radius r -->\n    <circle cx=\"150\" cy=\"50\" r=\"40\"\n            fill=\"#7c3aed\"/>\n    <text x=\"150\" y=\"110\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">circle</text>\n\n    <!-- ellipse: separate x and y radii -->\n    <ellipse cx=\"260\" cy=\"50\" rx=\"55\" ry=\"30\"\n             fill=\"#0891b2\"/>\n    <text x=\"260\" y=\"110\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">ellipse</text>\n\n    <!-- line: two points; needs stroke -->\n    <line x1=\"340\" y1=\"15\" x2=\"390\" y2=\"85\"\n          stroke=\"#16a34a\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n    <text x=\"365\" y=\"110\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">line</text>\n\n    <!-- polyline: open path through multiple points -->\n    <polyline points=\"420,80 440,30 460,60 480,20 500,80\"\n              fill=\"none\" stroke=\"#dc2626\" stroke-width=\"3\"\n              stroke-linejoin=\"round\"/>\n    <text x=\"460\" y=\"110\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">polyline</text>\n\n    <!-- polygon: closed path; last point connects back to first -->\n    <polygon points=\"555,15 575,80 535,80\"\n             fill=\"#ca8a04\"/>\n    <text x=\"555\" y=\"110\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">polygon</text>\n\n    <!-- path: arbitrary shape with d commands -->\n    <path d=\"M 610,50 m -35,0 a 35,35 0 1,0 70,0 a 35,35 0 1,0 -70,0\n             M 595,50 L 608,63 L 630,38\"\n          fill=\"none\" stroke=\"#16a34a\" stroke-width=\"4\"\n          stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    <text x=\"610\" y=\"110\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">path</text>\n  </svg>\n\n\n  <!-- PATH d COMMAND REFERENCE -->\n  <h2>2. Path d Command Vocabulary</h2>\n  <svg viewBox=\"0 0 700 140\" width=\"100%\" aria-hidden=\"true\">\n\n    <!-- M + L: moveto and lineto -->\n    <path d=\"M 20,120 L 80,20 L 140,120 Z\"\n          fill=\"#eff6ff\" stroke=\"#2563eb\" stroke-width=\"2\"/>\n    <text x=\"80\" y=\"135\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">M L Z</text>\n\n    <!-- H + V: horizontal and vertical lines -->\n    <path d=\"M 180,120 H 280 V 20 H 180\"\n          fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2\"\n          stroke-dasharray=\"4 2\"/>\n    <text x=\"230\" y=\"135\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">H V</text>\n\n    <!-- C: cubic bezier -->\n    <path d=\"M 310,120 C 320,20 400,20 410,120\"\n          fill=\"none\" stroke=\"#0891b2\" stroke-width=\"3\"\n          stroke-linecap=\"round\" class=\"draw\"/>\n    <text x=\"360\" y=\"135\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">C (cubic)</text>\n\n    <!-- Q: quadratic bezier -->\n    <path d=\"M 440,120 Q 490,20 540,120\"\n          fill=\"none\" stroke=\"#dc2626\" stroke-width=\"3\"\n          stroke-linecap=\"round\" class=\"draw\"/>\n    <text x=\"490\" y=\"135\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">Q (quadratic)</text>\n\n    <!-- A: arc (part of a circle) -->\n    <path d=\"M 570,120 A 60,60 0 0,1 680,120\"\n          fill=\"none\" stroke=\"#ca8a04\" stroke-width=\"3\"\n          stroke-linecap=\"round\" class=\"draw\"/>\n    <text x=\"625\" y=\"135\" text-anchor=\"middle\"\n          font-size=\"9\" fill=\"#64748b\" font-family=\"monospace\">A (arc)</text>\n  </svg>\n\n\n  <!-- ICON SET BUILT FROM PATHS -->\n  <h2>3. UI Icons Built from path Elements</h2>\n  <div class=\"icon-row\">\n\n    <div class=\"icon-item\">\n      <!-- Home icon -->\n      <svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" aria-hidden=\"true\">\n        <path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"\n              fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\"\n              stroke-linejoin=\"round\"/>\n        <polyline points=\"9 22 9 12 15 12 15 22\"\n                  fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\"\n                  stroke-linejoin=\"round\"/>\n      </svg>\n      <span>home</span>\n    </div>\n\n    <div class=\"icon-item\">\n      <!-- Bell icon -->\n      <svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" aria-hidden=\"true\">\n        <path d=\"M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9\"\n              fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2\"\n              stroke-linejoin=\"round\"/>\n        <path d=\"M13.73 21a2 2 0 0 1-3.46 0\"\n              fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2\"\n              stroke-linecap=\"round\"/>\n      </svg>\n      <span>bell</span>\n    </div>\n\n    <div class=\"icon-item\">\n      <!-- Settings / gear icon -->\n      <svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" aria-hidden=\"true\">\n        <circle cx=\"12\" cy=\"12\" r=\"3\"\n                fill=\"none\" stroke=\"#0891b2\" stroke-width=\"2\"/>\n        <path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06\n                 a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33\n                 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09\n                 A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06\n                 a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15\n                 a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09\n                 A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06\n                 a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68\n                 a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09\n                 a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06\n                 a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9\n                 a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09\n                 a1.65 1.65 0 0 0-1.51 1z\"\n              fill=\"none\" stroke=\"#0891b2\" stroke-width=\"2\"\n              stroke-linejoin=\"round\"/>\n      </svg>\n      <span>settings</span>\n    </div>\n\n    <div class=\"icon-item\">\n      <!-- Search icon -->\n      <svg viewBox=\"0 0 24 24\" width=\"48\" height=\"48\" aria-hidden=\"true\">\n        <circle cx=\"11\" cy=\"11\" r=\"8\"\n                fill=\"none\" stroke=\"#dc2626\" stroke-width=\"2\"/>\n        <line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"\n              stroke=\"#dc2626\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n      </svg>\n      <span>search</span>\n    </div>\n\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders three sections. The first shows all seven shape elements side by side with monospace labels: blue rounded rect, purple circle, teal ellipse, green diagonal line, red polyline chart, yellow triangle polygon, and a green path checkmark. The second shows five path command demonstrations: a filled triangle using M L Z, a dashed box using H V, a cubic bezier curve animating in, a quadratic bezier animating in, and an arc animating in. The third shows four UI icons built from path elements with labels: home, bell, settings gear, and search.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<path>",
+              "highlight": true
+            },
+            {
+              "value": " element is the universal shape. Every other SVG shape element is syntactic sugar over a path. A "
+            },
+            {
+              "value": "<circle>",
+              "highlight": true
+            },
+            {
+              "value": " is two arc commands. A "
+            },
+            {
+              "value": "<rect>",
+              "highlight": true
+            },
+            {
+              "value": " is four line commands. Using the specialised elements is preferred for readability and accessibility, but understanding that all shapes reduce to "
+            },
+            {
+              "value": "d",
+              "highlight": true
+            },
+            {
+              "value": " attribute commands explains why "
+            },
+            {
+              "value": "<path>",
+              "highlight": true
+            },
+            {
+              "value": " can represent any conceivable shape."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "stroke-dasharray",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "stroke-dashoffset",
+              "highlight": true
+            },
+            {
+              "value": " properties animate the visible portion of a stroke. Setting "
+            },
+            {
+              "value": "stroke-dasharray",
+              "highlight": true
+            },
+            {
+              "value": " to the total path length creates a stroke that is one long dash. Setting "
+            },
+            {
+              "value": "stroke-dashoffset",
+              "highlight": true
+            },
+            {
+              "value": " to the same length hides it entirely. Animating "
+            },
+            {
+              "value": "stroke-dashoffset",
+              "highlight": true
+            },
+            {
+              "value": " to zero reveals the path progressively, producing the drawing effect seen on page load."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "SVG Path Editor",
+              "bold": true,
+              "link": "https://yqnn.github.io/svg-path-editor/"
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "Figma",
+              "bold": true
+            },
+            {
+              "value": " to build and export path data visually rather than writing "
+            },
+            {
+              "value": "d",
+              "highlight": true
+            },
+            {
+              "value": " attribute strings by hand. Export the path, paste it into HTML, and add "
+            },
+            {
+              "value": "fill='none' stroke='currentColor'",
+              "highlight": true
+            },
+            {
+              "value": " to make it theme-aware. All major design tools export SVG paths that work directly in HTML."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML SVG Graphics",
+        "SVG Coordinate System and viewBox",
+        "SVG Accessibility"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 3,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 15,
+      "slug": "svg-accessibility",
+      "title": "SVG Accessibility",
+      "description": "Accessible SVG uses role, title, desc, and aria attributes so screen readers convey image meaning.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "An inline "
+            },
+            {
+              "value": "<svg>",
+              "highlight": true
+            },
+            {
+              "value": " without accessibility attributes is announced inconsistently across screen readers. The three patterns cover all cases. "
+            },
+            {
+              "value": "Decorative SVG",
+              "bold": true
+            },
+            {
+              "value": ": add "
+            },
+            {
+              "value": "aria-hidden='true'",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "focusable='false'",
+              "highlight": true
+            },
+            {
+              "value": " (the "
+            },
+            {
+              "value": "focusable",
+              "highlight": true
+            },
+            {
+              "value": " attribute prevents IE/Edge from tabbing into the SVG). "
+            },
+            {
+              "value": "Meaningful standalone SVG",
+              "bold": true
+            },
+            {
+              "value": ": add "
+            },
+            {
+              "value": "role='img'",
+              "highlight": true
+            },
+            {
+              "value": ", a "
+            },
+            {
+              "value": "<title>",
+              "highlight": true
+            },
+            {
+              "value": " as the first child, an optional "
+            },
+            {
+              "value": "<desc>",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "aria-labelledby",
+              "highlight": true
+            },
+            {
+              "value": " pointing to both. "
+            },
+            {
+              "value": "Icon inside a labelled button",
+              "bold": true
+            },
+            {
+              "value": ": "
+            },
+            {
+              "value": "aria-hidden='true'",
+              "highlight": true
+            },
+            {
+              "value": " on the SVG; the accessible name comes from the button label. Reference: "
+            },
+            {
+              "value": "CSS-Tricks: accessible SVG",
+              "link": "https://css-tricks.com/accessible-svgs/"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "SVG context",
+            "Pattern",
+            "Key attributes"
+          ],
+          "rows": [
+            [
+              "Decorative icon in button with text",
+              "aria-hidden + focusable=false",
+              "aria-hidden='true' focusable='false' on svg"
+            ],
+            [
+              "Icon-only button",
+              "aria-label on button",
+              "aria-label='...' on button; aria-hidden on svg"
+            ],
+            [
+              "Standalone informational graphic",
+              "role=img + title + aria-labelledby",
+              "role='img' aria-labelledby='title-id'"
+            ],
+            [
+              "Complex chart with data",
+              "role=img + title + desc + aria-describedby",
+              "title + desc + long description or data table"
+            ],
+            [
+              "Interactive SVG elements",
+              "role=button/checkbox on child elements",
+              "role, aria-label, tabindex on path/g"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "All SVG Accessibility Patterns in One Reference",
+          "description": "This example implements all five SVG accessibility contexts: decorative icon, icon-only button, standalone meaningful SVG, complex chart with a data table fallback, and interactive SVG element. Each is annotated with the ARIA attributes required and the screen reader announcement it produces.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>SVG Accessibility</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    button { display: inline-flex; align-items: center; gap: .5rem;\n             padding: .5rem 1rem; background: #2563eb; color: #fff;\n             border: none; border-radius: 6px; cursor: pointer;\n             font-size: .9rem; }\n    .icon { width: 20px; height: 20px; flex-shrink: 0; }\n    /* Visually hidden but available to screen readers */\n    .sr-only { position: absolute; width: 1px; height: 1px;\n               padding: 0; margin: -1px; overflow: hidden;\n               clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n    /* Interactive SVG element */\n    .toggle-btn { cursor: pointer; outline-offset: 3px; }\n    .toggle-btn:focus { outline: 2px solid #2563eb; }\n    .toggle-btn:hover rect { fill: #1d4ed8; }\n  </style>\n</head>\n<body>\n\n  <h1>SVG Accessibility Patterns</h1>\n\n\n  <!-- PATTERN 1: Decorative icon beside text -->\n  <h2>1. Decorative Icon (aria-hidden)</h2>\n  <!--\n    Screen reader announces: \"Save changes, button\"\n    The SVG is skipped entirely.\n    focusable=\"false\" prevents IE/Edge from tabbing into SVG.\n  -->\n  <button>\n    <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"\n         viewBox=\"0 0 24 24\">\n      <path d=\"M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11\n               a2 2 0 0 1-2 2z\"\n            fill=\"none\" stroke=\"currentColor\"\n            stroke-width=\"2\" stroke-linejoin=\"round\"/>\n      <polyline points=\"17 21 17 13 7 13 7 21\"\n                fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n      <polyline points=\"7 3 7 8 15 8\"\n                fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n    </svg>\n    Save changes\n  </button>\n\n\n  <!-- PATTERN 2: Icon-only button -->\n  <h2>2. Icon-Only Button (aria-label on button)</h2>\n  <!--\n    Screen reader announces: \"Close dialog, button\"\n    aria-label on the button is the accessible name.\n    SVG is aria-hidden because the button label describes the action.\n  -->\n  <button aria-label=\"Close dialog\" style=\"padding:.5rem;\">\n    <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"\n         viewBox=\"0 0 24 24\">\n      <line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"\n            stroke=\"currentColor\" stroke-width=\"2.5\"\n            stroke-linecap=\"round\"/>\n      <line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"\n            stroke=\"currentColor\" stroke-width=\"2.5\"\n            stroke-linecap=\"round\"/>\n    </svg>\n  </button>\n\n\n  <!-- PATTERN 3: Standalone meaningful SVG -->\n  <h2>3. Standalone Meaningful SVG (role=img + title)</h2>\n  <!--\n    Screen reader announces: \"Enrolment growth chart, image\"\n    role=\"img\" tells screen readers this is an image.\n    aria-labelledby links to the <title> id for the accessible name.\n    <desc> provides additional detail for complex graphics.\n  -->\n  <svg viewBox=\"0 0 240 120\" width=\"240\"\n       role=\"img\"\n       aria-labelledby=\"chart-title chart-desc\">\n    <!-- title: accessible name (read first) -->\n    <title id=\"chart-title\">Enrolment growth chart</title>\n    <!-- desc: accessible description (read after title) -->\n    <desc id=\"chart-desc\">\n      Monthly enrolments from January to June 2024:\n      120, 145, 132, 168, 155, 190.\n    </desc>\n    <!-- Chart visual -->\n    <polyline\n      points=\"20,100 60,75 100,85 140,50 180,62 220,25\"\n      fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\"\n      stroke-linejoin=\"round\" stroke-linecap=\"round\"/>\n    <circle cx=\"20\" cy=\"100\" r=\"4\" fill=\"#2563eb\"/>\n    <circle cx=\"60\" cy=\"75\"  r=\"4\" fill=\"#2563eb\"/>\n    <circle cx=\"100\" cy=\"85\" r=\"4\" fill=\"#2563eb\"/>\n    <circle cx=\"140\" cy=\"50\" r=\"4\" fill=\"#2563eb\"/>\n    <circle cx=\"180\" cy=\"62\" r=\"4\" fill=\"#2563eb\"/>\n    <circle cx=\"220\" cy=\"25\" r=\"4\" fill=\"#2563eb\"/>\n  </svg>\n\n\n  <!-- PATTERN 4: Complex chart with accessible data table -->\n  <h2>4. Complex Chart with Data Table Alternative</h2>\n  <!--\n    For charts with many data points, the SVG visual is aria-hidden.\n    The data is provided in a real <table> for screen reader users.\n    Sighted users see the chart; screen reader users read the table.\n  -->\n  <svg viewBox=\"0 0 240 80\" width=\"240\" aria-hidden=\"true\">\n    <rect x=\"20\" y=\"40\" width=\"30\" height=\"35\" fill=\"#2563eb\"/>\n    <rect x=\"60\" y=\"25\" width=\"30\" height=\"50\" fill=\"#2563eb\"/>\n    <rect x=\"100\" y=\"15\" width=\"30\" height=\"60\" fill=\"#2563eb\"/>\n    <rect x=\"140\" y=\"30\" width=\"30\" height=\"45\" fill=\"#2563eb\"/>\n    <rect x=\"180\" y=\"10\" width=\"30\" height=\"65\" fill=\"#2563eb\"/>\n  </svg>\n  <!-- Accessible data for screen readers -->\n  <table style=\"font-size:.82rem;border-collapse:collapse;\">\n    <caption>Q1 2024 Monthly Enrolments</caption>\n    <thead>\n      <tr>\n        <th scope=\"col\">Month</th>\n        <th scope=\"col\">Enrolments</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\">February</th><td>240</td></tr>\n      <tr><th scope=\"row\">March</th><td>310</td></tr>\n      <tr><th scope=\"row\">April</th><td>380</td></tr>\n      <tr><th scope=\"row\">May</th><td>290</td></tr>\n      <tr><th scope=\"row\">June</th><td>420</td></tr>\n    </tbody>\n  </table>\n\n\n  <!-- PATTERN 5: Interactive SVG element -->\n  <h2>5. Interactive SVG Element (role + tabindex)</h2>\n  <!--\n    An SVG child element acting as a button needs:\n    role=\"button\" to announce as interactive\n    tabindex=\"0\" to be keyboard-focusable\n    aria-label for the accessible name\n    keydown handler for Enter and Space\n  -->\n  <svg viewBox=\"0 0 120 50\" width=\"180\" aria-hidden=\"false\">\n    <g role=\"button\" tabindex=\"0\"\n       aria-label=\"Toggle dark mode\"\n       class=\"toggle-btn\"\n       onclick=\"this.querySelector('rect').setAttribute('fill', '#1d4ed8')\"\n       onkeydown=\"if(event.key==='Enter'||event.key===' ')this.click()\">\n      <rect x=\"5\" y=\"5\" width=\"110\" height=\"40\" rx=\"8\"\n            fill=\"#2563eb\"/>\n      <text x=\"60\" y=\"30\" text-anchor=\"middle\"\n            font-size=\"13\" fill=\"#fff\"\n            pointer-events=\"none\">Toggle Dark Mode</text>\n    </g>\n  </svg>\n\n</body>\n</html>",
+          "output": "Page renders five SVG accessibility patterns. The decorative icon button shows a save icon beside 'Save changes' text; screen readers skip the SVG and announce only the button label. The icon-only close button uses an aria-label. The standalone chart SVG shows a line chart with title and desc elements for screen reader announcement. The complex chart shows a bar chart with aria-hidden while a real accessible data table below provides the numbers. The interactive SVG element shows a blue button built from a g element with role='button' and tabindex='0'.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The accessibility contract for SVG mirrors that for "
+            },
+            {
+              "value": "<img>",
+              "highlight": true
+            },
+            {
+              "value": ": every graphic must either have a text alternative or be hidden from assistive technology. "
+            },
+            {
+              "value": "aria-hidden='true'",
+              "highlight": true
+            },
+            {
+              "value": " is the SVG equivalent of "
+            },
+            {
+              "value": "alt=''",
+              "highlight": true
+            },
+            {
+              "value": " on an img: it tells assistive tools this element carries no information worth announcing. "
+            },
+            {
+              "value": "role='img'",
+              "highlight": true
+            },
+            {
+              "value": " with a "
+            },
+            {
+              "value": "<title>",
+              "highlight": true
+            },
+            {
+              "value": " is the SVG equivalent of "
+            },
+            {
+              "value": "alt='descriptive text'",
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Complex data charts present a harder accessibility problem than icons. A line chart with 50 data points cannot have a useful 50-word alt text. The recommended pattern is to hide the SVG with "
+            },
+            {
+              "value": "aria-hidden='true'",
+              "highlight": true
+            },
+            {
+              "value": " and provide the same data in an accessible "
+            },
+            {
+              "value": "<table>",
+              "highlight": true
+            },
+            {
+              "value": " nearby. Sighted users see the visual chart. Screen reader users navigate the table. Both get the same information through the medium that works best for them."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Test SVG accessibility by pressing "
+            },
+            {
+              "value": "F key",
+              "bold": true
+            },
+            {
+              "value": " in NVDA or "
+            },
+            {
+              "value": "Tab",
+              "bold": true
+            },
+            {
+              "value": " through the page with VoiceOver to verify that decorative SVGs are not in the tab order and that meaningful SVGs are announced correctly. Also set "
+            },
+            {
+              "value": "focusable='false'",
+              "highlight": true
+            },
+            {
+              "value": " on every decorative inline SVG as some versions of IE and legacy Edge make SVG elements focusable by default."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML SVG Graphics",
+        "Alt Attribute Usage",
+        "Accessibility and ARIA"
+      ],
+      "is_active": true,
+      "order_index": 3,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 4,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 15,
+      "slug": "svg-sprite-pattern",
+      "title": "SVG Sprite Pattern",
+      "description": "The SVG sprite pattern defines icons once in symbol elements and reuses them via use references.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The SVG sprite pattern stores all icons in a single hidden "
+            },
+            {
+              "value": "<svg>",
+              "highlight": true
+            },
+            {
+              "value": " block using "
+            },
+            {
+              "value": "<symbol>",
+              "highlight": true
+            },
+            {
+              "value": " elements, each with a unique "
+            },
+            {
+              "value": "id",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "viewBox",
+              "highlight": true
+            },
+            {
+              "value": ". Icons are rendered using "
+            },
+            {
+              "value": "<use href='#id'>",
+              "highlight": true
+            },
+            {
+              "value": " anywhere in the document. The "
+            },
+            {
+              "value": "<symbol>",
+              "highlight": true
+            },
+            {
+              "value": " element is never rendered directly; it is only a definition. "
+            },
+            {
+              "value": "<use>",
+              "highlight": true
+            },
+            {
+              "value": " creates a shadow DOM clone of the referenced element at the location of the "
+            },
+            {
+              "value": "<use>",
+              "highlight": true
+            },
+            {
+              "value": " element. CSS "
+            },
+            {
+              "value": "color",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "currentColor",
+              "highlight": true
+            },
+            {
+              "value": " cascade through "
+            },
+            {
+              "value": "<use>",
+              "highlight": true
+            },
+            {
+              "value": " into the symbol. For external sprite files, use "
+            },
+            {
+              "value": "<use href='/icons.svg#icon-name'>",
+              "highlight": true
+            },
+            {
+              "value": ". Reference: "
+            },
+            {
+              "value": "MDN: use element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Inline SVG Sprite Sheet with currentColor Theming",
+          "description": "This example builds a complete inline SVG sprite sheet, demonstrates that the same symbol can be rendered at different sizes and colours with a single use element each, shows how currentColor inherits from CSS, and demonstrates the external sprite file pattern using href pointing to an SVG file.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>SVG Sprite Pattern</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    /* Icon sizing helper classes */\n    .icon-sm  { width: 16px; height: 16px; }\n    .icon-md  { width: 24px; height: 24px; }\n    .icon-lg  { width: 48px; height: 48px; }\n    .icon-xl  { width: 64px; height: 64px; }\n    /* currentColor: icon inherits text color of parent */\n    .text-blue   { color: #2563eb; }\n    .text-purple { color: #7c3aed; }\n    .text-green  { color: #16a34a; }\n    .text-red    { color: #dc2626; }\n    .text-gold   { color: #ca8a04; }\n    /* Row layout */\n    .row { display: flex; align-items: center; gap: 1rem;\n           flex-wrap: wrap; margin: .75rem 0; }\n    /* Nav bar using sprites */\n    nav.icon-nav { background: #0f172a; display: flex;\n                   gap: 1.5rem; padding: .75rem 1.25rem;\n                   border-radius: 8px; }\n    nav.icon-nav a { color: #94a3b8; display: flex;\n                     align-items: center; gap: .4rem;\n                     text-decoration: none; font-size: .85rem;\n                     transition: color .15s; }\n    nav.icon-nav a:hover { color: #f8fafc; }\n    /* Button using sprite */\n    .btn { display: inline-flex; align-items: center; gap: .4rem;\n           padding: .45rem .9rem; border: none; border-radius: 6px;\n           background: #2563eb; color: #fff; cursor: pointer;\n           font-size: .88rem; }\n  </style>\n</head>\n<body>\n\n  <!--\n    ============================================================\n    SVG SPRITE SHEET\n    Place as early in <body> as possible.\n    aria-hidden + focusable=false: hidden from all assistive tools.\n    position:absolute; width:0; height:0: takes up no page space.\n    Each <symbol> defines one icon with its own viewBox.\n    ============================================================\n  -->\n  <svg aria-hidden=\"true\" focusable=\"false\"\n       style=\"position:absolute;width:0;height:0;overflow:hidden\">\n    <defs>\n\n      <symbol id=\"sp-home\" viewBox=\"0 0 24 24\">\n        <path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n              stroke-linejoin=\"round\"/>\n        <polyline points=\"9 22 9 12 15 12 15 22\"\n                  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n      </symbol>\n\n      <symbol id=\"sp-search\" viewBox=\"0 0 24 24\">\n        <circle cx=\"11\" cy=\"11\" r=\"8\"\n                fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/>\n        <line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"\n              stroke=\"currentColor\" stroke-width=\"2\"\n              stroke-linecap=\"round\"/>\n      </symbol>\n\n      <symbol id=\"sp-bell\" viewBox=\"0 0 24 24\">\n        <path d=\"M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n              stroke-linejoin=\"round\"/>\n        <path d=\"M13.73 21a2 2 0 0 1-3.46 0\"\n              fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n              stroke-linecap=\"round\"/>\n      </symbol>\n\n      <symbol id=\"sp-check\" viewBox=\"0 0 24 24\">\n        <polyline points=\"20 6 9 17 4 12\"\n                  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"\n                  stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n      </symbol>\n\n      <symbol id=\"sp-star\" viewBox=\"0 0 24 24\">\n        <polygon\n          points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02\n                  12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"\n          fill=\"currentColor\" stroke=\"currentColor\"\n          stroke-width=\"1\" stroke-linejoin=\"round\"/>\n      </symbol>\n\n    </defs>\n  </svg>\n\n\n  <h1>SVG Sprite Pattern</h1>\n\n\n  <!-- SAME SYMBOL, DIFFERENT SIZES -->\n  <h2>1. Same Symbol at Multiple Sizes</h2>\n  <div class=\"row\">\n    <svg class=\"icon-sm text-blue\" aria-hidden=\"true\" focusable=\"false\">\n      <use href=\"#sp-bell\"/>\n    </svg>\n    <svg class=\"icon-md text-blue\" aria-hidden=\"true\" focusable=\"false\">\n      <use href=\"#sp-bell\"/>\n    </svg>\n    <svg class=\"icon-lg text-blue\" aria-hidden=\"true\" focusable=\"false\">\n      <use href=\"#sp-bell\"/>\n    </svg>\n    <svg class=\"icon-xl text-blue\" aria-hidden=\"true\" focusable=\"false\">\n      <use href=\"#sp-bell\"/>\n    </svg>\n  </div>\n\n\n  <!-- SAME SYMBOL, DIFFERENT COLOURS VIA CSS color -->\n  <h2>2. Same Symbol, Different Colors via currentColor</h2>\n  <div class=\"row\">\n    <svg class=\"icon-lg text-blue\"   aria-hidden=\"true\" focusable=\"false\"><use href=\"#sp-star\"/></svg>\n    <svg class=\"icon-lg text-purple\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#sp-star\"/></svg>\n    <svg class=\"icon-lg text-green\"  aria-hidden=\"true\" focusable=\"false\"><use href=\"#sp-star\"/></svg>\n    <svg class=\"icon-lg text-red\"    aria-hidden=\"true\" focusable=\"false\"><use href=\"#sp-star\"/></svg>\n    <svg class=\"icon-lg text-gold\"   aria-hidden=\"true\" focusable=\"false\"><use href=\"#sp-star\"/></svg>\n  </div>\n\n\n  <!-- NAVIGATION WITH SPRITES -->\n  <h2>3. Navigation Bar Using Sprite Icons</h2>\n  <nav class=\"icon-nav\" aria-label=\"Main navigation\">\n    <a href=\"/\">\n      <svg class=\"icon-md\" aria-hidden=\"true\" focusable=\"false\">\n        <use href=\"#sp-home\"/>\n      </svg>\n      Home\n    </a>\n    <a href=\"/search\">\n      <svg class=\"icon-md\" aria-hidden=\"true\" focusable=\"false\">\n        <use href=\"#sp-search\"/>\n      </svg>\n      Search\n    </a>\n    <a href=\"/notifications\">\n      <svg class=\"icon-md\" aria-hidden=\"true\" focusable=\"false\">\n        <use href=\"#sp-bell\"/>\n      </svg>\n      Alerts\n    </a>\n  </nav>\n\n\n  <!-- BUTTON WITH SPRITE -->\n  <h2>4. Button with Sprite Icon</h2>\n  <button class=\"btn\">\n    <svg class=\"icon-md\" aria-hidden=\"true\" focusable=\"false\">\n      <use href=\"#sp-check\"/>\n    </svg>\n    Mark complete\n  </button>\n\n\n  <!-- EXTERNAL SPRITE FILE PATTERN -->\n  <h2>5. External Sprite File Pattern</h2>\n  <pre style=\"background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;\n       padding:.75rem;font-size:.82rem;overflow-x:auto;\n\">&lt;!-- External sprite: href points to a static SVG file --&gt;\n&lt;svg class=\"icon-md\" aria-hidden=\"true\" focusable=\"false\"&gt;\n  &lt;use href=\"/icons/sprite.svg#sp-home\"&gt;&lt;/use&gt;\n&lt;/svg&gt;\n\n&lt;!-- Note: external href only works same-origin or with CORS headers.\n     Inline sprite avoids the CORS restriction entirely. --&gt;</pre>\n\n</body>\n</html>",
+          "output": "Page renders the hidden sprite sheet block followed by four demo sections. The sizes section shows the same bell icon at 16px, 24px, 48px, and 64px, all from a single symbol definition. The colour section shows five identical star icons in blue, purple, green, red, and gold, all using CSS color with currentColor. The navigation bar shows a dark nav row with home, search, and alerts icons beside link text. The button shows a white checkmark icon beside 'Mark complete' text. The external sprite code block shows the href pattern for file-based sprites.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<symbol>",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "<use>",
+              "highlight": true
+            },
+            {
+              "value": " pattern is the SVG equivalent of CSS class definitions. Define the shape once in "
+            },
+            {
+              "value": "<symbol>",
+              "highlight": true
+            },
+            {
+              "value": ", reference it many times with "
+            },
+            {
+              "value": "<use>",
+              "highlight": true
+            },
+            {
+              "value": ". Each "
+            },
+            {
+              "value": "<use>",
+              "highlight": true
+            },
+            {
+              "value": " creates an independent rendered copy. Changing the "
+            },
+            {
+              "value": "<symbol>",
+              "highlight": true
+            },
+            {
+              "value": " definition updates every "
+            },
+            {
+              "value": "<use>",
+              "highlight": true
+            },
+            {
+              "value": " reference automatically, making icon updates a single-point change."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The reason all icon paths use "
+            },
+            {
+              "value": "stroke='currentColor'",
+              "highlight": true
+            },
+            {
+              "value": " rather than a hardcoded hex colour is that "
+            },
+            {
+              "value": "currentColor",
+              "highlight": true
+            },
+            {
+              "value": " resolves to the CSS "
+            },
+            {
+              "value": "color",
+              "highlight": true
+            },
+            {
+              "value": " property at render time. The icon inherits its colour from the nearest ancestor with an explicit "
+            },
+            {
+              "value": "color",
+              "highlight": true
+            },
+            {
+              "value": " rule. Setting "
+            },
+            {
+              "value": "color: red",
+              "highlight": true
+            },
+            {
+              "value": " on any parent element changes every icon inside it from blue to red without touching the SVG at all."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "Iconify",
+              "bold": true,
+              "link": "https://iconify.design/"
+            },
+            {
+              "value": " to access over 200,000 open-source icons as inline SVG. Paste any icon ID into the Iconify API and receive the optimised SVG path data ready to paste into a "
+            },
+            {
+              "value": "<symbol>",
+              "highlight": true
+            },
+            {
+              "value": " element. Popular icon sets include Heroicons, Lucide, Phosphor, and Material Symbols, all available as clean "
+            },
+            {
+              "value": "viewBox='0 0 24 24'",
+              "highlight": true
+            },
+            {
+              "value": " paths with "
+            },
+            {
+              "value": "currentColor",
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML SVG Graphics",
+        "SVG Accessibility",
+        "SVG Shapes and Path Elements"
+      ],
+      "is_active": true,
+      "order_index": 4,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML SVG Graphics | Shapes, Paths, Accessibility, and Sprite Pattern",
+    "meta_description": "Master SVG in HTML: inline SVG shapes and paths, viewBox coordinate system, accessible SVG with role and title, SVG sprite pattern with symbol and use elements.",
+    "keywords": [
+      "HTML SVG graphics",
+      "SVG inline HTML",
+      "SVG viewBox attribute",
+      "SVG shapes path elements",
+      "SVG accessibility role img",
+      "SVG sprite pattern symbol use",
+      "SVG currentColor CSS",
+      "SVG title desc aria",
+      "SVG animation CSS",
+      "SVG vs PNG icons"
+    ],
+    "canonical_url": "/html/html-svg-graphics",
+    "robots": "index, follow"
+  }
+}

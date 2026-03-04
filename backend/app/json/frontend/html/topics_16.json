@@ -220,7 +220,8 @@
           {
             "value": "."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -234,7 +235,8 @@
           {
             "value": " when items belong to the same group but order is incidental: navigation links, product features, ingredients, and tag lists can be reshuffled without losing meaning."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -269,7 +271,8 @@
           {
             "value": " applied in CSS to restore the ARIA list role removed by Safari VoiceOver."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "when_to_avoid": [
@@ -306,7 +309,8 @@
           {
             "value": " instead, as list elements carry ARIA semantics that mislead screen reader users."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -348,7 +352,8 @@
           {
             "value": " elements."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -383,7 +388,8 @@
           {
             "value": ", not a direct child of the parent list."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "what_it_solves": [
@@ -420,7 +426,8 @@
           {
             "value": " elements cannot provide."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -448,7 +455,8 @@
           {
             "value": " attributes to express complex numbering schemes (alphabetic, Roman, resuming from a mid-point) without JavaScript or manual numbering."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -476,7 +484,8 @@
           {
             "value": " selectors, enabling dividers, spacing, and marker customisation without wrapper elements."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "conceptual_understanding": [
@@ -534,7 +543,8 @@
           {
             "value": ")."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -569,7 +579,8 @@
           {
             "value": ". The combination of styled appearance and explicit role covers both sighted and non-sighted users correctly."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -618,7 +629,8 @@
           {
             "value": " first. Browsers attempt error recovery for invalid markup, but the recovered DOM may not match the intended structure, producing unexpected visual and accessibility results."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "common_mistakes": [
@@ -648,7 +660,8 @@
           {
             "value": " silently drops list semantics in Safari VoiceOver."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -676,7 +689,8 @@
           {
             "value": " elements rather than inside them produces invalid HTML."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -690,7 +704,8 @@
           {
             "value": " for visually numbered items that have no real sequence misleads screen reader users."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "bonus_tips": [
@@ -734,7 +749,8 @@
           {
             "value": " structure. This separates visual numbering from HTML semantics, letting assistive tools still read the correct ordered sequence."
           }
-        ]
+        ],
+        "type": "paragraph"
       },
       {
         "text": [
@@ -783,7 +799,8 @@
           {
             "value": " content is typically hidden from screen readers."
           }
-        ]
+        ],
+        "type": "paragraph"
       }
     ],
     "related_topics": [
@@ -988,9 +1005,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -1018,7 +1035,8 @@
             {
               "value": " for a list that is actually unordered (such as a feature list), they break this contract, suggesting a sequence that does not exist."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -1095,10 +1113,11 @@
             {
               "value": " attributes operate on."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -1154,7 +1173,8 @@
             {
               "value": " attribute is presentational and overridden by CSS, so CSS is the single source of truth for visual style."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
@@ -1276,9 +1296,9 @@
       "image_banner_url": null,
       "images": null,
       "video_url": null,
-      "when_to_use": null,
-      "when_to_avoid": null,
-      "what_it_solves": null,
+      "when_to_use": [],
+      "when_to_avoid": [],
+      "what_it_solves": [],
       "conceptual_understanding": [
         {
           "text": [
@@ -1327,7 +1347,8 @@
             {
               "value": " pattern is not a rare edge case but a standard requirement in almost every component library and CSS reset."
             }
-          ]
+          ],
+          "type": "paragraph"
         },
         {
           "text": [
@@ -1355,10 +1376,11 @@
             {
               "value": "'."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
-      "common_mistakes": null,
+      "common_mistakes": [],
       "bonus_tips": [
         {
           "text": [
@@ -1400,7 +1422,8 @@
             {
               "value": " and does not interfere with the accessible list structure."
             }
-          ]
+          ],
+          "type": "paragraph"
         }
       ],
       "related_topics": [
