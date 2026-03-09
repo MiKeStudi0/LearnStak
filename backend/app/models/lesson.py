@@ -1,4 +1,4 @@
-from sqlalchemy import String, Text, ForeignKey, JSON
+from sqlalchemy import Text, ForeignKey, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -15,15 +15,19 @@ class Lesson(Base, TimestampMixin, OrderableMixin, ActiveMixin):
     roadmap_id: Mapped[int] = mapped_column(
         ForeignKey("roadmaps.id", ondelete="CASCADE")
     )
+
     technology_id: Mapped[int] = mapped_column(
         ForeignKey("technologies.id", ondelete="CASCADE")
     )
+
     module_id: Mapped[int] = mapped_column(
         ForeignKey("modules.id", ondelete="CASCADE")
     )
+
     topic_id: Mapped[int] = mapped_column(
         ForeignKey("topics.id", ondelete="CASCADE")
     )
+
     sub_topic_id: Mapped[int] = mapped_column(
         ForeignKey("sub_topics.id", ondelete="CASCADE")
     )
@@ -33,7 +37,7 @@ class Lesson(Base, TimestampMixin, OrderableMixin, ActiveMixin):
     title: Mapped[str] = mapped_column(Text)
     description: Mapped[str | None] = mapped_column(Text)
 
-    # ⭐ MAIN LESSON CONTENT (rich blocks)
+    # ⭐ MAIN LESSON CONTENT
     content: Mapped[list[dict] | None] = mapped_column(JSON)
 
     # Examples
@@ -47,8 +51,13 @@ class Lesson(Base, TimestampMixin, OrderableMixin, ActiveMixin):
     # Learning sections
     when_to_use: Mapped[list[dict] | None] = mapped_column(JSON)
     when_to_avoid: Mapped[list[dict] | None] = mapped_column(JSON)
-    problems: Mapped[list[dict] | None] = mapped_column(JSON)
-    mental_models: Mapped[list[dict] | None] = mapped_column(JSON)
+
+    # ✅ RENAMED
+    what_it_solves: Mapped[list[dict] | None] = mapped_column(JSON)
+
+    # ✅ RENAMED
+    conceptual_understanding: Mapped[list[dict] | None] = mapped_column(JSON)
+
     common_mistakes: Mapped[list[dict] | None] = mapped_column(JSON)
     bonus_tips: Mapped[list[dict] | None] = mapped_column(JSON)
     related_topics: Mapped[list[str] | None] = mapped_column(JSON)

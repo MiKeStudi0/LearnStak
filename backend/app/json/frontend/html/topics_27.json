@@ -1,0 +1,2146 @@
+{
+  "topic": {
+    "id": 28,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 8,
+    "slug": "html-form-validation-and-accessibility",
+    "title": "HTML Form Validation and Accessibility",
+    "description": "Constraint attributes and ARIA error patterns make HTML forms validate and stay accessible to all.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "HTML Form Validation and Accessibility"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "HTML provides two validation layers: "
+          },
+          {
+            "value": "constraint validation",
+            "bold": true
+          },
+          {
+            "value": " runs in the browser before submission, and "
+          },
+          {
+            "value": "server-side validation",
+            "bold": true
+          },
+          {
+            "value": " runs after. The browser checks each control's "
+          },
+          {
+            "value": "ValidityState",
+            "bold": true
+          },
+          {
+            "value": " flags — "
+          },
+          {
+            "value": "valueMissing",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "typeMismatch",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "patternMismatch",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "rangeUnderflow",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "rangeOverflow",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "tooShort",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "tooLong",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "stepMismatch",
+            "highlight": true
+          },
+          {
+            "value": " — when a form is submitted without "
+          },
+          {
+            "value": "novalidate",
+            "highlight": true
+          },
+          {
+            "value": ". The "
+          },
+          {
+            "value": "<datalist>",
+            "highlight": true
+          },
+          {
+            "value": " element provides native autocomplete suggestions to any text, email, or url input via the "
+          },
+          {
+            "value": "list",
+            "highlight": true
+          },
+          {
+            "value": " attribute. Accessible forms require that "
+          },
+          {
+            "value": "every error message",
+            "bold": true
+          },
+          {
+            "value": " be linked to its input via "
+          },
+          {
+            "value": "aria-describedby",
+            "highlight": true
+          },
+          {
+            "value": ", every invalid field has "
+          },
+          {
+            "value": "aria-invalid='true'",
+            "highlight": true
+          },
+          {
+            "value": ", and error announcements carry "
+          },
+          {
+            "value": "role='alert'",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "aria-live='assertive'",
+            "highlight": true
+          },
+          {
+            "value": " to notify screen reader users immediately. Reference: "
+          },
+          {
+            "value": "MDN: Constraint validation",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Attribute / property",
+          "Controls",
+          "ValidityState flag",
+          "Notes"
+        ],
+        "rows": [
+          [
+            "required",
+            "All form controls",
+            "valueMissing",
+            "True when field is empty and required"
+          ],
+          [
+            "type (email, url, number)",
+            "Input element",
+            "typeMismatch",
+            "Format must match type's algorithm"
+          ],
+          [
+            "pattern",
+            "text, tel, url, search",
+            "patternMismatch",
+            "Full value must match regex"
+          ],
+          [
+            "min / max",
+            "number, date, time, range",
+            "rangeUnderflow / rangeOverflow",
+            "Value must be within range"
+          ],
+          [
+            "minlength / maxlength",
+            "text, email, password",
+            "tooShort / tooLong",
+            "Character count constraint"
+          ],
+          [
+            "step",
+            "number, date, time, range",
+            "stepMismatch",
+            "Value must be min + n*step"
+          ],
+          [
+            "checkValidity()",
+            "Any form control or form",
+            "Returns ValidityState.valid",
+            "Use in custom validation JS"
+          ],
+          [
+            "setCustomValidity(msg)",
+            "Any form control",
+            "Sets customError flag",
+            "Empty string clears the error"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Client-Side Validation Cannot Replace Server-Side Validation",
+        "text": "Browser constraint validation can be bypassed entirely: users can disable JavaScript, submit via curl, or remove the required attribute with DevTools. Client-side validation improves UX by giving fast feedback without a round-trip. Server-side validation enforces correctness and security. Both are always required — they have different jobs."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Constraint Validation, ValidityState, and Custom Error Messages",
+        "description": "This example shows all ValidityState flags in a live form, setCustomValidity for custom error messages, the Constraint Validation API's checkValidity and reportValidity methods, preventing form submission until all fields are valid, and the difference between native browser validation bubbles and custom accessible error messages.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Constraint Validation Reference</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 680px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    pre   { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n            padding: 1rem; font-size: .82rem; overflow-x: auto;\n            line-height: 1.65; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 1rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field   { display: flex; flex-direction: column; gap: .25rem;\n               margin-bottom: .85rem; }\n    label    { font-size: .88rem; font-weight: 500; color: #374151; }\n    input    { border: 1px solid #d1d5db; border-radius: 6px;\n               padding: .45rem .7rem; font-size: .9rem;\n               font-family: inherit; width: 100%; box-sizing: border-box;\n               transition: border-color .15s; }\n    input:focus  { outline: 2px solid #2563eb; outline-offset: 1px;\n                   border-color: transparent; }\n    input[aria-invalid=\"true\"]  { border-color: #dc2626;\n                                  background: #fff8f8; }\n    input[aria-invalid=\"false\"] { border-color: #16a34a; }\n    .hint  { font-size: .78rem; color: #6b7280; }\n    .error { font-size: .78rem; color: #dc2626;\n             display: none; margin-top: .15rem; }\n    .error.visible { display: block; }\n    .btn   { background: #2563eb; color: #fff; border: none;\n             border-radius: 8px; padding: .6rem 1.5rem;\n             font-size: .9rem; font-weight: 600; cursor: pointer; }\n    .btn:hover { background: #1d4ed8; }\n    .validity-grid {\n      display: grid; grid-template-columns: 1fr 1fr;\n      gap: .5rem; margin: .5rem 0; font-size: .82rem; }\n    .vflag { background: #f8fafc; border: 1px solid #e2e8f0;\n             border-radius: 6px; padding: .35rem .6rem;\n             display: flex; justify-content: space-between; }\n    .vflag.true  { background: #fef2f2; border-color: #fecaca; }\n    .vflag.false { background: #f0fdf4; border-color: #bbf7d0; }\n  </style>\n</head>\n<body>\n\n  <h1>Constraint Validation Reference</h1>\n\n\n  <!-- VALIDITYSTATE EXPLORER -->\n  <h2>1. ValidityState flag explorer</h2>\n  <!--\n    Type in the field and watch the ValidityState flags update\n    in real time. Each flag is a boolean on input.validity.\n    input.validity.valid is true only when ALL flags are false.\n  -->\n  <fieldset>\n    <legend>Live ValidityState inspector</legend>\n    <div class=\"field\">\n      <label for=\"explore\">Test field</label>\n      <input type=\"number\" id=\"explore\"\n             min=\"1\" max=\"10\" step=\"2\"\n             required\n             placeholder=\"Type a value...\">\n      <span class=\"hint\">\n        required, type=\"number\", min=1, max=10, step=2\n      </span>\n    </div>\n    <div class=\"validity-grid\" id=\"vgrid\">\n      <div class=\"vflag\" id=\"f-valueMissing\">valueMissing: —</div>\n      <div class=\"vflag\" id=\"f-typeMismatch\">typeMismatch: —</div>\n      <div class=\"vflag\" id=\"f-patternMismatch\">patternMismatch: —</div>\n      <div class=\"vflag\" id=\"f-rangeUnderflow\">rangeUnderflow: —</div>\n      <div class=\"vflag\" id=\"f-rangeOverflow\">rangeOverflow: —</div>\n      <div class=\"vflag\" id=\"f-stepMismatch\">stepMismatch: —</div>\n      <div class=\"vflag\" id=\"f-tooShort\">tooShort: —</div>\n      <div class=\"vflag\" id=\"f-tooLong\">tooLong: —</div>\n      <div class=\"vflag\" id=\"f-valid\"><strong>valid: —</strong></div>\n    </div>\n  </fieldset>\n\n  <script>\n    (function() {\n      const inp = document.getElementById('explore');\n      const flags = ['valueMissing','typeMismatch','patternMismatch',\n                     'rangeUnderflow','rangeOverflow','stepMismatch',\n                     'tooShort','tooLong','valid'];\n      function update() {\n        const v = inp.validity;\n        flags.forEach(f => {\n          const el = document.getElementById('f-' + f);\n          if (!el) return;\n          const val = v[f];\n          el.className = 'vflag ' + val;\n          el.textContent = (f === 'valid' ? '' : '') + f + ': ' + val;\n          if (f === 'valid') el.innerHTML = '<strong>' + f + ': ' + val + '</strong>';\n        });\n      }\n      inp.addEventListener('input', update);\n      inp.addEventListener('change', update);\n    })();\n  </script>\n\n\n  <!-- CUSTOM VALIDATION: setCustomValidity -->\n  <h2>2. setCustomValidity for server-side async errors</h2>\n  <!--\n    setCustomValidity('message') marks the field invalid with\n    a custom message. The browser treats it as customError=true.\n    setCustomValidity('') clears the custom error.\n    Use case: username availability check via fetch.\n  -->\n  <fieldset>\n    <legend>Username availability check</legend>\n    <div class=\"field\">\n      <label for=\"uname\">Username</label>\n      <input type=\"text\" id=\"uname\" name=\"username\"\n             minlength=\"3\" maxlength=\"20\"\n             pattern=\"[a-zA-Z0-9_]+\"\n             required\n             aria-required=\"true\"\n             aria-describedby=\"uname-hint uname-err\">\n      <span id=\"uname-hint\" class=\"hint\">\n        3-20 chars: letters, numbers, underscores.\n      </span>\n      <span id=\"uname-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n    <button type=\"button\" class=\"btn\"\n            onclick=\"checkUsername()\">Check availability</button>\n  </fieldset>\n\n  <script>\n    async function checkUsername() {\n      const inp = document.getElementById('uname');\n      const err = document.getElementById('uname-err');\n\n      // Clear previous custom error before re-checking\n      inp.setCustomValidity('');\n\n      // First check browser constraint validation\n      if (!inp.checkValidity()) {\n        const v = inp.validity;\n        let msg = 'Invalid username.';\n        if (v.valueMissing)    msg = 'Username is required.';\n        if (v.tooShort)        msg = 'At least 3 characters required.';\n        if (v.patternMismatch) msg = 'Letters, numbers, underscores only.';\n        inp.setAttribute('aria-invalid', 'true');\n        err.textContent = msg;\n        err.classList.add('visible');\n        return;\n      }\n\n      // Simulate async server check (replace with real fetch)\n      const taken = ['admin', 'root', 'priya'];\n      const isTaken = taken.includes(inp.value.toLowerCase());\n\n      if (isTaken) {\n        // setCustomValidity marks the field as invalid for form submission\n        inp.setCustomValidity('Username \"' + inp.value + '\" is already taken.');\n        inp.setAttribute('aria-invalid', 'true');\n        err.textContent = inp.validationMessage; // reads back the set message\n        err.classList.add('visible');\n      } else {\n        inp.setCustomValidity('');\n        inp.setAttribute('aria-invalid', 'false');\n        err.textContent = 'Username is available!';\n        err.style.color = '#16a34a';\n        err.classList.add('visible');\n      }\n    }\n  </script>\n\n\n  <!-- NOVALIDATE + FULL CUSTOM VALIDATION -->\n  <h2>3. novalidate with full custom validation loop</h2>\n  <pre>document.querySelector('form').addEventListener('submit', function(e) {\n  e.preventDefault();\n  let firstInvalid = null;\n\n  this.querySelectorAll('input, select, textarea').forEach(el => {\n    // Clear prior custom errors before re-validating\n    el.setCustomValidity('');\n\n    if (!el.checkValidity()) {\n      const err = document.getElementById(el.id + '-err');\n      const v = el.validity;\n\n      // Build human-readable message from ValidityState flags\n      let msg = el.validationMessage; // browser default\n      if (v.valueMissing)    msg = el.labels[0]?.textContent + ' is required.';\n      if (v.typeMismatch)    msg = 'Please enter a valid ' + el.type + '.';\n      if (v.patternMismatch) msg = el.title || 'Invalid format.';\n      if (v.tooShort)        msg = 'At least ' + el.minLength + ' characters required.';\n      if (v.rangeUnderflow)  msg = 'Minimum value is ' + el.min + '.';\n      if (v.rangeOverflow)   msg = 'Maximum value is ' + el.max + '.';\n\n      el.setAttribute('aria-invalid', 'true');\n      if (err) { err.textContent = msg; err.classList.add('visible'); }\n      if (!firstInvalid) firstInvalid = el;\n    } else {\n      el.setAttribute('aria-invalid', 'false');\n      const err = document.getElementById(el.id + '-err');\n      if (err) err.classList.remove('visible');\n    }\n  });\n\n  // Move focus to first invalid field for screen reader users\n  if (firstInvalid) {\n    firstInvalid.focus();\n  } else {\n    this.submit(); // All valid: allow submission\n  }\n});</pre>\n\n</body>\n</html>",
+        "output": "Page renders three sections. The ValidityState explorer shows a number input with constraints and a two-column grid of flag chips that update in real time as the user types — false flags shown in green, true in red. The username section shows a text input with a Check availability button that runs async validation and displays either a red taken error or a green available message. The novalidate section shows a dark code block with a complete custom validation loop including human-readable error building and focus management.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Accessible Error Patterns: aria-describedby, aria-invalid, and role=alert",
+        "description": "This example demonstrates the complete accessible error pattern for a production registration form: aria-describedby linking hint and error text to inputs, aria-invalid toggling on validation failure, role=alert for immediate screen reader announcement, focus management after failed submission, a live region summary of all errors, and the difference between role=alert and aria-live='polite'.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Accessible Form Error Patterns</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    .field { display: flex; flex-direction: column; gap: .25rem;\n             margin-bottom: .85rem; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    input[aria-invalid=\"true\"] { border-color: #dc2626;\n                                  background: #fff8f8; }\n    .hint  { font-size: .78rem; color: #6b7280; }\n    .error { font-size: .78rem; color: #dc2626; display: none; }\n    .error.show { display: block; }\n    .error::before { content: \"⚠ \"; }\n    .btn  { background: #2563eb; color: #fff; border: none;\n            border-radius: 8px; padding: .6rem 1.5rem;\n            font-size: .9rem; font-weight: 600; cursor: pointer; }\n    #error-summary {\n      background: #fef2f2; border: 1px solid #fecaca;\n      border-radius: 8px; padding: .75rem 1rem;\n      font-size: .87rem; display: none; margin-bottom: 1rem; }\n    #error-summary.show { display: block; }\n    #error-summary h3 { margin: 0 0 .4rem; font-size: .9rem;\n                        color: #dc2626; }\n    #error-summary ul { margin: 0; padding-left: 1.25rem;\n                        color: #7f1d1d; }\n    .ann  { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .65rem .9rem;\n            font-size: .83rem; line-height: 1.6; margin: .5rem 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Accessible Form Error Patterns</h1>\n\n\n  <!-- ERROR SUMMARY + ACCESSIBLE FORM -->\n  <!--\n    Error summary: rendered above the form.\n    role=\"alert\" + aria-atomic=\"true\": entire summary is\n      announced when it becomes visible.\n    tabindex=\"-1\": allows JavaScript to move focus to it\n      after failed submission.\n  -->\n  <div id=\"error-summary\" role=\"alert\" aria-atomic=\"true\"\n       tabindex=\"-1\">\n    <h3>Please fix the following errors:</h3>\n    <ul id=\"error-list\"></ul>\n  </div>\n\n  <form id=\"reg\" novalidate>\n    <!--\n      aria-describedby=\"field-hint field-err\":\n        Screen reader announces label, then hint, then error.\n        Space-separated IDs are concatenated in order.\n      aria-required=\"true\": announces \"required\" to screen readers\n        even when native validation is disabled with novalidate.\n      aria-invalid=\"false\": initial state; set to \"true\" on error.\n    -->\n\n    <div class=\"field\">\n      <label for=\"r-name\">Full name</label>\n      <input type=\"text\" id=\"r-name\" name=\"full_name\"\n             autocomplete=\"name\"\n             required aria-required=\"true\"\n             aria-invalid=\"false\"\n             aria-describedby=\"r-name-hint r-name-err\">\n      <span id=\"r-name-hint\" class=\"hint\">\n        Your name as it appears on your ID.\n      </span>\n      <span id=\"r-name-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n\n    <div class=\"field\">\n      <label for=\"r-email\">Email address</label>\n      <input type=\"email\" id=\"r-email\" name=\"email\"\n             autocomplete=\"email\"\n             required aria-required=\"true\"\n             aria-invalid=\"false\"\n             aria-describedby=\"r-email-err\">\n      <span id=\"r-email-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n\n    <div class=\"field\">\n      <label for=\"r-pw\">Password</label>\n      <input type=\"password\" id=\"r-pw\" name=\"password\"\n             autocomplete=\"new-password\"\n             minlength=\"8\" required aria-required=\"true\"\n             aria-invalid=\"false\"\n             aria-describedby=\"r-pw-hint r-pw-err\">\n      <span id=\"r-pw-hint\" class=\"hint\">At least 8 characters.</span>\n      <span id=\"r-pw-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n\n    <div class=\"field\">\n      <label for=\"r-age\">Age</label>\n      <input type=\"number\" id=\"r-age\" name=\"age\"\n             min=\"13\" max=\"120\"\n             aria-invalid=\"false\"\n             aria-describedby=\"r-age-hint r-age-err\">\n      <span id=\"r-age-hint\" class=\"hint\">Must be 13 or older.</span>\n      <span id=\"r-age-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n\n    <button type=\"submit\" class=\"btn\">Create account</button>\n  </form>\n\n  <script>\n    // Error message builders keyed by ValidityState flag\n    const messages = {\n      'r-name': {\n        valueMissing: 'Full name is required.',\n        tooShort:     'Name must be at least 2 characters.'\n      },\n      'r-email': {\n        valueMissing: 'Email address is required.',\n        typeMismatch: 'Enter a valid email address (e.g. you@example.com).'\n      },\n      'r-pw': {\n        valueMissing: 'Password is required.',\n        tooShort:     'Password must be at least 8 characters.'\n      },\n      'r-age': {\n        rangeUnderflow: 'You must be at least 13 years old.',\n        rangeOverflow:  'Please enter a valid age.'\n      }\n    };\n\n    document.getElementById('reg').addEventListener('submit', function(e) {\n      e.preventDefault();\n\n      const fields = ['r-name', 'r-email', 'r-pw', 'r-age'];\n      const errorItems = [];\n      let firstInvalid = null;\n\n      fields.forEach(id => {\n        const inp  = document.getElementById(id);\n        const errEl = document.getElementById(id + '-err');\n        const fieldMsgs = messages[id] || {};\n        const v = inp.validity;\n\n        if (!inp.checkValidity()) {\n          // Build message from ValidityState flags\n          const flagOrder = ['valueMissing','typeMismatch',\n            'patternMismatch','tooShort','tooLong',\n            'rangeUnderflow','rangeOverflow'];\n          let msg = inp.validationMessage;\n          flagOrder.forEach(f => {\n            if (v[f] && fieldMsgs[f]) msg = fieldMsgs[f];\n          });\n\n          inp.setAttribute('aria-invalid', 'true');\n          if (errEl) {\n            errEl.textContent = msg;\n            errEl.classList.add('show');\n          }\n          errorItems.push({ id, label: inp.labels[0]?.textContent, msg });\n          if (!firstInvalid) firstInvalid = inp;\n        } else {\n          inp.setAttribute('aria-invalid', 'false');\n          if (errEl) errEl.classList.remove('show');\n        }\n      });\n\n      // Error summary: populate and show above the form\n      const summary = document.getElementById('error-summary');\n      const list    = document.getElementById('error-list');\n      if (errorItems.length > 0) {\n        list.innerHTML = errorItems\n          .map(e => '<li><strong>' + e.label + ':</strong> ' + e.msg + '</li>')\n          .join('');\n        summary.classList.add('show');\n        // Focus the summary so screen readers announce it\n        summary.focus();\n      } else {\n        summary.classList.remove('show');\n        this.submit();\n      }\n    });\n  </script>\n\n\n  <!-- ARIA PATTERNS REFERENCE -->\n  <h2>Aria pattern reference</h2>\n  <pre>&lt;!-- 1. Link hint AND error to input --&gt;\n&lt;input aria-describedby=\"hint-id error-id\"&gt;\n&lt;span id=\"hint-id\"&gt;Hint text&lt;/span&gt;\n&lt;span id=\"error-id\" role=\"alert\"&gt;Error text&lt;/span&gt;\n\n&lt;!-- 2. Mark field invalid on error --&gt;\ninput.setAttribute('aria-invalid', 'true');   // error\ninput.setAttribute('aria-invalid', 'false');  // cleared\n\n&lt;!-- 3. Immediate announcement: role=\"alert\" --&gt;\n&lt;span role=\"alert\"&gt;This announces immediately.&lt;/span&gt;\n\n&lt;!-- 4. Polite announcement: aria-live=\"polite\" --&gt;\n&lt;span aria-live=\"polite\"&gt;Waits for screen reader to finish.&lt;/span&gt;\n\n&lt;!-- 5. Error summary: role=\"alert\" + focus() --&gt;\n&lt;div role=\"alert\" aria-atomic=\"true\" tabindex=\"-1\" id=\"summary\"&gt;\n  &lt;h3&gt;Please fix these errors:&lt;/h3&gt;\n  &lt;ul&gt;...&lt;/ul&gt;\n&lt;/div&gt;\n&lt;script&gt;\n  // After populating, focus the summary\n  document.getElementById('summary').focus();\n&lt;/script&gt;</pre>\n\n  <div class=\"ann\">\n    <strong>role=\"alert\" vs aria-live=\"polite\":</strong><br>\n    <code>role=\"alert\"</code> interrupts the screen reader immediately\n    (assertive). Use for validation errors that must be acted on.<br>\n    <code>aria-live=\"polite\"</code> waits until the reader finishes\n    the current sentence. Use for status messages and search counts.\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders two sections and a reference block. The accessible form shows a red error summary panel (hidden initially) above four fields. On submit with empty fields, the summary expands listing all errors, the summary receives focus, each field gains a red border and an inline error prefixed with a warning icon. The aria patterns reference shows a dark code block with five patterns. The annotation card explains the difference between role=alert and aria-live=polite.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "required",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "min",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "max",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "pattern",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "minlength",
+            "highlight": true
+          },
+          {
+            "value": " on every form control that has a constraint, providing "
+          },
+          {
+            "value": "instant browser-side feedback",
+            "bold": true
+          },
+          {
+            "value": " before a network round-trip and satisfying "
+          },
+          {
+            "value": "WCAG 3.3.1 Error Identification",
+            "bold": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "novalidate",
+            "highlight": true
+          },
+          {
+            "value": " on the "
+          },
+          {
+            "value": "<form>",
+            "highlight": true
+          },
+          {
+            "value": " element with a JavaScript submit handler when you need "
+          },
+          {
+            "value": "custom error placement, styling",
+            "bold": true
+          },
+          {
+            "value": ", or accessible "
+          },
+          {
+            "value": "aria-invalid",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "role='alert'",
+            "highlight": true
+          },
+          {
+            "value": " error patterns that are not provided by the browser's native validation UI."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<datalist>",
+            "highlight": true
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "list",
+            "highlight": true
+          },
+          {
+            "value": " attribute for text, email, and url inputs when you want "
+          },
+          {
+            "value": "native autocomplete suggestions",
+            "bold": true
+          },
+          {
+            "value": " without a JavaScript library, while still allowing users to type values that are not in the suggestion list."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Never rely "
+          },
+          {
+            "value": "solely",
+            "bold": true
+          },
+          {
+            "value": " on client-side validation; browser checks can be bypassed via DevTools, direct HTTP requests, or JavaScript disabled — always apply "
+          },
+          {
+            "value": "server-side validation",
+            "bold": true
+          },
+          {
+            "value": " as the authoritative check for every input."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid displaying inline error messages "
+          },
+          {
+            "value": "before the user has interacted",
+            "bold": true
+          },
+          {
+            "value": " with a field; pre-emptive errors on page load violate "
+          },
+          {
+            "value": "WCAG 3.3.1",
+            "bold": true
+          },
+          {
+            "value": " and create a hostile UX — validate on blur or on submit, not immediately on page render."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "role='alert'",
+            "highlight": true
+          },
+          {
+            "value": " for every notification; it interrupts screen reader speech immediately. Use "
+          },
+          {
+            "value": "aria-live='polite'",
+            "highlight": true
+          },
+          {
+            "value": " for non-urgent status messages like character count or search result count updates."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Constraint validation solves "
+          },
+          {
+            "value": "format error prevention before submission",
+            "bold": true
+          },
+          {
+            "value": ": the browser validates "
+          },
+          {
+            "value": "required",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "pattern",
+            "highlight": true
+          },
+          {
+            "value": ", and range constraints against each control's "
+          },
+          {
+            "value": "ValidityState",
+            "bold": true
+          },
+          {
+            "value": ", showing an error before the form data ever reaches the server."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "aria-describedby",
+            "highlight": true
+          },
+          {
+            "value": " + "
+          },
+          {
+            "value": "aria-invalid",
+            "highlight": true
+          },
+          {
+            "value": " + "
+          },
+          {
+            "value": "role='alert'",
+            "highlight": true
+          },
+          {
+            "value": " pattern solves "
+          },
+          {
+            "value": "accessible error announcement",
+            "bold": true
+          },
+          {
+            "value": ": screen readers are notified of errors immediately, the invalid field is identified by name, and the error message is available in the accessibility tree without requiring visual attention."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "<datalist>",
+            "highlight": true
+          },
+          {
+            "value": " solves "
+          },
+          {
+            "value": "native typed-input suggestions",
+            "bold": true
+          },
+          {
+            "value": ": it provides a browser-rendered dropdown of completions for any "
+          },
+          {
+            "value": "<input>",
+            "highlight": true
+          },
+          {
+            "value": " without JavaScript, handling keyboard navigation, filtering, and accessibility automatically while still allowing free-text entry."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "ValidityState",
+            "bold": true
+          },
+          {
+            "value": " object on every form control is a live snapshot of the control's validity. Each property is a boolean flag. "
+          },
+          {
+            "value": "valid",
+            "highlight": true
+          },
+          {
+            "value": " is "
+          },
+          {
+            "value": "true",
+            "highlight": true
+          },
+          {
+            "value": " only when "
+          },
+          {
+            "value": "all other flags are false",
+            "bold": true
+          },
+          {
+            "value": ". "
+          },
+          {
+            "value": "checkValidity()",
+            "highlight": true
+          },
+          {
+            "value": " returns "
+          },
+          {
+            "value": "validity.valid",
+            "highlight": true
+          },
+          {
+            "value": " and fires an "
+          },
+          {
+            "value": "invalid",
+            "highlight": true
+          },
+          {
+            "value": " event if false. "
+          },
+          {
+            "value": "reportValidity()",
+            "highlight": true
+          },
+          {
+            "value": " additionally shows the browser's native error tooltip. "
+          },
+          {
+            "value": "setCustomValidity('msg')",
+            "highlight": true
+          },
+          {
+            "value": " sets the "
+          },
+          {
+            "value": "customError",
+            "highlight": true
+          },
+          {
+            "value": " flag true with a custom message; "
+          },
+          {
+            "value": "setCustomValidity('')",
+            "highlight": true
+          },
+          {
+            "value": " clears it."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "contenteditable",
+            "highlight": true
+          },
+          {
+            "value": " attribute turns any HTML element into an editable region. Unlike "
+          },
+          {
+            "value": "<input>",
+            "highlight": true
+          },
+          {
+            "value": ", a "
+          },
+          {
+            "value": "contenteditable",
+            "highlight": true
+          },
+          {
+            "value": " element has no "
+          },
+          {
+            "value": "name",
+            "highlight": true
+          },
+          {
+            "value": " attribute and is "
+          },
+          {
+            "value": "not serialised",
+            "bold": true
+          },
+          {
+            "value": " by "
+          },
+          {
+            "value": "<form>",
+            "highlight": true
+          },
+          {
+            "value": " submission — its content must be collected via "
+          },
+          {
+            "value": "element.innerHTML",
+            "highlight": true
+          },
+          {
+            "value": " or "
+          },
+          {
+            "value": "element.textContent",
+            "highlight": true
+          },
+          {
+            "value": " in JavaScript. It is appropriate for "
+          },
+          {
+            "value": "rich text editors",
+            "bold": true
+          },
+          {
+            "value": " (WYSIWYG) but requires explicit "
+          },
+          {
+            "value": "role='textbox'",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "aria-multiline='true'",
+            "highlight": true
+          },
+          {
+            "value": " for screen reader compatibility."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "WCAG success criteria directly addressed by accessible form patterns: "
+          },
+          {
+            "value": "1.3.1 Info and Relationships",
+            "bold": true
+          },
+          {
+            "value": " (label association), "
+          },
+          {
+            "value": "1.3.5 Identify Input Purpose",
+            "bold": true
+          },
+          {
+            "value": " (autocomplete tokens), "
+          },
+          {
+            "value": "3.3.1 Error Identification",
+            "bold": true
+          },
+          {
+            "value": " (errors described in text), "
+          },
+          {
+            "value": "3.3.2 Labels or Instructions",
+            "bold": true
+          },
+          {
+            "value": " (all inputs labelled), "
+          },
+          {
+            "value": "3.3.3 Error Suggestion",
+            "bold": true
+          },
+          {
+            "value": " (fix guidance provided), "
+          },
+          {
+            "value": "3.3.4 Error Prevention",
+            "bold": true
+          },
+          {
+            "value": " (submission reversible or confirmable). All are Level A or AA."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Relying only on browser validation allows bypassed constraints to submit malformed data."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Showing errors without "
+          },
+          {
+            "value": "aria-invalid",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "role='alert'",
+            "highlight": true
+          },
+          {
+            "value": " hides them from screen reader users."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Firing validation on the "
+          },
+          {
+            "value": "input",
+            "highlight": true
+          },
+          {
+            "value": " event marks fields invalid before the user finishes typing."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "input.setCustomValidity('')",
+            "highlight": true
+          },
+          {
+            "value": " at the start of every validation run to "
+          },
+          {
+            "value": "clear prior custom errors",
+            "bold": true
+          },
+          {
+            "value": " before re-checking. If you call "
+          },
+          {
+            "value": "setCustomValidity('error')",
+            "highlight": true
+          },
+          {
+            "value": " and then call "
+          },
+          {
+            "value": "checkValidity()",
+            "highlight": true
+          },
+          {
+            "value": " on the same element without clearing first, the field will always be invalid regardless of what the user has typed."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "After a failed form submission, move "
+          },
+          {
+            "value": "focus",
+            "bold": true
+          },
+          {
+            "value": " to either the "
+          },
+          {
+            "value": "error summary",
+            "bold": true
+          },
+          {
+            "value": " (via "
+          },
+          {
+            "value": "summary.focus()",
+            "highlight": true
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "tabindex='-1'",
+            "highlight": true
+          },
+          {
+            "value": ") or to the "
+          },
+          {
+            "value": "first invalid field",
+            "bold": true
+          },
+          {
+            "value": ". Without explicit focus management, keyboard and screen reader users may not discover that validation failed because the page appears unchanged to them."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Form Structure",
+      "HTML Input Types",
+      "HTML Button Element",
+      "Web Accessibility WCAG",
+      "Label Association Techniques"
+    ],
+    "is_active": true,
+    "order_index": 28,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 8,
+      "topic_id": 28,
+      "slug": "form-validation-attributes",
+      "title": "Form Validation Attributes (required, pattern, min, max)",
+      "description": "required, pattern, min, max, and step define rules; the browser checks ValidityState on submit.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "HTML constraint attributes declare rules that the browser enforces before a form is submitted. "
+            },
+            {
+              "value": "required",
+              "highlight": true
+            },
+            {
+              "value": " sets "
+            },
+            {
+              "value": "valueMissing",
+              "highlight": true
+            },
+            {
+              "value": " when empty. "
+            },
+            {
+              "value": "pattern",
+              "highlight": true
+            },
+            {
+              "value": " takes a "
+            },
+            {
+              "value": "JavaScript regex",
+              "bold": true
+            },
+            {
+              "value": " (no surrounding slashes, anchored to the full value) and sets "
+            },
+            {
+              "value": "patternMismatch",
+              "highlight": true
+            },
+            {
+              "value": ". "
+            },
+            {
+              "value": "min",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "max",
+              "highlight": true
+            },
+            {
+              "value": " apply to "
+            },
+            {
+              "value": "number",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "date",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "time",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "range",
+              "highlight": true
+            },
+            {
+              "value": ", setting "
+            },
+            {
+              "value": "rangeUnderflow",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "rangeOverflow",
+              "highlight": true
+            },
+            {
+              "value": ". "
+            },
+            {
+              "value": "minlength",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "maxlength",
+              "highlight": true
+            },
+            {
+              "value": " apply to text-family inputs, setting "
+            },
+            {
+              "value": "tooShort",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "tooLong",
+              "highlight": true
+            },
+            {
+              "value": ". The "
+            },
+            {
+              "value": "title",
+              "highlight": true
+            },
+            {
+              "value": " attribute provides the browser's native validation tooltip message for "
+            },
+            {
+              "value": "pattern",
+              "highlight": true
+            },
+            {
+              "value": " mismatches. Reference: "
+            },
+            {
+              "value": "MDN: Constraint validation attributes",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Attribute",
+            "Applies to",
+            "ValidityState flag",
+            "Notes"
+          ],
+          "rows": [
+            [
+              "required",
+              "All controls",
+              "valueMissing",
+              "Boolean; no value needed"
+            ],
+            [
+              "pattern='regex'",
+              "text, tel, url, search",
+              "patternMismatch",
+              "Anchored to full value; use title= for error text"
+            ],
+            [
+              "min='value'",
+              "number, date, time, range",
+              "rangeUnderflow",
+              "Date: YYYY-MM-DD; time: HH:MM"
+            ],
+            [
+              "max='value'",
+              "number, date, time, range",
+              "rangeOverflow",
+              "Same format as min"
+            ],
+            [
+              "step='value'",
+              "number, date, time, range",
+              "stepMismatch",
+              "Default 1; 'any' disables step check"
+            ],
+            [
+              "minlength='n'",
+              "text, email, password, search",
+              "tooShort",
+              "Character count, not byte count"
+            ],
+            [
+              "maxlength='n'",
+              "text, email, password, search",
+              "tooLong",
+              "Browser also prevents entry beyond limit"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Validation Attributes in Practice with Custom Error Messages",
+          "description": "This example shows every constraint attribute in a realistic context: required with aria-required, pattern with title for custom browser tooltip, min/max on date and number, minlength with live character counter, step on number, and setCustomValidity for overriding the browser's default error message with user-friendly text.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Validation Attributes</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 640px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 1rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field { display: flex; flex-direction: column; gap: .25rem;\n             margin-bottom: .8rem; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus  { outline: 2px solid #2563eb; outline-offset: 1px;\n                   border-color: transparent; }\n    input:invalid:not(:placeholder-shown):not(:focus) {\n             border-color: #dc2626; background: #fff8f8; }\n    input:valid:not(:placeholder-shown) { border-color: #16a34a; }\n    .hint  { font-size: .78rem; color: #6b7280; }\n    .count { font-size: .75rem; color: #6b7280; text-align: right; }\n    .count.warn { color: #dc2626; }\n    .btn   { background: #2563eb; color: #fff; border: none;\n             border-radius: 8px; padding: .6rem 1.5rem;\n             font-size: .9rem; font-weight: 600; cursor: pointer; }\n  </style>\n</head>\n<body>\n\n  <h1>Form Validation Attributes</h1>\n\n  <form id=\"demo\">\n    <fieldset>\n      <legend>required</legend>\n\n      <!--\n        required: browser fires valueMissing on empty submit.\n        aria-required=\"true\": announces \"required\" to screen readers\n          even with novalidate (when native validation is bypassed).\n      -->\n      <div class=\"field\">\n        <label for=\"v-name\">Full name</label>\n        <input type=\"text\" id=\"v-name\" name=\"full_name\"\n               required aria-required=\"true\"\n               autocomplete=\"name\"\n               placeholder=\"Required field\">\n        <span class=\"hint\">Submit empty to see required error.</span>\n      </div>\n    </fieldset>\n\n    <fieldset>\n      <legend>pattern</legend>\n\n      <!--\n        pattern: JavaScript regex anchored to the full value.\n        No ^ or $ needed — browser wraps the entire value.\n        title: provides the validation tooltip message.\n        Works on: text, tel, url, search, password.\n        Does NOT work on: email (has its own algorithm), number.\n      -->\n      <div class=\"field\">\n        <label for=\"v-user\">Username</label>\n        <input type=\"text\" id=\"v-user\" name=\"username\"\n               pattern=\"[a-zA-Z0-9_]{3,20}\"\n               title=\"3-20 characters: letters, numbers, underscores\"\n               placeholder=\"e.g. priya_99\"\n               required>\n        <span class=\"hint\">\n          pattern=\"[a-zA-Z0-9_]{3,20}\" — full value must match.\n        </span>\n      </div>\n\n      <div class=\"field\">\n        <label for=\"v-phone\">Phone number</label>\n        <input type=\"tel\" id=\"v-phone\" name=\"phone\"\n               pattern=\"[+]?[0-9\\s\\-()]{7,15}\"\n               title=\"Enter 7-15 digits, spaces, dashes, or parentheses\"\n               placeholder=\"+91 98765 43210\">\n        <span class=\"hint\">\n          type=\"tel\" + pattern: dial-pad keyboard + format validation.\n        </span>\n      </div>\n    </fieldset>\n\n    <fieldset>\n      <legend>min and max</legend>\n\n      <!--\n        min/max on number: value must be in [min, max].\n        rangeUnderflow fires if value < min.\n        rangeOverflow fires if value > max.\n      -->\n      <div class=\"field\">\n        <label for=\"v-age\">Age</label>\n        <input type=\"number\" id=\"v-age\" name=\"age\"\n               min=\"13\" max=\"120\" step=\"1\"\n               placeholder=\"13-120\">\n        <span class=\"hint\">min=13 max=120. Under-13: rangeUnderflow.</span>\n      </div>\n\n      <!--\n        min/max on date: restricts the date picker range.\n        Format must be YYYY-MM-DD.\n      -->\n      <div class=\"field\">\n        <label for=\"v-dob\">Date of birth</label>\n        <input type=\"date\" id=\"v-dob\" name=\"dob\"\n               min=\"1904-01-01\" max=\"2011-12-31\">\n        <span class=\"hint\">\n          min/max dates in YYYY-MM-DD format.\n        </span>\n      </div>\n\n      <!--\n        step on number: value must equal min + n*step.\n        step=\"5\" with min=0: allows 0, 5, 10, 15...\n        stepMismatch fires for values like 3, 7, 11.\n        step=\"any\" disables the step check.\n      -->\n      <div class=\"field\">\n        <label for=\"v-price\">Price (multiples of 5)</label>\n        <input type=\"number\" id=\"v-price\" name=\"price\"\n               min=\"0\" max=\"1000\" step=\"5\"\n               placeholder=\"0, 5, 10...\">\n        <span class=\"hint\">\n          step=5: stepMismatch fires for 3, 7, 11...\n        </span>\n      </div>\n    </fieldset>\n\n    <fieldset>\n      <legend>minlength and maxlength</legend>\n\n      <!--\n        minlength: sets tooShort flag on submit if value.length < n.\n        maxlength: browser prevents entry beyond limit (hard cut-off).\n        Show a live character counter with oninput.\n      -->\n      <div class=\"field\">\n        <label for=\"v-bio\">Bio</label>\n        <input type=\"text\" id=\"v-bio\" name=\"bio\"\n               minlength=\"20\" maxlength=\"160\"\n               placeholder=\"Tell us about yourself...\"\n               oninput=\"\n                 const n = this.value.length;\n                 const c = document.getElementById('bio-count');\n                 c.textContent = n + ' / 160';\n                 c.className = 'count' + (n < 20 ? ' warn' : '');\n               \">\n        <span id=\"bio-count\" class=\"count\">0 / 160</span>\n        <span class=\"hint\">\n          minlength=20: tooShort if fewer than 20 chars on submit.\n          maxlength=160: hard limit; browser blocks further typing.\n        </span>\n      </div>\n    </fieldset>\n\n    <button type=\"submit\" class=\"btn\">Validate all</button>\n  </form>\n\n\n  <!-- CUSTOM MESSAGES VIA setCustomValidity -->\n  <h2>Custom validation messages with setCustomValidity</h2>\n  <pre>// Replace browser's generic message with user-friendly text\nconst inp = document.getElementById('v-age');\n\ninp.addEventListener('change', function() {\n  // Always clear first to reset customError flag\n  this.setCustomValidity('');\n\n  if (this.validity.rangeUnderflow) {\n    this.setCustomValidity(\n      'You must be at least 13 years old to register.'\n    );\n  } else if (this.validity.rangeOverflow) {\n    this.setCustomValidity(\n      'Please enter a realistic age (maximum 120).'\n    );\n  }\n  // If setCustomValidity('') is not called at the start,\n  // old messages persist even after the value is corrected.\n});</pre>\n\n</body>\n</html>",
+          "output": "Page renders four fieldsets and a code block. The required fieldset shows a name input that gains a red border if submitted empty. The pattern fieldset shows username with 3-20 char regex and phone with tel pattern, both turning red on invalid input. The min/max fieldset shows age (13-120), a date picker with range, and a price field with step=5. The minlength fieldset shows a bio input with a live character counter that turns red below 20 chars. Clicking Validate all triggers all browser constraint checks. The code block shows setCustomValidity with clear-first pattern.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "pattern",
+              "highlight": true
+            },
+            {
+              "value": " attribute regex is "
+            },
+            {
+              "value": "automatically anchored",
+              "bold": true
+            },
+            {
+              "value": " to the full value: the browser wraps it as "
+            },
+            {
+              "value": "^(?:your-regex)$",
+              "highlight": true
+            },
+            {
+              "value": ". You do not write "
+            },
+            {
+              "value": "^",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "$",
+              "highlight": true
+            },
+            {
+              "value": ". A pattern of "
+            },
+            {
+              "value": "[0-9]+",
+              "highlight": true
+            },
+            {
+              "value": " matches only values that are entirely digits. Partial matches fail: "
+            },
+            {
+              "value": "\"123abc\"",
+              "highlight": true
+            },
+            {
+              "value": " does not match "
+            },
+            {
+              "value": "[0-9]+",
+              "highlight": true
+            },
+            {
+              "value": " because the "
+            },
+            {
+              "value": "abc",
+              "highlight": true
+            },
+            {
+              "value": " portion fails the anchored check. The "
+            },
+            {
+              "value": "title",
+              "highlight": true
+            },
+            {
+              "value": " attribute text appears in the browser's native validation tooltip and should describe the required format in plain language."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The difference between "
+            },
+            {
+              "value": "maxlength",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "max",
+              "highlight": true
+            },
+            {
+              "value": " illustrates an important constraint type distinction. "
+            },
+            {
+              "value": "maxlength",
+              "highlight": true
+            },
+            {
+              "value": " is a "
+            },
+            {
+              "value": "hard input limit",
+              "bold": true
+            },
+            {
+              "value": ": the browser "
+            },
+            {
+              "value": "prevents",
+              "bold": true
+            },
+            {
+              "value": " the user from typing beyond the character count, so "
+            },
+            {
+              "value": "tooLong",
+              "highlight": true
+            },
+            {
+              "value": " never fires at submission (the value can never exceed maxlength). "
+            },
+            {
+              "value": "max",
+              "highlight": true
+            },
+            {
+              "value": " is a "
+            },
+            {
+              "value": "validation constraint",
+              "bold": true
+            },
+            {
+              "value": ": the user can type any number but the browser rejects it on submit if it exceeds "
+            },
+            {
+              "value": "max",
+              "highlight": true
+            },
+            {
+              "value": ", firing "
+            },
+            {
+              "value": "rangeOverflow",
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Apply "
+            },
+            {
+              "value": "CSS :invalid",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": ":valid",
+              "highlight": true
+            },
+            {
+              "value": " pseudo-classes with "
+            },
+            {
+              "value": ":not(:placeholder-shown)",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": ":not(:focus)",
+              "highlight": true
+            },
+            {
+              "value": " to show live colour feedback only after the user has typed something and moved away: "
+            },
+            {
+              "value": "input:invalid:not(:placeholder-shown):not(:focus) { border-color: #dc2626; }",
+              "highlight": true
+            },
+            {
+              "value": ". This avoids marking all required fields as red on page load before the user has touched them."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Form Validation and Accessibility",
+        "HTML Input Types",
+        "Datalist Element Usage and Autocomplete Attributes",
+        "Accessible Form Design and HTML ContentEditable Attribute",
+        "HTML Form Structure"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 8,
+      "topic_id": 28,
+      "slug": "datalist-element-usage-and-autocomplete-attributes",
+      "title": "Datalist Element Usage and Autocomplete Attributes",
+      "description": "datalist adds filtered type-ahead suggestions; autocomplete enables browser-stored autofill.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<datalist>",
+              "highlight": true
+            },
+            {
+              "value": " element contains a set of "
+            },
+            {
+              "value": "<option>",
+              "highlight": true
+            },
+            {
+              "value": " elements whose values become the suggestion list for any "
+            },
+            {
+              "value": "<input>",
+              "highlight": true
+            },
+            {
+              "value": " whose "
+            },
+            {
+              "value": "list",
+              "highlight": true
+            },
+            {
+              "value": " attribute matches the datalist "
+            },
+            {
+              "value": "id",
+              "highlight": true
+            },
+            {
+              "value": ". The browser renders a native dropdown filtered by the user's typed characters. Unlike "
+            },
+            {
+              "value": "<select>",
+              "highlight": true
+            },
+            {
+              "value": ", the user may type any value — the suggestions are advisory, not mandatory. "
+            },
+            {
+              "value": "datalist",
+              "highlight": true
+            },
+            {
+              "value": " works with "
+            },
+            {
+              "value": "text",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "email",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "url",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "search",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "tel",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "number",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "range",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "color",
+              "highlight": true
+            },
+            {
+              "value": " input types. The separate "
+            },
+            {
+              "value": "autocomplete",
+              "highlight": true
+            },
+            {
+              "value": " attribute (not to be confused with datalist) tells the browser and password managers the "
+            },
+            {
+              "value": "semantic purpose",
+              "bold": true
+            },
+            {
+              "value": " of the field, enabling autofill from stored data. It satisfies "
+            },
+            {
+              "value": "WCAG 1.3.5 Identify Input Purpose",
+              "bold": true
+            },
+            {
+              "value": ". Reference: "
+            },
+            {
+              "value": "MDN: datalist element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "autocomplete token",
+            "Category",
+            "What it enables"
+          ],
+          "rows": [
+            [
+              "name / given-name / family-name",
+              "Identity",
+              "Full or partial name autofill"
+            ],
+            [
+              "email",
+              "Identity",
+              "Stored email address"
+            ],
+            [
+              "tel",
+              "Identity",
+              "Phone number from contacts"
+            ],
+            [
+              "username",
+              "Credentials",
+              "Stored login username"
+            ],
+            [
+              "new-password",
+              "Credentials",
+              "Password generator suggestion"
+            ],
+            [
+              "current-password",
+              "Credentials",
+              "Stored password autofill"
+            ],
+            [
+              "one-time-code",
+              "Credentials",
+              "SMS OTP autofill on iOS/Android"
+            ],
+            [
+              "street-address / address-level2 / postal-code / country",
+              "Address",
+              "Address form autofill"
+            ],
+            [
+              "cc-number / cc-name / cc-exp / cc-csc",
+              "Payment",
+              "Saved card autofill"
+            ],
+            [
+              "bday",
+              "Identity",
+              "Stored date of birth"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "datalist Patterns: Text, Email, Range, and Color Suggestions",
+          "description": "This example shows datalist with a text input for filtered city suggestions, datalist with email for recent recipients, datalist with range for labelled tick marks, datalist with color for a palette picker, a dynamic datalist populated via fetch, and the important distinction between datalist (advisory suggestions, free text allowed) and select (mandatory choice from fixed list).",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Datalist and Autocomplete</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    .field { display: flex; flex-direction: column; gap: .3rem;\n             margin-bottom: .9rem; max-width: 440px; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    .hint { font-size: .78rem; color: #6b7280; }\n    .rrow { display: flex; align-items: center; gap: .75rem;\n            max-width: 440px; }\n    input[type=range] { flex: 1; accent-color: #2563eb; }\n    .rval { font-size: .88rem; font-weight: 700; color: #2563eb;\n            min-width: 4rem; }\n    input[type=color] { height: 2.5rem; width: 3.5rem;\n                        border: 1px solid #d1d5db; border-radius: 8px;\n                        cursor: pointer; padding: .15rem; }\n    .ann  { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .65rem .9rem;\n            font-size: .83rem; line-height: 1.6; margin: .5rem 0; }\n    table { border-collapse: collapse; width: 100%; font-size: .87rem;\n            margin: .75rem 0; }\n    th,td { border: 1px solid #e2e8f0; padding: .45rem .75rem;\n            text-align: left; }\n    thead th { background: #0f172a; color: #fff;\n               border-color: #0f172a; }\n  </style>\n</head>\n<body>\n\n  <h1>Datalist Element and Autocomplete</h1>\n\n\n  <!-- BASIC DATALIST: text input with city suggestions -->\n  <h2>1. Filtered text suggestions</h2>\n  <!--\n    list=\"cities\" links this input to <datalist id=\"cities\">.\n    Browser filters options as the user types.\n    User may still type any value not in the list.\n    Pattern:  <input list=\"datalist-id\">\n              <datalist id=\"datalist-id\">\n                <option value=\"...\">\n              </datalist>\n  -->\n  <div class=\"field\">\n    <label for=\"city\">City</label>\n    <input type=\"text\" id=\"city\" name=\"city\"\n           list=\"cities\"\n           autocomplete=\"address-level2\"\n           placeholder=\"Start typing a city...\">\n    <span class=\"hint\">\n      Suggestions filtered as you type. Any value accepted.\n    </span>\n  </div>\n  <datalist id=\"cities\">\n    <option value=\"Mumbai\">\n    <option value=\"Delhi\">\n    <option value=\"Bengaluru\">\n    <option value=\"Hyderabad\">\n    <option value=\"Ahmedabad\">\n    <option value=\"Chennai\">\n    <option value=\"Kolkata\">\n    <option value=\"Pune\">\n    <option value=\"Jaipur\">\n    <option value=\"Lucknow\">\n  </datalist>\n\n\n  <!-- DATALIST: email suggestions with label text -->\n  <h2>2. Email with recent recipients</h2>\n  <!--\n    label attribute on <option>: shows a description\n    alongside the value in some browsers.\n    Works alongside autocomplete=\"email\" — autocomplete\n    provides browser-stored addresses; datalist provides\n    app-specific suggestions.\n  -->\n  <div class=\"field\">\n    <label for=\"to\">To</label>\n    <input type=\"email\" id=\"to\" name=\"to\"\n           list=\"recipients\"\n           autocomplete=\"email\"\n           placeholder=\"Type or pick a recipient\">\n    <span class=\"hint\">Suggestions come from datalist, not from autocomplete.</span>\n  </div>\n  <datalist id=\"recipients\">\n    <option value=\"priya@example.com\" label=\"Priya Sharma\">\n    <option value=\"arjun@example.com\" label=\"Arjun Mehta\">\n    <option value=\"sara@example.com\"  label=\"Sara Ali\">\n    <option value=\"team@example.com\"  label=\"Team inbox\">\n  </datalist>\n\n\n  <!-- DATALIST on range: tick marks with labels -->\n  <h2>3. Range slider with labelled tick marks</h2>\n  <!--\n    datalist on range provides tick marks at each option value.\n    The browser may snap to these values and show labels.\n    label attribute on option: shown as tick label in Firefox.\n  -->\n  <div class=\"field\">\n    <label for=\"speed\">Connection speed</label>\n    <div class=\"rrow\">\n      <input type=\"range\" id=\"speed\" name=\"speed\"\n             min=\"0\" max=\"4\" step=\"1\" value=\"2\"\n             list=\"speed-marks\"\n             oninput=\"\n               const labels=['Slow','Basic','Standard','Fast','Ultra'];\n               document.getElementById('speed-val').textContent\n                 = labels[this.value];\n             \">\n      <span id=\"speed-val\" class=\"rval\">Standard</span>\n    </div>\n    <datalist id=\"speed-marks\">\n      <option value=\"0\" label=\"Slow\">\n      <option value=\"1\" label=\"Basic\">\n      <option value=\"2\" label=\"Standard\">\n      <option value=\"3\" label=\"Fast\">\n      <option value=\"4\" label=\"Ultra\">\n    </datalist>\n    <span class=\"hint\">\n      datalist adds tick marks. label attribute shows in Firefox.\n    </span>\n  </div>\n\n\n  <!-- DATALIST on color: palette picker -->\n  <h2>4. Color input with brand palette</h2>\n  <!--\n    datalist on color provides a palette of preset swatches\n    alongside the native color picker.\n    Values must be lowercase 6-digit hex (#rrggbb).\n  -->\n  <div class=\"field\">\n    <label for=\"brand-col\">Brand colour</label>\n    <div style=\"display:flex;align-items:center;gap:.75rem;\">\n      <input type=\"color\" id=\"brand-col\" name=\"brand_color\"\n             value=\"#2563eb\"\n             list=\"palette\">\n      <span class=\"hint\">\n        datalist provides preset brand swatches in the picker.\n      </span>\n    </div>\n    <datalist id=\"palette\">\n      <option value=\"#2563eb\">\n      <option value=\"#16a34a\">\n      <option value=\"#dc2626\">\n      <option value=\"#d97706\">\n      <option value=\"#7c3aed\">\n      <option value=\"#0f172a\">\n    </datalist>\n  </div>\n\n\n  <!-- DYNAMIC DATALIST via JS -->\n  <h2>5. Populating datalist dynamically</h2>\n  <pre>&lt;input type=\"text\" id=\"product\" list=\"product-list\"&gt;\n&lt;datalist id=\"product-list\"&gt;&lt;/datalist&gt;\n\n&lt;script&gt;\n  document.getElementById('product')\n    .addEventListener('input', async function() {\n      if (this.value.length &lt; 2) return;\n\n      // Fetch suggestions from API\n      const res = await fetch(\n        '/api/products?q=' + encodeURIComponent(this.value)\n      );\n      const items = await res.json(); // [\"Widget A\",\"Widget B\"]\n\n      const dl = document.getElementById('product-list');\n      dl.innerHTML = items\n        .map(name =&gt; '&lt;option value=\"' + name + '\"&gt;')\n        .join('');\n    });\n&lt;/script&gt;</pre>\n\n\n  <!-- DATALIST vs SELECT -->\n  <h2>6. datalist vs select</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>Feature</th><th>datalist</th><th>select</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td>Free text entry</td>\n        <td>Yes — any value accepted</td>\n        <td>No — must choose from list</td>\n      </tr>\n      <tr>\n        <td>Filtered suggestions</td>\n        <td>Yes — filtered as user types</td>\n        <td>No — shows full list always</td>\n      </tr>\n      <tr>\n        <td>Custom value valid</td>\n        <td>Yes</td>\n        <td>No</td>\n      </tr>\n      <tr>\n        <td>Best for</td>\n        <td>Suggestions with free entry</td>\n        <td>Fixed mandatory choices</td>\n      </tr>\n    </tbody>\n  </table>\n\n  <div class=\"ann\">\n    <strong>autocomplete vs datalist:</strong><br>\n    <code>autocomplete=\"email\"</code> tells the browser to fill from\n    its stored addresses (profile data, password manager).<br>\n    <code>list=\"recipients\"</code> provides app-specific suggestions\n    from a <code>&lt;datalist&gt;</code> you control.<br>\n    Both can be present on the same input simultaneously.\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders six sections. City shows a text input where typing filters Indian city suggestions from the datalist dropdown. Email shows an input with four named recipient suggestions. Range shows a slider with datalist tick marks and a live label updating to Slow/Standard/Ultra. Color shows a picker where the datalist adds brand colour swatches to the native picker palette. Dynamic shows a dark code block with fetch-powered datalist population. The comparison table shows four rows contrasting datalist and select. The annotation card explains autocomplete vs datalist.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<datalist>",
+              "highlight": true
+            },
+            {
+              "value": " element's "
+            },
+            {
+              "value": "<option>",
+              "highlight": true
+            },
+            {
+              "value": " elements are "
+            },
+            {
+              "value": "advisory suggestions",
+              "bold": true
+            },
+            {
+              "value": ", not constraints. The browser filters them as the user types but does not prevent submission of values outside the list. If you need to enforce that the user selects one of a fixed set of values, use "
+            },
+            {
+              "value": "<select>",
+              "highlight": true
+            },
+            {
+              "value": " or pair the input with a "
+            },
+            {
+              "value": "pattern",
+              "highlight": true
+            },
+            {
+              "value": " attribute that validates against the list of allowed values. The "
+            },
+            {
+              "value": "label",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<option>",
+              "highlight": true
+            },
+            {
+              "value": " provides a description shown alongside the value in Firefox; other browsers may display only the value."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "autocomplete",
+              "highlight": true
+            },
+            {
+              "value": " attribute and "
+            },
+            {
+              "value": "<datalist>",
+              "highlight": true
+            },
+            {
+              "value": " serve "
+            },
+            {
+              "value": "different purposes",
+              "bold": true
+            },
+            {
+              "value": " and can coexist. "
+            },
+            {
+              "value": "autocomplete='email'",
+              "highlight": true
+            },
+            {
+              "value": " signals the browser to populate the field from its "
+            },
+            {
+              "value": "stored user data",
+              "bold": true
+            },
+            {
+              "value": " (browser autofill, password manager). "
+            },
+            {
+              "value": "list='datalist-id'",
+              "highlight": true
+            },
+            {
+              "value": " provides "
+            },
+            {
+              "value": "application-controlled suggestions",
+              "bold": true
+            },
+            {
+              "value": " from data you define. Setting both on one input means the browser may offer both its own autofill suggestions and the app's datalist suggestions in the dropdown."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Populate "
+            },
+            {
+              "value": "<datalist>",
+              "highlight": true
+            },
+            {
+              "value": " dynamically with a "
+            },
+            {
+              "value": "debounced fetch",
+              "bold": true
+            },
+            {
+              "value": " on the "
+            },
+            {
+              "value": "input",
+              "highlight": true
+            },
+            {
+              "value": " event for live search-as-you-type suggestions. Clear and repopulate "
+            },
+            {
+              "value": "datalist.innerHTML",
+              "highlight": true
+            },
+            {
+              "value": " with new "
+            },
+            {
+              "value": "<option>",
+              "highlight": true
+            },
+            {
+              "value": " elements on each response. This gives the UX of a custom autocomplete widget — filtered server-side suggestions — with zero accessibility overhead because the browser handles keyboard navigation and screen reader announcements natively."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Form Validation and Accessibility",
+        "Form Validation Attributes (required, pattern, min, max)",
+        "Accessible Form Design and HTML ContentEditable Attribute",
+        "HTML Input Types",
+        "HTML Form Structure"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 3,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 8,
+      "topic_id": 28,
+      "slug": "accessible-form-design-and-html-contenteditable-attribute",
+      "title": "Accessible Form Design and HTML ContentEditable Attribute",
+      "description": "aria-invalid marks invalid fields; role=alert announces errors; contenteditable enables editing.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "Accessible form design requires three parallel concerns. First, "
+            },
+            {
+              "value": "error identification",
+              "bold": true
+            },
+            {
+              "value": ": every invalid field must have "
+            },
+            {
+              "value": "aria-invalid='true'",
+              "highlight": true
+            },
+            {
+              "value": " and its error message linked via "
+            },
+            {
+              "value": "aria-describedby",
+              "highlight": true
+            },
+            {
+              "value": " so screen readers announce the error immediately after the label. Second, "
+            },
+            {
+              "value": "error announcement",
+              "bold": true
+            },
+            {
+              "value": ": errors injected into the DOM after page load need "
+            },
+            {
+              "value": "role='alert'",
+              "highlight": true
+            },
+            {
+              "value": " (assertive, interrupts) or "
+            },
+            {
+              "value": "aria-live='polite'",
+              "highlight": true
+            },
+            {
+              "value": " (waits) to be read aloud. Third, "
+            },
+            {
+              "value": "focus management",
+              "bold": true
+            },
+            {
+              "value": ": after a failed submission, focus must move to the first invalid field or an error summary so keyboard users know what to fix. The "
+            },
+            {
+              "value": "contenteditable",
+              "highlight": true
+            },
+            {
+              "value": " attribute makes any element editable but is "
+            },
+            {
+              "value": "not a form control",
+              "bold": true
+            },
+            {
+              "value": ": its content is not submitted by "
+            },
+            {
+              "value": "<form>",
+              "highlight": true
+            },
+            {
+              "value": " and has no "
+            },
+            {
+              "value": "name",
+              "highlight": true
+            },
+            {
+              "value": " — it must be read via JavaScript. Reference: "
+            },
+            {
+              "value": "MDN: aria-invalid",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-invalid"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Pattern",
+            "HTML / ARIA",
+            "What it does"
+          ],
+          "rows": [
+            [
+              "Link error to input",
+              "aria-describedby='err-id'",
+              "Screen reader reads error after label"
+            ],
+            [
+              "Mark field invalid",
+              "aria-invalid='true'",
+              "Announces field as invalid"
+            ],
+            [
+              "Immediate announcement",
+              "role='alert'",
+              "Interrupts screen reader immediately"
+            ],
+            [
+              "Polite announcement",
+              "aria-live='polite'",
+              "Waits for reader to finish current sentence"
+            ],
+            [
+              "Focus management",
+              "element.focus() on summary",
+              "Brings keyboard users to the error area"
+            ],
+            [
+              "Error summary",
+              "tabindex='-1' + focus()",
+              "Programmatic focus on non-interactive element"
+            ],
+            [
+              "contenteditable region",
+              "contenteditable='true'",
+              "Makes any element a live editable area"
+            ],
+            [
+              "Accessible rich text area",
+              "role='textbox' aria-multiline='true'",
+              "Exposes contenteditable correctly to AT"
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "contenteditable Is Not a Form Control",
+          "text": "A contenteditable element has no name attribute and is not included in form serialisation. Its content must be read via element.textContent or element.innerHTML in JavaScript before submitting. It also has no built-in required or pattern validation. Use it only for rich text editors (WYSIWYG). For simple multi-line text input, use <textarea> which is a proper form control."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Accessible Error Patterns, Focus Management, and contenteditable",
+          "description": "This example shows the complete accessible form error pattern: aria-describedby linking hint and error text, aria-invalid toggling, role=alert on inline errors, an error summary with tabindex=-1 and focus management, the polite vs assertive live region comparison, and a contenteditable rich text editor with role=textbox that collects content via JavaScript before form submission.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Accessible Forms and contenteditable</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    .field { display: flex; flex-direction: column; gap: .25rem;\n             margin-bottom: .85rem; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    input[aria-invalid=\"true\"]  { border-color: #dc2626;\n                                   background: #fff8f8; }\n    input[aria-invalid=\"false\"] { border-color: #16a34a; }\n    .hint  { font-size: .78rem; color: #6b7280; }\n    .error { font-size: .78rem; color: #dc2626; display: none; }\n    .error.show { display: block; }\n    .error::before { content: \"! \"; font-weight: 700; }\n    #err-summary {\n      background: #fef2f2; border: 1px solid #fecaca;\n      border-radius: 8px; padding: .8rem 1rem;\n      font-size: .87rem; display: none; margin-bottom: 1rem; }\n    #err-summary.show { display: block; }\n    #err-summary h3 { margin: 0 0 .4rem; font-size: .9rem;\n                      color: #dc2626; }\n    #err-summary ul { margin: 0; padding-left: 1.2rem;\n                      color: #7f1d1d; line-height: 1.9; }\n    .btn  { background: #2563eb; color: #fff; border: none;\n            border-radius: 8px; padding: .6rem 1.5rem;\n            font-size: .9rem; font-weight: 600; cursor: pointer; }\n    /* contenteditable styling */\n    .rich-editor {\n      border: 1px solid #d1d5db; border-radius: 8px;\n      min-height: 6rem; padding: .6rem .8rem;\n      font-size: .9rem; line-height: 1.7;\n      outline: none; background: #fff; }\n    .rich-editor:focus {\n      outline: 2px solid #2563eb; outline-offset: 1px;\n      border-color: transparent; }\n    .rich-editor[aria-invalid=\"true\"] { border-color: #dc2626;\n                                         background: #fff8f8; }\n    .editor-toolbar {\n      display: flex; gap: .4rem; margin-bottom: .3rem; }\n    .tb-btn { background: #f8fafc; border: 1px solid #e2e8f0;\n              border-radius: 5px; padding: .25rem .5rem;\n              font-size: .82rem; cursor: pointer; }\n    .tb-btn:hover { background: #e2e8f0; }\n    .char-count { font-size: .75rem; color: #6b7280;\n                  text-align: right; margin-top: .2rem; }\n    .char-count.warn { color: #dc2626; }\n    .ann { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: .65rem .9rem;\n           font-size: .83rem; line-height: 1.6; margin: .5rem 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Accessible Forms and contenteditable</h1>\n\n\n  <!-- PART 1: ACCESSIBLE ERROR PATTERN FORM -->\n  <h2>1. Full accessible error pattern</h2>\n\n  <!--\n    role=\"alert\" + aria-atomic=\"true\":\n      When show class is added and content changes,\n      the entire element is re-read by screen readers.\n    tabindex=\"-1\":\n      Not in tab order normally, but focus() can target it.\n  -->\n  <div id=\"err-summary\" role=\"alert\" aria-atomic=\"true\" tabindex=\"-1\">\n    <h3>Please correct these errors:</h3>\n    <ul id=\"err-list\"></ul>\n  </div>\n\n  <form id=\"af\" novalidate>\n\n    <!--\n      aria-describedby=\"hint-id err-id\":\n        Screen reader order: Label → role → state → description.\n        \"Email address, edit text, required, invalid,\n         Enter a valid email address.\"\n      aria-invalid=\"false\" initial state:\n        Some screen readers skip the invalid announcement\n        when aria-invalid is absent. Explicitly set false.\n    -->\n    <div class=\"field\">\n      <label for=\"af-email\">Email address</label>\n      <input type=\"email\" id=\"af-email\" name=\"email\"\n             autocomplete=\"email\"\n             required aria-required=\"true\"\n             aria-invalid=\"false\"\n             aria-describedby=\"af-email-hint af-email-err\">\n      <span id=\"af-email-hint\" class=\"hint\">\n        We will send your confirmation here.\n      </span>\n      <!--\n        role=\"alert\": the error is announced immediately\n        when its text content changes via JS.\n        This fires even when the element was already in the DOM\n        (the content change triggers the announcement).\n      -->\n      <span id=\"af-email-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n\n    <div class=\"field\">\n      <label for=\"af-pw\">Password</label>\n      <input type=\"password\" id=\"af-pw\" name=\"password\"\n             autocomplete=\"new-password\"\n             minlength=\"8\" required aria-required=\"true\"\n             aria-invalid=\"false\"\n             aria-describedby=\"af-pw-hint af-pw-err\">\n      <span id=\"af-pw-hint\" class=\"hint\">At least 8 characters.</span>\n      <span id=\"af-pw-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n\n    <button type=\"submit\" class=\"btn\">Register</button>\n  </form>\n\n  <script>\n    const MSGS = {\n      'af-email': {\n        valueMissing: 'Email address is required.',\n        typeMismatch: 'Enter a valid email address (e.g. you@example.com).'\n      },\n      'af-pw': {\n        valueMissing: 'Password is required.',\n        tooShort:     'Password must be at least 8 characters.'\n      }\n    };\n\n    document.getElementById('af').addEventListener('submit', function(e) {\n      e.preventDefault();\n      const ids = ['af-email', 'af-pw'];\n      const errors = [];\n      let first = null;\n\n      ids.forEach(id => {\n        const inp = document.getElementById(id);\n        const errEl = document.getElementById(id + '-err');\n        inp.setCustomValidity('');\n\n        if (!inp.checkValidity()) {\n          const v = inp.validity;\n          const fm = MSGS[id] || {};\n          const flagOrder = ['valueMissing','typeMismatch',\n                             'patternMismatch','tooShort','tooLong',\n                             'rangeUnderflow','rangeOverflow'];\n          let msg = inp.validationMessage;\n          flagOrder.forEach(f => { if (v[f] && fm[f]) msg = fm[f]; });\n\n          inp.setAttribute('aria-invalid', 'true');\n          // Setting textContent triggers role=\"alert\" announcement\n          errEl.textContent = msg;\n          errEl.classList.add('show');\n          errors.push({ label: inp.labels[0]?.textContent.trim(), msg });\n          if (!first) first = inp;\n        } else {\n          inp.setAttribute('aria-invalid', 'false');\n          errEl.textContent = '';\n          errEl.classList.remove('show');\n        }\n      });\n\n      const summary = document.getElementById('err-summary');\n      const list    = document.getElementById('err-list');\n      if (errors.length > 0) {\n        list.innerHTML = errors.map(e =>\n          '<li><strong>' + e.label + ':</strong> ' + e.msg + '</li>'\n        ).join('');\n        summary.classList.add('show');\n        // Programmatic focus on summary (tabindex=\"-1\" enables this)\n        summary.focus();\n      } else {\n        summary.classList.remove('show');\n        this.submit();\n      }\n    });\n  </script>\n\n\n  <!-- PART 2: CONTENTEDITABLE RICH TEXT EDITOR -->\n  <h2>2. contenteditable rich text editor</h2>\n  <div class=\"ann\">\n    <strong>contenteditable vs textarea:</strong>\n    Use <code>contenteditable</code> only for rich text (bold, italic,\n    lists). For plain multi-line text, use <code>&lt;textarea&gt;</code>\n    — it is a real form control with built-in validation and serialisation.\n  </div>\n\n  <!--\n    contenteditable=\"true\": makes the div editable.\n    role=\"textbox\": exposes it as a text input to screen readers.\n    aria-multiline=\"true\": announces multi-line editing.\n    aria-label: provides accessible name (no <label for=> for divs).\n    aria-describedby: links to hint and error.\n    aria-required=\"true\": announces required to screen readers.\n  -->\n  <div id=\"ce-form\">\n    <div class=\"field\">\n      <span id=\"ce-label\"\n            style=\"font-size:.88rem;font-weight:500;color:#374151;\">\n        Bio (rich text)\n      </span>\n      <div class=\"editor-toolbar\" role=\"toolbar\" aria-label=\"Formatting\">\n        <button type=\"button\" class=\"tb-btn\"\n                aria-label=\"Bold\"\n                onclick=\"document.execCommand('bold')\">\n          <strong>B</strong>\n        </button>\n        <button type=\"button\" class=\"tb-btn\"\n                aria-label=\"Italic\"\n                onclick=\"document.execCommand('italic')\">\n          <em>I</em>\n        </button>\n        <button type=\"button\" class=\"tb-btn\"\n                aria-label=\"Bullet list\"\n                onclick=\"document.execCommand('insertUnorderedList')\">\n          &#8226; List\n        </button>\n      </div>\n      <!--\n        The contenteditable div is NOT a form control.\n        Read its content via element.innerHTML or .textContent\n        before submitting.\n      -->\n      <div id=\"bio-editor\"\n           contenteditable=\"true\"\n           role=\"textbox\"\n           aria-multiline=\"true\"\n           aria-labelledby=\"ce-label\"\n           aria-describedby=\"bio-hint bio-err\"\n           aria-required=\"true\"\n           aria-invalid=\"false\"\n           class=\"rich-editor\"\n           oninput=\"\n             const txt = this.textContent;\n             const n = txt.length;\n             const cc = document.getElementById('bio-char');\n             cc.textContent = n + ' / 500 chars';\n             cc.className = 'char-count' + (n > 450 ? ' warn' : '');\n           \">\n      </div>\n      <div id=\"bio-char\" class=\"char-count\">0 / 500 chars</div>\n      <span id=\"bio-hint\" class=\"hint\">\n        Tell us about yourself. Supports bold, italic, and lists.\n      </span>\n      <span id=\"bio-err\" class=\"error\" role=\"alert\"></span>\n    </div>\n\n    <button type=\"button\" class=\"btn\" onclick=\"submitBio()\">Save bio</button>\n  </div>\n\n  <script>\n    function submitBio() {\n      const editor = document.getElementById('bio-editor');\n      const errEl  = document.getElementById('bio-err');\n      const text   = editor.textContent.trim();\n\n      if (!text) {\n        editor.setAttribute('aria-invalid', 'true');\n        errEl.textContent = 'Bio is required.';\n        errEl.classList.add('show');\n        editor.focus();\n        return;\n      }\n      editor.setAttribute('aria-invalid', 'false');\n      errEl.classList.remove('show');\n\n      // Collect content for submission\n      const payload = {\n        bio_html: editor.innerHTML,   // rich HTML\n        bio_text: editor.textContent  // plain text fallback\n      };\n      console.log('Submitting:', payload);\n      alert('Bio saved! (check console for payload)');\n    }\n  </script>\n\n\n  <!-- ARIA LIVE REGION COMPARISON -->\n  <h2>3. role=\"alert\" vs aria-live=\"polite\"</h2>\n  <pre>&lt;!-- Assertive: interrupts screen reader immediately --&gt;\n&lt;span role=\"alert\"&gt;\n  Password is required.\n&lt;/span&gt;\n\n&lt;!-- Polite: waits for reader to finish current utterance --&gt;\n&lt;span aria-live=\"polite\"&gt;\n  Showing 42 results.\n&lt;/span&gt;\n\n&lt;!-- aria-atomic=\"true\": re-reads the entire region on update --&gt;\n&lt;!-- aria-atomic=\"false\": reads only the changed portion     --&gt;\n\n&lt;!-- Trigger announcement by changing textContent: --&gt;\nspan.textContent = 'New message'; // fires immediately for alert\n                                  // or politely for aria-live</pre>\n\n  <div class=\"ann\">\n    <strong>When to use each:</strong><br>\n    <code>role=\"alert\"</code> for validation errors — the user must act now.<br>\n    <code>aria-live=\"polite\"</code> for search counts, character counters,\n    autosave status — informational, not urgent.<br>\n    Never use <code>role=\"alert\"</code> for updates that fire frequently\n    (e.g. every keystroke) — it becomes overwhelming.\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders three sections. The accessible form shows an error summary panel and two fields. On submit with empty fields the summary panel expands with a bullet list of errors, receives focus, and each field gains a red border with an inline error prefixed by an exclamation mark. The contenteditable section shows a rich text editor with Bold, Italic, and List buttons, a live character counter, and a Save bio button that validates for emptiness, sets aria-invalid, announces the error via role=alert, and logs the payload. The live region section shows a dark code block followed by an annotation card.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "role='alert'",
+              "highlight": true
+            },
+            {
+              "value": " announcement mechanism works through "
+            },
+            {
+              "value": "DOM mutation",
+              "bold": true
+            },
+            {
+              "value": ": the browser watches for changes to "
+            },
+            {
+              "value": "textContent",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "innerHTML",
+              "highlight": true
+            },
+            {
+              "value": " of elements with "
+            },
+            {
+              "value": "role='alert'",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "aria-live",
+              "highlight": true
+            },
+            {
+              "value": ". When content changes, the announcement fires. The element must already be in the DOM with the "
+            },
+            {
+              "value": "role",
+              "highlight": true
+            },
+            {
+              "value": " applied "
+            },
+            {
+              "value": "before",
+              "bold": true
+            },
+            {
+              "value": " the content is changed — adding "
+            },
+            {
+              "value": "role='alert'",
+              "highlight": true
+            },
+            {
+              "value": " and text simultaneously may not trigger the announcement in all screen reader and browser combinations."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "contenteditable",
+              "highlight": true
+            },
+            {
+              "value": " attribute has a "
+            },
+            {
+              "value": "three-value model",
+              "bold": true
+            },
+            {
+              "value": ": "
+            },
+            {
+              "value": "contenteditable='true'",
+              "highlight": true
+            },
+            {
+              "value": " makes the element editable, "
+            },
+            {
+              "value": "contenteditable='false'",
+              "highlight": true
+            },
+            {
+              "value": " explicitly blocks editing (useful inside an editable parent), and "
+            },
+            {
+              "value": "contenteditable='plaintext-only'",
+              "highlight": true
+            },
+            {
+              "value": " (Chrome/Safari) strips pasted HTML to plain text, preventing XSS from clipboard paste. For accessible rich text, always add "
+            },
+            {
+              "value": "role='textbox'",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "aria-multiline='true'",
+              "highlight": true
+            },
+            {
+              "value": ", and an accessible name via "
+            },
+            {
+              "value": "aria-label",
+              "highlight": true
+            },
+            {
+              "value": " or "
+            },
+            {
+              "value": "aria-labelledby",
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "contenteditable='plaintext-only'",
+              "highlight": true
+            },
+            {
+              "value": " (supported in Chrome and Safari) when you want editable text but need to "
+            },
+            {
+              "value": "prevent HTML injection from clipboard paste",
+              "bold": true
+            },
+            {
+              "value": ". When a user pastes from a web page, the browser strips all HTML tags and inserts plain text only. This is a "
+            },
+            {
+              "value": "security improvement",
+              "bold": true
+            },
+            {
+              "value": " over "
+            },
+            {
+              "value": "contenteditable='true'",
+              "highlight": true
+            },
+            {
+              "value": " for fields where rich formatting is not intended."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Form Validation and Accessibility",
+        "Form Validation Attributes (required, pattern, min, max)",
+        "Datalist Element Usage and Autocomplete Attributes",
+        "HTML Form Structure",
+        "Web Accessibility WCAG"
+      ],
+      "is_active": true,
+      "order_index": 3,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Form Validation and Accessibility | Constraint Validation, datalist, ARIA Guide",
+    "meta_description": "Master HTML form validation: constraint validation attributes, ValidityState API, datalist suggestions, autocomplete tokens, accessible error patterns with aria-invalid and role=alert, and contenteditable.",
+    "keywords": [
+      "HTML form validation",
+      "HTML required pattern min max",
+      "HTML ValidityState constraint validation",
+      "HTML datalist element",
+      "HTML autocomplete attribute",
+      "HTML aria-invalid form",
+      "HTML role alert form errors",
+      "HTML accessible form design",
+      "HTML contenteditable attribute",
+      "HTML aria-describedby form"
+    ],
+    "canonical_url": "/html/html-form-validation-and-accessibility",
+    "robots": "index, follow"
+  }
+}

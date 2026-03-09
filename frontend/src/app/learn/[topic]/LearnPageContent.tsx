@@ -544,14 +544,13 @@ export default function LearnPageContent({ topic }: { topic: string }) {
             </motion.div>
             
             <div className="flex flex-col gap-8">
-              {currentLesson.problem?.length > 0 && (
+              {currentLesson.whatItSolves?.length > 0 && (
                 <div className="border-l-4 border-orange-500 pl-5 py-2">
                   <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
                     <AlertTriangle className="w-4 h-4 text-orange-500" /> The Problem
                   </div>
                   <ul className="space-y-3">
-                    {currentLesson.problem.map((prob: any, i: number) => (
-                      <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+{currentLesson.whatItSolves.map((prob: any, i: number) => (                      <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
                         <RenderBlocks blocks={[prob]} />
                       </li>
                     ))}
@@ -559,13 +558,13 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                 </div>
               )}
               
-              {currentLesson.mentalModel?.length > 0 && (
+              {currentLesson.conceptualUnderstanding?.length > 0 && (
                 <div className="border-l-4 border-indigo-500 pl-5 py-2">
                   <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
                     <BrainCircuit className="w-4 h-4 text-indigo-500" /> Mental Model
                   </div>
                   <ul className="space-y-3">
-                    {currentLesson.mentalModel.map((model: any, i: number) => (
+                    {currentLesson.conceptualUnderstanding.map((model: any, i: number) => (
                       <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
                         <RenderBlocks blocks={[model]} />
                       </li>

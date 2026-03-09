@@ -1,0 +1,1361 @@
+{
+  "topic": {
+    "id": 25,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 7,
+    "slug": "html-external-media-embeds",
+    "title": "HTML External Media Embeds",
+    "description": "The iframe element embeds external content controlled by sandbox and allow attribute tokens.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "HTML External Media Embeds: iframe, sandbox, and allow"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<iframe>",
+            "highlight": true
+          },
+          {
+            "value": " (inline frame) element embeds an external document into the current page. Common uses include embedding YouTube and Vimeo players, Google Maps, third-party widgets, and payment forms. The embedded page runs in a separate "
+          },
+          {
+            "value": "browsing context",
+            "bold": true
+          },
+          {
+            "value": " with its own "
+          },
+          {
+            "value": "window",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "document",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "history",
+            "highlight": true
+          },
+          {
+            "value": ". The "
+          },
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": " attribute restricts what the embedded content can do: without a value it applies the most restrictive set of rules; individual permissions are granted back using tokens such as "
+          },
+          {
+            "value": "allow-scripts",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "allow-same-origin",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "allow-forms",
+            "highlight": true
+          },
+          {
+            "value": ". The "
+          },
+          {
+            "value": "allow",
+            "highlight": true
+          },
+          {
+            "value": " attribute controls access to browser features via the "
+          },
+          {
+            "value": "Permissions Policy",
+            "bold": true
+          },
+          {
+            "value": ": "
+          },
+          {
+            "value": "allow='fullscreen'",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "allow='autoplay'",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "allow='payment'",
+            "highlight": true
+          },
+          {
+            "value": ". Always set "
+          },
+          {
+            "value": "title",
+            "highlight": true
+          },
+          {
+            "value": " on every "
+          },
+          {
+            "value": "<iframe>",
+            "highlight": true
+          },
+          {
+            "value": " to name the embedded content for screen reader users. Reference: "
+          },
+          {
+            "value": "MDN: iframe",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Attribute",
+          "Purpose",
+          "Value",
+          "Notes"
+        ],
+        "rows": [
+          [
+            "src",
+            "URL of embedded document",
+            "Absolute or relative URL",
+            "Use HTTPS only for third-party content"
+          ],
+          [
+            "title",
+            "Accessible name for screen readers",
+            "Short descriptive string",
+            "Required — WCAG 4.1.2"
+          ],
+          [
+            "width, height",
+            "Embedded frame dimensions",
+            "Pixels or CSS via style",
+            "Set for aspect ratio; use CSS for responsive"
+          ],
+          [
+            "sandbox",
+            "Restrict iframe permissions",
+            "Token list or empty",
+            "Empty = maximum restriction"
+          ],
+          [
+            "allow",
+            "Grant Permissions Policy features",
+            "Feature name list",
+            "fullscreen, autoplay, camera, payment"
+          ],
+          [
+            "loading='lazy'",
+            "Defer iframe load until near viewport",
+            "lazy | eager",
+            "Reduces initial page load cost"
+          ],
+          [
+            "referrerpolicy",
+            "Control Referer header",
+            "no-referrer, strict-origin, etc.",
+            "Limit data sent to embedded origin"
+          ],
+          [
+            "allowfullscreen",
+            "Legacy fullscreen permission",
+            "Boolean",
+            "Replaced by allow='fullscreen' in modern HTML"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Never Combine sandbox='allow-scripts allow-same-origin'",
+        "text": "Adding both allow-scripts and allow-same-origin to the sandbox attribute defeats the entire purpose of sandboxing. A sandboxed iframe with both tokens can use JavaScript to remove its own sandbox attribute, gaining full page access. If the embedded content needs to run scripts AND must be treated as same origin, do not use sandbox at all — it provides no protection in that combination. Use allow-scripts alone (without allow-same-origin) for untrusted content that needs JavaScript."
+      }
+    ],
+    "examples": [
+      {
+        "title": "YouTube Embed, Google Maps, and Sandbox Patterns",
+        "description": "This example shows a responsive YouTube video embed with the correct allow attribute and loading='lazy', a Google Maps embed with sandbox restrictions, a sandboxed untrusted widget with the minimum permission set, and the accessible title pattern for screen reader users.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>iframe Embed Patterns</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 800px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n\n    /* Responsive 16:9 iframe wrapper */\n    .ratio-16-9 {\n      position: relative;\n      padding-top: 56.25%;  /* 9/16 = 0.5625 */\n      overflow: hidden;\n      border-radius: 10px;\n      background: #0f172a;\n      margin: .75rem 0;\n    }\n    .ratio-16-9 iframe {\n      position: absolute;\n      inset: 0;\n      width: 100%;\n      height: 100%;\n      border: none;\n    }\n\n    /* Map wrapper */\n    .map-wrap {\n      border-radius: 10px;\n      overflow: hidden;\n      margin: .75rem 0;\n    }\n    .map-wrap iframe {\n      width: 100%;\n      height: 320px;\n      border: none;\n      display: block;\n    }\n\n    /* Sandboxed widget card */\n    .widget-card {\n      border: 1px solid #e5e7eb;\n      border-radius: 10px;\n      overflow: hidden;\n      margin: .75rem 0;\n    }\n    .widget-header {\n      background: #f8fafc;\n      border-bottom: 1px solid #e5e7eb;\n      padding: .5rem .9rem;\n      font-size: .82rem;\n      color: #64748b;\n      display: flex;\n      align-items: center;\n      gap: .5rem;\n    }\n    .sandbox-badge {\n      background: #dcfce7;\n      color: #16a34a;\n      border-radius: 4px;\n      padding: .1rem .45rem;\n      font-size: .72rem;\n      font-weight: 700;\n    }\n    .widget-card iframe {\n      width: 100%;\n      height: 200px;\n      border: none;\n      display: block;\n    }\n\n    .ann  { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .75rem 1rem;\n            font-size: .84rem; line-height: 1.65; margin: .5rem 0; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .2rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>iframe Embed Patterns</h1>\n\n\n  <!-- PATTERN 1: YOUTUBE EMBED -->\n  <h2>1. YouTube video embed (responsive 16:9)</h2>\n\n  <!--\n    Responsive wrapper: padding-top: 56.25% creates a 16:9\n    aspect ratio box. The iframe is absolutely positioned\n    to fill the entire box regardless of container width.\n\n    title: REQUIRED for accessibility. Screen readers\n      announce \"iframe: <title>\" when the frame is focused.\n      Without it, VoiceOver reads the src URL aloud.\n\n    loading=\"lazy\": defers the iframe load until the user\n      scrolls near it. Reduces initial page weight significantly\n      since YouTube iframes load several hundred KB of JS.\n\n    allow: grants Permissions Policy features to this frame.\n      \"accelerometer; autoplay; clipboard-write;\n       encrypted-media; gyroscope; picture-in-picture;\n       web-share\": the full set YouTube requires.\n\n    allowfullscreen: legacy attribute still required by\n      YouTube alongside allow=\"fullscreen\".\n\n    referrerpolicy=\"strict-origin-when-cross-origin\":\n      sends only the origin (not path/query) to YouTube.\n  -->\n  <div class=\"ratio-16-9\">\n    <iframe\n      src=\"https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ\"\n      title=\"HTML Foundations: Introduction to Document Structure\"\n      loading=\"lazy\"\n      allow=\"accelerometer; autoplay; clipboard-write;\n             encrypted-media; gyroscope; picture-in-picture;\n             web-share; fullscreen\"\n      allowfullscreen\n      referrerpolicy=\"strict-origin-when-cross-origin\">\n    </iframe>\n  </div>\n\n  <div class=\"ann\">\n    <strong>youtube-nocookie.com</strong> vs <strong>youtube.com</strong>:<br>\n    <code>youtube-nocookie.com</code> does not set tracking cookies\n    until the user presses play. Prefer it over <code>youtube.com</code>\n    for GDPR compliance. Both domains accept identical embed URLs.\n  </div>\n\n\n  <!-- PATTERN 2: GOOGLE MAPS EMBED -->\n  <h2>2. Google Maps embed</h2>\n\n  <!--\n    Maps embeds do not require sandbox — Google Maps\n    is a trusted first-party embed from Google's servers.\n    title describes the map content for screen readers.\n    loading=\"lazy\": maps are often below the fold.\n  -->\n  <div class=\"map-wrap\">\n    <iframe\n      src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15553.1...\"\n      title=\"Google Maps: IIT Bombay campus, Powai, Mumbai\"\n      loading=\"lazy\"\n      referrerpolicy=\"no-referrer-when-downgrade\"\n      style=\"border:none;\">\n    </iframe>\n  </div>\n\n\n  <!-- PATTERN 3: SANDBOXED THIRD-PARTY WIDGET -->\n  <h2>3. Sandboxed untrusted widget</h2>\n\n  <!--\n    sandbox=\"allow-scripts allow-forms\":\n\n    allow-scripts: the widget needs JavaScript to function.\n    allow-forms: the widget contains a form submission.\n\n    NOT included (intentionally restricted):\n      allow-same-origin: would let the frame access\n        parent cookies, localStorage, and the DOM.\n      allow-top-navigation: would let the frame redirect\n        the top-level page.\n      allow-popups: no popups needed.\n      allow-pointer-lock, allow-modals: not required.\n\n    CRITICAL: never combine allow-scripts + allow-same-origin.\n    That combination defeats the entire sandbox.\n  -->\n  <div class=\"widget-card\">\n    <div class=\"widget-header\">\n      Third-party feedback widget\n      <span class=\"sandbox-badge\">SANDBOXED</span>\n      <code style=\"font-size:.75rem;color:#64748b;\">\n        allow-scripts allow-forms\n      </code>\n    </div>\n    <iframe\n      src=\"https://widget.example.com/feedback\"\n      title=\"User feedback survey widget\"\n      sandbox=\"allow-scripts allow-forms\"\n      loading=\"lazy\"\n      width=\"100%\"\n      height=\"200\">\n    </iframe>\n  </div>\n\n\n  <!-- WRONG vs RIGHT -->\n  <h2>4. Common mistakes</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: no title — screen reader reads the URL</p>\n    <code>&lt;iframe src=\"https://www.youtube.com/embed/...\"&gt;&lt;/iframe&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: descriptive title for screen readers</p>\n    <code>&lt;iframe src=\"...\" title=\"Introduction to HTML: course trailer\"&gt;&lt;/iframe&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: sandbox defeating combination</p>\n    <code>&lt;iframe sandbox=\"allow-scripts allow-same-origin\" src=\"...\"&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: allow-scripts only for untrusted scripted content</p>\n    <code>&lt;iframe sandbox=\"allow-scripts\" src=\"...\"&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: no loading=\"lazy\" on below-fold iframe</p>\n    <code>&lt;iframe src=\"https://maps.google.com/embed?...\"&gt;&lt;/iframe&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: lazy loading for off-screen iframes</p>\n    <code>&lt;iframe src=\"https://maps.google.com/embed?...\" loading=\"lazy\"&gt;&lt;/iframe&gt;</code>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders four sections. The YouTube embed shows a responsive 16:9 ratio container with the iframe filling it edge to edge, annotated with the youtube-nocookie.com privacy tip. The Google Maps section shows a 320px high map container. The sandboxed widget shows a light grey header bar with the sandbox badge and token list, above a bordered iframe. The mistakes section shows three pairs of red wrong and green right code cards for missing title, the defeating sandbox combination, and missing lazy loading.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Permissions Policy, postMessage Communication, and CSP",
+        "description": "This example demonstrates the allow attribute for Permissions Policy feature delegation to iframes, the window.postMessage API for safe parent-to-iframe communication, the X-Frame-Options and Content-Security-Policy frame-ancestors headers that control where a page can be embedded, and a complete security checklist for third-party iframe embeds.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>iframe Security Reference</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 800px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    pre   { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n            padding: 1rem; font-size: .82rem; overflow-x: auto;\n            line-height: 1.65; }\n    table { border-collapse: collapse; width: 100%; font-size: .87rem;\n            margin: .75rem 0; }\n    th,td { border: 1px solid #e2e8f0; padding: .45rem .75rem;\n            text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    .checklist { list-style: none; padding: 0; margin: .5rem 0; }\n    .checklist li { padding: .3rem 0 .3rem 1.6rem; position: relative;\n                    font-size: .88rem; }\n    .checklist li::before { content: \"\\2713\"; position: absolute; left: 0;\n                            color: #16a34a; font-weight: 700; }\n  </style>\n</head>\n<body>\n\n  <h1>iframe Security Reference</h1>\n\n\n  <!-- PERMISSIONS POLICY (allow attribute) -->\n  <h2>1. allow attribute: Permissions Policy tokens</h2>\n  <table>\n    <thead>\n      <tr><th>Token</th><th>Grants</th><th>Common use case</th></tr>\n    </thead>\n    <tbody>\n      <tr><td><code>fullscreen</code></td>\n          <td>requestFullscreen() API</td>\n          <td>Video players, presentations</td></tr>\n      <tr><td><code>autoplay</code></td>\n          <td>Unmuted autoplay of media</td>\n          <td>Video ads, course teasers</td></tr>\n      <tr><td><code>camera</code></td>\n          <td>getUserMedia camera access</td>\n          <td>Video call widgets</td></tr>\n      <tr><td><code>microphone</code></td>\n          <td>getUserMedia microphone access</td>\n          <td>Voice input widgets</td></tr>\n      <tr><td><code>payment</code></td>\n          <td>Payment Request API</td>\n          <td>Embedded checkout forms</td></tr>\n      <tr><td><code>geolocation</code></td>\n          <td>Geolocation API</td>\n          <td>Store finder widgets</td></tr>\n      <tr><td><code>picture-in-picture</code></td>\n          <td>Picture-in-picture video mode</td>\n          <td>Video players</td></tr>\n      <tr><td><code>clipboard-write</code></td>\n          <td>Write to clipboard</td>\n          <td>Copy-to-clipboard buttons in embeds</td></tr>\n    </tbody>\n  </table>\n\n  <!-- allow with origin scoping -->\n  <pre>&lt;!-- Grant fullscreen to all origins in this iframe --&gt;\n&lt;iframe allow=\"fullscreen\" src=\"...\"&gt;&lt;/iframe&gt;\n\n&lt;!-- Grant autoplay only to the specific embed origin --&gt;\n&lt;iframe allow=\"autoplay 'src'\" src=\"https://player.example.com/embed/1\"&gt;\n&lt;/iframe&gt;\n\n&lt;!-- Deny all Permissions Policy features (most restrictive) --&gt;\n&lt;iframe allow=\"\" src=\"...\"&gt;&lt;/iframe&gt;\n\n&lt;!-- YouTube full allow set --&gt;\n&lt;iframe\n  src=\"https://www.youtube-nocookie.com/embed/VIDEO_ID\"\n  title=\"Video title here\"\n  allow=\"accelerometer; autoplay; clipboard-write;\n         encrypted-media; gyroscope; picture-in-picture;\n         web-share; fullscreen\"\n  allowfullscreen\n  loading=\"lazy\"&gt;\n&lt;/iframe&gt;</pre>\n\n\n  <!-- postMessage COMMUNICATION -->\n  <h2>2. window.postMessage for iframe communication</h2>\n  <pre>// ─── PARENT PAGE ─────────────────────────────────────\nconst frame = document.getElementById('my-frame');\n\n// Send message to iframe — always specify target origin\nframe.contentWindow.postMessage(\n  { action: 'setTheme', theme: 'dark' },\n  'https://widget.example.com'  // target origin (NOT '*')\n);\n\n// Listen for messages from the iframe\nwindow.addEventListener('message', event => {\n  // ALWAYS validate the origin before processing\n  if (event.origin !== 'https://widget.example.com') return;\n\n  const { action, data } = event.data;\n  if (action === 'formSubmitted') {\n    console.log('Form data:', data);\n  }\n});\n\n\n// ─── INSIDE THE IFRAME ───────────────────────────────\n// Send message to parent — specify target origin\nwindow.parent.postMessage(\n  { action: 'formSubmitted', data: { score: 42 } },\n  'https://devdocs.in'  // parent origin\n);\n\n// Listen for messages from parent\nwindow.addEventListener('message', event => {\n  if (event.origin !== 'https://devdocs.in') return;\n\n  const { action, theme } = event.data;\n  if (action === 'setTheme') {\n    document.body.dataset.theme = theme;\n  }\n});</pre>\n\n  <p style=\"font-size:.84rem;color:#64748b;margin-top:.3rem;\">\n    <strong>Security rule:</strong> Always validate\n    <code>event.origin</code> before processing a\n    <code>postMessage</code>. Never use <code>'*'</code> as\n    the target origin when sending sensitive data.\n  </p>\n\n\n  <!-- CLICKJACKING: X-Frame-Options and CSP -->\n  <h2>3. Protecting your own pages from being embedded</h2>\n  <pre>&lt;!-- Server response headers to prevent clickjacking --&gt;\n\n# Prevent embedding in any frame (strongest)\nX-Frame-Options: DENY\n\n# Allow embedding only by same origin\nX-Frame-Options: SAMEORIGIN\n\n# Modern equivalent via CSP (replaces X-Frame-Options)\nContent-Security-Policy: frame-ancestors 'none';\nContent-Security-Policy: frame-ancestors 'self';\nContent-Security-Policy: frame-ancestors 'self' https://trusted-partner.com;</pre>\n\n  <p style=\"font-size:.84rem;color:#64748b;margin-top:.3rem;\">\n    <code>frame-ancestors</code> in CSP is more flexible than\n    <code>X-Frame-Options</code> and supports multiple allowed\n    origins. Both headers should be set for maximum compatibility.\n  </p>\n\n\n  <!-- SECURITY CHECKLIST -->\n  <h2>4. Third-party iframe security checklist</h2>\n  <ul class=\"checklist\">\n    <li>Add <code>title</code> attribute on every iframe (WCAG 4.1.2)</li>\n    <li>Use <code>loading=\"lazy\"</code> on all below-fold iframes</li>\n    <li>Add <code>sandbox</code> to untrusted or unknown-origin iframes</li>\n    <li>Never combine <code>allow-scripts</code> + <code>allow-same-origin</code> in sandbox</li>\n    <li>Use <code>youtube-nocookie.com</code> instead of <code>youtube.com</code></li>\n    <li>Always validate <code>event.origin</code> in <code>postMessage</code> handlers</li>\n    <li>Set <code>referrerpolicy=\"strict-origin-when-cross-origin\"</code></li>\n    <li>Set <code>X-Frame-Options</code> and <code>Content-Security-Policy: frame-ancestors</code> on your own pages</li>\n    <li>Grant only the minimum <code>allow</code> tokens required by the embed</li>\n    <li>Use HTTPS <code>src</code> URLs — mixed content iframes are blocked</li>\n  </ul>\n\n</body>\n</html>",
+        "output": "Page renders four sections. The Permissions Policy table lists eight allow tokens with what they grant and their common use case, followed by a dark code block showing four allow attribute patterns including origin scoping and the full YouTube set. The postMessage section shows a dark code block with a complete parent and iframe communication example including origin validation. The clickjacking section shows server header examples for X-Frame-Options and CSP frame-ancestors. The security checklist shows ten items with green checkmarks.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<iframe>",
+            "highlight": true
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": " and a descriptive "
+          },
+          {
+            "value": "title",
+            "highlight": true
+          },
+          {
+            "value": " attribute to embed trusted third-party content: YouTube or Vimeo players, Google Maps, payment forms, and interactive widgets that require their own browsing context."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Apply "
+          },
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": " with the minimum required token set to any iframe embedding untrusted or user-generated content, third-party advertising, or widgets from unknown origins to restrict their ability to navigate the parent page or access its storage."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "allow='fullscreen'",
+            "highlight": true
+          },
+          {
+            "value": " (and "
+          },
+          {
+            "value": "allowfullscreen",
+            "highlight": true
+          },
+          {
+            "value": " for legacy compatibility) on video player embeds, and "
+          },
+          {
+            "value": "allow='payment'",
+            "highlight": true
+          },
+          {
+            "value": " on embedded checkout iframes to grant the specific "
+          },
+          {
+            "value": "Permissions Policy",
+            "bold": true
+          },
+          {
+            "value": " features the embed requires without opening all features."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid embedding content over "
+          },
+          {
+            "value": "HTTP",
+            "bold": true
+          },
+          {
+            "value": " in an HTTPS page; browsers block mixed-content iframes, and users will see a broken frame rather than the expected content."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "sandbox='allow-scripts allow-same-origin'",
+            "highlight": true
+          },
+          {
+            "value": " together; this combination allows the embedded script to remove its own "
+          },
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": " attribute, granting full access to the parent page's cookies and DOM."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid using "
+          },
+          {
+            "value": "<iframe>",
+            "highlight": true
+          },
+          {
+            "value": " to load same-domain pages that could instead be included server-side or via JavaScript; iframes carry a separate "
+          },
+          {
+            "value": "browsing context",
+            "bold": true
+          },
+          {
+            "value": " overhead and are inaccessible to assistive technology unless carefully titled and managed."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "<iframe>",
+            "highlight": true
+          },
+          {
+            "value": " solves "
+          },
+          {
+            "value": "browsing context isolation",
+            "bold": true
+          },
+          {
+            "value": ": embedded third-party content runs in a separate window object with its own JavaScript scope, history, and cookies, preventing accidental or malicious interference with the parent page's state."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": " attribute solves "
+          },
+          {
+            "value": "untrusted content containment",
+            "bold": true
+          },
+          {
+            "value": ": even if embedded content is compromised or malicious, a properly sandboxed iframe cannot navigate the top-level page, submit cross-origin forms, open popups, or access parent storage."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "allow",
+            "highlight": true
+          },
+          {
+            "value": " attribute solves "
+          },
+          {
+            "value": "feature over-exposure",
+            "bold": true
+          },
+          {
+            "value": ": without it, an embedded page can request any Permissions Policy feature (camera, microphone, geolocation) that the parent page has access to. Explicit "
+          },
+          {
+            "value": "allow",
+            "highlight": true
+          },
+          {
+            "value": " tokens limit which features are delegated to the frame."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Each "
+          },
+          {
+            "value": "<iframe>",
+            "highlight": true
+          },
+          {
+            "value": " creates a "
+          },
+          {
+            "value": "nested browsing context",
+            "bold": true
+          },
+          {
+            "value": ": a complete, independent document environment with its own "
+          },
+          {
+            "value": "window",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "document",
+            "highlight": true
+          },
+          {
+            "value": ", event loop, and "
+          },
+          {
+            "value": "history",
+            "highlight": true
+          },
+          {
+            "value": " stack. JavaScript in the parent page cannot access the iframe's DOM if it is cross-origin ("
+          },
+          {
+            "value": "same-origin policy",
+            "bold": true
+          },
+          {
+            "value": "). This isolation is both the primary use case for iframes (containing third-party content) and the reason they require explicit communication channels like "
+          },
+          {
+            "value": "window.postMessage",
+            "highlight": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": " attribute operates by assigning the iframe's content a "
+          },
+          {
+            "value": "unique opaque origin",
+            "bold": true
+          },
+          {
+            "value": " regardless of its actual "
+          },
+          {
+            "value": "src",
+            "highlight": true
+          },
+          {
+            "value": " URL (unless "
+          },
+          {
+            "value": "allow-same-origin",
+            "highlight": true
+          },
+          {
+            "value": " is granted). This means sandboxed content cannot access cookies, "
+          },
+          {
+            "value": "localStorage",
+            "highlight": true
+          },
+          {
+            "value": ", or same-origin resources even from the same domain. Each sandbox token is an explicit capability grant: "
+          },
+          {
+            "value": "allow-scripts",
+            "highlight": true
+          },
+          {
+            "value": " enables JavaScript, "
+          },
+          {
+            "value": "allow-forms",
+            "highlight": true
+          },
+          {
+            "value": " enables form submission, "
+          },
+          {
+            "value": "allow-top-navigation",
+            "highlight": true
+          },
+          {
+            "value": " allows the frame to change the top-level URL."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "Permissions Policy",
+            "bold": true
+          },
+          {
+            "value": " (formerly Feature Policy) system, controlled by the "
+          },
+          {
+            "value": "allow",
+            "highlight": true
+          },
+          {
+            "value": " attribute, is separate from "
+          },
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": ". "
+          },
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": " controls JavaScript and navigation capabilities; "
+          },
+          {
+            "value": "allow",
+            "highlight": true
+          },
+          {
+            "value": " controls browser API access (camera, microphone, payment). Both can be applied simultaneously: "
+          },
+          {
+            "value": "sandbox='allow-scripts'",
+            "highlight": true
+          },
+          {
+            "value": " restricts navigation while "
+          },
+          {
+            "value": "allow='camera'",
+            "highlight": true
+          },
+          {
+            "value": " grants camera access within that restricted context."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Missing "
+          },
+          {
+            "value": "title",
+            "highlight": true
+          },
+          {
+            "value": " on iframe causes screen readers to read the src URL, violating "
+          },
+          {
+            "value": "WCAG 4.1.2",
+            "bold": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "sandbox",
+            "highlight": true
+          },
+          {
+            "value": " with allow-scripts and allow-same-origin lets scripts remove the sandbox entirely."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "No "
+          },
+          {
+            "value": "loading='lazy'",
+            "highlight": true
+          },
+          {
+            "value": " on below-fold iframes loads YouTube or Maps JavaScript unnecessarily."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "Intersection Observer API",
+            "bold": true
+          },
+          {
+            "value": " for a "
+          },
+          {
+            "value": "click-to-load",
+            "bold": true
+          },
+          {
+            "value": " iframe pattern: render a poster image with a play button in place of the iframe, then replace it with the real "
+          },
+          {
+            "value": "<iframe>",
+            "highlight": true
+          },
+          {
+            "value": " only when clicked. This avoids loading third-party JavaScript (YouTube loads ~500KB) on pages where most users never play the video, saving bandwidth and improving "
+          },
+          {
+            "value": "Largest Contentful Paint (LCP)",
+            "bold": true
+          },
+          {
+            "value": " scores significantly."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Protect your own pages from "
+          },
+          {
+            "value": "clickjacking",
+            "bold": true
+          },
+          {
+            "value": " by setting "
+          },
+          {
+            "value": "Content-Security-Policy: frame-ancestors 'self'",
+            "highlight": true
+          },
+          {
+            "value": " (or "
+          },
+          {
+            "value": "frame-ancestors 'none'",
+            "highlight": true
+          },
+          {
+            "value": " for pages that should never be embedded) in HTTP response headers. This prevents malicious sites from embedding your pages in hidden iframes to trick users into clicking UI elements they cannot see."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Audio Element",
+      "HTML Video Element",
+      "HTML Image Performance and Branding",
+      "Web Security and CSP",
+      "Accessibility and ARIA"
+    ],
+    "is_active": true,
+    "order_index": 25,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 25,
+      "slug": "html-iframe-element",
+      "title": "HTML Iframe Element",
+      "description": "iframe creates a nested browsing context with its own window, history, and JavaScript scope.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<iframe>",
+              "highlight": true
+            },
+            {
+              "value": " element creates an inline frame: a rectangular region in the current page that hosts an independent "
+            },
+            {
+              "value": "browsing context",
+              "bold": true
+            },
+            {
+              "value": ". The embedded document has its own "
+            },
+            {
+              "value": "window",
+              "highlight": true
+            },
+            {
+              "value": " object, "
+            },
+            {
+              "value": "document",
+              "highlight": true
+            },
+            {
+              "value": " tree, JavaScript scope, "
+            },
+            {
+              "value": "history",
+              "highlight": true
+            },
+            {
+              "value": " stack, and cookie jar. Required attributes in every "
+            },
+            {
+              "value": "<iframe>",
+              "highlight": true
+            },
+            {
+              "value": " are "
+            },
+            {
+              "value": "src",
+              "highlight": true
+            },
+            {
+              "value": " (the embedded URL) and "
+            },
+            {
+              "value": "title",
+              "highlight": true
+            },
+            {
+              "value": " (the accessible name). The "
+            },
+            {
+              "value": "width",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "height",
+              "highlight": true
+            },
+            {
+              "value": " attributes reserve layout space; use the "
+            },
+            {
+              "value": "padding-top: 56.25%",
+              "highlight": true
+            },
+            {
+              "value": " CSS ratio technique for responsive aspect-ratio containers. "
+            },
+            {
+              "value": "loading='lazy'",
+              "highlight": true
+            },
+            {
+              "value": " defers the iframe fetch until the user scrolls near it, saving the bandwidth cost of third-party scripts before they are needed. Reference: "
+            },
+            {
+              "value": "MDN: iframe element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Responsive iframe, Accessible Title, and Lazy Loading",
+          "description": "This example shows the responsive aspect-ratio wrapper technique for 16:9 and 4:3 embeds, the title attribute requirement and what happens without it, loading='lazy' on below-fold iframes, referrerpolicy options, and the click-to-load poster pattern that avoids loading third-party JavaScript until the user interacts.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>iframe Element Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n\n    /* Ratio containers */\n    .r169 { position: relative; padding-top: 56.25%;\n             background: #0f172a; border-radius: 8px;\n             overflow: hidden; margin: .65rem 0; }\n    .r43  { position: relative; padding-top: 75%;\n             background: #0f172a; border-radius: 8px;\n             overflow: hidden; margin: .65rem 0; }\n    .r169 iframe, .r43 iframe {\n      position: absolute; inset: 0;\n      width: 100%; height: 100%; border: none; }\n\n    /* Click-to-load poster */\n    .ctl  { position: relative; cursor: pointer;\n             border-radius: 8px; overflow: hidden;\n             margin: .65rem 0; }\n    .ctl img  { width: 100%; display: block; aspect-ratio: 16/9;\n                object-fit: cover; }\n    .ctl-btn  { position: absolute; top: 50%; left: 50%;\n                transform: translate(-50%, -50%);\n                background: rgba(0,0,0,.75);\n                color: #fff; border: none; border-radius: 50%;\n                width: 64px; height: 64px; font-size: 1.5rem;\n                cursor: pointer; display: flex;\n                align-items: center; justify-content: center; }\n    .ctl-btn:hover { background: #2563eb; }\n    .ctl-btn:focus-visible { outline: 3px solid #93c5fd;\n                             outline-offset: 2px; }\n  </style>\n</head>\n<body>\n\n  <h1>iframe Element Reference</h1>\n\n\n  <!-- RESPONSIVE 16:9 WRAPPER -->\n  <h2>1. Responsive 16:9 aspect ratio</h2>\n  <!--\n    padding-top: 56.25% (9 / 16) creates an empty box\n    whose height is always 56.25% of its width.\n    The iframe is absolutely positioned to fill the box.\n    This works at any container width without JavaScript.\n  -->\n  <div class=\"r169\">\n    <iframe\n      src=\"https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ\"\n      title=\"Introduction to HTML Document Structure — DevDocs India\"\n      loading=\"lazy\"\n      allow=\"fullscreen; accelerometer; autoplay; clipboard-write;\n             encrypted-media; gyroscope; picture-in-picture; web-share\"\n      allowfullscreen\n      referrerpolicy=\"strict-origin-when-cross-origin\">\n    </iframe>\n  </div>\n\n\n  <!-- RESPONSIVE 4:3 WRAPPER -->\n  <h2>2. Responsive 4:3 aspect ratio</h2>\n  <!--\n    padding-top: 75% (3 / 4) for 4:3 embeds.\n    Vimeo defaults to 16:9; use this for legacy video.\n  -->\n  <div class=\"r43\">\n    <iframe\n      src=\"https://player.vimeo.com/video/123456789\"\n      title=\"CSS Grid Layout Tutorial — 4:3 presentation\"\n      loading=\"lazy\"\n      allow=\"fullscreen; autoplay\"\n      referrerpolicy=\"strict-origin-when-cross-origin\">\n    </iframe>\n  </div>\n\n\n  <!-- REFERRERPOLICY OPTIONS -->\n  <h2>3. referrerpolicy attribute options</h2>\n  <pre>&lt;!-- Most permissive (default browser behaviour) --&gt;\n&lt;iframe referrerpolicy=\"no-referrer-when-downgrade\" src=\"...\"&gt;\n\n&lt;!-- Send origin only, not path/query --&gt;\n&lt;iframe referrerpolicy=\"strict-origin-when-cross-origin\" src=\"...\"&gt;\n\n&lt;!-- Send nothing at all --&gt;\n&lt;iframe referrerpolicy=\"no-referrer\" src=\"...\"&gt;\n\n&lt;!-- For YouTube, Google Maps: use strict-origin-when-cross-origin --&gt;</pre>\n\n\n  <!-- CLICK-TO-LOAD PATTERN -->\n  <h2>4. Click-to-load: defer iframe until interaction</h2>\n  <!--\n    Show a poster image with a play button.\n    Replace with the real iframe only when clicked.\n    Avoids loading ~500KB of YouTube JavaScript on pages\n    where many users never play the video.\n  -->\n  <div class=\"ctl\" id=\"ctl-wrap\">\n    <img\n      src=\"/img/youtube-poster.jpg\"\n      alt=\"Click to play: Introduction to HTML by DevDocs India\">\n    <button\n      class=\"ctl-btn\"\n      aria-label=\"Play Introduction to HTML video\"\n      onclick=\"\n        const wrap = document.getElementById('ctl-wrap');\n        wrap.innerHTML = '<iframe'\n          + ' src=\\\"https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1\\\"'\n          + ' title=\\\"Introduction to HTML — DevDocs India\\\"'\n          + ' allow=\\\"autoplay; fullscreen; accelerometer; encrypted-media\\\"'\n          + ' allowfullscreen'\n          + ' style=\\\"width:100%;aspect-ratio:16/9;border:none;display:block;\\\"'\n          + '></iframe>';\n      \">\n      &#9654;\n    </button>\n  </div>\n  <p style=\"font-size:.83rem;color:#64748b;margin-top:.3rem;\">\n    The poster loads only one JPEG (~30KB) instead of\n    YouTube's full embed (~500KB of JS + network requests).\n    On click, the iframe is injected with <code>autoplay=1</code>\n    so playback starts immediately.\n  </p>\n\n</body>\n</html>",
+          "output": "Page renders four sections. The 16:9 section shows a dark ratio container with a YouTube iframe filling it responsively. The 4:3 section shows a taller ratio container for the Vimeo embed. The referrerpolicy section shows a dark code block with four policy options and a recommendation. The click-to-load section shows a thumbnail image with a circular play button overlay; clicking it replaces the image with the live iframe.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "title",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<iframe>",
+              "highlight": true
+            },
+            {
+              "value": " satisfies "
+            },
+            {
+              "value": "WCAG 4.1.2 Name, Role, Value",
+              "bold": true
+            },
+            {
+              "value": ". When a screen reader user reaches an iframe by tab navigation, the assistive technology announces the frame's accessible name. Without "
+            },
+            {
+              "value": "title",
+              "highlight": true
+            },
+            {
+              "value": ", VoiceOver reads the full "
+            },
+            {
+              "value": "src",
+              "highlight": true
+            },
+            {
+              "value": " URL ("
+            },
+            {
+              "value": "\"frame www youtube-nocookie com embed dQw4w9WgXcQ\"",
+              "bold": true
+            },
+            {
+              "value": "). A descriptive title ("
+            },
+            {
+              "value": "\"Introduction to HTML course trailer\"",
+              "bold": true
+            },
+            {
+              "value": ") immediately communicates the frame's purpose, allowing the user to decide whether to enter or skip it."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "padding-top ratio technique",
+              "bold": true
+            },
+            {
+              "value": " for responsive iframes works because CSS percentage "
+            },
+            {
+              "value": "padding-top",
+              "highlight": true
+            },
+            {
+              "value": " is always calculated as a percentage of the "
+            },
+            {
+              "value": "element's width",
+              "bold": true
+            },
+            {
+              "value": ", not its height. Setting "
+            },
+            {
+              "value": "padding-top: 56.25%",
+              "highlight": true
+            },
+            {
+              "value": " means the element's height is always 56.25% of its width, maintaining 16:9 ratio at any container width. The "
+            },
+            {
+              "value": "aspect-ratio",
+              "highlight": true
+            },
+            {
+              "value": " CSS property ("
+            },
+            {
+              "value": "aspect-ratio: 16 / 9",
+              "highlight": true
+            },
+            {
+              "value": ") achieves the same result more cleanly and is supported in all modern browsers."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Replace the padding-top hack with the modern "
+            },
+            {
+              "value": "aspect-ratio",
+              "highlight": true
+            },
+            {
+              "value": " CSS property: "
+            },
+            {
+              "value": "iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: none; }",
+              "highlight": true
+            },
+            {
+              "value": ". No wrapper div is needed. "
+            },
+            {
+              "value": "aspect-ratio",
+              "highlight": true
+            },
+            {
+              "value": " is supported in all browsers since 2021 and eliminates the "
+            },
+            {
+              "value": "position: absolute",
+              "highlight": true
+            },
+            {
+              "value": " trick entirely. For older browser support (pre-2021) keep the padding-top wrapper as a fallback."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML External Media Embeds",
+        "Sandbox Security Attributes",
+        "HTML Video Element",
+        "HTML Image Performance and Branding"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 25,
+      "slug": "sandbox-security-attributes",
+      "title": "Sandbox Security Attributes",
+      "description": "sandbox restricts iframe to a named token set; allow controls Permissions Policy API access.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "sandbox",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<iframe>",
+              "highlight": true
+            },
+            {
+              "value": " applies a set of restrictions. An empty "
+            },
+            {
+              "value": "sandbox",
+              "highlight": true
+            },
+            {
+              "value": " (no value) applies all restrictions: scripts disabled, forms cannot submit, plugins blocked, navigation blocked, and the content is given a "
+            },
+            {
+              "value": "unique opaque origin",
+              "bold": true
+            },
+            {
+              "value": ". Each capability is restored by adding a token to the attribute value. The key tokens are "
+            },
+            {
+              "value": "allow-scripts",
+              "highlight": true
+            },
+            {
+              "value": " (enables JavaScript), "
+            },
+            {
+              "value": "allow-forms",
+              "highlight": true
+            },
+            {
+              "value": " (enables form submission), "
+            },
+            {
+              "value": "allow-same-origin",
+              "highlight": true
+            },
+            {
+              "value": " (restores the real origin instead of opaque), "
+            },
+            {
+              "value": "allow-top-navigation",
+              "highlight": true
+            },
+            {
+              "value": " (allows the frame to navigate the top-level page), and "
+            },
+            {
+              "value": "allow-popups",
+              "highlight": true
+            },
+            {
+              "value": " (allows window.open and target=_blank). The "
+            },
+            {
+              "value": "allow",
+              "highlight": true
+            },
+            {
+              "value": " attribute is separate and controls "
+            },
+            {
+              "value": "Permissions Policy",
+              "bold": true
+            },
+            {
+              "value": " features. Reference: "
+            },
+            {
+              "value": "MDN: sandbox",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#sandbox"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Token",
+            "Restores",
+            "Risk if added"
+          ],
+          "rows": [
+            [
+              "allow-scripts",
+              "JavaScript execution",
+              "Low — scripts run in opaque origin, no DOM access"
+            ],
+            [
+              "allow-forms",
+              "Form submission",
+              "Low — forms submit to the frame's origin only"
+            ],
+            [
+              "allow-same-origin",
+              "Real origin (not opaque)",
+              "HIGH — gives frame access to cookies, storage, parent DOM"
+            ],
+            [
+              "allow-top-navigation",
+              "Top-level page navigation",
+              "Medium — frame can redirect the user away"
+            ],
+            [
+              "allow-popups",
+              "window.open and target=_blank",
+              "Medium — popup windows can escape the sandbox"
+            ],
+            [
+              "allow-pointer-lock",
+              "Pointer Lock API",
+              "Low — cursor capture only"
+            ],
+            [
+              "allow-modals",
+              "alert(), confirm(), prompt()",
+              "Low — blocking dialogs"
+            ],
+            [
+              "allow-downloads",
+              "File download via <a download>",
+              "Low — downloads the iframe's own files"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Sandbox Token Combinations and Security Implications",
+          "description": "This example shows four sandbox configurations from most restrictive to least, explains the opaque origin concept, demonstrates why allow-scripts plus allow-same-origin defeats the sandbox, and shows the correct minimum token set for common use cases: untrusted widgets, user-generated HTML, code sandboxes, and advertising iframes.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Sandbox Security Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    .config  { border: 1px solid #e5e7eb; border-radius: 8px;\n               padding: .75rem 1rem; margin: .5rem 0; font-size: .87rem; }\n    .config h4 { margin: 0 0 .35rem; font-size: .88rem;\n                 display: flex; gap: .5rem; align-items: center; }\n    .badge { font-size: .68rem; font-weight: 700; border-radius: 4px;\n             padding: .1rem .45rem; text-transform: uppercase; }\n    .safe   { background: #dcfce7; color: #15803d; }\n    .caution{ background: #fef9c3; color: #92400e; }\n    .danger { background: #fee2e2; color: #dc2626; }\n    .config code { font-size: .82rem; }\n    .config ul   { margin: .4rem 0 0; padding-left: 1.2rem;\n                   font-size: .84rem; color: #475569; }\n    .ann { background: #f8fafc; border: 1px solid #e2e8f0;\n           border-radius: 8px; padding: .75rem 1rem;\n           font-size: .84rem; line-height: 1.65; margin: .5rem 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Sandbox Security Configurations</h1>\n\n\n  <!-- FOUR SANDBOX CONFIGURATIONS -->\n  <h2>1. Sandbox configurations from most to least restrictive</h2>\n\n  <div class=\"config\">\n    <h4>\n      Maximum restriction\n      <span class=\"badge safe\">SAFEST</span>\n    </h4>\n    <code>&lt;iframe sandbox src=\"...\"&gt;&lt;/iframe&gt;</code>\n    <ul>\n      <li>No JavaScript, no forms, no plugins, no navigation</li>\n      <li>Content given a unique opaque origin</li>\n      <li>Cannot access any parent page resources</li>\n      <li>Use for: static HTML snippets, untrusted user content</li>\n    </ul>\n  </div>\n\n  <div class=\"config\">\n    <h4>\n      Scripts only\n      <span class=\"badge safe\">SAFE</span>\n    </h4>\n    <code>&lt;iframe sandbox=\"allow-scripts\" src=\"...\"&gt;&lt;/iframe&gt;</code>\n    <ul>\n      <li>JavaScript runs but origin remains opaque</li>\n      <li>Scripts CANNOT access parent cookies, localStorage, or DOM</li>\n      <li>Scripts CANNOT submit forms or open popups</li>\n      <li>Use for: interactive widgets, code editors, game embeds</li>\n    </ul>\n  </div>\n\n  <div class=\"config\">\n    <h4>\n      Scripts and forms\n      <span class=\"badge caution\">CAUTION</span>\n    </h4>\n    <code>&lt;iframe sandbox=\"allow-scripts allow-forms\" src=\"...\"&gt;&lt;/iframe&gt;</code>\n    <ul>\n      <li>JavaScript runs; forms can submit to the frame's origin</li>\n      <li>Origin still opaque — no parent page access</li>\n      <li>Use for: third-party feedback forms, survey widgets</li>\n    </ul>\n  </div>\n\n  <div class=\"config\">\n    <h4>\n      Scripts + same-origin (NEVER USE)\n      <span class=\"badge danger\">DANGEROUS</span>\n    </h4>\n    <code>&lt;iframe sandbox=\"allow-scripts allow-same-origin\" src=\"...\"&gt;&lt;/iframe&gt;</code>\n    <ul>\n      <li>Defeats the sandbox entirely</li>\n      <li>Scripts can call <code>iframe.sandbox.remove()</code> to\n          eliminate all restrictions</li>\n      <li>Scripts can access parent cookies, localStorage, and DOM</li>\n      <li>Provides zero security benefit over no sandbox at all</li>\n    </ul>\n  </div>\n\n\n  <!-- OPAQUE ORIGIN EXPLAINED -->\n  <h2>2. The opaque origin concept</h2>\n  <div class=\"ann\">\n    <p>\n      Without <code>allow-same-origin</code>, a sandboxed iframe is\n      assigned a <strong>unique opaque origin</strong> — a randomly\n      generated identifier that does not match any real domain.\n      This means:\n    </p>\n    <ul style=\"margin:.3rem 0 0;padding-left:1.25rem;font-size:.84rem;\">\n      <li>The frame cannot read the parent's <code>document.cookie</code></li>\n      <li>The frame cannot access <code>localStorage</code> or <code>sessionStorage</code></li>\n      <li>The frame's cookies are isolated from its own real domain</li>\n      <li>Cross-origin requests from the frame use the opaque origin</li>\n    </ul>\n    <p style=\"margin:.5rem 0 0;\">\n      Adding <code>allow-same-origin</code> restores the real origin,\n      giving the frame access to all of the above. This is only safe\n      when the iframe content is fully trusted (e.g. your own domain).\n    </p>\n  </div>\n\n\n  <!-- COMMON USE CASE CONFIGURATIONS -->\n  <h2>3. Recommended configurations by use case</h2>\n  <pre>&lt;!-- Untrusted user-generated HTML (blog comments, forum posts) --&gt;\n&lt;iframe\n  sandbox\n  srcdoc=\"&lt;p&gt;User HTML content here&lt;/p&gt;\"\n  title=\"User-submitted content\"&gt;\n&lt;/iframe&gt;\n\n&lt;!-- Interactive code editor (CodePen-style) --&gt;\n&lt;iframe\n  sandbox=\"allow-scripts\"\n  srcdoc=\"...generated HTML/CSS/JS...\"\n  title=\"Live code preview\"&gt;\n&lt;/iframe&gt;\n\n&lt;!-- Third-party feedback widget --&gt;\n&lt;iframe\n  sandbox=\"allow-scripts allow-forms\"\n  src=\"https://widget.example.com/survey\"\n  title=\"User satisfaction survey\"\n  loading=\"lazy\"&gt;\n&lt;/iframe&gt;\n\n&lt;!-- Advertising iframe (prevent navigation hijack) --&gt;\n&lt;iframe\n  sandbox=\"allow-scripts allow-same-origin allow-popups\"\n  src=\"https://ad.example.com/banner\"\n  title=\"Advertisement\"\n  loading=\"lazy\"&gt;\n&lt;/iframe&gt;\n\n&lt;!-- Your own trusted subdomain content --&gt;\n&lt;iframe\n  sandbox=\"allow-scripts allow-same-origin allow-forms\"\n  src=\"https://app.devdocs.in/widget\"\n  title=\"Course progress widget\"&gt;\n&lt;/iframe&gt;</pre>\n\n\n  <!-- srcdoc: inline HTML in sandbox -->\n  <h2>4. srcdoc: inline HTML without a network request</h2>\n  <!--\n    srcdoc provides the iframe content as an HTML string.\n    No network request is made — content renders inline.\n    Combined with sandbox, this is the safest way to render\n    user-generated HTML snippets.\n  -->\n  <iframe\n    sandbox\n    srcdoc=\"<p style='font-family:system-ui;padding:1rem;'>Hello from a sandboxed srcdoc iframe! No scripts, no cookies, no parent access.</p>\"\n    title=\"Sandboxed srcdoc example\"\n    width=\"100%\"\n    height=\"80\"\n    style=\"border:1px solid #e5e7eb;border-radius:8px;\">\n  </iframe>\n\n</body>\n</html>",
+          "output": "Page renders four sections. The configurations section shows four bordered cards: maximum restriction in green, scripts only in green, scripts and forms in amber, and the dangerous scripts plus same-origin combination in red, each with a bullet list of what the configuration allows and forbids. The opaque origin section shows an annotated card explaining the unique origin concept and what it blocks. The use case section shows a dark code block with five commented iframe configurations. The srcdoc section shows a live sandboxed iframe rendering a paragraph of HTML provided inline.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "opaque origin",
+              "bold": true
+            },
+            {
+              "value": " assigned to a sandboxed iframe is not "
+            },
+            {
+              "value": "null",
+              "highlight": true
+            },
+            {
+              "value": " in the sense of "
+            },
+            {
+              "value": "\"no origin\"",
+              "bold": true
+            },
+            {
+              "value": " — it is a unique, randomly generated identifier that isolates the frame from all other origins including its own. If the same sandboxed URL is loaded twice in two iframes, each gets a "
+            },
+            {
+              "value": "different opaque origin",
+              "bold": true
+            },
+            {
+              "value": ". This means the two frames cannot communicate via shared cookies or "
+            },
+            {
+              "value": "localStorage",
+              "highlight": true
+            },
+            {
+              "value": " even though they were loaded from the same URL, which is the security guarantee that "
+            },
+            {
+              "value": "allow-same-origin",
+              "highlight": true
+            },
+            {
+              "value": " removes."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "srcdoc",
+              "highlight": true
+            },
+            {
+              "value": " attribute provides iframe content as an HTML string without a network request, making it ideal for "
+            },
+            {
+              "value": "user-generated HTML sandboxing",
+              "bold": true
+            },
+            {
+              "value": ". Combining "
+            },
+            {
+              "value": "srcdoc",
+              "highlight": true
+            },
+            {
+              "value": " with an empty "
+            },
+            {
+              "value": "sandbox",
+              "highlight": true
+            },
+            {
+              "value": " gives the safest possible rendering environment for untrusted HTML: no network access, no scripts, no parent page access, and no cookies. This is the correct pattern for rendering comment HTML, forum posts, or email preview panes in a web application."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "sandbox='allow-scripts'",
+              "highlight": true
+            },
+            {
+              "value": " with "
+            },
+            {
+              "value": "srcdoc",
+              "highlight": true
+            },
+            {
+              "value": " to build a "
+            },
+            {
+              "value": "live code preview",
+              "bold": true
+            },
+            {
+              "value": " (like CodePen or JSFiddle) safely. Concatenate the user's HTML, CSS, and JavaScript into a single document string, assign it to "
+            },
+            {
+              "value": "iframe.srcdoc",
+              "highlight": true
+            },
+            {
+              "value": " via JavaScript, and the preview renders in an isolated opaque-origin sandbox. Scripts run freely inside the preview but cannot access the parent page, making this approach safe for executing arbitrary user-submitted JavaScript."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML External Media Embeds",
+        "HTML Iframe Element",
+        "Web Security and CSP",
+        "Accessibility and ARIA"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML External Media Embeds | iframe, sandbox, allow Attribute Guide",
+    "meta_description": "Master HTML iframe embeds: sandbox security tokens, allow Permissions Policy attributes, responsive aspect ratio technique, YouTube lazy loading, and postMessage communication.",
+    "keywords": [
+      "HTML iframe element",
+      "HTML iframe sandbox attribute",
+      "HTML iframe sandbox allow-scripts",
+      "HTML iframe allow permissions policy",
+      "HTML iframe title accessibility",
+      "HTML iframe loading lazy",
+      "HTML iframe responsive aspect ratio",
+      "HTML iframe YouTube embed",
+      "HTML iframe postMessage",
+      "HTML iframe srcdoc sandbox"
+    ],
+    "canonical_url": "/html/html-external-media-embeds",
+    "robots": "index, follow"
+  }
+}

@@ -1,0 +1,1705 @@
+{
+  "topic": {
+    "id": 26,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 8,
+    "slug": "html-form-structure",
+    "title": "HTML Form Structure",
+    "description": "form wraps controls with action and method; fieldset, legend, and label structure the form.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "HTML Form Structure: form, fieldset, legend, and label"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<form>",
+            "highlight": true
+          },
+          {
+            "value": " element is the submission container for interactive controls. Its "
+          },
+          {
+            "value": "action",
+            "highlight": true
+          },
+          {
+            "value": " attribute specifies the URL that processes the data; "
+          },
+          {
+            "value": "method",
+            "highlight": true
+          },
+          {
+            "value": " specifies "
+          },
+          {
+            "value": "GET",
+            "bold": true
+          },
+          {
+            "value": " (data in the URL query string) or "
+          },
+          {
+            "value": "POST",
+            "bold": true
+          },
+          {
+            "value": " (data in the request body). The "
+          },
+          {
+            "value": "enctype",
+            "highlight": true
+          },
+          {
+            "value": " attribute determines how form data is encoded: "
+          },
+          {
+            "value": "application/x-www-form-urlencoded",
+            "highlight": true
+          },
+          {
+            "value": " (default), "
+          },
+          {
+            "value": "multipart/form-data",
+            "highlight": true
+          },
+          {
+            "value": " (required for file uploads), or "
+          },
+          {
+            "value": "text/plain",
+            "highlight": true
+          },
+          {
+            "value": ". The "
+          },
+          {
+            "value": "novalidate",
+            "highlight": true
+          },
+          {
+            "value": " attribute disables browser native validation. Inside the form, "
+          },
+          {
+            "value": "<fieldset>",
+            "highlight": true
+          },
+          {
+            "value": " groups related controls and "
+          },
+          {
+            "value": "<legend>",
+            "highlight": true
+          },
+          {
+            "value": " provides the group's accessible label. Every control must have a "
+          },
+          {
+            "value": "<label>",
+            "highlight": true
+          },
+          {
+            "value": " to satisfy "
+          },
+          {
+            "value": "WCAG 1.3.1",
+            "bold": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "WCAG 3.3.2",
+            "bold": true
+          },
+          {
+            "value": ". Reference: "
+          },
+          {
+            "value": "MDN: form element",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Element / attribute",
+          "Purpose",
+          "Value",
+          "Notes"
+        ],
+        "rows": [
+          [
+            "<form action>",
+            "Submission endpoint URL",
+            "Relative or absolute URL",
+            "Omit for same-page JavaScript forms"
+          ],
+          [
+            "<form method>",
+            "HTTP method",
+            "GET or POST",
+            "POST for sensitive data; GET for searches"
+          ],
+          [
+            "<form enctype>",
+            "Data encoding format",
+            "urlencoded / multipart / text",
+            "multipart required for file inputs"
+          ],
+          [
+            "<form novalidate>",
+            "Disable native browser validation",
+            "Boolean",
+            "Use with custom validation libraries"
+          ],
+          [
+            "<fieldset>",
+            "Group related form controls",
+            "Container element",
+            "Adds accessible group context"
+          ],
+          [
+            "<legend>",
+            "Label for a fieldset group",
+            "Text content",
+            "First child of fieldset; read by screen readers"
+          ],
+          [
+            "<label for>",
+            "Associate label with control by id",
+            "Matches input id",
+            "Preferred explicit association technique"
+          ],
+          [
+            "<label> wrapping",
+            "Implicit label association",
+            "Input nested inside label",
+            "No for/id required"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Every Input Must Have an Associated Label",
+        "text": "An input without a label has no accessible name. Screen readers announce it as 'edit text' or 'checkbox' with no context, making it impossible for blind users to know what to enter. The placeholder attribute is not a label substitute: it disappears on focus, has low contrast, and is not read by all screen readers as an accessible name. Always use <label for='id'> or wrap the input inside a <label> element."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Complete Form with Fieldsets, Labels, and Accessible Structure",
+        "description": "This example shows a full registration form with two fieldsets (personal details and account setup), label association techniques with annotations, GET vs POST method comparison, enctype for file upload, and novalidate with custom validation messaging.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Form Structure Demo</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 680px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 1.25rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field   { display: flex; flex-direction: column; gap: .3rem;\n               margin-bottom: .85rem; }\n    label    { font-size: .88rem; font-weight: 500; color: #374151; }\n    input, select, textarea {\n               border: 1px solid #d1d5db; border-radius: 6px;\n               padding: .45rem .7rem; font-size: .9rem;\n               font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus, select:focus, textarea:focus {\n               outline: 2px solid #2563eb; outline-offset: 1px;\n               border-color: transparent; }\n    .hint    { font-size: .78rem; color: #6b7280; }\n    .error   { font-size: .78rem; color: #dc2626; display: none; }\n    input[aria-invalid=\"true\"] { border-color: #dc2626; }\n    input[aria-invalid=\"true\"] ~ .error { display: block; }\n    .radio-group { display: flex; gap: 1rem; flex-wrap: wrap; }\n    .radio-opt   { display: flex; align-items: center; gap: .4rem;\n                   font-size: .88rem; cursor: pointer; }\n    .submit-btn  { background: #2563eb; color: #fff; border: none;\n                   border-radius: 8px; padding: .6rem 1.5rem;\n                   font-size: .9rem; font-weight: 600; cursor: pointer; }\n    .submit-btn:hover { background: #1d4ed8; }\n    .ann  { background: #f8fafc; border: 1px solid #e2e8f0;\n            border-radius: 8px; padding: .65rem .9rem;\n            font-size: .83rem; line-height: 1.6; margin: .5rem 0; }\n  </style>\n</head>\n<body>\n\n  <h1>HTML Form Structure</h1>\n\n\n  <!-- REGISTRATION FORM: two fieldsets -->\n  <h2>1. Registration form with fieldsets</h2>\n\n  <!--\n    action: URL that receives the POST data.\n    method=\"post\": data goes in the request body, not the URL.\n    enctype default (application/x-www-form-urlencoded):\n      name=value pairs in body. Suitable for text fields.\n    novalidate: suppress browser native validation UI\n      so custom error messages and styles are used instead.\n  -->\n  <form action=\"/api/register\" method=\"post\"\n        novalidate id=\"reg-form\">\n\n    <!--\n      <fieldset> groups related controls.\n      <legend> must be the FIRST CHILD of fieldset.\n      Screen reader: \"Personal details, group\"\n        then each field: \"Personal details, Full name, edit text\"\n    -->\n    <fieldset>\n      <legend>Personal details</legend>\n\n      <!-- Explicit for/id label association -->\n      <div class=\"field\">\n        <label for=\"full-name\">Full name</label>\n        <input type=\"text\" id=\"full-name\" name=\"full_name\"\n               autocomplete=\"name\" required aria-required=\"true\"\n               aria-describedby=\"name-hint\">\n        <span id=\"name-hint\" class=\"hint\">As it appears on your ID.</span>\n        <span class=\"error\" role=\"alert\">Please enter your full name.</span>\n      </div>\n\n      <div class=\"field\">\n        <label for=\"email\">Email address</label>\n        <input type=\"email\" id=\"email\" name=\"email\"\n               autocomplete=\"email\" required aria-required=\"true\">\n        <span class=\"error\" role=\"alert\">Enter a valid email address.</span>\n      </div>\n\n      <!-- Radio group: nested fieldset + legend required -->\n      <fieldset style=\"border:none;padding:0;margin:0;\">\n        <legend style=\"font-weight:500;font-size:.88rem;\n                       padding:0;color:#374151;\">\n          Preferred contact method\n        </legend>\n        <div class=\"radio-group\" style=\"margin-top:.35rem;\">\n          <label class=\"radio-opt\">\n            <input type=\"radio\" name=\"contact\" value=\"email\" checked>\n            Email\n          </label>\n          <label class=\"radio-opt\">\n            <input type=\"radio\" name=\"contact\" value=\"phone\">\n            Phone\n          </label>\n          <label class=\"radio-opt\">\n            <input type=\"radio\" name=\"contact\" value=\"none\">\n            No contact\n          </label>\n        </div>\n      </fieldset>\n    </fieldset>\n\n    <fieldset>\n      <legend>Account setup</legend>\n\n      <div class=\"field\">\n        <label for=\"username\">Username</label>\n        <input type=\"text\" id=\"username\" name=\"username\"\n               autocomplete=\"username\"\n               minlength=\"3\" maxlength=\"20\"\n               pattern=\"[a-zA-Z0-9_]+\"\n               required aria-required=\"true\"\n               aria-describedby=\"username-hint\">\n        <span id=\"username-hint\" class=\"hint\">\n          3-20 characters: letters, numbers, underscores.\n        </span>\n        <span class=\"error\" role=\"alert\">\n          Username must be 3-20 characters (letters, numbers, underscores).\n        </span>\n      </div>\n\n      <div class=\"field\">\n        <label for=\"password\">Password</label>\n        <input type=\"password\" id=\"password\" name=\"password\"\n               autocomplete=\"new-password\"\n               minlength=\"8\" required aria-required=\"true\"\n               aria-describedby=\"pw-hint\">\n        <span id=\"pw-hint\" class=\"hint\">At least 8 characters.</span>\n        <span class=\"error\" role=\"alert\">\n          Password must be at least 8 characters.\n        </span>\n      </div>\n\n      <!-- Implicit wrapping label (no for/id needed) -->\n      <label style=\"display:flex;align-items:center;gap:.5rem;\n                    font-size:.87rem;cursor:pointer;\">\n        <input type=\"checkbox\" name=\"terms\" required aria-required=\"true\">\n        I agree to the\n        <a href=\"/terms\" style=\"color:#2563eb;\">terms of service</a>\n      </label>\n    </fieldset>\n\n    <button type=\"submit\" class=\"submit-btn\">Create account</button>\n  </form>\n\n  <script>\n    document.getElementById('reg-form')\n      .addEventListener('submit', function(e) {\n        e.preventDefault();\n        let valid = true;\n        this.querySelectorAll('[required]').forEach(el => {\n          if (!el.validity.valid) {\n            el.setAttribute('aria-invalid', 'true');\n            valid = false;\n          } else {\n            el.removeAttribute('aria-invalid');\n          }\n        });\n        if (valid) this.submit();\n      });\n  </script>\n\n\n  <!-- GET METHOD: SEARCH FORM -->\n  <h2>2. GET search form (bookmarkable URL)</h2>\n  <div class=\"ann\">\n    <strong>GET vs POST:</strong> GET appends data to the URL:\n    <code>/search?q=html+forms</code>. Use for searches and filters.\n    POST sends data in the request body. Use for login, registration,\n    and any data that changes server state.\n  </div>\n  <form method=\"get\" role=\"search\"\n        style=\"display:flex;gap:.5rem;align-items:flex-end;\">\n    <div class=\"field\" style=\"flex:1;margin:0;\">\n      <label for=\"q\">Search lessons</label>\n      <input type=\"search\" id=\"q\" name=\"q\"\n             placeholder=\"e.g. flexbox, forms...\">\n    </div>\n    <button type=\"submit\" class=\"submit-btn\" style=\"margin-bottom:0;\">\n      Search\n    </button>\n  </form>\n\n\n  <!-- FILE UPLOAD: enctype multipart -->\n  <h2>3. File upload (enctype multipart/form-data)</h2>\n  <!--\n    enctype=\"multipart/form-data\" is REQUIRED for file inputs.\n    Without it the browser sends only the filename string,\n    not the file contents. method must be POST.\n  -->\n  <form action=\"/api/upload\" method=\"post\"\n        enctype=\"multipart/form-data\">\n    <div class=\"field\">\n      <label for=\"avatar\">Profile photo</label>\n      <input type=\"file\" id=\"avatar\" name=\"avatar\"\n             accept=\"image/jpeg,image/png,image/webp\"\n             aria-describedby=\"avatar-hint\">\n      <span id=\"avatar-hint\" class=\"hint\">\n        JPG, PNG, or WebP. Maximum 2MB.\n      </span>\n    </div>\n    <button type=\"submit\" class=\"submit-btn\">Upload</button>\n  </form>\n\n</body>\n</html>",
+        "output": "Page renders three form sections. The registration form shows two bordered fieldsets: Personal details with full name, email, and a radio group; Account setup with username, password, and a terms checkbox. All fields have visible labels above inputs and hint text below. On submit, invalid fields gain a red border. The GET search section shows an inline label-input-button row. The file upload shows a file input with type restrictions and hint text.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "Label Techniques, ARIA Fallbacks, and Form Accessibility Audit",
+        "description": "This example compares all four label association methods (explicit for/id, implicit wrapping, aria-label, aria-labelledby), shows screen reader announcements for each, demonstrates the visually-hidden label pattern, and provides a labelling failure reference with fixes.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Label Association Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    table{ border-collapse: collapse; width: 100%; font-size: .87rem;\n           margin: .75rem 0; }\n    th,td{ border: 1px solid #e2e8f0; padding: .45rem .75rem;\n           text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    .field  { display: flex; flex-direction: column; gap: .3rem;\n              margin-bottom: .85rem; max-width: 380px; }\n    label   { font-size: .88rem; font-weight: 500; color: #374151; }\n    input   { border: 1px solid #d1d5db; border-radius: 6px;\n              padding: .45rem .7rem; font-size: .9rem;\n              font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    .sr-ann { background: #eff6ff; border: 1px solid #bfdbfe;\n              border-radius: 6px; padding: .4rem .75rem;\n              font-size: .81rem; color: #1d4ed8; max-width: 380px;\n              margin-bottom: .75rem; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .2rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n    .visually-hidden {\n      position: absolute; width: 1px; height: 1px;\n      padding: 0; margin: -1px; overflow: hidden;\n      clip: rect(0,0,0,0); white-space: nowrap; border: 0;\n    }\n  </style>\n</head>\n<body>\n\n  <h1>Label Association Reference</h1>\n\n\n  <!-- TECHNIQUE TABLE -->\n  <h2>1. Four label association techniques</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>Technique</th><th>HTML pattern</th>\n        <th>Screen reader</th><th>When to use</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td><strong>Explicit for/id</strong></td>\n        <td><code>&lt;label for=\"x\"&gt; + &lt;input id=\"x\"&gt;</code></td>\n        <td>\"First name, edit text\"</td>\n        <td>Default; label can be anywhere in DOM</td>\n      </tr>\n      <tr>\n        <td><strong>Implicit wrapping</strong></td>\n        <td><code>&lt;label&gt;text &lt;input&gt;&lt;/label&gt;</code></td>\n        <td>\"First name, edit text\"</td>\n        <td>Simpler when label and input are adjacent</td>\n      </tr>\n      <tr>\n        <td><strong>aria-label</strong></td>\n        <td><code>&lt;input aria-label=\"Search\"&gt;</code></td>\n        <td>\"Search, edit text\"</td>\n        <td>No visible label; icon-only search bars</td>\n      </tr>\n      <tr>\n        <td><strong>aria-labelledby</strong></td>\n        <td><code>&lt;input aria-labelledby=\"hd-id\"&gt;</code></td>\n        <td>Text of referenced element</td>\n        <td>Label is an existing heading or text</td>\n      </tr>\n    </tbody>\n  </table>\n\n\n  <!-- TECHNIQUE 1: Explicit for/id -->\n  <h2>2. Explicit for/id (preferred)</h2>\n  <div class=\"field\">\n    <label for=\"city\">City</label>\n    <input type=\"text\" id=\"city\" name=\"city\"\n           autocomplete=\"address-level2\">\n  </div>\n  <div class=\"sr-ann\">Screen reader: <em>\"City, edit text\"</em></div>\n\n\n  <!-- TECHNIQUE 2: Implicit wrapping -->\n  <h2>3. Implicit wrapping</h2>\n  <label class=\"field\" style=\"cursor:default;\">\n    Country\n    <input type=\"text\" name=\"country\" autocomplete=\"country-name\">\n  </label>\n  <div class=\"sr-ann\">Screen reader: <em>\"Country, edit text\"</em></div>\n\n\n  <!-- TECHNIQUE 3: aria-label -->\n  <h2>4. aria-label (no visible label)</h2>\n  <form method=\"get\" role=\"search\"\n        style=\"display:flex;gap:.5rem;max-width:380px;\">\n    <input type=\"search\" name=\"q\"\n           aria-label=\"Search HTML documentation\"\n           placeholder=\"Search...\">\n    <button type=\"submit\"\n            aria-label=\"Run search\"\n            style=\"background:#2563eb;color:#fff;border:none;\n                   border-radius:6px;padding:.45rem .9rem;cursor:pointer;\">\n      Go\n    </button>\n  </form>\n  <div class=\"sr-ann\" style=\"max-width:380px;margin-top:.4rem;\">\n    Screen reader: <em>\"Search HTML documentation, edit text\"</em>\n  </div>\n\n\n  <!-- TECHNIQUE 4: aria-labelledby -->\n  <h2>5. aria-labelledby</h2>\n  <p id=\"postcode-lbl\"\n     style=\"font-weight:600;font-size:.88rem;margin:0 0 .3rem;\">\n    Postcode\n  </p>\n  <div class=\"field\" style=\"margin-top:0;\">\n    <input type=\"text\" name=\"postcode\"\n           aria-labelledby=\"postcode-lbl\"\n           autocomplete=\"postal-code\">\n  </div>\n  <div class=\"sr-ann\" style=\"max-width:380px;\">\n    Screen reader: <em>\"Postcode, edit text\"</em>\n  </div>\n\n\n  <!-- ACCESSIBLE NAME PRIORITY -->\n  <h2>6. Accessible name computation order</h2>\n  <pre>1. aria-labelledby   highest priority; overrides everything\n2. aria-label        string value; not translated by Google Translate\n3. &lt;label&gt; element   via for/id or implicit wrapping (preferred)\n4. title attribute   tooltip only; avoid as primary label\n5. placeholder       NOT part of accessible name computation</pre>\n\n\n  <!-- VISUALLY HIDDEN LABEL -->\n  <h2>7. Visually hidden label pattern</h2>\n  <!--\n    Hides label visually but keeps it in the accessibility tree.\n    Use instead of aria-label: translated by browser tools.\n    DO NOT use display:none or visibility:hidden —\n    those remove the element from the accessibility tree.\n  -->\n  <div class=\"field\">\n    <label for=\"newsletter-email\" class=\"visually-hidden\">\n      Newsletter email address\n    </label>\n    <input type=\"email\" id=\"newsletter-email\"\n           name=\"newsletter_email\"\n           placeholder=\"your@email.com\"\n           autocomplete=\"email\">\n  </div>\n  <div class=\"sr-ann\" style=\"max-width:380px;\">\n    Screen reader: <em>\"Newsletter email address, edit text\"</em><br>\n    Sighted: only placeholder visible.\n  </div>\n\n\n  <!-- FAILURE PATTERNS -->\n  <h2>8. Labelling failures</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: placeholder only — no accessible name</p>\n    <code>&lt;input type=\"text\" placeholder=\"First name\"&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: explicit label with optional placeholder</p>\n    <code>&lt;label for=\"fn\"&gt;First name&lt;/label&gt;\n&lt;input id=\"fn\" type=\"text\" placeholder=\"e.g. Priya\"&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: for/id mismatch — silent failure</p>\n    <code>&lt;label for=\"user-email\"&gt;Email&lt;/label&gt;\n&lt;input id=\"email\" type=\"email\"&gt;</code>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: for and id values must be identical</p>\n    <code>&lt;label for=\"email\"&gt;Email&lt;/label&gt;\n&lt;input id=\"email\" type=\"email\"&gt;</code>\n  </div>\n\n</body>\n</html>",
+        "output": "Page renders eight sections. The technique table shows four rows with HTML patterns and screen reader announcements. Sections two through five each show a live input example and a blue screen reader announcement card. The accessible name priority section shows a dark code block listing the five levels. The visually hidden section shows a live email input with an announcement note. The failures section shows two pairs of wrong and right cards.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<form method='post'>",
+            "highlight": true
+          },
+          {
+            "value": " for login, registration, and any submission that "
+          },
+          {
+            "value": "changes server state",
+            "bold": true
+          },
+          {
+            "value": " or transmits sensitive data; use "
+          },
+          {
+            "value": "<form method='get'>",
+            "highlight": true
+          },
+          {
+            "value": " for search and filter forms where the resulting URL should be shareable."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "<fieldset>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<legend>",
+            "highlight": true
+          },
+          {
+            "value": " whenever a form contains "
+          },
+          {
+            "value": "radio buttons, checkboxes",
+            "bold": true
+          },
+          {
+            "value": ", or multiple related fields; the legend is announced by screen readers as the group name, giving context to each individual control label."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "enctype='multipart/form-data'",
+            "highlight": true
+          },
+          {
+            "value": " on any form containing "
+          },
+          {
+            "value": "<input type='file'>",
+            "highlight": true
+          },
+          {
+            "value": "; without this encoding the browser sends only the filename string instead of the file contents, silently breaking all file uploads."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Never use "
+          },
+          {
+            "value": "placeholder",
+            "highlight": true
+          },
+          {
+            "value": " as the sole label for an input; it disappears on focus, has low contrast by default, and is not reliably announced as an accessible name, violating "
+          },
+          {
+            "value": "WCAG 1.3.1",
+            "bold": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "WCAG 3.3.2",
+            "bold": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "method='get'",
+            "highlight": true
+          },
+          {
+            "value": " on login or registration forms; GET appends credentials to the URL, making them visible in "
+          },
+          {
+            "value": "browser history and server logs",
+            "bold": true
+          },
+          {
+            "value": ", creating a security exposure for sensitive data."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid nesting "
+          },
+          {
+            "value": "<form>",
+            "highlight": true
+          },
+          {
+            "value": " elements inside each other; HTML does not allow nested forms and browsers silently discard the inner form, causing controls to submit with the outer form or not at all."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<form>",
+            "highlight": true
+          },
+          {
+            "value": " element with "
+          },
+          {
+            "value": "action",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "method",
+            "highlight": true
+          },
+          {
+            "value": " solves "
+          },
+          {
+            "value": "data submission semantics",
+            "bold": true
+          },
+          {
+            "value": ": the browser serialises all named controls, encodes them according to "
+          },
+          {
+            "value": "enctype",
+            "highlight": true
+          },
+          {
+            "value": ", and transmits them via the correct HTTP method without any JavaScript required for basic form submission."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "<fieldset>",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "<legend>",
+            "highlight": true
+          },
+          {
+            "value": " solve "
+          },
+          {
+            "value": "radio and checkbox group context",
+            "bold": true
+          },
+          {
+            "value": ": without a legend, a screen reader user hears only 'Yes, radio button' with no context. With a legend they hear 'Do you accept the terms? Yes, radio button.'"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<label>",
+            "highlight": true
+          },
+          {
+            "value": " element solves "
+          },
+          {
+            "value": "input identification",
+            "bold": true
+          },
+          {
+            "value": ": it provides the accessible name read by screen readers, enlarges the click target for the control, and simultaneously satisfies "
+          },
+          {
+            "value": "WCAG 1.3.1",
+            "bold": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "WCAG 3.3.2",
+            "bold": true
+          },
+          {
+            "value": " with one element."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "accessibility tree",
+            "bold": true
+          },
+          {
+            "value": " exposes each form control with a "
+          },
+          {
+            "value": "name",
+            "bold": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "role",
+            "bold": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "state",
+            "bold": true
+          },
+          {
+            "value": ". A "
+          },
+          {
+            "value": "<label>",
+            "highlight": true
+          },
+          {
+            "value": " provides the "
+          },
+          {
+            "value": "name",
+            "bold": true
+          },
+          {
+            "value": "; the input element type provides the "
+          },
+          {
+            "value": "role",
+            "bold": true
+          },
+          {
+            "value": "; attributes like "
+          },
+          {
+            "value": "required",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "disabled",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "aria-invalid",
+            "highlight": true
+          },
+          {
+            "value": " provide the "
+          },
+          {
+            "value": "state",
+            "bold": true
+          },
+          {
+            "value": ". All three are required for a control to be fully operable by screen reader users."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "accessible name computation algorithm",
+            "bold": true
+          },
+          {
+            "value": " resolves each input's name in priority order: "
+          },
+          {
+            "value": "aria-labelledby",
+            "highlight": true
+          },
+          {
+            "value": " is highest and overrides all others, then "
+          },
+          {
+            "value": "aria-label",
+            "highlight": true
+          },
+          {
+            "value": ", then the associated "
+          },
+          {
+            "value": "<label>",
+            "highlight": true
+          },
+          {
+            "value": " element, then "
+          },
+          {
+            "value": "title",
+            "highlight": true
+          },
+          {
+            "value": " as a last resort. "
+          },
+          {
+            "value": "placeholder",
+            "highlight": true
+          },
+          {
+            "value": " is never part of the accessible name computation for inputs."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "HTML form "
+          },
+          {
+            "value": "serialisation",
+            "bold": true
+          },
+          {
+            "value": " converts controls into "
+          },
+          {
+            "value": "name=value",
+            "highlight": true
+          },
+          {
+            "value": " pairs. Controls without a "
+          },
+          {
+            "value": "name",
+            "highlight": true
+          },
+          {
+            "value": " attribute are "
+          },
+          {
+            "value": "excluded from submission",
+            "bold": true
+          },
+          {
+            "value": ". Disabled controls are also excluded. Unchecked checkboxes are excluded entirely. For GET forms, pairs become the URL query string; for POST they are placed in the request body encoded by "
+          },
+          {
+            "value": "enctype",
+            "highlight": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "placeholder",
+            "highlight": true
+          },
+          {
+            "value": " used instead of "
+          },
+          {
+            "value": "label",
+            "highlight": true
+          },
+          {
+            "value": " leaves the input with no accessible name, failing "
+          },
+          {
+            "value": "WCAG 1.3.1",
+            "bold": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Omitting "
+          },
+          {
+            "value": "legend",
+            "highlight": true
+          },
+          {
+            "value": " from radio or checkbox fieldsets leaves users with no group question context."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "GET on a login form appends credentials to the URL, exposing them in history and server logs."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "aria-describedby",
+            "highlight": true
+          },
+          {
+            "value": " to link hint and error text to an input. Multiple IDs can be listed space-separated: "
+          },
+          {
+            "value": "aria-describedby='hint-id error-id'",
+            "highlight": true
+          },
+          {
+            "value": ". The screen reader announces the label first then the description: "
+          },
+          {
+            "value": "\"Password, edit text. At least 8 characters.\"",
+            "bold": true
+          },
+          {
+            "value": " When an error appears, add its id to "
+          },
+          {
+            "value": "aria-describedby",
+            "highlight": true
+          },
+          {
+            "value": " and set "
+          },
+          {
+            "value": "aria-invalid='true'",
+            "highlight": true
+          },
+          {
+            "value": " so the field is announced as invalid."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Set the "
+          },
+          {
+            "value": "autocomplete",
+            "highlight": true
+          },
+          {
+            "value": " attribute on every input that maps to a known data type: "
+          },
+          {
+            "value": "name",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "email",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "new-password",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "tel",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "address-level2",
+            "highlight": true
+          },
+          {
+            "value": ". This satisfies "
+          },
+          {
+            "value": "WCAG 1.3.5 Identify Input Purpose",
+            "bold": true
+          },
+          {
+            "value": " (Level AA), enables password manager autofill, and significantly reduces form completion time on mobile."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Input Types",
+      "HTML Form Validation",
+      "HTML Button Element",
+      "Web Accessibility WCAG",
+      "HTML External Media Embeds"
+    ],
+    "is_active": true,
+    "order_index": 26,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 26,
+      "slug": "form-structure-basics",
+      "title": "Form Structure Basics",
+      "description": "action, method, and enctype set where data submits, how it travels, and how it is encoded.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "A "
+            },
+            {
+              "value": "<form>",
+              "highlight": true
+            },
+            {
+              "value": " requires three decisions: "
+            },
+            {
+              "value": "where",
+              "bold": true
+            },
+            {
+              "value": " data goes ("
+            },
+            {
+              "value": "action",
+              "highlight": true
+            },
+            {
+              "value": "), "
+            },
+            {
+              "value": "how",
+              "bold": true
+            },
+            {
+              "value": " it travels ("
+            },
+            {
+              "value": "method",
+              "highlight": true
+            },
+            {
+              "value": "), and "
+            },
+            {
+              "value": "what encoding",
+              "bold": true
+            },
+            {
+              "value": " wraps it ("
+            },
+            {
+              "value": "enctype",
+              "highlight": true
+            },
+            {
+              "value": "). "
+            },
+            {
+              "value": "method='get'",
+              "highlight": true
+            },
+            {
+              "value": " appends name=value pairs to the URL as a query string; the URL is bookmarkable. "
+            },
+            {
+              "value": "method='post'",
+              "highlight": true
+            },
+            {
+              "value": " places data in the request body, required for large payloads, file uploads, and sensitive data. The "
+            },
+            {
+              "value": "enctype",
+              "highlight": true
+            },
+            {
+              "value": " attribute applies only to POST: "
+            },
+            {
+              "value": "application/x-www-form-urlencoded",
+              "highlight": true
+            },
+            {
+              "value": " is the default; "
+            },
+            {
+              "value": "multipart/form-data",
+              "highlight": true
+            },
+            {
+              "value": " is required for "
+            },
+            {
+              "value": "<input type='file'>",
+              "highlight": true
+            },
+            {
+              "value": ". Reference: "
+            },
+            {
+              "value": "MDN: form element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Attribute",
+            "GET behaviour",
+            "POST behaviour"
+          ],
+          "rows": [
+            [
+              "action",
+              "URL + query string",
+              "URL only (data in body)"
+            ],
+            [
+              "enctype",
+              "Ignored",
+              "urlencoded / multipart / text"
+            ],
+            [
+              "Data in URL",
+              "Yes — bookmarkable",
+              "No — in request body"
+            ],
+            [
+              "Data size",
+              "URL limit (~2000 chars)",
+              "No practical limit"
+            ],
+            [
+              "Use for",
+              "Search, filters, navigation",
+              "Login, registration, uploads"
+            ],
+            [
+              "Browser history",
+              "URL with data saved",
+              "URL only saved"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "GET, POST, enctype, and FormData Patterns",
+          "description": "This example shows a GET search form producing a bookmarkable URL, a POST login form keeping credentials out of the URL, a multipart file upload form, and a JavaScript async submission using the FormData API without page reload.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Form Structure Basics</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    .field { display: flex; flex-direction: column; gap: .3rem;\n             margin-bottom: .8rem; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    .btn  { background: #2563eb; color: #fff; border: none;\n            border-radius: 7px; padding: .55rem 1.25rem;\n            font-size: .88rem; font-weight: 600; cursor: pointer; }\n    .btn:hover { background: #1d4ed8; }\n    .card { border: 1px solid #e5e7eb; border-radius: 10px;\n            padding: 1rem 1.25rem; margin: .65rem 0; }\n    .hint { font-size: .78rem; color: #6b7280; }\n    .output { background: #f0fdf4; border: 1px solid #bbf7d0;\n              border-radius: 8px; padding: .65rem .9rem;\n              font-size: .84rem; margin-top: .5rem; display: none; }\n  </style>\n</head>\n<body>\n\n  <h1>Form Structure Basics</h1>\n\n\n  <!-- GET SEARCH FORM -->\n  <h2>1. GET search form (bookmarkable URL)</h2>\n  <!--\n    method=\"get\": name=value pairs appended to action URL.\n    Submitting produces: /search?q=html+forms&lang=en\n    role=\"search\": ARIA landmark for the search region.\n  -->\n  <form method=\"get\" action=\"/search\" role=\"search\" class=\"card\">\n    <div class=\"field\">\n      <label for=\"q\">Search lessons</label>\n      <input type=\"search\" id=\"q\" name=\"q\"\n             placeholder=\"e.g. CSS grid, flexbox\">\n    </div>\n    <div class=\"field\">\n      <label for=\"lang\">Language</label>\n      <select id=\"lang\" name=\"lang\"\n              style=\"border:1px solid #d1d5db;border-radius:6px;\n                     padding:.45rem .7rem;font-size:.9rem;\n                     font-family:inherit;box-sizing:border-box;\n                     width:100%;\">\n        <option value=\"en\">English</option>\n        <option value=\"hi\">Hindi</option>\n        <option value=\"ta\">Tamil</option>\n      </select>\n    </div>\n    <button type=\"submit\" class=\"btn\">Search</button>\n    <p class=\"hint\" style=\"margin:.5rem 0 0;\">\n      Result URL: <code>/search?q=&lt;value&gt;&amp;lang=en</code>\n    </p>\n  </form>\n\n\n  <!-- POST LOGIN FORM -->\n  <h2>2. POST login form (credentials in request body)</h2>\n  <!--\n    method=\"post\": data in request body, not URL.\n    Credentials never appear in browser history or server logs.\n    autocomplete=\"current-password\": enables password managers\n      and satisfies WCAG 1.3.5 Identify Input Purpose.\n  -->\n  <form action=\"/api/login\" method=\"post\" class=\"card\">\n    <div class=\"field\">\n      <label for=\"login-email\">Email</label>\n      <input type=\"email\" id=\"login-email\" name=\"email\"\n             autocomplete=\"email\" required>\n    </div>\n    <div class=\"field\">\n      <label for=\"login-pw\">Password</label>\n      <input type=\"password\" id=\"login-pw\" name=\"password\"\n             autocomplete=\"current-password\" required>\n    </div>\n    <button type=\"submit\" class=\"btn\">Sign in</button>\n    <p class=\"hint\" style=\"margin:.5rem 0 0;\">\n      Credentials in POST body — not in URL or browser history.\n    </p>\n  </form>\n\n\n  <!-- MULTIPART FILE UPLOAD -->\n  <h2>3. Multipart file upload</h2>\n  <!--\n    enctype=\"multipart/form-data\": required for file inputs.\n    Without it, browser sends only the filename string.\n    method must be POST for multipart forms.\n  -->\n  <form action=\"/api/upload\" method=\"post\"\n        enctype=\"multipart/form-data\" class=\"card\">\n    <div class=\"field\">\n      <label for=\"cert\">Upload certificate (PDF)</label>\n      <input type=\"file\" id=\"cert\" name=\"certificate\"\n             accept=\"application/pdf\"\n             aria-describedby=\"cert-hint\">\n      <span id=\"cert-hint\" class=\"hint\">PDF only. Max 5MB.</span>\n    </div>\n    <button type=\"submit\" class=\"btn\">Upload</button>\n  </form>\n\n\n  <!-- FORMDATA API: ASYNC SUBMISSION -->\n  <h2>4. Async submission with FormData API</h2>\n  <form id=\"async-form\" class=\"card\">\n    <div class=\"field\">\n      <label for=\"async-name\">Name</label>\n      <input type=\"text\" id=\"async-name\" name=\"name\"\n             autocomplete=\"name\" required>\n    </div>\n    <div class=\"field\">\n      <label for=\"async-email\">Email</label>\n      <input type=\"email\" id=\"async-email\" name=\"email\"\n             autocomplete=\"email\" required>\n    </div>\n    <button type=\"submit\" class=\"btn\">Submit async</button>\n    <div class=\"output\" id=\"async-out\"></div>\n  </form>\n\n  <script>\n    document.getElementById('async-form')\n      .addEventListener('submit', async function(e) {\n        e.preventDefault();\n        const fd = new FormData(this);\n        const pairs = [];\n        fd.forEach((v, k) => pairs.push(k + ' = ' + v));\n        const out = document.getElementById('async-out');\n        out.style.display = 'block';\n        out.innerHTML = '<strong>FormData collected:</strong><br>'\n          + pairs.join('<br>');\n        // Real: await fetch('/api/submit', { method: 'POST', body: fd });\n      });\n  </script>\n\n\n  <!-- NOVALIDATE PATTERN -->\n  <h2>5. novalidate with aria-invalid error pattern</h2>\n  <pre>&lt;form action=\"/api/submit\" method=\"post\" novalidate&gt;\n  &lt;label for=\"zip\"&gt;Postcode&lt;/label&gt;\n  &lt;input\n    type=\"text\" id=\"zip\" name=\"postcode\"\n    required aria-required=\"true\"\n    aria-invalid=\"false\"\n    aria-describedby=\"zip-err\"&gt;\n  &lt;span id=\"zip-err\" role=\"alert\" hidden&gt;\n    Please enter a valid postcode.\n  &lt;/span&gt;\n&lt;/form&gt;</pre>\n\n</body>\n</html>",
+          "output": "Page renders five sections. The GET form shows a search input and language select with a hint showing the resulting URL pattern. The POST login form shows email and password fields. The multipart form shows a file input with PDF restriction. The async form collects values via FormData and displays them in a green output card on submit. The novalidate section shows a dark code block with the aria-invalid error pattern.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "Form "
+            },
+            {
+              "value": "serialisation",
+              "bold": true
+            },
+            {
+              "value": " converts all "
+            },
+            {
+              "value": "named, non-disabled controls",
+              "bold": true
+            },
+            {
+              "value": " into "
+            },
+            {
+              "value": "name=value",
+              "highlight": true
+            },
+            {
+              "value": " pairs. Controls without a "
+            },
+            {
+              "value": "name",
+              "highlight": true
+            },
+            {
+              "value": " attribute are excluded. "
+            },
+            {
+              "value": "Unchecked checkboxes",
+              "bold": true
+            },
+            {
+              "value": " are excluded entirely. Checked checkboxes submit their "
+            },
+            {
+              "value": "value",
+              "highlight": true
+            },
+            {
+              "value": " attribute (or "
+            },
+            {
+              "value": "\"on\"",
+              "highlight": true
+            },
+            {
+              "value": " if absent). Only the checked radio in a group submits. For GET forms the pairs become the URL query string; for POST they go in the body encoded by "
+            },
+            {
+              "value": "enctype",
+              "highlight": true
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "FormData API",
+              "bold": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "new FormData(formElement)",
+              "highlight": true
+            },
+            {
+              "value": ") replicates browser serialisation in JavaScript, collecting all named controls including "
+            },
+            {
+              "value": "File",
+              "highlight": true
+            },
+            {
+              "value": " objects from file inputs. Passing a "
+            },
+            {
+              "value": "FormData",
+              "highlight": true
+            },
+            {
+              "value": " instance to "
+            },
+            {
+              "value": "fetch",
+              "highlight": true
+            },
+            {
+              "value": " as the "
+            },
+            {
+              "value": "body",
+              "highlight": true
+            },
+            {
+              "value": " automatically sets "
+            },
+            {
+              "value": "Content-Type: multipart/form-data",
+              "highlight": true
+            },
+            {
+              "value": " with the correct boundary, making it the simplest way to submit file uploads without a full page reload."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use the "
+            },
+            {
+              "value": "form",
+              "highlight": true
+            },
+            {
+              "value": " attribute on any control to associate it with a "
+            },
+            {
+              "value": "<form>",
+              "highlight": true
+            },
+            {
+              "value": " element by id, even when it is "
+            },
+            {
+              "value": "outside",
+              "bold": true
+            },
+            {
+              "value": " the form in the DOM. Example: "
+            },
+            {
+              "value": "<button type='submit' form='reg-form'>",
+              "highlight": true
+            },
+            {
+              "value": ". This allows a sticky-footer submit button to submit a form defined higher in the page without wrapping the entire layout in a "
+            },
+            {
+              "value": "<form>",
+              "highlight": true
+            },
+            {
+              "value": " tag."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Form Structure",
+        "Label Association Techniques",
+        "Fieldset and Legend Elements",
+        "HTML Input Types",
+        "HTML Form Validation"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 26,
+      "slug": "label-association-techniques",
+      "title": "Label Association Techniques",
+      "description": "Every input needs an accessible name from label for/id, wrapping, aria-label, or aria-labelledby.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "An input without an accessible name is opaque to assistive technology: screen readers announce only the role with no identifying context. The browser computes each control's "
+            },
+            {
+              "value": "accessible name",
+              "bold": true
+            },
+            {
+              "value": " from four HTML sources in priority order: "
+            },
+            {
+              "value": "aria-labelledby",
+              "highlight": true
+            },
+            {
+              "value": " (references an existing element's text), "
+            },
+            {
+              "value": "aria-label",
+              "highlight": true
+            },
+            {
+              "value": " (an invisible string), the associated "
+            },
+            {
+              "value": "<label>",
+              "highlight": true
+            },
+            {
+              "value": " element (explicit "
+            },
+            {
+              "value": "for/id",
+              "highlight": true
+            },
+            {
+              "value": " or implicit wrapping), and "
+            },
+            {
+              "value": "title",
+              "highlight": true
+            },
+            {
+              "value": " as a last resort. Explicit "
+            },
+            {
+              "value": "for/id",
+              "highlight": true
+            },
+            {
+              "value": " and implicit wrapping are preferred because they also make the label text clickable, enlarging the interactive target. Reference: "
+            },
+            {
+              "value": "MDN: label element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "All Four Techniques with Screen Reader Annotations",
+          "description": "This example shows each label technique in context with screen reader announcement annotations, the accessible name computation priority, the visually-hidden CSS pattern for inputs that need no visible label, and the three most common labelling failures with fixes.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Label Techniques</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    .field { display: flex; flex-direction: column; gap: .3rem;\n             margin-bottom: .5rem; max-width: 380px; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    .sr  { background: #eff6ff; border: 1px solid #bfdbfe;\n           border-radius: 6px; padding: .4rem .75rem;\n           font-size: .81rem; color: #1d4ed8;\n           max-width: 380px; margin: .25rem 0 1rem; }\n    .bad { border-left: 3px solid #dc2626; background: #fef2f2;\n           padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n           font-size: .87rem; margin-bottom: .45rem; }\n    .ok  { border-left: 3px solid #16a34a; background: #f0fdf4;\n           padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n           font-size: .87rem; margin-bottom: .45rem; }\n    .lbl { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n           letter-spacing: .06em; margin-bottom: .2rem; }\n    .bad .lbl { color: #dc2626; }\n    .ok  .lbl { color: #16a34a; }\n    .visually-hidden {\n      position: absolute; width: 1px; height: 1px; padding: 0;\n      margin: -1px; overflow: hidden; clip: rect(0,0,0,0);\n      white-space: nowrap; border: 0;\n    }\n  </style>\n</head>\n<body>\n\n  <h1>Label Association Techniques</h1>\n\n\n  <!-- T1: Explicit for/id -->\n  <h2>1. Explicit for/id (preferred default)</h2>\n  <!--\n    label for=\"city\" links to input id=\"city\".\n    Rules: for/id values must match exactly (case-sensitive).\n    id must be unique on the page — duplicates break the link.\n    Clicking the label text moves focus to the input.\n  -->\n  <div class=\"field\">\n    <label for=\"city\">City</label>\n    <input type=\"text\" id=\"city\" name=\"city\"\n           autocomplete=\"address-level2\">\n  </div>\n  <div class=\"sr\">Screen reader: <em>\"City, edit text\"</em></div>\n\n\n  <!-- T2: Implicit wrapping -->\n  <h2>2. Implicit wrapping</h2>\n  <!--\n    Input is nested INSIDE the label element.\n    No for/id needed. Works for text, email, password,\n    checkbox, radio. Prefer explicit for/id for select\n    and complex widgets in older screen reader versions.\n  -->\n  <label class=\"field\" style=\"cursor:default;\">\n    Country\n    <input type=\"text\" name=\"country\" autocomplete=\"country-name\">\n  </label>\n  <div class=\"sr\">Screen reader: <em>\"Country, edit text\"</em></div>\n\n\n  <!-- T3: aria-label -->\n  <h2>3. aria-label (no visible label)</h2>\n  <!--\n    Use only when a visible label would harm the design.\n    Note: aria-label strings are NOT translated by Google\n    Translate or browser translation. Use visually-hidden\n    <label> for multilingual content instead.\n  -->\n  <form method=\"get\" role=\"search\"\n        style=\"display:flex;gap:.5rem;max-width:380px;\">\n    <input type=\"search\" name=\"q\"\n           aria-label=\"Search documentation\"\n           placeholder=\"Search...\">\n    <button type=\"submit\"\n            aria-label=\"Run search\"\n            style=\"background:#2563eb;color:#fff;border:none;\n                   border-radius:6px;padding:.45rem .9rem;\n                   cursor:pointer;font-size:.88rem;\">\n      Go\n    </button>\n  </form>\n  <div class=\"sr\" style=\"max-width:380px;margin-top:.3rem;\">\n    Screen reader: <em>\"Search documentation, edit text\"</em>\n  </div>\n\n\n  <!-- T4: aria-labelledby -->\n  <h2>4. aria-labelledby</h2>\n  <!--\n    References the id of an existing element.\n    Can combine multiple ids: aria-labelledby=\"h-id desc-id\"\n    Highest priority in the accessible name algorithm:\n    overrides even a visible <label> on the same input.\n  -->\n  <p id=\"pin-lbl\" style=\"font-weight:600;font-size:.88rem;margin:0 0 .3rem;\">\n    Postcode\n  </p>\n  <div class=\"field\" style=\"margin-top:0;\">\n    <input type=\"text\" name=\"postcode\"\n           aria-labelledby=\"pin-lbl\"\n           autocomplete=\"postal-code\">\n  </div>\n  <div class=\"sr\" style=\"max-width:380px;\">\n    Screen reader: <em>\"Postcode, edit text\"</em>\n  </div>\n\n\n  <!-- PRIORITY ORDER -->\n  <h2>5. Accessible name priority</h2>\n  <pre>1. aria-labelledby   (highest) overrides everything else\n2. aria-label        invisible string; not browser-translated\n3. &lt;label&gt; element   for/id or implicit wrap (preferred)\n4. title attribute   tooltip only; avoid as sole label\n5. placeholder       never part of accessible name computation</pre>\n\n\n  <!-- VISUALLY HIDDEN LABEL -->\n  <h2>6. Visually hidden label pattern</h2>\n  <!--\n    Keep label in the accessibility tree but hide it visually.\n    Preferred over aria-label because it IS translated.\n    display:none / visibility:hidden remove from the tree —\n    do NOT use those for visually hidden labels.\n  -->\n  <div class=\"field\">\n    <label for=\"nl-email\" class=\"visually-hidden\">\n      Newsletter email address\n    </label>\n    <input type=\"email\" id=\"nl-email\" name=\"newsletter_email\"\n           placeholder=\"your@email.com\" autocomplete=\"email\">\n  </div>\n  <div class=\"sr\" style=\"max-width:380px;\">\n    Screen reader: <em>\"Newsletter email address, edit text\"</em>\n    &mdash; sighted user sees only the placeholder.\n  </div>\n\n\n  <!-- FAILURE PATTERNS -->\n  <h2>7. Common labelling failures</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: placeholder only — no accessible name</p>\n    <code>&lt;input type=\"text\" placeholder=\"First name\"&gt;</code>\n  </div>\n  <div class=\"ok\">\n    <p class=\"lbl\">Right: explicit label with optional placeholder</p>\n    <code>&lt;label for=\"fn\"&gt;First name&lt;/label&gt;\n&lt;input id=\"fn\" placeholder=\"e.g. Priya\"&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: for/id mismatch — no association formed</p>\n    <code>&lt;label for=\"user-email\"&gt;Email&lt;/label&gt;\n&lt;input id=\"email\"&gt;</code>\n  </div>\n  <div class=\"ok\">\n    <p class=\"lbl\">Right: for and id must be identical</p>\n    <code>&lt;label for=\"email\"&gt;Email&lt;/label&gt;\n&lt;input id=\"email\"&gt;</code>\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders seven sections. Sections one through four each show a live input example followed by a blue screen reader announcement card. The priority section shows a dark code block. The visually hidden section shows a live email input. The failures section shows two pairs of wrong and right cards.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "accessible name computation algorithm",
+              "bold": true
+            },
+            {
+              "value": " (defined in the ARIA specification) resolves in strict priority: "
+            },
+            {
+              "value": "aria-labelledby",
+              "highlight": true
+            },
+            {
+              "value": " evaluates to the concatenated "
+            },
+            {
+              "value": "textContent",
+              "highlight": true
+            },
+            {
+              "value": " of all referenced elements. If absent, "
+            },
+            {
+              "value": "aria-label",
+              "highlight": true
+            },
+            {
+              "value": " provides the string directly. If absent, the "
+            },
+            {
+              "value": "<label>",
+              "highlight": true
+            },
+            {
+              "value": " association ("
+            },
+            {
+              "value": "for/id",
+              "highlight": true
+            },
+            {
+              "value": " or implicit wrapping) is used. Finally "
+            },
+            {
+              "value": "title",
+              "highlight": true
+            },
+            {
+              "value": " is the last resort. "
+            },
+            {
+              "value": "placeholder",
+              "highlight": true
+            },
+            {
+              "value": " is explicitly "
+            },
+            {
+              "value": "excluded",
+              "bold": true
+            },
+            {
+              "value": " from the accessible name algorithm for input elements."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "visually-hidden pattern",
+              "bold": true
+            },
+            {
+              "value": " ("
+            },
+            {
+              "value": "position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0)",
+              "highlight": true
+            },
+            {
+              "value": ") preserves the element in the "
+            },
+            {
+              "value": "accessibility tree",
+              "bold": true
+            },
+            {
+              "value": " while hiding it from the visual layout. This is critical: "
+            },
+            {
+              "value": "display:none",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "visibility:hidden",
+              "highlight": true
+            },
+            {
+              "value": " remove elements from both the visual layout "
+            },
+            {
+              "value": "and",
+              "bold": true
+            },
+            {
+              "value": " the accessibility tree, making the label invisible to screen readers. Visually hidden labels are also "
+            },
+            {
+              "value": "translated by browser translation tools",
+              "bold": true
+            },
+            {
+              "value": ", unlike "
+            },
+            {
+              "value": "aria-label",
+              "highlight": true
+            },
+            {
+              "value": " strings."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "aria-describedby",
+              "highlight": true
+            },
+            {
+              "value": " alongside "
+            },
+            {
+              "value": "<label>",
+              "highlight": true
+            },
+            {
+              "value": " to link hint and error text to an input. Space-separate multiple ids: "
+            },
+            {
+              "value": "aria-describedby='hint-id error-id'",
+              "highlight": true
+            },
+            {
+              "value": ". The screen reader announces the label first then the description: "
+            },
+            {
+              "value": "\"Password, edit text. At least 8 characters.\"",
+              "bold": true
+            },
+            {
+              "value": " When an error appears add its id and set "
+            },
+            {
+              "value": "aria-invalid='true'",
+              "highlight": true
+            },
+            {
+              "value": " so the field is announced as invalid before the error text is read."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Form Structure",
+        "Form Structure Basics",
+        "Fieldset and Legend Elements",
+        "HTML Input Types",
+        "Web Accessibility WCAG"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 3,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 26,
+      "slug": "fieldset-and-legend-elements",
+      "title": "Fieldset and Legend Elements",
+      "description": "fieldset groups related controls; legend gives the group its accessible name for screen readers.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<fieldset>",
+              "highlight": true
+            },
+            {
+              "value": " element groups related form controls into one logical unit. Its first child must be "
+            },
+            {
+              "value": "<legend>",
+              "highlight": true
+            },
+            {
+              "value": ", which provides the "
+            },
+            {
+              "value": "accessible group name",
+              "bold": true
+            },
+            {
+              "value": ". Screen readers prepend the legend to each control's announcement: with legend "
+            },
+            {
+              "value": "\"Shipping address\"",
+              "bold": true
+            },
+            {
+              "value": ", the street input is announced as "
+            },
+            {
+              "value": "\"Shipping address, Street, edit text\"",
+              "bold": true
+            },
+            {
+              "value": ". This context is essential for radio and checkbox groups: without a legend the user hears only "
+            },
+            {
+              "value": "\"Yes, radio button\"",
+              "bold": true
+            },
+            {
+              "value": " with no question context. The "
+            },
+            {
+              "value": "disabled",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<fieldset>",
+              "highlight": true
+            },
+            {
+              "value": " disables all descendant controls simultaneously. Reference: "
+            },
+            {
+              "value": "MDN: fieldset element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Legend Must Be the First Child of fieldset",
+          "text": "The HTML specification requires <legend> to be the first child of <fieldset>. Browsers will render a misplaced legend, but screen readers may not announce it as the group label. Always write <fieldset><legend>Group name</legend>... controls ...</fieldset> to guarantee consistent behaviour across assistive technologies."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Fieldset Patterns: Address, Radio, Checkbox, and Disabled State",
+          "description": "This example shows a shipping address fieldset with legend and screen reader announcements, a radio button group requiring its own nested fieldset and legend, a checkbox group with shared question context, the disabled fieldset attribute for toggling all controls at once, and the CSS reset pattern to remove default fieldset styles without breaking accessibility.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Fieldset and Legend</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 680px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 .75rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field   { display: flex; flex-direction: column; gap: .3rem;\n               margin-bottom: .75rem; }\n    label    { font-size: .88rem; font-weight: 500; color: #374151; }\n    input[type=\"text\"], input[type=\"tel\"] {\n               border: 1px solid #d1d5db; border-radius: 6px;\n               padding: .45rem .7rem; font-size: .9rem;\n               font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    .opt-col { display: flex; flex-direction: column; gap: .45rem;\n               margin-top: .3rem; }\n    .opt     { display: flex; align-items: center; gap: .5rem;\n               font-size: .88rem; cursor: pointer; }\n    .sr  { background: #eff6ff; border: 1px solid #bfdbfe;\n           border-radius: 6px; padding: .4rem .75rem;\n           font-size: .81rem; color: #1d4ed8; margin: .3rem 0 .9rem; }\n    fieldset:disabled { opacity: 0.5; }\n    fieldset:disabled legend { opacity: 1; }\n    .fs-reset { border: none; padding: 0; margin: 0; }\n    .fs-reset > legend { padding: 0; font-size: .93rem;\n                         margin-bottom: .4rem; }\n  </style>\n</head>\n<body>\n\n  <h1>Fieldset and Legend</h1>\n\n\n  <!-- PATTERN 1: ADDRESS FIELDSET -->\n  <h2>1. Shipping address (fieldset + legend)</h2>\n  <!--\n    <legend> MUST be the first child of <fieldset>.\n    Screen reader: \"Shipping address, group\"\n    Each field: \"Shipping address, Street, edit text\"\n  -->\n  <fieldset>\n    <legend>Shipping address</legend>\n    <div class=\"field\">\n      <label for=\"street\">Street</label>\n      <input type=\"text\" id=\"street\" name=\"street\"\n             autocomplete=\"street-address\">\n    </div>\n    <div class=\"field\">\n      <label for=\"city3\">City</label>\n      <input type=\"text\" id=\"city3\" name=\"city\"\n             autocomplete=\"address-level2\">\n    </div>\n    <div class=\"field\">\n      <label for=\"pin3\">Postcode</label>\n      <input type=\"text\" id=\"pin3\" name=\"postcode\"\n             autocomplete=\"postal-code\">\n    </div>\n    <div class=\"field\">\n      <label for=\"phone3\">Phone (optional)</label>\n      <input type=\"tel\" id=\"phone3\" name=\"phone\" autocomplete=\"tel\">\n    </div>\n  </fieldset>\n  <div class=\"sr\">\n    Screen reader: <em>\"Shipping address, group. Street, edit text.\"</em>\n  </div>\n\n\n  <!-- PATTERN 2: RADIO GROUP -->\n  <h2>2. Radio group (fieldset is required)</h2>\n  <!--\n    Radio buttons share a question. Without fieldset + legend\n    the user only hears the option label, not the question.\n\n    Without legend: \"All updates, radio button, 1 of 3\"\n    With legend:    \"Do you want email notifications?\n                     All updates, radio button, 1 of 3\"\n  -->\n  <fieldset>\n    <legend>Do you want email notifications?</legend>\n    <div class=\"opt-col\">\n      <label class=\"opt\">\n        <input type=\"radio\" name=\"notifications\" value=\"all\">\n        All updates\n      </label>\n      <label class=\"opt\">\n        <input type=\"radio\" name=\"notifications\" value=\"important\" checked>\n        Important only\n      </label>\n      <label class=\"opt\">\n        <input type=\"radio\" name=\"notifications\" value=\"none\">\n        None\n      </label>\n    </div>\n  </fieldset>\n  <div class=\"sr\">\n    Screen reader: <em>\"Do you want email notifications? All updates, radio button, 1 of 3\"</em>\n  </div>\n\n\n  <!-- PATTERN 3: CHECKBOX GROUP -->\n  <h2>3. Checkbox group (fieldset + legend)</h2>\n  <fieldset>\n    <legend>Which topics interest you?</legend>\n    <div class=\"opt-col\">\n      <label class=\"opt\">\n        <input type=\"checkbox\" name=\"topics\" value=\"html\" checked> HTML\n      </label>\n      <label class=\"opt\">\n        <input type=\"checkbox\" name=\"topics\" value=\"css\"> CSS\n      </label>\n      <label class=\"opt\">\n        <input type=\"checkbox\" name=\"topics\" value=\"js\"> JavaScript\n      </label>\n      <label class=\"opt\">\n        <input type=\"checkbox\" name=\"topics\" value=\"a11y\"> Accessibility\n      </label>\n    </div>\n  </fieldset>\n\n\n  <!-- PATTERN 4: DISABLED FIELDSET -->\n  <h2>4. Disabled fieldset (all controls at once)</h2>\n  <!--\n    disabled on fieldset disables ALL descendant controls.\n    Disabled controls are excluded from form submission.\n    Toggle: fieldset.disabled = false re-enables all at once.\n  -->\n  <fieldset disabled>\n    <legend>Billing address (same as shipping)</legend>\n    <div class=\"field\">\n      <label for=\"bill-st\">Street</label>\n      <input type=\"text\" id=\"bill-st\" name=\"bill_street\">\n    </div>\n    <div class=\"field\">\n      <label for=\"bill-ci\">City</label>\n      <input type=\"text\" id=\"bill-ci\" name=\"bill_city\">\n    </div>\n  </fieldset>\n  <p style=\"font-size:.84rem;color:#64748b;margin-top:-.3rem;\">\n    All inputs disabled. None submitted.\n    Re-enable: <code>fieldset.disabled = false</code>\n  </p>\n\n\n  <!-- PATTERN 5: CSS RESET -->\n  <h2>5. Removing default fieldset border (CSS reset)</h2>\n  <pre>&lt;!-- Safe visual reset — preserves accessibility semantics --&gt;\n&lt;fieldset class=\"fs-reset\"&gt;\n  &lt;legend&gt;Contact preference&lt;/legend&gt;\n  ...radio inputs...\n&lt;/fieldset&gt;\n\n&lt;style&gt;\n.fs-reset { border: none; padding: 0; margin: 0; }\n.fs-reset > legend { padding: 0; }\n/* DO NOT use display:contents — removes from accessibility tree */\n&lt;/style&gt;</pre>\n\n  <fieldset class=\"fs-reset\" style=\"margin-bottom:1rem;\">\n    <legend>Contact preference (unstyled fieldset)</legend>\n    <div class=\"opt-col\">\n      <label class=\"opt\">\n        <input type=\"radio\" name=\"ctype\" value=\"email\" checked> Email\n      </label>\n      <label class=\"opt\">\n        <input type=\"radio\" name=\"ctype\" value=\"sms\"> SMS\n      </label>\n    </div>\n  </fieldset>\n\n</body>\n</html>",
+          "output": "Page renders five sections. The address fieldset shows four labelled inputs in a bordered card with an announcement note. The radio group shows three options in a fieldset with the full screen reader announcement including the legend question. The checkbox group shows four options with a shared legend. The disabled fieldset shows faded inputs. The CSS reset section shows a dark code block then a live unstyled fieldset.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "disabled",
+              "highlight": true
+            },
+            {
+              "value": " attribute on "
+            },
+            {
+              "value": "<fieldset>",
+              "highlight": true
+            },
+            {
+              "value": " propagates to "
+            },
+            {
+              "value": "all descendant form controls",
+              "bold": true
+            },
+            {
+              "value": " through the spec's barred-from-constraint-validation mechanism. Disabled controls cannot receive focus, are excluded from form serialisation, and are styled at reduced opacity by the browser. Toggling "
+            },
+            {
+              "value": "fieldset.disabled = false",
+              "highlight": true
+            },
+            {
+              "value": " via JavaScript re-enables all children in one operation without needing to track or loop over individual control states."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "Applying "
+            },
+            {
+              "value": "display: contents",
+              "highlight": true
+            },
+            {
+              "value": " to "
+            },
+            {
+              "value": "<fieldset>",
+              "highlight": true
+            },
+            {
+              "value": " to flatten its layout box is an "
+            },
+            {
+              "value": "accessibility anti-pattern",
+              "bold": true
+            },
+            {
+              "value": ": it removes the fieldset from the accessibility tree in some browsers, destroying the group context and silencing the legend. The safe unstyled fieldset uses "
+            },
+            {
+              "value": "border: none; padding: 0; margin: 0",
+              "highlight": true
+            },
+            {
+              "value": ", which removes the visual chrome without touching the accessibility tree, preserving the "
+            },
+            {
+              "value": "<legend>",
+              "highlight": true
+            },
+            {
+              "value": " announcement."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Nest fieldsets to represent sub-groups: an outer fieldset with legend "
+            },
+            {
+              "value": "\"Shipping address\"",
+              "bold": true
+            },
+            {
+              "value": " can contain an inner fieldset with legend "
+            },
+            {
+              "value": "\"Country and region\"",
+              "bold": true
+            },
+            {
+              "value": ". Screen readers announce both levels: "
+            },
+            {
+              "value": "\"Shipping address, Country and region, State, edit text.\"",
+              "bold": true
+            },
+            {
+              "value": " Keep nesting to a maximum of two levels; deeper nesting produces verbose announcements that add confusion rather than context."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Form Structure",
+        "Form Structure Basics",
+        "Label Association Techniques",
+        "HTML Input Types",
+        "Web Accessibility WCAG"
+      ],
+      "is_active": true,
+      "order_index": 3,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Form Structure | form, fieldset, legend, label Guide",
+    "meta_description": "Master HTML form structure: form action and method, fieldset and legend for accessible grouping, all four label association techniques, enctype for file uploads, and WCAG compliance.",
+    "keywords": [
+      "HTML form element",
+      "HTML form action method",
+      "HTML form enctype multipart",
+      "HTML fieldset legend",
+      "HTML label for id",
+      "HTML label association",
+      "HTML form accessibility WCAG",
+      "HTML form novalidate",
+      "HTML fieldset disabled",
+      "HTML aria-labelledby form"
+    ],
+    "canonical_url": "/html/html-form-structure",
+    "robots": "index, follow"
+  }
+}

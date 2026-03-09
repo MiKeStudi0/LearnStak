@@ -1,6 +1,13 @@
 import { useQuery, useQueries } from "@tanstack/react-query";
-import { topicsQueryKeys, fetchTechnologyBySlug, fetchModulesByTechnology, fetchTopicsByModule } from "./useTopicsQueries";
-import { FileCode, Palette, Terminal, BookOpen, MonitorPlay, Layers } from "lucide-react";
+import {
+  topicsQueryKeys,
+  fetchTechnologyBySlug,
+  fetchModulesByTechnology,
+  fetchTopicsByModule
+} from "./useTopicsQueries";
+
+import { FileCode, Palette, Terminal, BookOpen } from "lucide-react";
+
 
 const getIconForModule = (slug: string) => {
   if (slug.includes("html")) return FileCode;
@@ -18,11 +25,14 @@ const getColorForModule = (index: number) => {
     { color: "text-green-500", bgColor: "bg-green-500/10" },
     { color: "text-purple-500", bgColor: "bg-purple-500/10" },
   ];
+
   return colors[index % colors.length];
 };
 
+
 export function useLearnSidebarData(technologySlug: string) {
-  // 1. Fetch Technology
+
+  // 1️⃣ Fetch Technology
   const technologyQuery = useQuery({
     queryKey: topicsQueryKeys.technologyBySlug(technologySlug),
     queryFn: () => fetchTechnologyBySlug(technologySlug),
@@ -31,7 +41,8 @@ export function useLearnSidebarData(technologySlug: string) {
 
   const technologyId = technologyQuery.data?.id;
 
-  // 2. Fetch Modules for Technology
+
+  // 2️⃣ Fetch Modules
   const modulesQuery = useQuery({
     queryKey: topicsQueryKeys.modulesByTechnology(technologyId as number),
     queryFn: () => fetchModulesByTechnology(technologyId as number),
@@ -40,7 +51,8 @@ export function useLearnSidebarData(technologySlug: string) {
 
   const modules = modulesQuery.data || [];
 
-  // 3. Fetch Topics for ALL Modules
+
+  // 3️⃣ Fetch Topics for ALL Modules
   const topicsQueries = useQueries({
     queries: modules.map((module) => ({
       queryKey: topicsQueryKeys.topicsByModule(module.id),
@@ -48,11 +60,21 @@ export function useLearnSidebarData(technologySlug: string) {
     })),
   });
 
-  const isPending = technologyQuery.isPending || modulesQuery.isPending || topicsQueries.some(q => q.isPending);
-  const isError = technologyQuery.isError || modulesQuery.isError || topicsQueries.some(q => q.isError);
 
-  // 4. Transform data into the UI format
+  const isPending =
+    technologyQuery.isPending ||
+    modulesQuery.isPending ||
+    topicsQueries.some((q) => q.isPending);
+
+  const isError =
+    technologyQuery.isError ||
+    modulesQuery.isError ||
+    topicsQueries.some((q) => q.isError);
+
+
+  // 4️⃣ Transform data
   const sidebarData = modules.map((module, index) => {
+
     const { color, bgColor } = getColorForModule(index);
     const moduleTopics = topicsQueries[index]?.data || [];
 
@@ -62,38 +84,60 @@ export function useLearnSidebarData(technologySlug: string) {
       icon: getIconForModule(module.slug),
       color,
       bgColor,
-      lessons: moduleTopics.map(topic => ({
+
+      lessons: moduleTopics.map((topic: any) => ({
         id: topic.slug,
         title: topic.title,
         description: topic.description || "",
-        content: Array.isArray((topic as any).content) ? (topic as any).content : [],
+
+        content: Array.isArray(topic.content) ? topic.content : [],
+
         videoUrl: topic.video_url || "",
-        imageUrl: topic.image_banner_url || (topic.images?.length > 0 ? topic.images[0] : ""),
-        problem: topic.problems || [],
-        mentalModel: topic.mental_models || [],
+        imageUrl:
+          topic.image_banner_url ||
+          (topic.images?.length > 0 ? topic.images[0] : ""),
+
+        // ✅ UPDATED FIELDS
+        whatItSolves: topic.what_it_solves || [],
+        conceptualUnderstanding: topic.conceptual_understanding || [],
+
         whenToUse: topic.when_to_use || [],
         whenNotToUse: topic.when_to_avoid || [],
-        syntax: "", // Optionally fallback
+
+        syntax: "",
         code: topic.examples?.[0]?.code_snippet || "",
+
         subtopics: (topic.sub_topics || []).map((sub: any) => ({
           id: sub.slug,
           title: sub.title,
+
           content: sub.description || "",
           videoUrl: sub.video_url || "",
-          imageUrl: sub.image_banner_url || (sub.images?.length > 0 ? sub.images[0] : ""),
+
+          imageUrl:
+            sub.image_banner_url ||
+            (sub.images?.length > 0 ? sub.images[0] : ""),
+
           example: sub.examples?.[0]?.code_snippet || "",
+
           tip: sub.bonus_tips || [],
-          problems: sub.problems || [],
-          mentalModel: sub.mental_models || [],
+
+          // ✅ UPDATED FIELDS
+          whatItSolves: sub.what_it_solves || [],
+          conceptualUnderstanding: sub.conceptual_understanding || [],
+
           whenToUse: sub.when_to_use || [],
           whenNotToUse: sub.when_to_avoid || [],
+
           commonMistakes: sub.common_mistakes || [],
         })),
+
         commonMistakes: topic.common_mistakes || [],
-        bonusTip: topic.bonus_tips || []
-      }))
+        bonusTip: topic.bonus_tips || [],
+      })),
     };
   });
+
 
   return {
     data: sidebarData,

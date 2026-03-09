@@ -1,0 +1,1932 @@
+{
+  "topic": {
+    "id": 27,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 8,
+    "slug": "html-input-types",
+    "title": "HTML Input Types",
+    "description": "The type attribute controls keyboard layout, validation, and the visual widget for each input.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "HTML Input Types: type, autocomplete, and Native Validation"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "<input>",
+            "highlight": true
+          },
+          {
+            "value": " element changes its keyboard layout, validation behaviour, and visual widget entirely based on its "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attribute. The default type is "
+          },
+          {
+            "value": "text",
+            "highlight": true
+          },
+          {
+            "value": ". Text-based types ("
+          },
+          {
+            "value": "text",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "email",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "password",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "search",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "url",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "tel",
+            "highlight": true
+          },
+          {
+            "value": ") change the mobile keyboard and apply format validation. Picker types ("
+          },
+          {
+            "value": "date",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "time",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "datetime-local",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "color",
+            "highlight": true
+          },
+          {
+            "value": ") open native OS pickers. Selection types ("
+          },
+          {
+            "value": "checkbox",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "radio",
+            "highlight": true
+          },
+          {
+            "value": ") are binary/group selectors. "
+          },
+          {
+            "value": "number",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "range",
+            "highlight": true
+          },
+          {
+            "value": " constrain numeric input. "
+          },
+          {
+            "value": "file",
+            "highlight": true
+          },
+          {
+            "value": " opens a file picker. Action types ("
+          },
+          {
+            "value": "submit",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "reset",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "button",
+            "highlight": true
+          },
+          {
+            "value": ") trigger form actions. Reference: "
+          },
+          {
+            "value": "MDN: input element",
+            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Type group",
+          "Types",
+          "Mobile keyboard",
+          "Native validation"
+        ],
+        "rows": [
+          [
+            "Text",
+            "text, search",
+            "Standard text",
+            "None"
+          ],
+          [
+            "Email",
+            "email",
+            "@ symbol prominent",
+            "Must contain @ and domain"
+          ],
+          [
+            "Password",
+            "password",
+            "Standard text",
+            "None (value masked)"
+          ],
+          [
+            "URL",
+            "url",
+            "/ and . prominent",
+            "Must start with scheme://"
+          ],
+          [
+            "Tel",
+            "tel",
+            "Numeric dial pad",
+            "None (formats vary by region)"
+          ],
+          [
+            "Number",
+            "number",
+            "Numeric + decimal",
+            "Must be a number; min/max/step"
+          ],
+          [
+            "Date/time",
+            "date, time, datetime-local",
+            "Date/time picker",
+            "Valid date or time format"
+          ],
+          [
+            "Checkbox",
+            "checkbox",
+            "n/a",
+            "Required: must be checked"
+          ],
+          [
+            "Radio",
+            "radio",
+            "n/a",
+            "Required: one in group selected"
+          ],
+          [
+            "File",
+            "file",
+            "File picker",
+            "accept restricts file types"
+          ],
+          [
+            "Range",
+            "range",
+            "n/a",
+            "Value always in min-max range"
+          ],
+          [
+            "Color",
+            "color",
+            "Color picker",
+            "None"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "type='number' Is Not for All Numeric Data",
+        "text": "type='number' is designed for quantities users can increment or compare, like price filters or age. It is wrong for data that happens to be numeric but is not a quantity: phone numbers, credit card numbers, PINs, and postal codes should use type='text' with inputmode='numeric' and pattern='[0-9]*'. type='number' strips leading zeros, shows a spinner UI, and allows 'e' for scientific notation, all of which break these use cases."
+      }
+    ],
+    "examples": [
+      {
+        "title": "Input Type Gallery: All Major Types in Context",
+        "description": "This example shows every major input type in a realistic form context: text family (text, email, password, search, url, tel), picker types (date, time, datetime-local, color), selection types (checkbox, radio), numeric types (number, range), and file input, each with label, autocomplete, and constraint attributes.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Input Type Gallery</title>\n  <style>\n    body  { font-family: system-ui, sans-serif; max-width: 680px;\n            margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2    { font-size: 1.05rem; margin-top: 2rem; }\n    code  { background: #f1f5f9; border-radius: 3px;\n            padding: .1rem .35rem; font-size: .87em; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 1rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field   { display: flex; flex-direction: column; gap: .3rem;\n               margin-bottom: .8rem; }\n    label    { font-size: .88rem; font-weight: 500; color: #374151; }\n    input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=submit]):not([type=reset]) {\n               border: 1px solid #d1d5db; border-radius: 6px;\n               padding: .45rem .7rem; font-size: .9rem;\n               font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    .hint    { font-size: .78rem; color: #6b7280; }\n    .row     { display: flex; gap: 1rem; flex-wrap: wrap; }\n    .opt     { display: flex; align-items: center; gap: .4rem;\n               font-size: .88rem; cursor: pointer; }\n    input[type=range] { width: 100%; accent-color: #2563eb; }\n    input[type=color] { height: 2.2rem; width: 3rem;\n                        border: 1px solid #d1d5db; border-radius: 6px;\n                        cursor: pointer; padding: .1rem; }\n    .range-row { display: flex; align-items: center; gap: .75rem; }\n    #range-val { font-size: .88rem; font-weight: 600;\n                 min-width: 2.5rem; color: #2563eb; }\n    .submit-btn { background: #2563eb; color: #fff; border: none;\n                  border-radius: 8px; padding: .6rem 1.5rem;\n                  font-size: .9rem; font-weight: 600; cursor: pointer;\n                  margin-right: .5rem; }\n    .reset-btn  { background: #f1f5f9; color: #374151;\n                  border: 1px solid #d1d5db; border-radius: 8px;\n                  padding: .6rem 1.5rem; font-size: .9rem;\n                  font-weight: 600; cursor: pointer; }\n  </style>\n</head>\n<body>\n\n  <h1>Input Type Gallery</h1>\n\n  <form id=\"demo\" novalidate>\n\n    <!-- TEXT FAMILY -->\n    <fieldset>\n      <legend>Text family</legend>\n\n      <div class=\"field\">\n        <label for=\"fname\">Full name (type=\"text\")</label>\n        <input type=\"text\" id=\"fname\" name=\"full_name\"\n               autocomplete=\"name\" placeholder=\"e.g. Priya Sharma\">\n      </div>\n\n      <!-- type=\"email\": @ keyboard, format validation -->\n      <div class=\"field\">\n        <label for=\"email\">Email (type=\"email\")</label>\n        <input type=\"email\" id=\"email\" name=\"email\"\n               autocomplete=\"email\" placeholder=\"you@example.com\"\n               required aria-required=\"true\">\n        <span class=\"hint\">Mobile: @ is prominent. Validates @ + domain format.</span>\n      </div>\n\n      <!-- type=\"password\": value masked -->\n      <div class=\"field\">\n        <label for=\"pw\">Password (type=\"password\")</label>\n        <input type=\"password\" id=\"pw\" name=\"password\"\n               autocomplete=\"new-password\" minlength=\"8\">\n        <span class=\"hint\">autocomplete=\"new-password\" signals registration context.</span>\n      </div>\n\n      <!-- type=\"tel\": dial-pad; NO format validation -->\n      <div class=\"field\">\n        <label for=\"phone\">Phone (type=\"tel\")</label>\n        <input type=\"tel\" id=\"phone\" name=\"phone\"\n               autocomplete=\"tel\" placeholder=\"+91 98765 43210\"\n               pattern=\"[+]?[0-9\\s\\-()]{7,15}\">\n        <span class=\"hint\">Dial-pad keyboard. Use pattern= for format validation.</span>\n      </div>\n\n      <!-- type=\"url\": validates scheme:// -->\n      <div class=\"field\">\n        <label for=\"website\">Website (type=\"url\")</label>\n        <input type=\"url\" id=\"website\" name=\"website\"\n               autocomplete=\"url\" placeholder=\"https://example.com\">\n        <span class=\"hint\">Validates scheme://host format.</span>\n      </div>\n    </fieldset>\n\n\n    <!-- PICKER TYPES -->\n    <fieldset>\n      <legend>Picker types</legend>\n\n      <!-- type=\"date\": YYYY-MM-DD value format -->\n      <div class=\"field\">\n        <label for=\"dob\">Date of birth (type=\"date\")</label>\n        <input type=\"date\" id=\"dob\" name=\"dob\"\n               min=\"1920-01-01\" max=\"2006-12-31\">\n        <span class=\"hint\">Value format: YYYY-MM-DD. Picker shows local format.</span>\n      </div>\n\n      <!-- type=\"time\": HH:MM; step in seconds -->\n      <div class=\"field\">\n        <label for=\"appt\">Appointment time (type=\"time\")</label>\n        <input type=\"time\" id=\"appt\" name=\"appt\"\n               min=\"09:00\" max=\"18:00\" step=\"1800\">\n        <span class=\"hint\">step=\"1800\" = 30-minute intervals.</span>\n      </div>\n\n      <!-- type=\"color\": #rrggbb value -->\n      <div class=\"field\" style=\"flex-direction:row;align-items:center;gap:.75rem;\">\n        <label for=\"accent\">Accent colour (type=\"color\")</label>\n        <input type=\"color\" id=\"accent\" name=\"accent\" value=\"#2563eb\">\n        <span class=\"hint\">Value always #rrggbb hex.</span>\n      </div>\n    </fieldset>\n\n\n    <!-- SELECTION TYPES -->\n    <fieldset>\n      <legend>Selection types</legend>\n\n      <!-- checkbox: binary; unchecked = not submitted -->\n      <div class=\"field\">\n        <label style=\"display:flex;align-items:center;gap:.5rem;\n                      cursor:pointer;font-weight:400;\">\n          <input type=\"checkbox\" name=\"newsletter\" value=\"yes\">\n          Subscribe to newsletter (type=\"checkbox\")\n        </label>\n        <span class=\"hint\" style=\"margin-left:1.35rem;\">\n          Unchecked: not submitted. Checked: name=value submitted.\n        </span>\n      </div>\n\n      <!-- radio: one of a named group -->\n      <fieldset style=\"border:none;padding:0;margin:.3rem 0 0;\">\n        <legend style=\"font-weight:500;font-size:.88rem;padding:0;color:#374151;\">\n          Skill level (type=\"radio\")\n        </legend>\n        <div class=\"row\" style=\"margin-top:.35rem;\">\n          <label class=\"opt\">\n            <input type=\"radio\" name=\"level\" value=\"beginner\"> Beginner\n          </label>\n          <label class=\"opt\">\n            <input type=\"radio\" name=\"level\" value=\"intermediate\" checked>\n            Intermediate\n          </label>\n          <label class=\"opt\">\n            <input type=\"radio\" name=\"level\" value=\"advanced\"> Advanced\n          </label>\n        </div>\n      </fieldset>\n    </fieldset>\n\n\n    <!-- NUMERIC TYPES -->\n    <fieldset>\n      <legend>Numeric types</legend>\n\n      <!-- number: spinner; quantities only -->\n      <div class=\"field\">\n        <label for=\"qty\">Quantity (type=\"number\")</label>\n        <input type=\"number\" id=\"qty\" name=\"quantity\"\n               min=\"1\" max=\"99\" step=\"1\" value=\"1\">\n        <span class=\"hint\">\n          Spinner. Only for quantities — not PINs or postcodes.\n        </span>\n      </div>\n\n      <!-- range: slider; no visible value indicator -->\n      <div class=\"field\">\n        <label for=\"rating\">Rating (type=\"range\")</label>\n        <div class=\"range-row\">\n          <input type=\"range\" id=\"rating\" name=\"rating\"\n                 min=\"1\" max=\"10\" step=\"1\" value=\"5\"\n                 oninput=\"document.getElementById('range-val').textContent=this.value\">\n          <span id=\"range-val\">5</span>\n        </div>\n        <span class=\"hint\">\n          Always display current value — range has no visible indicator.\n        </span>\n      </div>\n    </fieldset>\n\n\n    <!-- FILE -->\n    <fieldset>\n      <legend>File input</legend>\n      <div class=\"field\">\n        <label for=\"resume\">Resume (type=\"file\")</label>\n        <input type=\"file\" id=\"resume\" name=\"resume\"\n               accept=\".pdf,.doc,.docx\"\n               aria-describedby=\"resume-hint\">\n        <span id=\"resume-hint\" class=\"hint\">\n          PDF or Word. accept= filters shown file types.\n          Form needs enctype=\"multipart/form-data\".\n        </span>\n      </div>\n    </fieldset>\n\n\n    <!-- ACTIONS -->\n    <fieldset>\n      <legend>Action inputs</legend>\n      <input type=\"submit\" value=\"Submit form\" class=\"submit-btn\">\n      <input type=\"reset\"  value=\"Reset all fields\" class=\"reset-btn\">\n      <span class=\"hint\" style=\"display:block;margin-top:.5rem;\">\n        reset clears all fields to their initial HTML values.\n      </span>\n    </fieldset>\n\n  </form>\n</body>\n</html>",
+        "output": "Page renders six fieldsets. Text family shows five labelled inputs each with a hint line. Picker types shows date with min/max, time with step, and a colour picker. Selection shows a checkbox and an inline radio group. Numeric shows a number spinner and a range slider with live value. File shows an accept-filtered input. Actions shows submit and reset buttons.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "inputmode, pattern, autocomplete, and Mobile Optimisation",
+        "description": "This example demonstrates the inputmode attribute for overriding mobile keyboard without changing validation, the pattern attribute for regex validation with custom error messages, autocomplete token reference for identity and payment fields, and the type=number vs type=text with inputmode=numeric distinction for PINs and postcodes.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Input Attributes Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 720px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    table{ border-collapse: collapse; width: 100%; font-size: .87rem;\n           margin: .75rem 0; }\n    th,td{ border: 1px solid #e2e8f0; padding: .45rem .75rem;\n           text-align: left; }\n    thead th { background: #0f172a; color: #fff; border-color: #0f172a; }\n    .field { display: flex; flex-direction: column; gap: .3rem;\n             margin-bottom: .85rem; max-width: 400px; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    input:invalid:not(:placeholder-shown) { border-color: #dc2626; }\n    .hint { font-size: .78rem; color: #6b7280; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; max-width: 500px; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .6rem .9rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin-bottom: .45rem; max-width: 500px; }\n    .lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase;\n            letter-spacing: .06em; margin-bottom: .2rem; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n  </style>\n</head>\n<body>\n\n  <h1>Input Attributes Reference</h1>\n\n\n  <!-- INPUTMODE TABLE -->\n  <h2>1. inputmode: keyboard without changing type</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>inputmode</th><th>Mobile keyboard</th><th>Use case</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr><td><code>text</code></td>\n          <td>Standard QWERTY</td><td>Default</td></tr>\n      <tr><td><code>numeric</code></td>\n          <td>0-9 only</td><td>PIN, postcode, OTP</td></tr>\n      <tr><td><code>decimal</code></td>\n          <td>0-9 + decimal point</td><td>Prices, measurements</td></tr>\n      <tr><td><code>tel</code></td>\n          <td>Dial pad 0-9 + * #</td><td>Phone numbers</td></tr>\n      <tr><td><code>email</code></td>\n          <td>@ and . prominent</td><td>Email on type=text</td></tr>\n      <tr><td><code>url</code></td>\n          <td>/ and . prominent</td><td>URL on type=text</td></tr>\n      <tr><td><code>search</code></td>\n          <td>Go/Search action key</td><td>Search fields</td></tr>\n      <tr><td><code>none</code></td>\n          <td>No keyboard shown</td><td>Custom input widgets</td></tr>\n    </tbody>\n  </table>\n\n  <!-- PIN input: type=text + inputmode=numeric -->\n  <div class=\"field\">\n    <label for=\"pin\">PIN (4 digits)</label>\n    <!--\n      type=\"text\": preserves leading zeros; no spinner; no 'e'.\n      inputmode=\"numeric\": numpad keyboard on mobile.\n      pattern=\"[0-9]{4}\": validates exactly 4 digits.\n      autocomplete=\"one-time-code\": SMS OTP autofill on iOS/Android.\n    -->\n    <input type=\"text\" id=\"pin\" name=\"pin\"\n           inputmode=\"numeric\"\n           pattern=\"[0-9]{4}\"\n           maxlength=\"4\"\n           autocomplete=\"one-time-code\"\n           placeholder=\"••••\">\n    <span class=\"hint\">type=\"text\" preserves leading zeros; inputmode=\"numeric\" shows numpad.</span>\n  </div>\n\n  <div class=\"field\">\n    <label for=\"postcode\">Postcode (India PIN)</label>\n    <input type=\"text\" id=\"postcode\" name=\"postcode\"\n           inputmode=\"numeric\"\n           pattern=\"[1-9][0-9]{5}\"\n           maxlength=\"6\"\n           autocomplete=\"postal-code\"\n           placeholder=\"400001\">\n    <span class=\"hint\">Six-digit PIN code. type=text keeps numeric string intact.</span>\n  </div>\n\n\n  <!-- PATTERN ATTRIBUTE -->\n  <h2>2. pattern: custom regex validation</h2>\n\n  <div class=\"field\">\n    <label for=\"username\">Username</label>\n    <input type=\"text\" id=\"username\" name=\"username\"\n           pattern=\"[a-zA-Z0-9_]{3,20}\"\n           title=\"3-20 characters: letters, numbers, underscores only\"\n           placeholder=\"e.g. priya_99\"\n           minlength=\"3\" maxlength=\"20\" required>\n    <span class=\"hint\">pattern=\"[a-zA-Z0-9_]{3,20}\". title= sets the validation message.</span>\n  </div>\n\n  <div class=\"field\">\n    <label for=\"phone2\">Phone number</label>\n    <input type=\"tel\" id=\"phone2\" name=\"phone\"\n           pattern=\"[+]?[0-9\\s\\-()]{7,15}\"\n           title=\"Enter a valid phone number (7-15 digits)\"\n           autocomplete=\"tel\"\n           placeholder=\"+91 98765 43210\">\n    <span class=\"hint\">type=\"tel\" + pattern= = dial-pad + regex validation.</span>\n  </div>\n\n\n  <!-- AUTOCOMPLETE TOKENS -->\n  <h2>3. autocomplete token reference</h2>\n  <pre><!-- Identity -->\nautocomplete=\"name\"              Full name\nautocomplete=\"given-name\"        First name\nautocomplete=\"family-name\"       Last name\nautocomplete=\"email\"             Email address\nautocomplete=\"tel\"               Phone number\n\n<!-- Credentials -->\nautocomplete=\"username\"          Login username\nautocomplete=\"new-password\"      New password (registration)\nautocomplete=\"current-password\"  Existing password (login)\nautocomplete=\"one-time-code\"     OTP / 2FA code (SMS autofill)\n\n<!-- Address -->\nautocomplete=\"street-address\"    Full street\nautocomplete=\"address-level2\"    City\nautocomplete=\"postal-code\"       Postcode / ZIP\nautocomplete=\"country\"           Country code\n\n<!-- Payment -->\nautocomplete=\"cc-number\"         Card number\nautocomplete=\"cc-name\"           Name on card\nautocomplete=\"cc-exp\"            Expiry MM/YY\nautocomplete=\"cc-csc\"            CVV / CVC</pre>\n\n\n  <!-- NUMBER WRONG USE CASES -->\n  <h2>4. type=\"number\" correct vs wrong use cases</h2>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: type=\"number\" for postcode — strips leading zeros</p>\n    <code>&lt;input type=\"number\" name=\"postcode\"&gt;</code><br>\n    <span style=\"font-size:.82rem;color:#b91c1c;\">\n      \"07001\" becomes 7001. Shows spinner. Allows \"1e5\". Breaks postcodes.\n    </span>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: type=\"text\" + inputmode=\"numeric\" + pattern</p>\n    <code>&lt;input type=\"text\" name=\"postcode\"\n  inputmode=\"numeric\" pattern=\"[0-9]{5}\" maxlength=\"5\"&gt;</code>\n  </div>\n\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: type=\"number\" for credit card number</p>\n    <code>&lt;input type=\"number\" name=\"card_number\"&gt;</code><br>\n    <span style=\"font-size:.82rem;color:#b91c1c;\">\n      Strips leading zeros. Allows e notation. Shows spinner. Breaks 16-digit cards.\n    </span>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: type=\"text\" + inputmode=\"numeric\" + autocomplete</p>\n    <code>&lt;input type=\"text\" name=\"card_number\"\n  inputmode=\"numeric\" maxlength=\"19\"\n  autocomplete=\"cc-number\" pattern=\"[0-9 ]{13,19}\"&gt;</code>\n  </div>\n\n  <pre style=\"margin-top:1rem;\">&lt;!-- type=\"number\" correct use cases: quantities only --&gt;\n&lt;input type=\"number\" name=\"quantity\" min=\"1\" max=\"99\" step=\"1\"&gt;\n&lt;input type=\"number\" name=\"price_filter\" min=\"0\" step=\"0.01\"&gt;\n&lt;input type=\"number\" name=\"age\" min=\"0\" max=\"120\"&gt;</pre>\n\n</body>\n</html>",
+        "output": "Page renders four sections. The inputmode table lists eight values with keyboard descriptions and use cases, followed by live PIN and postcode inputs. The pattern section shows two live inputs with regex validation turning red when invalid. The autocomplete section shows a dark code block with 17 tokens grouped by category. The correct vs wrong section shows two pairs of red and green cards then a dark code block with quantity examples.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "type='email'",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "type='url'",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "type='tel'",
+            "highlight": true
+          },
+          {
+            "value": " on all relevant inputs to trigger the correct "
+          },
+          {
+            "value": "mobile keyboard layout",
+            "bold": true
+          },
+          {
+            "value": " and built-in format validation, which cost nothing and significantly improve mobile form usability."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "type='date'",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "type='time'",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "type='color'",
+            "highlight": true
+          },
+          {
+            "value": " to leverage "
+          },
+          {
+            "value": "native OS pickers",
+            "bold": true
+          },
+          {
+            "value": " that are accessible, localised, and require no JavaScript — eliminating the need for custom date picker libraries for most use cases."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "type='text'",
+            "highlight": true
+          },
+          {
+            "value": " with "
+          },
+          {
+            "value": "inputmode='numeric'",
+            "highlight": true
+          },
+          {
+            "value": " and "
+          },
+          {
+            "value": "pattern='[0-9]*'",
+            "highlight": true
+          },
+          {
+            "value": " for "
+          },
+          {
+            "value": "numeric-but-not-quantity",
+            "bold": true
+          },
+          {
+            "value": " data (PIN, postcode, OTP, card number) to show the numpad keyboard while preserving leading zeros and avoiding the spinner of "
+          },
+          {
+            "value": "type='number'",
+            "highlight": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "type='number'",
+            "highlight": true
+          },
+          {
+            "value": " for data that is numeric but not a quantity — PIN codes, postcodes, phone numbers, and card numbers — because it strips "
+          },
+          {
+            "value": "leading zeros",
+            "bold": true
+          },
+          {
+            "value": " and adds a spinner and scientific notation support that break these inputs."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "autocomplete='off'",
+            "highlight": true
+          },
+          {
+            "value": " on password inputs; it blocks password managers from filling credentials, forcing users to memorise or write down passwords and "
+          },
+          {
+            "value": "reducing security",
+            "bold": true
+          },
+          {
+            "value": ". Browsers largely ignore "
+          },
+          {
+            "value": "autocomplete='off'",
+            "highlight": true
+          },
+          {
+            "value": " on password fields anyway."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Avoid "
+          },
+          {
+            "value": "type='reset'",
+            "highlight": true
+          },
+          {
+            "value": " in most production forms; users accidentally click it expecting to submit and lose all their entered data, with almost no legitimate UX reason to clear all fields at once."
+          }
+        ]
+      }
+    ],
+    "what_it_solves": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attribute solves "
+          },
+          {
+            "value": "mobile keyboard ergonomics",
+            "bold": true
+          },
+          {
+            "value": ": without it every input shows QWERTY regardless of content. "
+          },
+          {
+            "value": "type='email'",
+            "highlight": true
+          },
+          {
+            "value": " puts @ front and centre; "
+          },
+          {
+            "value": "type='tel'",
+            "highlight": true
+          },
+          {
+            "value": " shows a dial pad; "
+          },
+          {
+            "value": "type='url'",
+            "highlight": true
+          },
+          {
+            "value": " promotes / and . — each layout optimised for expected input."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attribute solves "
+          },
+          {
+            "value": "format validation without JavaScript",
+            "bold": true
+          },
+          {
+            "value": ": "
+          },
+          {
+            "value": "type='email'",
+            "highlight": true
+          },
+          {
+            "value": " rejects inputs without @ and a domain; "
+          },
+          {
+            "value": "type='url'",
+            "highlight": true
+          },
+          {
+            "value": " requires a scheme; "
+          },
+          {
+            "value": "type='number'",
+            "highlight": true
+          },
+          {
+            "value": " rejects non-numeric values; "
+          },
+          {
+            "value": "type='date'",
+            "highlight": true
+          },
+          {
+            "value": " enforces valid calendar dates — all enforced by the browser before submission."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Picker types ("
+          },
+          {
+            "value": "date",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "time",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "color",
+            "highlight": true
+          },
+          {
+            "value": ") solve "
+          },
+          {
+            "value": "native UI widget delivery",
+            "bold": true
+          },
+          {
+            "value": ": they open OS-level pickers that are keyboard-navigable, localised to the user's regional conventions, and fully accessible with zero JavaScript and no third-party libraries."
+          }
+        ]
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "type",
+            "highlight": true
+          },
+          {
+            "value": " attribute changes three independent things simultaneously: the "
+          },
+          {
+            "value": "visual widget",
+            "bold": true
+          },
+          {
+            "value": " (text box, checkbox, colour swatch), the "
+          },
+          {
+            "value": "mobile keyboard variant",
+            "bold": true
+          },
+          {
+            "value": " dispatched to the OS input manager, and the "
+          },
+          {
+            "value": "constraint validation algorithm",
+            "bold": true
+          },
+          {
+            "value": " applied before form submission. The "
+          },
+          {
+            "value": "inputmode",
+            "highlight": true
+          },
+          {
+            "value": " attribute changes only the keyboard without affecting the widget or validation, decoupling these concerns for cases like numeric PINs that need a numpad but text behaviour."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "The "
+          },
+          {
+            "value": "autocomplete",
+            "highlight": true
+          },
+          {
+            "value": " attribute communicates the "
+          },
+          {
+            "value": "semantic meaning",
+            "bold": true
+          },
+          {
+            "value": " of an input to browsers and password managers. "
+          },
+          {
+            "value": "new-password",
+            "highlight": true
+          },
+          {
+            "value": " triggers password generation suggestions (registration); "
+          },
+          {
+            "value": "current-password",
+            "highlight": true
+          },
+          {
+            "value": " triggers credential autofill (login); "
+          },
+          {
+            "value": "one-time-code",
+            "highlight": true
+          },
+          {
+            "value": " enables SMS OTP autofill on iOS and Android. It also satisfies "
+          },
+          {
+            "value": "WCAG 1.3.5 Identify Input Purpose",
+            "bold": true
+          },
+          {
+            "value": " (Level AA)."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Browser "
+          },
+          {
+            "value": "constraint validation",
+            "bold": true
+          },
+          {
+            "value": " exposes each control's "
+          },
+          {
+            "value": "ValidityState",
+            "bold": true
+          },
+          {
+            "value": " object with boolean flags: "
+          },
+          {
+            "value": "valueMissing",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "typeMismatch",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "patternMismatch",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "rangeUnderflow",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "rangeOverflow",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "tooShort",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "tooLong",
+            "highlight": true
+          },
+          {
+            "value": ". The "
+          },
+          {
+            "value": "checkValidity()",
+            "highlight": true
+          },
+          {
+            "value": " method returns "
+          },
+          {
+            "value": "true",
+            "highlight": true
+          },
+          {
+            "value": " only when all flags are false. "
+          },
+          {
+            "value": "setCustomValidity('message')",
+            "highlight": true
+          },
+          {
+            "value": " marks a field invalid with a custom message."
+          }
+        ]
+      }
+    ],
+    "common_mistakes": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "type='number'",
+            "highlight": true
+          },
+          {
+            "value": " breaks PIN and postcode inputs by stripping leading zeros and adding a spinner."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Using type='text'",
+            "highlight": true
+          },
+          {
+            "value": " for email or URL inputs loses the free mobile keyboard and format validation."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Missing "
+          },
+          {
+            "value": "autocomplete",
+            "highlight": true
+          },
+          {
+            "value": " on identity inputs prevents password manager autofill and fails "
+          },
+          {
+            "value": "WCAG 1.3.5",
+            "bold": true
+          },
+          {
+            "value": "."
+          }
+        ]
+      }
+    ],
+    "bonus_tips": [
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use "
+          },
+          {
+            "value": "autocomplete='one-time-code'",
+            "highlight": true
+          },
+          {
+            "value": " on OTP inputs to enable "
+          },
+          {
+            "value": "SMS autofill on iOS and Android",
+            "bold": true
+          },
+          {
+            "value": ". The keyboard shows the code from the most recent matching SMS as a suggestion. Combine with "
+          },
+          {
+            "value": "inputmode='numeric'",
+            "highlight": true
+          },
+          {
+            "value": ", "
+          },
+          {
+            "value": "pattern='[0-9]{6}'",
+            "highlight": true
+          },
+          {
+            "value": ", and "
+          },
+          {
+            "value": "maxlength='6'",
+            "highlight": true
+          },
+          {
+            "value": " for a complete single-field OTP input that works on all platforms."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "Use the "
+          },
+          {
+            "value": "list",
+            "highlight": true
+          },
+          {
+            "value": " attribute with a "
+          },
+          {
+            "value": "<datalist>",
+            "highlight": true
+          },
+          {
+            "value": " to add "
+          },
+          {
+            "value": "autocomplete suggestions",
+            "bold": true
+          },
+          {
+            "value": " to any text, email, or url input with no JavaScript. Example: "
+          },
+          {
+            "value": "<input list='langs'><datalist id='langs'><option value='JavaScript'>",
+            "highlight": true
+          },
+          {
+            "value": ". The browser renders a native dropdown of options while still allowing free-text entry."
+          }
+        ]
+      }
+    ],
+    "related_topics": [
+      "HTML Form Structure",
+      "HTML Form Validation",
+      "HTML Button Element",
+      "Web Accessibility WCAG",
+      "Label Association Techniques"
+    ],
+    "is_active": true,
+    "order_index": 27,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 27,
+      "slug": "text-email-password-inputs",
+      "title": "Text, Email and Password Inputs",
+      "description": "type=text is the default; email triggers @ keyboard and format validation; password masks input.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The three most common input types form a text-entry family. "
+            },
+            {
+              "value": "type='text'",
+              "highlight": true
+            },
+            {
+              "value": " is the default: a plain single-line field with no format validation. "
+            },
+            {
+              "value": "type='email'",
+              "highlight": true
+            },
+            {
+              "value": " triggers the "
+            },
+            {
+              "value": "@ keyboard",
+              "bold": true
+            },
+            {
+              "value": " on mobile and validates that the value contains @ followed by a domain name. "
+            },
+            {
+              "value": "type='password'",
+              "highlight": true
+            },
+            {
+              "value": " masks each character and enables password manager integration via "
+            },
+            {
+              "value": "autocomplete='new-password'",
+              "highlight": true
+            },
+            {
+              "value": " (registration) or "
+            },
+            {
+              "value": "autocomplete='current-password'",
+              "highlight": true
+            },
+            {
+              "value": " (login). "
+            },
+            {
+              "value": "type='url'",
+              "highlight": true
+            },
+            {
+              "value": " validates the "
+            },
+            {
+              "value": "scheme://host",
+              "bold": true
+            },
+            {
+              "value": " format. "
+            },
+            {
+              "value": "type='tel'",
+              "highlight": true
+            },
+            {
+              "value": " shows the dial-pad but applies no format validation; use "
+            },
+            {
+              "value": "pattern",
+              "highlight": true
+            },
+            {
+              "value": " for tel format constraints. Reference: "
+            },
+            {
+              "value": "MDN: input type=text",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Type",
+            "Mobile keyboard",
+            "Native validation",
+            "Key attributes"
+          ],
+          "rows": [
+            [
+              "text",
+              "Standard QWERTY",
+              "None",
+              "minlength, maxlength, pattern"
+            ],
+            [
+              "email",
+              "@ prominent",
+              "Requires @ + domain",
+              "multiple for comma-separated list"
+            ],
+            [
+              "password",
+              "Standard QWERTY",
+              "None (value masked)",
+              "autocomplete, minlength"
+            ],
+            [
+              "search",
+              "Search/Go action key",
+              "None",
+              "Same as text"
+            ],
+            [
+              "url",
+              "/ and . prominent",
+              "Requires scheme://",
+              "autocomplete='url'"
+            ],
+            [
+              "tel",
+              "Dial pad",
+              "None",
+              "pattern required for tel format"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Text Family with Constraints, autocomplete, and Password Toggle",
+          "description": "This example shows all six text-family types with appropriate autocomplete tokens, constraint attributes, a password show/hide toggle that swaps type between password and text, and the difference between type=email single and multiple for comma-separated addresses.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Text Input Types</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 640px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 1rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field { display: flex; flex-direction: column; gap: .3rem;\n             margin-bottom: .8rem; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input  { border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    input:invalid:not(:placeholder-shown) { border-color: #dc2626; }\n    .hint { font-size: .78rem; color: #6b7280; }\n    .pw-wrap { position: relative; }\n    .pw-wrap input { padding-right: 3rem; }\n    .pw-toggle { position: absolute; right: .6rem; top: 50%;\n                 transform: translateY(-50%); background: none;\n                 border: none; cursor: pointer; color: #6b7280;\n                 font-size: .82rem; padding: .2rem .4rem; }\n    .pw-toggle:focus-visible { outline: 2px solid #2563eb;\n                                border-radius: 3px; }\n    .submit-btn { background: #2563eb; color: #fff; border: none;\n                  border-radius: 8px; padding: .6rem 1.5rem;\n                  font-size: .9rem; font-weight: 600; cursor: pointer; }\n  </style>\n</head>\n<body>\n\n  <h1>Text, Email, and Password Inputs</h1>\n\n  <form action=\"/api/register\" method=\"post\" novalidate>\n    <fieldset>\n      <legend>Account details</legend>\n\n      <!-- type=\"text\": general text -->\n      <div class=\"field\">\n        <label for=\"name\">Full name</label>\n        <input type=\"text\" id=\"name\" name=\"full_name\"\n               autocomplete=\"name\"\n               minlength=\"2\" maxlength=\"80\"\n               placeholder=\"e.g. Priya Sharma\" required>\n        <span class=\"hint\">minlength=\"2\" maxlength=\"80\"</span>\n      </div>\n\n      <!-- type=\"email\": @ keyboard, format validation -->\n      <div class=\"field\">\n        <label for=\"email\">Email address</label>\n        <input type=\"email\" id=\"email\" name=\"email\"\n               autocomplete=\"email\"\n               placeholder=\"you@example.com\"\n               required aria-required=\"true\">\n        <span class=\"hint\">\n          Browser validates @ + domain format on submit.\n        </span>\n      </div>\n\n      <!-- type=\"email\" multiple: comma-separated list -->\n      <div class=\"field\">\n        <label for=\"cc\">CC recipients (optional)</label>\n        <input type=\"email\" id=\"cc\" name=\"cc\"\n               multiple placeholder=\"a@x.com, b@y.com\">\n        <span class=\"hint\">\n          multiple: accepts a comma-separated list of addresses.\n        </span>\n      </div>\n\n      <!-- type=\"password\" with show/hide toggle -->\n      <div class=\"field\">\n        <label for=\"pw\">Password</label>\n        <div class=\"pw-wrap\">\n          <input type=\"password\" id=\"pw\" name=\"password\"\n                 autocomplete=\"new-password\"\n                 minlength=\"8\" required aria-required=\"true\"\n                 aria-describedby=\"pw-hint\">\n          <button type=\"button\" class=\"pw-toggle\"\n                  aria-label=\"Show password\"\n                  onclick=\"\n                    const i = document.getElementById('pw');\n                    if (i.type==='password') {\n                      i.type='text';\n                      this.textContent='Hide';\n                      this.setAttribute('aria-label','Hide password');\n                    } else {\n                      i.type='password';\n                      this.textContent='Show';\n                      this.setAttribute('aria-label','Show password');\n                    }\n                  \">Show</button>\n        </div>\n        <span id=\"pw-hint\" class=\"hint\">At least 8 characters.</span>\n      </div>\n    </fieldset>\n\n    <fieldset>\n      <legend>Web presence</legend>\n\n      <!-- type=\"url\": validates scheme:// -->\n      <div class=\"field\">\n        <label for=\"website\">Portfolio website</label>\n        <input type=\"url\" id=\"website\" name=\"website\"\n               autocomplete=\"url\"\n               placeholder=\"https://yoursite.com\">\n        <span class=\"hint\">Must start with https:// to pass validation.</span>\n      </div>\n\n      <!-- type=\"tel\": dial-pad; no format validation; use pattern= -->\n      <div class=\"field\">\n        <label for=\"phone\">Phone number</label>\n        <input type=\"tel\" id=\"phone\" name=\"phone\"\n               autocomplete=\"tel\"\n               pattern=\"[+]?[0-9\\s\\-()]{7,15}\"\n               title=\"Enter a valid phone number\"\n               placeholder=\"+91 98765 43210\">\n        <span class=\"hint\">\n          Dial-pad on mobile. pattern= validates format.\n        </span>\n      </div>\n\n      <!-- type=\"search\": clear button variant -->\n      <div class=\"field\">\n        <label for=\"tag\">Tag filter</label>\n        <input type=\"search\" id=\"tag\" name=\"tag\"\n               placeholder=\"e.g. html, css\">\n        <span class=\"hint\">Same as text; browser may add a clear (X) button.</span>\n      </div>\n    </fieldset>\n\n    <button type=\"submit\" class=\"submit-btn\">Register</button>\n  </form>\n\n\n  <!-- AUTOCOMPLETE TOKENS -->\n  <h2>Autocomplete tokens for text-family inputs</h2>\n  <pre>autocomplete=\"name\"              Full name\nautocomplete=\"given-name\"        First name only\nautocomplete=\"family-name\"       Last name only\nautocomplete=\"email\"             Email address\nautocomplete=\"tel\"               Phone number\nautocomplete=\"url\"               Website URL\nautocomplete=\"username\"          Login username\nautocomplete=\"new-password\"      New password (registration)\nautocomplete=\"current-password\"  Existing password (login)</pre>\n\n</body>\n</html>",
+          "output": "Page renders two fieldsets and a code block. Account details shows full name (text), email with @ validation hint, CC email with multiple attribute, and password with a Show/Hide toggle that swaps the type between password and text and updates its aria-label. Web presence shows url with scheme validation, tel with pattern, and search with clear button note. The code block lists nine autocomplete tokens.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "autocomplete='new-password'",
+              "highlight": true
+            },
+            {
+              "value": " vs "
+            },
+            {
+              "value": "autocomplete='current-password'",
+              "highlight": true
+            },
+            {
+              "value": " distinction is significant: "
+            },
+            {
+              "value": "new-password",
+              "highlight": true
+            },
+            {
+              "value": " signals a "
+            },
+            {
+              "value": "registration or password change",
+              "bold": true
+            },
+            {
+              "value": " context, triggering "
+            },
+            {
+              "value": "password generation suggestions",
+              "bold": true
+            },
+            {
+              "value": " from password managers. "
+            },
+            {
+              "value": "current-password",
+              "highlight": true
+            },
+            {
+              "value": " signals a "
+            },
+            {
+              "value": "login",
+              "bold": true
+            },
+            {
+              "value": " context, triggering credential autofill for the current origin. Using "
+            },
+            {
+              "value": "autocomplete='off'",
+              "highlight": true
+            },
+            {
+              "value": " prevents both and reduces security by forcing manual password entry."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "type='email'",
+              "highlight": true
+            },
+            {
+              "value": " validation algorithm checks for an @ symbol followed by at least one character, a dot, and a character after the dot. It does "
+            },
+            {
+              "value": "not",
+              "bold": true
+            },
+            {
+              "value": " check DNS or verify deliverability. An address like "
+            },
+            {
+              "value": "a@b.c",
+              "highlight": true
+            },
+            {
+              "value": " passes the browser check even if the domain does not exist. For real deliverability, "
+            },
+            {
+              "value": "server-side validation",
+              "bold": true
+            },
+            {
+              "value": " or a transactional email provider is required. Client-side type validation catches typos, not fake addresses."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Implement a "
+            },
+            {
+              "value": "password show/hide toggle",
+              "bold": true
+            },
+            {
+              "value": " by toggling "
+            },
+            {
+              "value": "input.type",
+              "highlight": true
+            },
+            {
+              "value": " between "
+            },
+            {
+              "value": "'password'",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "'text'",
+              "highlight": true
+            },
+            {
+              "value": " in JavaScript. Always update the button's "
+            },
+            {
+              "value": "aria-label",
+              "highlight": true
+            },
+            {
+              "value": " to match: "
+            },
+            {
+              "value": "'Show password'",
+              "highlight": true
+            },
+            {
+              "value": " when masked, "
+            },
+            {
+              "value": "'Hide password'",
+              "highlight": true
+            },
+            {
+              "value": " when revealed. This significantly improves usability on mobile where typing accuracy is lower."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Input Types",
+        "Number, Date, File, Checkbox and Radio Inputs",
+        "HTML Form Structure",
+        "Label Association Techniques",
+        "HTML Form Validation"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 2,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 27,
+      "slug": "number-date-file-checkbox-radio-inputs",
+      "title": "Number, Date, File, Checkbox and Radio Inputs",
+      "description": "number and range constrain quantities; date opens a native picker; checkbox and radio are selectors.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "These input types cover non-text control categories. "
+            },
+            {
+              "value": "type='number'",
+              "highlight": true
+            },
+            {
+              "value": " renders a spinner with "
+            },
+            {
+              "value": "min",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "max",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "step",
+              "highlight": true
+            },
+            {
+              "value": " constraints; use only for true quantities. "
+            },
+            {
+              "value": "type='date'",
+              "highlight": true
+            },
+            {
+              "value": " opens a native calendar picker; value is always "
+            },
+            {
+              "value": "YYYY-MM-DD",
+              "bold": true
+            },
+            {
+              "value": ". "
+            },
+            {
+              "value": "type='file'",
+              "highlight": true
+            },
+            {
+              "value": " opens a file picker; "
+            },
+            {
+              "value": "accept",
+              "highlight": true
+            },
+            {
+              "value": " filters MIME types; "
+            },
+            {
+              "value": "multiple",
+              "highlight": true
+            },
+            {
+              "value": " allows many files. "
+            },
+            {
+              "value": "type='checkbox'",
+              "highlight": true
+            },
+            {
+              "value": " is binary; name/value only submits when checked. "
+            },
+            {
+              "value": "type='radio'",
+              "highlight": true
+            },
+            {
+              "value": " is a single-choice group selector; always requires "
+            },
+            {
+              "value": "<fieldset>",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "<legend>",
+              "highlight": true
+            },
+            {
+              "value": " for accessible group context. Reference: "
+            },
+            {
+              "value": "MDN: input type=date",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date"
+            },
+            {
+              "value": "."
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Number, Date, File, Checkbox, and Radio with Constraints",
+          "description": "This example shows type=number for quantity with min/max/step, type=date with selectable range limits, type=time with 30-minute step intervals, type=file with accept and multiple, a checkbox group with fieldset, and a radio group with fieldset and legend, each with the correct constraint attributes and accessibility annotations.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Number, Date, File, Checkbox, Radio</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 640px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 1rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field { display: flex; flex-direction: column; gap: .3rem;\n             margin-bottom: .8rem; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input[type=number], input[type=date], input[type=time],\n    input[type=datetime-local], input[type=file] {\n             border: 1px solid #d1d5db; border-radius: 6px;\n             padding: .45rem .7rem; font-size: .9rem;\n             font-family: inherit; width: 100%; box-sizing: border-box; }\n    input:focus { outline: 2px solid #2563eb; outline-offset: 1px;\n                  border-color: transparent; }\n    .hint  { font-size: .78rem; color: #6b7280; }\n    .opts  { display: flex; flex-direction: column; gap: .45rem;\n             margin-top: .3rem; }\n    .opt   { display: flex; align-items: center; gap: .5rem;\n             font-size: .88rem; cursor: pointer; }\n    .submit-btn { background: #2563eb; color: #fff; border: none;\n                  border-radius: 8px; padding: .6rem 1.5rem;\n                  font-size: .9rem; font-weight: 600; cursor: pointer; }\n    .sr-ann { background: #eff6ff; border: 1px solid #bfdbfe;\n              border-radius: 6px; padding: .4rem .75rem;\n              font-size: .81rem; color: #1d4ed8; margin: .3rem 0 .75rem; }\n  </style>\n</head>\n<body>\n\n  <h1>Number, Date, File, Checkbox, Radio</h1>\n\n  <form action=\"/api/booking\" method=\"post\" novalidate>\n\n    <!-- NUMBER: quantity -->\n    <fieldset>\n      <legend>Numeric inputs</legend>\n      <div class=\"field\">\n        <label for=\"seats\">Number of seats</label>\n        <!--\n          type=\"number\": spinner UI. Only for quantities.\n          min, max, step constrain allowed values.\n        -->\n        <input type=\"number\" id=\"seats\" name=\"seats\"\n               min=\"1\" max=\"8\" step=\"1\" value=\"1\"\n               required aria-required=\"true\">\n        <span class=\"hint\">min=1 max=8. Browser validates range on submit.</span>\n      </div>\n\n      <div class=\"field\">\n        <label for=\"price\">Max price per ticket (INR)</label>\n        <input type=\"number\" id=\"price\" name=\"max_price\"\n               min=\"0\" max=\"100000\" step=\"0.01\"\n               placeholder=\"e.g. 1500.00\">\n        <span class=\"hint\">step=\"0.01\" allows decimals. Remove step for any decimal.</span>\n      </div>\n    </fieldset>\n\n\n    <!-- DATE AND TIME PICKERS -->\n    <fieldset>\n      <legend>Date and time</legend>\n\n      <div class=\"field\">\n        <label for=\"event-date\">Event date</label>\n        <!--\n          value stored: YYYY-MM-DD (ISO 8601).\n          Picker displays in local date format (DD/MM/YYYY in India).\n          min/max restrict the calendar range.\n        -->\n        <input type=\"date\" id=\"event-date\" name=\"event_date\"\n               min=\"2026-01-01\" max=\"2026-12-31\"\n               required aria-required=\"true\">\n        <span class=\"hint\">Stored: YYYY-MM-DD. Picker shows local date format.</span>\n      </div>\n\n      <div class=\"field\">\n        <label for=\"event-time\">Start time</label>\n        <!--\n          type=\"time\": value = HH:MM (24-hour).\n          step in seconds: 1800 = 30-minute intervals.\n        -->\n        <input type=\"time\" id=\"event-time\" name=\"event_time\"\n               min=\"09:00\" max=\"21:00\" step=\"1800\">\n        <span class=\"hint\">step=\"1800\" = 30-min intervals. Value: HH:MM.</span>\n      </div>\n\n      <div class=\"field\">\n        <label for=\"created-at\">Exact datetime</label>\n        <!--\n          datetime-local: date + time, no timezone stored.\n          Use a hidden UTC offset field if timezone matters.\n        -->\n        <input type=\"datetime-local\" id=\"created-at\" name=\"created_at\">\n        <span class=\"hint\">No timezone stored. Value: YYYY-MM-DDTHH:MM.</span>\n      </div>\n    </fieldset>\n\n\n    <!-- FILE INPUT -->\n    <fieldset>\n      <legend>File upload</legend>\n      <div class=\"field\">\n        <label for=\"ticket\">Upload ticket scan</label>\n        <!--\n          accept: filters file types shown in picker.\n          multiple: allow multi-file selection.\n          Form needs enctype=\"multipart/form-data\" for file upload.\n        -->\n        <input type=\"file\" id=\"ticket\" name=\"ticket\"\n               accept=\".pdf,image/jpeg,image/png\"\n               multiple aria-describedby=\"ticket-hint\">\n        <span id=\"ticket-hint\" class=\"hint\">\n          PDF or image. Multi-select with Ctrl/Cmd.\n          Requires enctype=\"multipart/form-data\" on form.\n        </span>\n      </div>\n    </fieldset>\n\n\n    <!-- CHECKBOX GROUP -->\n    <fieldset>\n      <legend>Add-ons (select any)</legend>\n      <!--\n        Same name= for all checkboxes produces an array:\n          add_on[]=meal&add_on[]=parking\n        Unchecked checkboxes are omitted from submission.\n      -->\n      <div class=\"opts\">\n        <label class=\"opt\">\n          <input type=\"checkbox\" name=\"add_on\" value=\"meal\"> Meal\n        </label>\n        <label class=\"opt\">\n          <input type=\"checkbox\" name=\"add_on\" value=\"parking\"> Parking\n        </label>\n        <label class=\"opt\">\n          <input type=\"checkbox\" name=\"add_on\" value=\"insurance\"> Travel insurance\n        </label>\n      </div>\n    </fieldset>\n    <div class=\"sr-ann\">\n      Screen reader: <em>\"Add-ons, group. Meal, checkbox, not checked.\"</em>\n    </div>\n\n\n    <!-- RADIO GROUP -->\n    <fieldset>\n      <legend>Seat class</legend>\n      <!--\n        All radios with same name= form one group.\n        Only the checked radio submits its value.\n        required on any one radio validates the whole group.\n        fieldset + legend required for group context.\n      -->\n      <div class=\"opts\">\n        <label class=\"opt\">\n          <input type=\"radio\" name=\"seat_class\" value=\"economy\"\n                 checked required>\n          Economy\n        </label>\n        <label class=\"opt\">\n          <input type=\"radio\" name=\"seat_class\" value=\"business\">\n          Business\n        </label>\n        <label class=\"opt\">\n          <input type=\"radio\" name=\"seat_class\" value=\"first\">\n          First class\n        </label>\n      </div>\n    </fieldset>\n    <div class=\"sr-ann\">\n      Screen reader: <em>\"Seat class, group. Economy, radio button, checked, 1 of 3.\"</em>\n    </div>\n\n    <button type=\"submit\" class=\"submit-btn\">Book now</button>\n  </form>\n\n</body>\n</html>",
+          "output": "Page renders six fieldsets. Numeric shows a number spinner for seats (1-8) and a decimal price input. Date/time shows date picker with 2026 range, time picker with 30-minute steps, and datetime-local. File shows a multi-file picker with PDF/image accept filter. Checkbox group shows three add-ons with a blue accessibility announcement card. Radio group shows three seat classes with its announcement card.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "type='date'",
+              "highlight": true
+            },
+            {
+              "value": " value is always "
+            },
+            {
+              "value": "ISO 8601 format: YYYY-MM-DD",
+              "bold": true
+            },
+            {
+              "value": ", regardless of how the browser's native picker displays it to the user. A UK user sees DD/MM/YYYY in the picker but "
+            },
+            {
+              "value": "input.value",
+              "highlight": true
+            },
+            {
+              "value": " always returns "
+            },
+            {
+              "value": "\"2026-03-15\"",
+              "highlight": true
+            },
+            {
+              "value": ". The "
+            },
+            {
+              "value": "valueAsDate",
+              "highlight": true
+            },
+            {
+              "value": " property returns a JavaScript "
+            },
+            {
+              "value": "Date",
+              "highlight": true
+            },
+            {
+              "value": " object at UTC midnight. Storing or comparing the value string directly is safe and locale-independent without timezone conversion."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "An "
+            },
+            {
+              "value": "unchecked checkbox is omitted",
+              "bold": true
+            },
+            {
+              "value": " from form submission entirely — it does not send "
+            },
+            {
+              "value": "name=false",
+              "highlight": true
+            },
+            {
+              "value": ". The server cannot distinguish a missing checkbox from an unchecked one. The standard workaround is to pair each checkbox with a "
+            },
+            {
+              "value": "<input type='hidden' name='...' value='0'>",
+              "highlight": true
+            },
+            {
+              "value": " placed before it: the hidden field always submits "
+            },
+            {
+              "value": "0",
+              "highlight": true
+            },
+            {
+              "value": ", and if the checkbox is checked its "
+            },
+            {
+              "value": "value='1'",
+              "highlight": true
+            },
+            {
+              "value": " follows and overrides it in the parsed form data."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Use "
+            },
+            {
+              "value": "input.files",
+              "highlight": true
+            },
+            {
+              "value": " (a "
+            },
+            {
+              "value": "FileList",
+              "bold": true
+            },
+            {
+              "value": " object) and the "
+            },
+            {
+              "value": "File API",
+              "bold": true
+            },
+            {
+              "value": " to validate file size and type "
+            },
+            {
+              "value": "before upload",
+              "bold": true
+            },
+            {
+              "value": ": "
+            },
+            {
+              "value": "const f = input.files[0]; if (f.size > 5*1024*1024) showError();",
+              "highlight": true
+            },
+            {
+              "value": ". Check "
+            },
+            {
+              "value": "f.type",
+              "highlight": true
+            },
+            {
+              "value": " against allowed MIME types. This gives instant feedback without a server round-trip, improving UX significantly for large file forms."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Input Types",
+        "Text, Email and Password Inputs",
+        "Range and Color Inputs Submit and Reset Buttons",
+        "HTML Form Structure",
+        "HTML Form Validation"
+      ],
+      "is_active": true,
+      "order_index": 2,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": 3,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 7,
+      "topic_id": 27,
+      "slug": "range-color-inputs-submit-reset-buttons",
+      "title": "Range and Color Inputs, Submit and Reset Buttons",
+      "description": "range is a slider; color opens a native colour picker; submit sends the form; reset clears fields.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "These four types cover sliders, colour selection, and form actions. "
+            },
+            {
+              "value": "type='range'",
+              "highlight": true
+            },
+            {
+              "value": " renders a slider always within "
+            },
+            {
+              "value": "min",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "max",
+              "highlight": true
+            },
+            {
+              "value": "; it has no visible value — always display it via "
+            },
+            {
+              "value": "oninput",
+              "highlight": true
+            },
+            {
+              "value": ". "
+            },
+            {
+              "value": "type='color'",
+              "highlight": true
+            },
+            {
+              "value": " opens a native colour picker; value is always "
+            },
+            {
+              "value": "#rrggbb",
+              "bold": true
+            },
+            {
+              "value": " (no alpha channel). "
+            },
+            {
+              "value": "type='submit'",
+              "highlight": true
+            },
+            {
+              "value": " submits the form; prefer "
+            },
+            {
+              "value": "<button type='submit'>",
+              "highlight": true
+            },
+            {
+              "value": " for richer label content. "
+            },
+            {
+              "value": "type='reset'",
+              "highlight": true
+            },
+            {
+              "value": " restores all controls to their "
+            },
+            {
+              "value": "HTML-defined initial values",
+              "bold": true
+            },
+            {
+              "value": " and should be avoided in most forms because users click it accidentally. Reference: "
+            },
+            {
+              "value": "MDN: input type=range",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "type='reset' Is Rarely Appropriate",
+          "text": "Users frequently click reset by accident when aiming for submit, losing all their form data. There is almost never a legitimate reason to clear all fields at once. If you need a cancel action, navigate away or clear fields individually with JavaScript. If you must include reset, position it far from submit and style it clearly differently."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Range Slider, Color Picker, Submit, and Reset with Live Preview",
+          "description": "This example shows a range slider with live value display, a range slider using datalist for labelled tick marks, a color picker with live hex value and colour swatch, the input type=submit vs button type=submit comparison, the reset input with usage annotation, and the aria-valuetext pattern for accessible slider announcements.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Range, Color, Submit, Reset</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 640px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8; }\n    h2   { font-size: 1.05rem; margin-top: 2rem; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    fieldset { border: 1px solid #e5e7eb; border-radius: 10px;\n               padding: 1rem 1.25rem; margin: 0 0 1rem; }\n    legend   { font-weight: 600; font-size: .93rem;\n               padding: 0 .5rem; color: #0f172a; }\n    .field { display: flex; flex-direction: column; gap: .3rem;\n             margin-bottom: .85rem; }\n    label  { font-size: .88rem; font-weight: 500; color: #374151; }\n    input[type=range] { width: 100%; accent-color: #2563eb;\n                        cursor: pointer; }\n    .rrow { display: flex; align-items: center; gap: .75rem; }\n    .rval { font-size: .95rem; font-weight: 700; color: #2563eb;\n            min-width: 3rem; text-align: right; }\n    input[type=color] { height: 2.5rem; width: 3.5rem;\n                        border: 1px solid #d1d5db; border-radius: 8px;\n                        cursor: pointer; padding: .15rem; }\n    .cval { font-size: .9rem; font-weight: 600; font-family: monospace; }\n    .cswatch { display: inline-block; width: 1.8rem; height: 1.8rem;\n               border-radius: 6px; border: 1px solid #e5e7eb;\n               vertical-align: middle; }\n    .hint { font-size: .78rem; color: #6b7280; }\n    .submit-btn { background: #2563eb; color: #fff; border: none;\n                  border-radius: 8px; padding: .6rem 1.5rem;\n                  font-size: .9rem; font-weight: 600; cursor: pointer; }\n    .reset-btn  { background: #fff; color: #6b7280;\n                  border: 1px solid #d1d5db; border-radius: 8px;\n                  padding: .6rem 1.5rem; font-size: .9rem;\n                  cursor: pointer; margin-left: .5rem; }\n    .warn { background: #fff7ed; border: 1px solid #fed7aa;\n            border-radius: 8px; padding: .65rem .9rem;\n            font-size: .83rem; color: #92400e; margin: .6rem 0 0; }\n  </style>\n</head>\n<body>\n\n  <h1>Range, Color, Submit, and Reset</h1>\n\n  <form id=\"demo\" novalidate>\n\n    <!-- RANGE SLIDERS -->\n    <fieldset>\n      <legend>Range inputs</legend>\n\n      <div class=\"field\">\n        <label for=\"volume\">Volume</label>\n        <!--\n          type=\"range\": slider. No visible current value by default.\n          Always display value separately via oninput event.\n          aria-valuenow: keeps accessible state in sync.\n          aria-live=\"polite\": announces value changes to screen readers.\n        -->\n        <div class=\"rrow\">\n          <input type=\"range\" id=\"volume\" name=\"volume\"\n                 min=\"0\" max=\"100\" step=\"1\" value=\"60\"\n                 aria-valuemin=\"0\" aria-valuemax=\"100\"\n                 aria-valuenow=\"60\"\n                 oninput=\"\n                   const v=this.value;\n                   document.getElementById('vol-val').textContent=v+'%';\n                   this.setAttribute('aria-valuenow',v);\n                 \">\n          <span id=\"vol-val\" class=\"rval\" aria-live=\"polite\">60%</span>\n        </div>\n        <span class=\"hint\">Arrow keys also move the slider by step.</span>\n      </div>\n\n      <!-- Range with datalist tick marks -->\n      <div class=\"field\">\n        <label for=\"priority\">Priority</label>\n        <div class=\"rrow\">\n          <input type=\"range\" id=\"priority\" name=\"priority\"\n                 min=\"1\" max=\"5\" step=\"1\" value=\"3\"\n                 list=\"pri-marks\"\n                 oninput=\"\n                   const lbl=['','Low','Med-Low','Medium','Med-High','High'];\n                   document.getElementById('pri-val').textContent=lbl[this.value];\n                 \">\n          <span id=\"pri-val\" class=\"rval\"\n                style=\"font-size:.8rem;min-width:5rem;\">Medium</span>\n        </div>\n        <!--\n          list= links to datalist: browser shows tick marks\n          at each option value and may snap to them.\n        -->\n        <datalist id=\"pri-marks\">\n          <option value=\"1\" label=\"Low\">\n          <option value=\"3\" label=\"Medium\">\n          <option value=\"5\" label=\"High\">\n        </datalist>\n        <span class=\"hint\">datalist adds tick marks and label snapping.</span>\n      </div>\n    </fieldset>\n\n\n    <!-- COLOR PICKER -->\n    <fieldset>\n      <legend>Color input</legend>\n      <div class=\"field\">\n        <label for=\"theme\">Theme colour</label>\n        <!--\n          type=\"color\": value is always #rrggbb (6-digit lowercase).\n          No alpha channel. Cannot represent transparency.\n        -->\n        <div style=\"display:flex;align-items:center;gap:.75rem;\">\n          <input type=\"color\" id=\"theme\" name=\"theme_color\"\n                 value=\"#2563eb\"\n                 oninput=\"\n                   document.getElementById('cval').textContent=this.value;\n                   document.getElementById('csw').style.background=this.value;\n                 \">\n          <span id=\"cval\" class=\"cval\">#2563eb</span>\n          <span id=\"csw\" class=\"cswatch\"\n                style=\"background:#2563eb;\"></span>\n        </div>\n        <span class=\"hint\">Value always #rrggbb. No alpha support.</span>\n      </div>\n    </fieldset>\n\n\n    <!-- SUBMIT AND RESET -->\n    <fieldset>\n      <legend>Form action inputs</legend>\n\n      <pre style=\"margin-bottom:.75rem;\">&lt;!-- input type=submit: text label only (value attribute) --&gt;\n&lt;input type=\"submit\" value=\"Save settings\"&gt;\n\n&lt;!-- button type=submit: supports HTML content (icons, etc.) --&gt;\n&lt;button type=\"submit\"&gt;\n  &lt;svg .../&gt; Save settings\n&lt;/button&gt;\n&lt;!-- Prefer button for icons, rich labels, or custom styling --&gt;</pre>\n\n      <div style=\"display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;\">\n        <input type=\"submit\" value=\"Save settings\" class=\"submit-btn\">\n        <input type=\"reset\"  value=\"Clear form\"    class=\"reset-btn\">\n      </div>\n      <div class=\"warn\">\n        <strong>Reset note:</strong> clicking \"Clear form\" resets\n        every field on this page to its initial HTML value.\n        Position reset far from submit. Avoid in most production forms.\n      </div>\n    </fieldset>\n\n  </form>\n\n\n  <!-- RANGE ACCESSIBILITY -->\n  <h2>Range accessibility: aria-valuetext</h2>\n  <pre>&lt;input type=\"range\" id=\"vol\"\n  min=\"0\" max=\"100\" step=\"10\" value=\"60\"\n  aria-valuetext=\"60 percent\"\n  oninput=\"this.setAttribute('aria-valuetext',\n    this.value + ' percent')\"&gt;\n\n&lt;!-- Screen reader: \"Volume, slider, 60 percent\" --&gt;\n&lt;!-- Without aria-valuetext: \"Volume, slider, 60\" --&gt;</pre>\n\n</body>\n</html>",
+          "output": "Page renders three fieldsets and a code block. Range shows a volume slider where dragging updates the percentage live, and a priority slider with datalist tick marks that updates label text. Color shows a swatch and hex value updating live as the picker changes. Submit/Reset shows a code block comparing input vs button submit, then live submit and reset buttons with an amber warning. The accessibility section shows a dark code block with aria-valuetext pattern.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "conceptual_understanding": [
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "type='range'",
+              "highlight": true
+            },
+            {
+              "value": " exposes itself to assistive technology as a "
+            },
+            {
+              "value": "slider role",
+              "bold": true
+            },
+            {
+              "value": " with "
+            },
+            {
+              "value": "aria-valuemin",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "aria-valuemax",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "aria-valuenow",
+              "highlight": true
+            },
+            {
+              "value": " derived from its "
+            },
+            {
+              "value": "min",
+              "highlight": true
+            },
+            {
+              "value": ", "
+            },
+            {
+              "value": "max",
+              "highlight": true
+            },
+            {
+              "value": ", and "
+            },
+            {
+              "value": "value",
+              "highlight": true
+            },
+            {
+              "value": " attributes. The "
+            },
+            {
+              "value": "aria-valuetext",
+              "highlight": true
+            },
+            {
+              "value": " attribute overrides the numeric announcement with a human-readable label ("
+            },
+            {
+              "value": "\"60 percent\"",
+              "bold": true
+            },
+            {
+              "value": " instead of "
+            },
+            {
+              "value": "\"60\"",
+              "bold": true
+            },
+            {
+              "value": "). Always update both "
+            },
+            {
+              "value": "aria-valuenow",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "aria-valuetext",
+              "highlight": true
+            },
+            {
+              "value": " via "
+            },
+            {
+              "value": "oninput",
+              "highlight": true
+            },
+            {
+              "value": " to keep the accessible state current."
+            }
+          ]
+        },
+        {
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "type='reset'",
+              "highlight": true
+            },
+            {
+              "value": " button reverts controls to their "
+            },
+            {
+              "value": "HTML-defined initial values",
+              "bold": true
+            },
+            {
+              "value": ": the "
+            },
+            {
+              "value": "value",
+              "highlight": true
+            },
+            {
+              "value": " attribute for text inputs, "
+            },
+            {
+              "value": "checked",
+              "highlight": true
+            },
+            {
+              "value": " for checkboxes and radios, "
+            },
+            {
+              "value": "selected",
+              "highlight": true
+            },
+            {
+              "value": " for select elements. It does "
+            },
+            {
+              "value": "not",
+              "bold": true
+            },
+            {
+              "value": " reset values set via "
+            },
+            {
+              "value": "input.value = '...'",
+              "highlight": true
+            },
+            {
+              "value": " in JavaScript. The "
+            },
+            {
+              "value": "reset",
+              "highlight": true
+            },
+            {
+              "value": " event fires on the "
+            },
+            {
+              "value": "<form>",
+              "highlight": true
+            },
+            {
+              "value": " element and can be cancelled with "
+            },
+            {
+              "value": "event.preventDefault()",
+              "highlight": true
+            },
+            {
+              "value": " to implement a confirmation dialog before clearing."
+            }
+          ]
+        }
+      ],
+      "common_mistakes": null,
+      "bonus_tips": [
+        {
+          "text": [
+            {
+              "value": "Style "
+            },
+            {
+              "value": "type='range'",
+              "highlight": true
+            },
+            {
+              "value": " uniformly across browsers with a single "
+            },
+            {
+              "value": "accent-color",
+              "highlight": true
+            },
+            {
+              "value": " CSS property: "
+            },
+            {
+              "value": "input[type=range] { accent-color: #2563eb; }",
+              "highlight": true
+            },
+            {
+              "value": ". This colours the thumb, track fill, and focus ring without the complex "
+            },
+            {
+              "value": "::-webkit-slider-thumb",
+              "highlight": true
+            },
+            {
+              "value": " and "
+            },
+            {
+              "value": "::-moz-range-thumb",
+              "highlight": true
+            },
+            {
+              "value": " pseudo-element combinations that were previously required for cross-browser styling."
+            }
+          ]
+        }
+      ],
+      "related_topics": [
+        "HTML Input Types",
+        "Number, Date, File, Checkbox and Radio Inputs",
+        "Text, Email and Password Inputs",
+        "HTML Form Structure",
+        "HTML Form Validation"
+      ],
+      "is_active": true,
+      "order_index": 3,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML Input Types | type, inputmode, autocomplete and Validation Guide",
+    "meta_description": "Master all HTML input types: text, email, password, number, date, file, checkbox, radio, range, color, submit and reset with inputmode, pattern, autocomplete, and constraint validation.",
+    "keywords": [
+      "HTML input type",
+      "HTML input type email",
+      "HTML input type number",
+      "HTML input type date",
+      "HTML input type file",
+      "HTML input type checkbox radio",
+      "HTML input type range",
+      "HTML input type color",
+      "HTML inputmode numeric",
+      "HTML autocomplete attribute"
+    ],
+    "canonical_url": "/html/html-input-types",
+    "robots": "index, follow"
+  }
+}

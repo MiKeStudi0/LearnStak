@@ -1,0 +1,453 @@
+{
+  "topic": {
+    "id": 29,
+    "roadmap_id": 1,
+    "technology_id": 1,
+    "module_id": 9,
+    "slug": "html-css",
+    "title": "HTML CSS",
+    "description": "CSS applies to HTML through inline styles, a style block in head, or a linked external file.",
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Applying CSS to HTML: Inline, Internal, and External Stylesheets"
+      },
+      {
+        "type": "paragraph",
+        "text": [
+          {
+            "value": "HTML and CSS are linked through three mechanisms. "
+          },
+          {
+            "value": "Inline styles",
+            "bold": true
+          },
+          {
+            "value": " use the "
+          },
+          {
+            "value": "style",
+            "highlight": true
+          },
+          {
+            "value": " attribute directly on an element: "
+          },
+          {
+            "value": "<p style=\"color:red\">",
+            "highlight": true
+          },
+          {
+            "value": ". They have the highest specificity but cannot be reused, cannot target pseudo-classes, and pollute HTML with presentation. "
+          },
+          {
+            "value": "Internal stylesheets",
+            "bold": true
+          },
+          {
+            "value": " use a "
+          },
+          {
+            "value": "<style>",
+            "highlight": true
+          },
+          {
+            "value": " element inside "
+          },
+          {
+            "value": "<head>",
+            "highlight": true
+          },
+          {
+            "value": ": they scope CSS to one page, require no network request, and are appropriate for critical above-the-fold styles. "
+          },
+          {
+            "value": "External stylesheets",
+            "bold": true
+          },
+          {
+            "value": " use "
+          },
+          {
+            "value": "<link rel=\"stylesheet\" href=\"styles.css\">",
+            "highlight": true
+          },
+          {
+            "value": " in "
+          },
+          {
+            "value": "<head>",
+            "highlight": true
+          },
+          {
+            "value": ": they are shared across pages, cached by the browser, and the standard approach for any multi-page site. The "
+          },
+          {
+            "value": "cascade",
+            "bold": true
+          },
+          {
+            "value": " resolves conflicts among all three: specificity, source order, and "
+          },
+          {
+            "value": "!important",
+            "highlight": true
+          },
+          {
+            "value": " determine which rule wins. Reference: "
+          },
+          {
+            "value": "MDN: Applying CSS to HTML",
+            "link": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Getting_started"
+          },
+          {
+            "value": "."
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Method",
+          "Where",
+          "Specificity boost",
+          "Shareable",
+          "Best use"
+        ],
+        "rows": [
+          [
+            "Inline style=\"...\"",
+            "Any HTML element",
+            "Highest (1-0-0-0)",
+            "No",
+            "One-off overrides, dynamic JS styling"
+          ],
+          [
+            "<style> in <head>",
+            "head element",
+            "Normal selector specificity",
+            "No (single page)",
+            "Page-specific or critical CSS"
+          ],
+          [
+            "<link rel=\"stylesheet\">",
+            "head element",
+            "Normal selector specificity",
+            "Yes (all pages)",
+            "All shared site styles"
+          ],
+          [
+            "@import inside CSS",
+            "Inside .css file",
+            "Normal selector specificity",
+            "Yes",
+            "Avoid: blocks parallel loading"
+          ]
+        ]
+      }
+    ],
+    "examples": [
+      {
+        "title": "All Three CSS Application Methods on a Single Page",
+        "description": "This example demonstrates inline styles, an internal style block, and an external stylesheet link coexisting on one page, showing how the cascade resolves conflicts between them, why inline styles win specificity contests, and when each method is the appropriate choice.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>CSS Application Methods</title>\n\n  <!--\n    METHOD 3: External stylesheet.\n    Always place in <head> — never at end of <body>.\n    rel=\"stylesheet\" tells the browser this is CSS.\n    The browser blocks rendering until the stylesheet loads\n    (render-blocking) but can cache it across pages.\n    href can be relative or absolute.\n  -->\n  <link rel=\"stylesheet\" href=\"site.css\">\n\n  <!--\n    METHOD 2: Internal <style> block.\n    Also in <head>. Useful for:\n      - Page-specific styles that do not belong in the shared sheet\n      - Critical above-the-fold CSS (avoids extra network round-trip)\n      - Single-page apps or email HTML\n    Rules here have the same specificity as external stylesheet rules;\n    cascade order (later wins) decides conflicts.\n  -->\n  <style>\n    /* Base reset — applies site-wide on this page */\n    *, *::before, *::after {\n      box-sizing: border-box;\n      margin: 0;\n      padding: 0;\n    }\n\n    body {\n      font-family: system-ui, sans-serif;\n      max-width: 640px;\n      margin: 2rem auto;\n      padding: 0 1rem;\n      background: #f8fafc;\n      color: #1e293b;\n    }\n\n    h1 { font-size: 1.4rem; margin-bottom: 1rem; }\n    h2 { font-size: 1rem; margin: 1.25rem 0 .4rem; color: #475569; }\n\n    .card {\n      background: #fff;\n      border: 1px solid #e2e8f0;\n      border-radius: 10px;\n      padding: 1rem 1.25rem;\n      margin-bottom: .85rem;\n    }\n\n    /* .highlight class defined in internal stylesheet */\n    .highlight { background: #fef9c3; border-color: #fde047; }\n\n    p { font-size: .9rem; line-height: 1.7; }\n    code {\n      background: #f1f5f9;\n      border-radius: 3px;\n      padding: .1rem .3rem;\n      font-size: .85em;\n    }\n  </style>\n</head>\n<body>\n\n  <h1>CSS Application Methods</h1>\n\n  <!-- Card styled purely by external + internal stylesheet classes -->\n  <div class=\"card\">\n    <h2>External stylesheet rule</h2>\n    <p>\n      This card is styled by rules in the <code>&lt;style&gt;</code>\n      block above. An external <code>site.css</code> would also\n      contribute shared rules.\n    </p>\n  </div>\n\n  <!-- Internal class + inline style: inline wins the conflict -->\n  <div class=\"card highlight\">\n    <h2>Internal class + inline style conflict</h2>\n    <p>\n      The <code>.highlight</code> class sets\n      <code>background: #fef9c3</code>. The inline style below\n      overrides it because inline specificity (1-0-0-0) always\n      beats class specificity (0-0-1-0).\n    </p>\n    <!--\n      METHOD 1: Inline style.\n      The style attribute value is one or more CSS declarations.\n      No selectors — declarations apply only to this element.\n      Specificity: 1-0-0-0 (beats any class or element selector).\n      WRONG use: styling every element with inline styles.\n      RIGHT use: dynamic styling from JS, or a single one-off override.\n    -->\n    <p style=\"background: #dbeafe; border-left: 3px solid #2563eb;\n              padding: .4rem .6rem; border-radius: 4px; margin-top: .5rem;\">\n      This paragraph has an inline style. It overrides the .highlight\n      background from the internal stylesheet.\n    </p>\n  </div>\n\n  <!-- Cascade specificity demo -->\n  <div class=\"card\">\n    <h2>Cascade resolution order</h2>\n    <p>\n      When rules conflict, the browser resolves them in this order:\n    </p>\n    <ol style=\"margin: .5rem 0 0 1.2rem; font-size: .88rem;\n               line-height: 1.9;\">\n      <li><strong>Origin and importance</strong>: <code>!important</code>\n          user-agent rules beat everything; normal author rules beat\n          user-agent defaults.</li>\n      <li><strong>Specificity</strong>: inline (1-0-0-0) beats ID (0-1-0-0)\n          beats class (0-0-1-0) beats element (0-0-0-1).</li>\n      <li><strong>Source order</strong>: when specificity is equal, the\n          later-declared rule wins.</li>\n    </ol>\n  </div>\n\n  <!--\n    WRONG: @import inside a <style> block or .css file.\n    The browser cannot start downloading the imported file\n    until it has downloaded and parsed the first file.\n    This creates a sequential (blocking) load chain.\n  -->\n  <!--\n  <style>\n    @import url(\"other.css\");  <-- WRONG: blocks parallel loading\n  </style>\n  -->\n\n  <!--\n    RIGHT: Use multiple <link> elements for parallel loading.\n    <link rel=\"stylesheet\" href=\"base.css\">\n    <link rel=\"stylesheet\" href=\"components.css\">\n  -->\n\n</body>\n</html>",
+        "output": "Page renders three white cards on a light background. The first card is styled by the internal style block. The second card has a yellow-tinted background from the .highlight class but its paragraph has a blue tinted background from the inline style, demonstrating inline overriding the class rule. The third card shows a numbered list explaining the three cascade resolution steps. No external site.css is actually loaded in this standalone example so only internal styles apply.",
+        "images": [],
+        "video_url": null
+      },
+      {
+        "title": "CSS Specificity Calculator and Cascade Order Reference",
+        "description": "This example shows a visual specificity calculator that computes the four-part specificity score for any selector, demonstrates how source order breaks specificity ties, explains !important and why it should be avoided, and shows the correct pattern for structuring stylesheets from least to most specific.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Specificity and Cascade Reference</title>\n  <style>\n    body { font-family: system-ui, sans-serif; max-width: 700px;\n           margin: 2rem auto; padding: 0 1rem; line-height: 1.8;\n           color: #1e293b; }\n    h2   { font-size: 1rem; margin-top: 1.75rem; color: #334155; }\n    code { background: #f1f5f9; border-radius: 3px;\n           padding: .1rem .35rem; font-size: .87em; }\n    pre  { background: #0f172a; color: #e2e8f0; border-radius: 8px;\n           padding: 1rem; font-size: .82rem; overflow-x: auto;\n           line-height: 1.65; }\n    table { border-collapse: collapse; width: 100%;\n            font-size: .87rem; margin: .75rem 0; }\n    th, td { border: 1px solid #e2e8f0; padding: .45rem .75rem;\n             text-align: left; }\n    thead th { background: #0f172a; color: #fff;\n               border-color: #0f172a; }\n    .score { font-family: monospace; font-weight: 700;\n             color: #2563eb; }\n    .bad  { border-left: 3px solid #dc2626; background: #fef2f2;\n            padding: .55rem .85rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin: .4rem 0; }\n    .good { border-left: 3px solid #16a34a; background: #f0fdf4;\n            padding: .55rem .85rem; border-radius: 0 6px 6px 0;\n            font-size: .87rem; margin: .4rem 0; }\n    .lbl  { font-size: .68rem; font-weight: 700;\n            text-transform: uppercase; letter-spacing: .06em; }\n    .bad .lbl  { color: #dc2626; }\n    .good .lbl { color: #16a34a; }\n\n    /* Specificity demo: three rules targeting the same element */\n    #spec-demo p        { color: #64748b; }         /* 0-1-0-1 */\n    #spec-demo p.note   { color: #d97706; }         /* 0-1-1-1 */\n    #spec-demo #winner  { color: #16a34a; }         /* 0-2-0-1 */\n  </style>\n</head>\n<body>\n\n  <h1>CSS Specificity and Cascade</h1>\n\n\n  <!-- SPECIFICITY SCORING TABLE -->\n  <h2>Specificity score: (inline, ID, class/attr/pseudo-class, element)</h2>\n  <table>\n    <thead>\n      <tr>\n        <th>Selector</th>\n        <th>Score</th>\n        <th>Wins over</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td><code>style=\"...\"</code> (inline)</td>\n        <td class=\"score\">1-0-0-0</td>\n        <td>Everything except !important</td>\n      </tr>\n      <tr>\n        <td><code>#header</code></td>\n        <td class=\"score\">0-1-0-0</td>\n        <td>Classes, elements, combinators</td>\n      </tr>\n      <tr>\n        <td><code>.card.active</code></td>\n        <td class=\"score\">0-0-2-0</td>\n        <td>Single class, elements</td>\n      </tr>\n      <tr>\n        <td><code>nav ul li a</code></td>\n        <td class=\"score\">0-0-0-4</td>\n        <td>Only lower element selectors</td>\n      </tr>\n      <tr>\n        <td><code>:is(h1, h2)</code></td>\n        <td class=\"score\">0-0-0-1</td>\n        <td>Takes specificity of most specific argument</td>\n      </tr>\n      <tr>\n        <td><code>*</code> (universal)</td>\n        <td class=\"score\">0-0-0-0</td>\n        <td>Nothing — lowest possible</td>\n      </tr>\n    </tbody>\n  </table>\n\n\n  <!-- LIVE SPECIFICITY DEMO -->\n  <h2>Live cascade demo: three rules targeting the same element</h2>\n  <div id=\"spec-demo\">\n    <!--\n      Three CSS rules from the <style> above target this paragraph:\n        #spec-demo p        { color: #64748b }   score: 0-1-0-1\n        #spec-demo p.note   { color: #d97706 }   score: 0-1-1-1\n        #spec-demo #winner  { color: #16a34a }   score: 0-2-0-1\n\n      The ID selector #winner (0-2-0-1) beats the class (0-1-1-1)\n      which beats the plain element selector (0-1-0-1).\n      Result: the text is green.\n    -->\n    <p id=\"winner\" class=\"note\">\n      This paragraph is green because <code>#winner</code> (score 0-2-0-1)\n      beats <code>p.note</code> (0-1-1-1) and <code>p</code> (0-1-0-1).\n    </p>\n  </div>\n\n\n  <!-- SOURCE ORDER TIEBREAKER -->\n  <h2>Source order: tiebreaker when specificity is equal</h2>\n  <pre>/* Both selectors have specificity 0-0-1-0 */\n.btn { background: #2563eb; }   /* declared first */\n.btn { background: #dc2626; }   /* declared later — THIS WINS */\n\n/* Result: button is red */\n\n/* Multiple stylesheets: the last linked sheet wins ties */\n&lt;link rel=\"stylesheet\" href=\"base.css\"&gt;      /* lower priority */\n&lt;link rel=\"stylesheet\" href=\"theme.css\"&gt;     /* higher priority */</pre>\n\n\n  <!-- !important: when to use and when to avoid -->\n  <h2>!important: last resort, not first instinct</h2>\n  <div class=\"bad\">\n    <p class=\"lbl\">Wrong: using !important to force a style</p>\n    <code>.card p { color: red !important; }</code><br>\n    <span style=\"font-size:.83rem;color:#b91c1c;\">\n      !important overrides inline styles and breaks the normal cascade.\n      Every future override also needs !important, creating an arms race.\n    </span>\n  </div>\n  <div class=\"good\">\n    <p class=\"lbl\">Right: increase specificity or restructure selectors</p>\n    <code>.card .error-text { color: red; }</code><br>\n    <span style=\"font-size:.83rem;color:#166534;\">\n      Use !important only for utility classes (.sr-only, .visually-hidden)\n      or when overriding third-party library styles you cannot change.\n    </span>\n  </div>\n\n\n  <!-- STYLESHEET LOAD ORDER -->\n  <h2>Correct stylesheet structure in head</h2>\n  <pre>&lt;head&gt;\n  &lt;!-- 1. Browser resets / normalise (lowest specificity baseline) --&gt;\n  &lt;link rel=\"stylesheet\" href=\"reset.css\"&gt;\n\n  &lt;!-- 2. Design tokens and custom properties --&gt;\n  &lt;link rel=\"stylesheet\" href=\"tokens.css\"&gt;\n\n  &lt;!-- 3. Base typography and layout --&gt;\n  &lt;link rel=\"stylesheet\" href=\"base.css\"&gt;\n\n  &lt;!-- 4. Components --&gt;\n  &lt;link rel=\"stylesheet\" href=\"components.css\"&gt;\n\n  &lt;!-- 5. Page-specific overrides last (highest source-order priority) --&gt;\n  &lt;style&gt;\n    /* Inline critical CSS for above-the-fold content */\n  &lt;/style&gt;\n&lt;/head&gt;\n\n&lt;!-- WRONG: @import chains files sequentially --&gt;\n&lt;!-- @import \"reset.css\";  Do not use inside style blocks --&gt;</pre>\n\n</body>\n</html>",
+        "output": "Page renders a specificity scoring table with six rows showing selector examples and their four-part scores. A live demo paragraph appears green because the ID selector beats two competing class and element rules. A dark code block shows source order tiebreaking. Two red and green comparison cards show the wrong vs right use of !important. A dark code block shows a five-layer stylesheet loading order with comments explaining the progression from resets to page-specific overrides.",
+        "images": [],
+        "video_url": null
+      }
+    ],
+    "image_banner_url": null,
+    "images": [],
+    "video_url": null,
+    "when_to_use": [
+      {
+        "point": "Use external stylesheets via link rel=stylesheet for all styles shared across more than one page so the browser can cache the file and reduce repeat load times."
+      },
+      {
+        "point": "Use an internal style block for critical above-the-fold CSS that must render without a network round-trip, inlining only the rules needed for the first visible screen."
+      },
+      {
+        "point": "Use inline styles only when setting styles dynamically through JavaScript, such as animating a property or applying a user-chosen colour, not for static design."
+      }
+    ],
+    "when_to_avoid": [
+      {
+        "point": "Avoid inline styles for static design rules because they cannot be overridden by class selectors, cannot use pseudo-classes, and make HTML harder to read and maintain."
+      },
+      {
+        "point": "Avoid @import inside CSS files to load additional stylesheets because the browser cannot fetch the imported file until the first file is fully downloaded and parsed."
+      },
+      {
+        "point": "Avoid placing link or style elements inside body; stylesheets belong in head so the browser can build the CSSOM before painting and avoid a flash of unstyled content."
+      }
+    ],
+    "what_it_solves": [
+      {
+        "1": "External stylesheets solve duplication: one file styles every page on the site, so a colour change in one rule propagates everywhere without editing each HTML file."
+      },
+      {
+        "2": "Separating CSS from HTML solves maintainability: designers can update visual styles without touching content markup, and the two files can be developed independently."
+      },
+      {
+        "3": "The cascade solves rule conflicts predictably: specificity and source order provide a deterministic algorithm so two rules targeting the same element always resolve to one winner."
+      }
+    ],
+    "conceptual_understanding": [
+      {
+        "model": "Think of HTML as a building's skeleton and CSS as its interior design plan. The skeleton (HTML) defines rooms and walls. The design plan (CSS) is a separate document that says which room gets which colour and furniture. You can redecorate every room by changing the plan without touching the walls."
+      },
+      {
+        "model": "The cascade is like a court hierarchy. A lower court (element selector) sets a default ruling. A higher court (class selector) can override it. A supreme court ruling (ID selector) overrides all lower courts. An inline style is like a presidential order — it overrides every court. !important is a constitutional amendment that even overrides the president, but amending the constitution just to pick a font colour is overkill."
+      },
+      {
+        "model": "Inline, internal, and external stylesheets are like notes written at different scopes. An inline style is a sticky note on a single object: it only applies there. An internal style block is a memo for one office (one page). An external stylesheet is a company policy document shared across all offices. Company policy applies everywhere but the sticky note on one item overrides it for that item."
+      }
+    ],
+    "common_mistakes": [
+      {
+        "mistake": "Using @import to chain stylesheets: @import inside a CSS file or style block forces the browser to download files sequentially — it cannot fetch the imported file until the first file finishes loading. This serialises what could be parallel network requests, increasing page load time. Use multiple link elements instead, which the browser fetches in parallel."
+      },
+      {
+        "mistake": "Placing link and style elements at the bottom of body instead of inside head: the browser starts rendering the page before it has the CSS, causing a flash of unstyled content where text and layout briefly appear without styles applied. Stylesheets must be in head so the CSSOM is ready before the first paint."
+      },
+      {
+        "mistake": "Overusing !important to force styles: every rule that uses !important can only be overridden by another !important rule, creating a specificity arms race. The root cause is almost always a specificity problem that should be solved by restructuring selectors, not escalating to !important."
+      }
+    ],
+    "bonus_tips": [
+      {
+        "tip": "Open Chrome DevTools (F12), select any element, and look at the Styles panel. Rules are listed from highest to lowest specificity. Struck-through rules are overridden. Hovering a rule shows the file name and line number. This is the fastest way to debug cascade conflicts and understand exactly which rule is winning."
+      },
+      {
+        "tip": "Use CSS custom properties (variables) declared at :root to centralise your design tokens. Example: :root { --color-primary: #2563eb; } then reference it as color: var(--color-primary) everywhere. Changing one line in the external stylesheet updates every component that uses the variable instantly."
+      }
+    ],
+    "related_topics": [
+      "HTML Stylesheet Linking",
+      "HTML Document Structure",
+      "HTML Form Structure",
+      "HTML Semantic Elements",
+      "Web Accessibility WCAG"
+    ],
+    "is_active": true,
+    "order_index": 29,
+    "created_at": null,
+    "updated_at": null
+  },
+  "subtopics": [
+    {
+      "id": 1,
+      "roadmap_id": 1,
+      "technology_id": 1,
+      "module_id": 9,
+      "topic_id": 29,
+      "slug": "html-stylesheet-linking",
+      "title": "HTML Stylesheet Linking",
+      "description": "The link element loads external CSS files; media and preload control rule scope and fetch priority.",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": [
+            {
+              "value": "The "
+            },
+            {
+              "value": "<link>",
+              "highlight": true
+            },
+            {
+              "value": " element in "
+            },
+            {
+              "value": "<head>",
+              "highlight": true
+            },
+            {
+              "value": " is the standard way to connect an external CSS file. The required attributes are "
+            },
+            {
+              "value": "rel=\"stylesheet\"",
+              "highlight": true
+            },
+            {
+              "value": " (declares the relationship) and "
+            },
+            {
+              "value": "href",
+              "highlight": true
+            },
+            {
+              "value": " (the path to the CSS file). The optional "
+            },
+            {
+              "value": "media",
+              "highlight": true
+            },
+            {
+              "value": " attribute restricts when the stylesheet applies: "
+            },
+            {
+              "value": "media=\"print\"",
+              "highlight": true
+            },
+            {
+              "value": " loads the file but only applies its rules when printing; "
+            },
+            {
+              "value": "media=\"(max-width: 768px)\"",
+              "highlight": true
+            },
+            {
+              "value": " applies rules only on narrow viewports. All linked stylesheets are "
+            },
+            {
+              "value": "render-blocking",
+              "bold": true
+            },
+            {
+              "value": " by default — the browser pauses rendering until the CSS is downloaded and parsed. "
+            },
+            {
+              "value": "rel=\"preload\" as=\"style\"",
+              "highlight": true
+            },
+            {
+              "value": " fetches the file early without blocking, then a second "
+            },
+            {
+              "value": "<link rel=\"stylesheet\">",
+              "highlight": true
+            },
+            {
+              "value": " applies it, eliminating FOUC. The "
+            },
+            {
+              "value": "crossorigin",
+              "highlight": true
+            },
+            {
+              "value": " attribute is required when loading fonts or stylesheets from a CDN with CORS. Reference: "
+            },
+            {
+              "value": "MDN: link element",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link"
+            },
+            {
+              "value": "."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Attribute",
+            "Required",
+            "Values / notes"
+          ],
+          "rows": [
+            [
+              "rel",
+              "Yes",
+              "stylesheet (CSS file), preload (early fetch), icon (favicon)"
+            ],
+            [
+              "href",
+              "Yes",
+              "Relative or absolute URL to the CSS file"
+            ],
+            [
+              "media",
+              "No",
+              "all (default), print, screen, or media query string"
+            ],
+            [
+              "type",
+              "No",
+              "text/css — omit; browsers default to this"
+            ],
+            [
+              "crossorigin",
+              "No",
+              "anonymous or use-credentials — required for CORS fonts/assets"
+            ],
+            [
+              "as",
+              "No",
+              "style — required when rel=preload to tell browser the resource type"
+            ],
+            [
+              "onload",
+              "No",
+              "JS callback — used in the preload-then-apply pattern for non-blocking CSS"
+            ]
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "title": "Stylesheet Linking Patterns: standard, media, preload, and FOUC prevention",
+          "description": "This example shows the standard link rel=stylesheet pattern, a media-conditional stylesheet for print, the preload-then-apply pattern for non-blocking CSS loading to prevent flash of unstyled content, loading a Google Font with the correct crossorigin attribute, and the wrong patterns including @import and body placement.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Stylesheet Linking Patterns</title>\n\n  <!--\n    PATTERN 1: Standard external stylesheet (render-blocking).\n    Browser fetches styles.css and pauses rendering until done.\n    This is correct for critical styles needed before first paint.\n    rel=\"stylesheet\" is required — without it the file is ignored.\n    href can be:\n      \"styles.css\"            relative to current file\n      \"/css/styles.css\"       root-relative\n      \"https://cdn.../a.css\"  absolute URL (add crossorigin if CORS)\n  -->\n  <link rel=\"stylesheet\" href=\"styles.css\">\n\n\n  <!--\n    PATTERN 2: Media-conditional stylesheet.\n    The browser ALWAYS downloads this file (it does not skip it),\n    but only APPLIES the rules when the media condition is true.\n    Use media=\"print\" for print-only styles.\n    Use media=\"(prefers-color-scheme: dark)\" for dark mode CSS.\n    NOT a performance optimisation for download — only for rule scope.\n  -->\n  <link rel=\"stylesheet\" href=\"print.css\" media=\"print\">\n  <link rel=\"stylesheet\"\n        href=\"dark-mode.css\"\n        media=\"(prefers-color-scheme: dark)\">\n\n\n  <!--\n    PATTERN 3: Non-blocking CSS with preload (FOUC prevention).\n    Step 1: rel=\"preload\" as=\"style\" — fetch early, don't block.\n    Step 2: onload switches rel to \"stylesheet\" once downloaded.\n    Step 3: <noscript> fallback for JS-disabled browsers.\n    Use for below-the-fold or non-critical stylesheets.\n    Do NOT use for above-the-fold critical styles — render-block those.\n  -->\n  <link rel=\"preload\"\n        href=\"non-critical.css\"\n        as=\"style\"\n        onload=\"this.onload=null;this.rel='stylesheet'\">\n  <noscript>\n    <link rel=\"stylesheet\" href=\"non-critical.css\">\n  </noscript>\n\n\n  <!--\n    PATTERN 4: Google Fonts (external CORS resource).\n    crossorigin=\"anonymous\": required for cross-origin font files.\n    preconnect: opens TCP+TLS to the font host early, reducing latency.\n    The first preconnect is for the CSS file host;\n    the second is for the font binary file host (fonts.gstatic.com).\n  -->\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n  <link rel=\"preconnect\"\n        href=\"https://fonts.gstatic.com\"\n        crossorigin=\"anonymous\">\n  <link rel=\"stylesheet\"\n        href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap\">\n\n\n  <!--\n    WRONG PATTERN: @import inside a style block.\n    The browser cannot start fetching base.css until it has\n    downloaded and parsed this style block.\n    This forces a sequential (chained) load instead of parallel.\n  -->\n  <!--\n  <style>\n    @import url(\"base.css\");\n  </style>\n  -->\n\n  <!--\n    WRONG PATTERN: link inside body.\n    Causes flash of unstyled content because the browser\n    has already started painting before encountering the link.\n    Stylesheets MUST be in <head>.\n  -->\n\n  <!-- Inline critical CSS: fastest possible first paint -->\n  <style>\n    /* Critical above-the-fold styles inlined here */\n    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n    body {\n      font-family: system-ui, sans-serif;\n      max-width: 680px;\n      margin: 2rem auto;\n      padding: 0 1rem;\n      line-height: 1.7;\n      color: #1e293b;\n    }\n    h1 { font-size: 1.35rem; margin-bottom: 1rem; }\n    h2 { font-size: .95rem; color: #475569; margin: 1.25rem 0 .35rem; }\n    code {\n      background: #f1f5f9;\n      border-radius: 3px;\n      padding: .1rem .35rem;\n      font-size: .87em;\n    }\n    pre {\n      background: #0f172a; color: #e2e8f0;\n      border-radius: 8px; padding: 1rem;\n      font-size: .82rem; overflow-x: auto;\n      line-height: 1.65; margin: .5rem 0;\n    }\n    .card {\n      border: 1px solid #e2e8f0; border-radius: 10px;\n      padding: 1rem 1.25rem; margin-bottom: .9rem;\n      background: #fff;\n    }\n    .tag {\n      display: inline-block; background: #dbeafe;\n      color: #1d4ed8; border-radius: 4px;\n      padding: .1rem .45rem; font-size: .75rem;\n      font-weight: 600; margin-bottom: .35rem;\n    }\n  </style>\n</head>\n<body>\n\n  <h1>Stylesheet Linking Patterns</h1>\n\n  <div class=\"card\">\n    <span class=\"tag\">Pattern 1</span>\n    <h2>Standard render-blocking stylesheet</h2>\n    <pre>&lt;link rel=\"stylesheet\" href=\"styles.css\"&gt;</pre>\n    <p style=\"font-size:.87rem;\">\n      Browser blocks rendering until <code>styles.css</code> is\n      fully downloaded and parsed. Use for all critical styles.\n    </p>\n  </div>\n\n  <div class=\"card\">\n    <span class=\"tag\">Pattern 2</span>\n    <h2>Media-conditional stylesheet</h2>\n    <pre>&lt;link rel=\"stylesheet\" href=\"print.css\" media=\"print\"&gt;\n&lt;link rel=\"stylesheet\"\n      href=\"dark.css\"\n      media=\"(prefers-color-scheme: dark)\"&gt;</pre>\n    <p style=\"font-size:.87rem;\">\n      File always downloads, but rules only apply when the media\n      query matches. Does not skip the download.\n    </p>\n  </div>\n\n  <div class=\"card\">\n    <span class=\"tag\">Pattern 3</span>\n    <h2>Non-blocking preload + apply</h2>\n    <pre>&lt;link rel=\"preload\" href=\"non-critical.css\" as=\"style\"\n      onload=\"this.onload=null;this.rel='stylesheet'\"&gt;\n&lt;noscript&gt;\n  &lt;link rel=\"stylesheet\" href=\"non-critical.css\"&gt;\n&lt;/noscript&gt;</pre>\n    <p style=\"font-size:.87rem;\">\n      Fetches the file early without blocking render. The\n      <code>onload</code> callback switches it to a stylesheet\n      once downloaded. <code>&lt;noscript&gt;</code> is the\n      fallback for JS-disabled browsers.\n    </p>\n  </div>\n\n  <div class=\"card\">\n    <span class=\"tag\">Pattern 4</span>\n    <h2>Google Fonts with preconnect</h2>\n    <pre>&lt;link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"&gt;\n&lt;link rel=\"preconnect\"\n      href=\"https://fonts.gstatic.com\"\n      crossorigin=\"anonymous\"&gt;\n&lt;link rel=\"stylesheet\"\n      href=\"https://fonts.googleapis.com/css2?family=Inter&display=swap\"&gt;</pre>\n    <p style=\"font-size:.87rem;\">\n      <code>preconnect</code> warms up the connection.\n      <code>crossorigin=\"anonymous\"</code> is required for the\n      font binary host because it is a cross-origin resource.\n    </p>\n  </div>\n\n</body>\n</html>",
+          "output": "Page renders four white cards on a white background, each tagged with a pattern number. The cards show the standard render-blocking pattern, media-conditional linking, the preload-then-apply non-blocking pattern with noscript fallback, and the Google Fonts preconnect pattern, each with a dark code block and a plain-text explanation sentence.",
+          "images": null,
+          "video_url": null
+        }
+      ],
+      "image_banner_url": null,
+      "images": null,
+      "video_url": null,
+      "when_to_use": null,
+      "when_to_avoid": null,
+      "what_it_solves": null,
+      "common_mistakes": null,
+      "conceptual_understanding": [
+        {
+          "model": "A link rel=stylesheet is like a voucher attached to a restaurant menu (HTML) that says 'refer to the full recipe book (CSS file) for how to present each dish'. The menu lists what is available; the recipe book specifies colours, plating, and fonts. You can swap the recipe book and every dish changes appearance without reprinting the menu."
+        },
+        {
+          "model": "Render-blocking CSS is like a theatre not opening the curtain until the stage set is fully built. The audience (user) has to wait, but they never see an undecorated stage. The preload pattern is like building the set backstage while the lobby is open, then raising the curtain only when the set is ready, avoiding both the wait and an embarrassing half-built view."
+        }
+      ],
+      "bonus_tips": [
+        {
+          "tip": "Add rel=\"preload\" as=\"style\" for your largest stylesheet before the standard link rel=\"stylesheet\" for the same file. This tells the browser to start fetching the file at the highest priority during HTML parsing, often shaving 100-300ms from first contentful paint on slow connections. Use Chrome DevTools Network tab with throttling set to Slow 4G to measure the before and after difference."
+        }
+      ],
+      "related_topics": [
+        "HTML CSS",
+        "HTML Document Structure",
+        "HTML Head and Body Structure"
+      ],
+      "is_active": true,
+      "order_index": 1,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "seo_metadata": {
+    "meta_title": "HTML CSS | Inline Styles, Internal Style Blocks, and External Stylesheet Linking",
+    "meta_description": "Learn how to apply CSS to HTML using inline styles, internal style blocks, and external stylesheets. Covers specificity, the cascade, preload, media attributes, and FOUC prevention.",
+    "keywords": [
+      "HTML CSS",
+      "HTML link rel stylesheet",
+      "HTML external stylesheet",
+      "HTML inline style attribute",
+      "HTML style element",
+      "CSS specificity cascade",
+      "HTML stylesheet media attribute",
+      "HTML preload stylesheet",
+      "HTML FOUC prevention",
+      "HTML CSS link element"
+    ],
+    "canonical_url": "/html/html-css",
+    "robots": "index, follow"
+  }
+}

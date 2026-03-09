@@ -1,11 +1,12 @@
 """
 Updated seed_topics.py
+
 Supports new JSON structure:
 
 - seo_metadata is a SINGLE object
 - No seo_id in topic/subtopics
-- what_it_solves → DB problems
-- conceptual_understanding → DB mental_models
+- what_it_solves
+- conceptual_understanding
 """
 
 import argparse
@@ -27,7 +28,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     sys.exit("❌ DATABASE_URL not set.")
 
-DEFAULT_JSON = Path(__file__).parent.parent / "json" / "frontend" / "html" / "topics_23.json"
+DEFAULT_JSON = Path(__file__).parent.parent / "json" / "frontend" / "html" / "topics_29.json"
 
 
 # ── DB JSON COLUMNS ─────────────────────────────────────────
@@ -37,8 +38,8 @@ DB_JSON_COLUMNS = [
     "images",
     "when_to_use",
     "when_to_avoid",
-    "problems",
-    "mental_models",
+    "what_it_solves",
+    "conceptual_understanding",
     "common_mistakes",
     "bonus_tips",
     "related_topics",
@@ -52,21 +53,13 @@ def load_json(path: Path) -> dict:
         return json.load(f)
 
 
-def row_exists(session: Session, table: str, column: str, value) -> bool:
-    result = session.execute(
-        text(f"SELECT 1 FROM {table} WHERE {column} = :val"),
-        {"val": value}
-    ).fetchone()
-    return result is not None
-
-
 def _jsonb(value: Any) -> str | None:
     return json.dumps(value) if value is not None else None
 
 
 def build_json_values(payload: dict) -> dict:
     """
-    Map new JSON structure to DB structure
+    Map JSON structure to DB structure
     """
 
     normalized = {
@@ -75,8 +68,8 @@ def build_json_values(payload: dict) -> dict:
         "images": payload.get("images"),
         "when_to_use": payload.get("when_to_use"),
         "when_to_avoid": payload.get("when_to_avoid"),
-        "problems": payload.get("what_it_solves"),
-        "mental_models": payload.get("conceptual_understanding"),
+        "what_it_solves": payload.get("what_it_solves"),
+        "conceptual_understanding": payload.get("conceptual_understanding"),
         "common_mistakes": payload.get("common_mistakes"),
         "bonus_tips": payload.get("bonus_tips"),
         "related_topics": payload.get("related_topics"),
@@ -125,6 +118,7 @@ def insert_seo(session: Session, seo: dict) -> int:
 # ── INSERT TOPIC ────────────────────────────────────────────
 
 def insert_topic(session: Session, topic: dict, seo_id: int | None) -> int:
+
     json_values = build_json_values(topic)
 
     result = session.execute(
@@ -146,8 +140,8 @@ def insert_topic(session: Session, topic: dict, seo_id: int | None) -> int:
                 video_url,
                 when_to_use,
                 when_to_avoid,
-                problems,
-                mental_models,
+                what_it_solves,
+                conceptual_understanding,
                 common_mistakes,
                 bonus_tips,
                 related_topics,
@@ -171,8 +165,8 @@ def insert_topic(session: Session, topic: dict, seo_id: int | None) -> int:
                 :video_url,
                 CAST(:when_to_use AS jsonb),
                 CAST(:when_to_avoid AS jsonb),
-                CAST(:problems AS jsonb),
-                CAST(:mental_models AS jsonb),
+                CAST(:what_it_solves AS jsonb),
+                CAST(:conceptual_understanding AS jsonb),
                 CAST(:common_mistakes AS jsonb),
                 CAST(:bonus_tips AS jsonb),
                 CAST(:related_topics AS jsonb),
@@ -203,6 +197,7 @@ def insert_topic(session: Session, topic: dict, seo_id: int | None) -> int:
 # ── INSERT SUBTOPIC ─────────────────────────────────────────
 
 def insert_subtopic(session: Session, subtopic: dict, topic_id: int) -> int:
+
     json_values = build_json_values(subtopic)
 
     result = session.execute(
@@ -224,8 +219,8 @@ def insert_subtopic(session: Session, subtopic: dict, topic_id: int) -> int:
                 video_url,
                 when_to_use,
                 when_to_avoid,
-                problems,
-                mental_models,
+                what_it_solves,
+                conceptual_understanding,
                 common_mistakes,
                 bonus_tips,
                 related_topics,
@@ -249,8 +244,8 @@ def insert_subtopic(session: Session, subtopic: dict, topic_id: int) -> int:
                 :video_url,
                 CAST(:when_to_use AS jsonb),
                 CAST(:when_to_avoid AS jsonb),
-                CAST(:problems AS jsonb),
-                CAST(:mental_models AS jsonb),
+                CAST(:what_it_solves AS jsonb),
+                CAST(:conceptual_understanding AS jsonb),
                 CAST(:common_mistakes AS jsonb),
                 CAST(:bonus_tips AS jsonb),
                 CAST(:related_topics AS jsonb),
@@ -286,6 +281,7 @@ def main():
     args = parser.parse_args()
 
     json_path = Path(args.json)
+
     if not json_path.exists():
         sys.exit("❌ JSON file not found.")
 
