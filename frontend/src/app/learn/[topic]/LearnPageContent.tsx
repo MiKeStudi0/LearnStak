@@ -732,12 +732,49 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                     )}
 
                     {/* 6. EXAMPLES (CODE) */}
-                    {sub.example && (
+                    {/* {sub.example && (
                       <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#000000] text-sm md:text-base my-8">
                         <SyntaxHighlighter
                           language={urlTopic}
                           style={vscDarkPlus}
                           customStyle={{ margin: 0, padding: '1.5rem', backgroundColor: '#000000' }}
+                          wrapLines={true}
+                          wrapLongLines={true}
+                        >
+                          {sub.example}
+                        </SyntaxHighlighter>
+                      </div>
+                    )} */}
+
+                    {/* 6. EXAMPLES (CODE) */}
+                    {sub.example && (
+                      <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-[#1e1e2e] text-sm md:text-base my-8 shadow-sm relative group">
+                        
+                        {/* Editor Header UI */}
+                        <div className="flex items-center justify-between px-4 py-2 bg-[#2a2a3c] border-b border-black/20">
+                           <div className="flex gap-1.5">
+                              <div className="w-3 h-3 rounded-full bg-red-500/50" />
+                              <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                              <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                           </div>
+                           <span className="text-xs font-mono text-slate-400 absolute left-1/2 -translate-x-1/2">
+                             example.{urlTopic === 'python' ? 'py' : urlTopic === 'javascript' || urlTopic === 'js' ? 'js' : urlTopic === 'react' ? 'jsx' : urlTopic}
+                           </span>
+                           <Button 
+                             variant="ghost" 
+                             size="sm" 
+                             className="h-6 text-xs text-slate-400 hover:text-white hover:bg-white/10" 
+                             onClick={() => navigator.clipboard.writeText(sub.example)}
+                           >
+                              <Copy className="w-3 h-3 mr-1"/> Copy
+                           </Button>
+                        </div>
+
+                        {/* Code Content */}
+                        <SyntaxHighlighter
+                          language={urlTopic}
+                          style={vscDarkPlus}
+                          customStyle={{ margin: 0, padding: '1.5rem', backgroundColor: '#1e1e2e' }}
                           wrapLines={true}
                           wrapLongLines={true}
                         >
