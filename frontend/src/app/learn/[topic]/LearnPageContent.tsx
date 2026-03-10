@@ -219,12 +219,45 @@ function RenderBlocks({ blocks }: any) {
             );
 
           case "code":
-            return (
-              <SyntaxHighlighter key={i} language={b.language} style={vscDarkPlus}>
-                {b.code}
-              </SyntaxHighlighter>
-            );
+            // Get the language to create a dynamic fake filename
+            const lang = b.language || 'txt';
+            const ext = lang === 'python' ? 'py' : lang === 'javascript' || lang === 'js' ? 'js' : lang === 'react' ? 'jsx' : lang;
 
+            return (
+              <div key={i} className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-[#1e1e2e] text-sm md:text-base my-6 shadow-sm relative group">
+                
+                {/* Editor Header UI */}
+                <div className="flex items-center justify-between px-4 py-2 bg-[#2a2a3c] border-b border-black/20">
+                   <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-500/50" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                   </div>
+                   <span className="text-xs font-mono text-slate-400 absolute left-1/2 -translate-x-1/2">
+                     example.{ext}
+                   </span>
+                   <Button 
+                     variant="ghost" 
+                     size="sm" 
+                     className="h-6 text-xs text-slate-400 hover:text-white hover:bg-white/10" 
+                     onClick={() => navigator.clipboard.writeText(b.code)}
+                   >
+                      <Copy className="w-3 h-3 mr-1"/> Copy
+                   </Button>
+                </div>
+
+                {/* Code Content */}
+                <SyntaxHighlighter 
+                  language={b.language} 
+                  style={vscDarkPlus} 
+                  customStyle={{ margin: 0, padding: '1.5rem', backgroundColor: '#1e1e2e' }}
+                  wrapLines={true}
+                  wrapLongLines={true}
+                >
+                  {b.code}
+                </SyntaxHighlighter>
+              </div>
+            );
           case "callout":
             return (
               <div key={i} className="p-4 rounded-xl border bg-indigo-50 dark:bg-indigo-500/10">
