@@ -573,7 +573,7 @@
             { "value": "Svelte", "bold": true },
             { "value": ", components appear to mix HTML, CSS, and JS in one file. This is still separation of concerns at the " },
             { "value": "component level", "italic": true },
-            { "value": ": each component owns its own structure, styles, and behavior as a self-contained unit. The principle scales from file-level to component-level separation." }
+            { "value": ": each component owns its own structure, styles, and behavior as a wself-contained unit. The principle scales from file-level to component-level separation." }
           ]
         }
       ],
