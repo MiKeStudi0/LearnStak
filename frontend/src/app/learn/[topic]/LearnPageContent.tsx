@@ -735,12 +735,40 @@ export default function LearnPageContent({ topic }: { topic: string }) {
             )}
 
             {/* 6. EXAMPLES / SYNTAX & CODE PLAYGROUND */}
-            <motion.div variants={fadeInUp}>
-               <InteractivePlayground 
-                 initialCode={currentLesson.code} 
-                 syntax={currentLesson.syntax} 
-                 language={urlTopic} 
-               />
+            <motion.div variants={fadeInUp} className="space-y-12">
+               {currentLesson.examples && currentLesson.examples.length > 0 ? (
+                 currentLesson.examples.map((example: any, idx: number) => (
+                   <div key={idx} className="space-y-4">
+                     <div className="space-y-2">
+                       <h3 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                         {example.title}
+                       </h3>
+                       <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed">
+                         {example.description}
+                       </p>
+                     </div>
+                     <InteractivePlayground 
+                       initialCode={example.code_snippet} 
+                       syntax={currentLesson.syntax} 
+                       language={urlTopic} 
+                     />
+                     {example.output && (
+                       <div className="mt-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 shadow-sm">
+                         <h4 className="font-semibold text-sm mb-2 text-slate-900 dark:text-slate-100">Output:</h4>
+                         <p className="text-slate-700 dark:text-slate-300 text-sm whitespace-pre-wrap">{example.output}</p>
+                       </div>
+                     )}
+                   </div>
+                 ))
+               ) : (
+                 currentLesson.code && (
+                   <InteractivePlayground 
+                     initialCode={currentLesson.code} 
+                     syntax={currentLesson.syntax} 
+                     language={urlTopic} 
+                   />
+                 )
+               )}
             </motion.div>
 
             {/* 11. SUBTOPICS */}
@@ -860,11 +888,38 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                     )}
 
                     {/* 6. EXAMPLES (CODE) */}
-                    {sub.example && (
-                      <InteractivePlayground 
-                        initialCode={sub.example} 
-                        language={urlTopic} 
-                      />
+                    {sub.examples && sub.examples.length > 0 ? (
+                      <div className="space-y-12">
+                        {sub.examples.map((example: any, idx: number) => (
+                          <div key={idx} className="space-y-4">
+                            <div className="space-y-2">
+                              <h3 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                                {example.title}
+                              </h3>
+                              <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed">
+                                {example.description}
+                              </p>
+                            </div>
+                            <InteractivePlayground 
+                              initialCode={example.code_snippet} 
+                              language={urlTopic} 
+                            />
+                            {example.output && (
+                               <div className="mt-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 shadow-sm">
+                                 <h4 className="font-semibold text-sm mb-2 text-slate-900 dark:text-slate-100">Output:</h4>
+                                 <p className="text-slate-700 dark:text-slate-300 text-sm whitespace-pre-wrap">{example.output}</p>
+                               </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      sub.example && (
+                        <InteractivePlayground 
+                          initialCode={sub.example} 
+                          language={urlTopic} 
+                        />
+                      )
                     )}
 
                     {/* 7. COMMON MISTAKES */}

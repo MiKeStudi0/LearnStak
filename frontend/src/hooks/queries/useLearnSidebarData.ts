@@ -106,6 +106,7 @@ export function useLearnSidebarData(technologySlug: string) {
 
         syntax: "",
         code: topic.examples?.[0]?.code_snippet || "",
+        examples: topic.examples || [],
 
         subtopics: (topic.sub_topics || []).map((sub: any) => ({
           id: sub.slug,
@@ -119,6 +120,7 @@ export function useLearnSidebarData(technologySlug: string) {
             (sub.images?.length > 0 ? sub.images[0] : ""),
 
           example: sub.examples?.[0]?.code_snippet || "",
+          examples: sub.examples || [],
 
           tip: sub.bonus_tips || [],
 
