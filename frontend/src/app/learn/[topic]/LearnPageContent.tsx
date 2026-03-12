@@ -89,7 +89,6 @@ const toSafeHref = (href: unknown) => {
   return setCachedValue(safeHrefCache, trimmedHref, safeHref);
 };
 
-// Converts supported YouTube URLs to trusted embed URLs
 const getYouTubeEmbedUrl = (url: unknown) => {
   if (typeof url !== "string") return "";
   const trimmedUrl = url.trim();
@@ -219,14 +218,11 @@ function RenderBlocks({ blocks }: any) {
             );
 
           case "code":
-            // Get the language to create a dynamic fake filename
             const lang = b.language || 'txt';
             const ext = lang === 'python' ? 'py' : lang === 'javascript' || lang === 'js' ? 'js' : lang === 'react' ? 'jsx' : lang;
 
             return (
               <div key={i} className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-[#1e1e2e] text-sm md:text-base my-6 shadow-sm relative group">
-                
-                {/* Editor Header UI */}
                 <div className="flex items-center justify-between px-4 py-2 bg-[#2a2a3c] border-b border-black/20">
                    <div className="flex gap-1.5">
                       <div className="w-3 h-3 rounded-full bg-red-500/50" />
@@ -234,7 +230,7 @@ function RenderBlocks({ blocks }: any) {
                       <div className="w-3 h-3 rounded-full bg-green-500/50" />
                    </div>
                    <span className="text-xs font-mono text-slate-400 absolute left-1/2 -translate-x-1/2">
-                     example.{ext}
+                      example.{ext}
                    </span>
                    <Button 
                      variant="ghost" 
@@ -245,8 +241,6 @@ function RenderBlocks({ blocks }: any) {
                       <Copy className="w-3 h-3 mr-1"/> Copy
                    </Button>
                 </div>
-
-                {/* Code Content */}
                 <SyntaxHighlighter 
                   language={b.language} 
                   style={vscDarkPlus} 
@@ -306,6 +300,90 @@ function RenderBlocks({ blocks }: any) {
   );
 }
 
+// --- NEW COMPONENT: Interactive Playground extracted for reuse ---
+function InteractivePlayground({ initialCode, syntax, language }: { initialCode: string; syntax?: string; language: string }) {
+  const [code, setCode] = useState(initialCode || "");
+
+  // Update code if the parent lesson/subtopic changes
+  useEffect(() => {
+    setCode(initialCode || "");
+  }, [initialCode]);
+
+  const ext = language === 'python' ? 'py' : language === 'javascript' || language === 'js' ? 'js' : language === 'react' ? 'jsx' : language;
+  const displayFilename = `index.${ext === 'html' ? 'html' : ext}`;
+
+  return (
+    <div className="space-y-4 my-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <h3 className="text-xl md:text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
+          <Terminal className="w-5 h-5 text-primary" /> Interactive Playground
+        </h3>
+        {syntax && (
+          <Badge variant="secondary" className="font-mono text-xs w-fit">
+            syntax: {syntax}
+          </Badge>
+        )}
+      </div>
+      
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-0 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-[#1e1e2e]">
+        {/* Editor */}
+        <div className="flex flex-col h-[350px] md:h-[500px] border-b xl:border-b-0 xl:border-r border-white/5 relative group">
+          <div className="flex items-center justify-between px-4 py-2 bg-[#2a2a3c] border-b border-black/20">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-500/50" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+              <div className="w-3 h-3 rounded-full bg-green-500/50" />
+            </div>
+            <span className="text-xs font-mono text-slate-400 absolute left-1/2 -translate-x-1/2">{displayFilename}</span>
+            <Button variant="ghost" size="sm" className="h-6 text-xs text-slate-400 hover:text-white hover:bg-white/10" onClick={() => navigator.clipboard.writeText(code)}>
+              <Copy className="w-3 h-3 mr-1"/> Copy
+            </Button>
+          </div>
+          <div className="flex-1 overflow-auto bg-[#1e1e2e]">
+            <Editor
+              value={code}
+              onValueChange={setCode}
+              highlight={c => {
+                const langObj = language === 'python' ? Prism.languages.python 
+                              : language === 'javascript' || language === 'js' ? Prism.languages.javascript 
+                              : language === 'css' ? Prism.languages.css 
+                              : Prism.languages.html;
+                const langStr = language === 'python' ? 'python' 
+                              : language === 'javascript' || language === 'js' ? 'javascript' 
+                              : language === 'css' ? 'css' 
+                              : 'html';
+                return Prism.highlight(c, langObj, langStr);
+              }}
+              padding={24}
+              style={{
+                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                fontSize: 14,
+                minHeight: '100%',
+              }}
+              className="w-full text-slate-300 focus:outline-none leading-relaxed selection:bg-indigo-500/30"
+            />
+          </div>
+        </div>
+
+        {/* Preview */}
+        <div className="flex flex-col h-[350px] md:h-[500px] bg-white border-l border-slate-200 dark:border-transparent">
+          <div className="flex items-center px-4 py-2 bg-slate-50 border-b border-slate-200">
+            <MonitorPlay className="w-3 h-3 text-slate-400 mr-2" />
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Preview</span>
+          </div>
+          <iframe
+            srcDoc={typeof code === "string" ? code : ""}
+            className="flex-1 w-full border-none"
+            title="output"
+            sandbox=""
+            referrerPolicy="no-referrer"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function LearnPageContent({ topic }: { topic: string }) {
   const urlTopic = topic.toLowerCase();
   
@@ -346,10 +424,9 @@ export default function LearnPageContent({ topic }: { topic: string }) {
 
   const currentTopic = useMemo(() => (topics || []).find((t: any) => t.id === activeTopicId) || (topics || [])[0], [topics, activeTopicId]);
   const currentLesson = useMemo(() => currentTopic?.lessons?.find((l: any) => l.id === activeLessonId) || currentTopic?.lessons?.[0], [currentTopic, activeLessonId]);
+  const lessonProblems = currentLesson?.whatItSolves || [];
+  const lessonConcepts = currentLesson?.conceptualUnderstanding || [];
   
-  const [code, setCode] = useState("");
-  useEffect(() => { if (currentLesson) setCode(currentLesson.code); }, [currentLesson]);
-
   if (isPending) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-50/50 dark:bg-[#0B0C10]">
@@ -506,7 +583,7 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                                              }
                                           }}
                                           className="w-full flex items-center gap-2 py-1.5 px-3 text-[13px] rounded-md transition-all text-left text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
-                                          >
+                                        >
                                           <div className="w-1.5 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />
                                           <span className="line-clamp-1">{sub.title}</span>
                                         </button>
@@ -576,33 +653,68 @@ export default function LearnPageContent({ topic }: { topic: string }) {
               </div>
             </motion.div>
             
-            <div className="flex flex-col gap-8">
-              {currentLesson.whatItSolves?.length > 0 && (
-                <div className="border-l-4 border-orange-500 pl-5 py-2">
-                  <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
-                    <AlertTriangle className="w-4 h-4 text-orange-500" /> The Problem
+            <div className="flex flex-col gap-6 md:gap-8">
+              {lessonProblems?.length > 0 && (
+                <div className="rounded-2xl border border-orange-100/70 dark:border-orange-500/20 bg-white dark:bg-[#0f1118] shadow-sm shadow-orange-500/10 p-5 md:p-6">
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-orange-500/20 via-amber-400/15 to-orange-500/10 text-orange-600 dark:text-orange-300 flex items-center justify-center shadow-inner shadow-orange-500/20">
+                        <AlertTriangle className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300 font-semibold">What this solves</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">The friction points this lesson helps you remove.</p>
+                      </div>
+                    </div>
+                    <Badge variant="secondary" className="bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-100 border-none">
+                      Pain points
+                    </Badge>
                   </div>
-                  <ul className="space-y-3">
-{currentLesson.whatItSolves.map((prob: any, i: number) => (                      <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
-                        <RenderBlocks blocks={[prob]} />
-                      </li>
+                  <div className="space-y-4 pt-2">
+                    {lessonProblems.map((prob: any, i: number) => (
+                      <div
+                        key={i}
+                        className="flex gap-3"
+                      >
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-orange-500 shrink-0" />
+                        <div className="flex-1 text-slate-700 dark:text-slate-200 leading-relaxed text-sm md:text-base">
+                          <RenderBlocks blocks={[prob]} />
+                        </div>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               )}
               
-              {currentLesson.conceptualUnderstanding?.length > 0 && (
-                <div className="border-l-4 border-indigo-500 pl-5 py-2">
-                  <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
-                    <BrainCircuit className="w-4 h-4 text-indigo-500" /> Mental Model
+              {lessonConcepts?.length > 0 && (
+                <div className="rounded-2xl border border-indigo-100/70 dark:border-indigo-500/20 bg-white dark:bg-[#0f1118] shadow-sm shadow-indigo-500/10 p-5 md:p-6">
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500/15 via-sky-400/20 to-indigo-500/10 text-indigo-600 dark:text-indigo-200 flex items-center justify-center shadow-inner shadow-indigo-500/20">
+                        <BrainCircuit className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-200 font-semibold">Conceptual understanding</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Mental picture to keep in mind while applying the idea.</p>
+                      </div>
+                    </div>
+                    <Badge variant="secondary" className="bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-50 border-none">
+                      Big picture
+                    </Badge>
                   </div>
-                  <ul className="space-y-3">
-                    {currentLesson.conceptualUnderstanding.map((model: any, i: number) => (
-                      <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
-                        <RenderBlocks blocks={[model]} />
-                      </li>
+                  <div className="space-y-4 pt-2">
+                    {lessonConcepts.map((model: any, i: number) => (
+                      <div
+                        key={i}
+                        className="flex gap-3"
+                      >
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-indigo-500 shrink-0" />
+                        <div className="flex-1 text-slate-700 dark:text-slate-200 leading-relaxed text-sm md:text-base">
+                          <RenderBlocks blocks={[model]} />
+                        </div>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               )}
             </div>
@@ -623,71 +735,12 @@ export default function LearnPageContent({ topic }: { topic: string }) {
             )}
 
             {/* 6. EXAMPLES / SYNTAX & CODE PLAYGROUND */}
-            <motion.div variants={fadeInUp} className="space-y-4">
-               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <h3 className="text-xl md:text-2xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
-                    <Terminal className="w-5 h-5 text-primary" /> Interactive Playground
-                  </h3>
-                  <Badge variant="secondary" className="font-mono text-xs w-fit">
-                    syntax: {currentLesson.syntax}
-                  </Badge>
-               </div>
-               
-               <div className="grid grid-cols-1 xl:grid-cols-2 gap-0 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-[#1e1e2e]">
-                  {/* Editor */}
-                  <div className="flex flex-col h-[350px] md:h-[500px] border-b xl:border-b-0 xl:border-r border-white/5 relative group">
-                    <div className="flex items-center justify-between px-4 py-2 bg-[#2a2a3c] border-b border-black/20">
-                       <div className="flex gap-1.5">
-                          <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                          <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                          <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                       </div>
-                       <span className="text-xs font-mono text-slate-400 absolute left-1/2 -translate-x-1/2">index.html</span>
-                       <Button variant="ghost" size="sm" className="h-6 text-xs text-slate-400 hover:text-white hover:bg-white/10" onClick={() => navigator.clipboard.writeText(code)}>
-                          <Copy className="w-3 h-3 mr-1"/> Copy
-                       </Button>
-                    </div>
-                    <div className="flex-1 overflow-auto bg-[#1e1e2e]">
-                      <Editor
-                        value={code}
-                        onValueChange={code => setCode(code)}
-                        highlight={code => {
-                           const lang = urlTopic === 'python' ? Prism.languages.python 
-                                      : urlTopic === 'javascript' || urlTopic === 'js' ? Prism.languages.javascript 
-                                      : urlTopic === 'css' ? Prism.languages.css 
-                                      : Prism.languages.html;
-                           const langStr = urlTopic === 'python' ? 'python' 
-                                      : urlTopic === 'javascript' || urlTopic === 'js' ? 'javascript' 
-                                      : urlTopic === 'css' ? 'css' 
-                                      : 'html';
-                           return Prism.highlight(code, lang, langStr);
-                        }}
-                        padding={24}
-                        style={{
-                          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-                          fontSize: 14,
-                          minHeight: '100%',
-                        }}
-                        className="w-full text-slate-300 focus:outline-none leading-relaxed selection:bg-indigo-500/30"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Preview */}
-                  <div className="flex flex-col h-[350px] md:h-[500px] bg-white border-l border-slate-200 dark:border-transparent">
-                    <div className="flex items-center px-4 py-2 bg-slate-50 border-b border-slate-200">
-                       <MonitorPlay className="w-3 h-3 text-slate-400 mr-2" />
-                       <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Preview</span>
-                    </div>
-                    <iframe
-                      srcDoc={typeof code === "string" ? code : ""}
-                      className="flex-1 w-full border-none"
-                      title="output"
-                      sandbox=""
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-               </div>
+            <motion.div variants={fadeInUp}>
+               <InteractivePlayground 
+                 initialCode={currentLesson.code} 
+                 syntax={currentLesson.syntax} 
+                 language={urlTopic} 
+               />
             </motion.div>
 
             {/* 11. SUBTOPICS */}
@@ -716,39 +769,81 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                       </div>
                     )}
 
-                    {/* 3 & 4. PROBLEMS & MENTAL MODELS */}
-                    {(sub.problems?.length > 0 || sub.mentalModel?.length > 0) && (
-                      <div className="flex flex-col gap-8 my-8">
-                        {sub.problems?.length > 0 && (
-                          <div className="border-l-4 border-orange-500 pl-5 py-2">
-                            <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
-                              <AlertTriangle className="w-4 h-4 text-orange-500" /> The Problem
+                    {/* 3 & 4. WHAT IT SOLVES & CONCEPTUAL UNDERSTANDING */}
+                    {(() => {
+                      const subProblems = sub.whatItSolves || [];
+                      const subConcepts = sub.conceptualUnderstanding || [];
+                      
+                      if (!subProblems.length && !subConcepts.length) return null;
+
+                      return (
+                        <div className="flex flex-col gap-6 md:gap-8 my-8">
+                          {subProblems.length > 0 && (
+                            <div className="rounded-2xl border border-orange-100/70 dark:border-orange-500/20 bg-white dark:bg-[#0f1118] shadow-sm shadow-orange-500/10 p-5 md:p-6">
+                              <div className="flex items-start justify-between gap-3 mb-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-orange-500/20 via-amber-400/15 to-orange-500/10 text-orange-600 dark:text-orange-300 flex items-center justify-center shadow-inner shadow-orange-500/20">
+                                    <AlertTriangle className="w-5 h-5" />
+                                  </div>
+                                  <div>
+                                    <p className="text-[11px] uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300 font-semibold">What this solves</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">The friction points this subtopic helps you remove.</p>
+                                  </div>
+                                </div>
+                                <Badge variant="secondary" className="bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-100 border-none">
+                                  Pain points
+                                </Badge>
+                              </div>
+                              <div className="space-y-4 pt-2">
+                                {subProblems.map((prob: any, i: number) => (
+                                  <div
+                                    key={i}
+                                    className="flex gap-3"
+                                  >
+                                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-orange-500 shrink-0" />
+                                    <div className="flex-1 text-slate-700 dark:text-slate-200 leading-relaxed text-sm md:text-base">
+                                      <RenderBlocks blocks={[prob]} />
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                            <ul className="space-y-3">
-                              {sub.problems.map((prob: any, i: number) => (
-                                <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
-                                  <RenderBlocks blocks={[prob]} />
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                        {sub.mentalModel?.length > 0 && (
-                          <div className="border-l-4 border-indigo-500 pl-5 py-2">
-                            <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-slate-100 font-semibold text-sm uppercase tracking-widest">
-                              <BrainCircuit className="w-4 h-4 text-indigo-500" /> Mental Model
+                          )}
+                          
+                          {subConcepts.length > 0 && (
+                            <div className="rounded-2xl border border-indigo-100/70 dark:border-indigo-500/20 bg-white dark:bg-[#0f1118] shadow-sm shadow-indigo-500/10 p-5 md:p-6">
+                              <div className="flex items-start justify-between gap-3 mb-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500/15 via-sky-400/20 to-indigo-500/10 text-indigo-600 dark:text-indigo-200 flex items-center justify-center shadow-inner shadow-indigo-500/20">
+                                    <BrainCircuit className="w-5 h-5" />
+                                  </div>
+                                  <div>
+                                    <p className="text-[11px] uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-200 font-semibold">Conceptual understanding</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">Mental picture to keep in mind while applying the idea.</p>
+                                  </div>
+                                </div>
+                                <Badge variant="secondary" className="bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-50 border-none">
+                                  Big picture
+                                </Badge>
+                              </div>
+                              <div className="space-y-4 pt-2">
+                                {subConcepts.map((model: any, i: number) => (
+                                  <div
+                                    key={i}
+                                    className="flex gap-3"
+                                  >
+                                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-indigo-500 shrink-0" />
+                                    <div className="flex-1 text-slate-700 dark:text-slate-200 leading-relaxed text-sm md:text-base">
+                                      <RenderBlocks blocks={[model]} />
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                            <ul className="space-y-3">
-                              {sub.mentalModel.map((model: any, i: number) => (
-                                <li key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm md:text-base">
-                                  <RenderBlocks blocks={[model]} />
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                          )}
+                        </div>
+                      );
+                    })()}
 
                     {/* 5. VIDEO */}
                     {getYouTubeEmbedUrl(sub.videoUrl) && (
@@ -765,55 +860,11 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                     )}
 
                     {/* 6. EXAMPLES (CODE) */}
-                    {/* {sub.example && (
-                      <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#000000] text-sm md:text-base my-8">
-                        <SyntaxHighlighter
-                          language={urlTopic}
-                          style={vscDarkPlus}
-                          customStyle={{ margin: 0, padding: '1.5rem', backgroundColor: '#000000' }}
-                          wrapLines={true}
-                          wrapLongLines={true}
-                        >
-                          {sub.example}
-                        </SyntaxHighlighter>
-                      </div>
-                    )} */}
-
-                    {/* 6. EXAMPLES (CODE) */}
                     {sub.example && (
-                      <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-[#1e1e2e] text-sm md:text-base my-8 shadow-sm relative group">
-                        
-                        {/* Editor Header UI */}
-                        <div className="flex items-center justify-between px-4 py-2 bg-[#2a2a3c] border-b border-black/20">
-                           <div className="flex gap-1.5">
-                              <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                              <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                              <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                           </div>
-                           <span className="text-xs font-mono text-slate-400 absolute left-1/2 -translate-x-1/2">
-                             example.{urlTopic === 'python' ? 'py' : urlTopic === 'javascript' || urlTopic === 'js' ? 'js' : urlTopic === 'react' ? 'jsx' : urlTopic}
-                           </span>
-                           <Button 
-                             variant="ghost" 
-                             size="sm" 
-                             className="h-6 text-xs text-slate-400 hover:text-white hover:bg-white/10" 
-                             onClick={() => navigator.clipboard.writeText(sub.example)}
-                           >
-                              <Copy className="w-3 h-3 mr-1"/> Copy
-                           </Button>
-                        </div>
-
-                        {/* Code Content */}
-                        <SyntaxHighlighter
-                          language={urlTopic}
-                          style={vscDarkPlus}
-                          customStyle={{ margin: 0, padding: '1.5rem', backgroundColor: '#1e1e2e' }}
-                          wrapLines={true}
-                          wrapLongLines={true}
-                        >
-                          {sub.example}
-                        </SyntaxHighlighter>
-                      </div>
+                      <InteractivePlayground 
+                        initialCode={sub.example} 
+                        language={urlTopic} 
+                      />
                     )}
 
                     {/* 7. COMMON MISTAKES */}
@@ -963,17 +1014,17 @@ export default function LearnPageContent({ topic }: { topic: string }) {
                   variant="outline" 
                   size="lg"
                   onClick={() => navigateLesson('prev')} 
-                  disabled={currentTopic.lessons.findIndex(l => l.id === activeLessonId) === 0}
+                  disabled={currentTopic.lessons.findIndex((l: any) => l.id === activeLessonId) === 0}
                   className="group w-full md:w-auto"
                 >
                   <ChevronRight className="w-4 h-4 mr-2 rotate-180 group-hover:-translate-x-1 transition-transform text-slate-400 group-hover:text-foreground" /> 
                   <span className="text-slate-600 dark:text-slate-300 group-hover:text-foreground">Previous Lesson</span>
                 </Button>
                 <Button 
-                  variant="hero" 
+                  variant="default" // Note: changed from "hero" since it's not a standard shadcn variant by default unless you defined it
                   size="lg"
                   onClick={() => navigateLesson('next')} 
-                  disabled={currentTopic.lessons.findIndex(l => l.id === activeLessonId) === currentTopic.lessons.length - 1}
+                  disabled={currentTopic.lessons.findIndex((l: any) => l.id === activeLessonId) === currentTopic.lessons.length - 1}
                   className="group shadow-xl shadow-primary/20 w-full md:w-auto"
                 >
                   Next Lesson <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

@@ -16,44 +16,17 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Every HTML page follows a fixed structure. It starts with a "
-          },
-          {
-            "value": "DOCTYPE declaration",
-            "bold": true
-          },
-          {
-            "value": ", followed by the "
-          },
-          {
-            "value": "html",
-            "highlight": true
-          },
-          {
-            "value": " root element containing two children: "
-          },
-          {
-            "value": "head",
-            "highlight": true
-          },
-          {
-            "value": " and "
-          },
-          {
-            "value": "body",
-            "highlight": true
-          },
-          {
-            "value": ". The head holds metadata the browser needs. The body holds everything users see and interact with. The full specification is maintained by the "
-          },
-          {
-            "value": "WHATWG HTML Standard",
-            "link": "https://html.spec.whatwg.org/multipage/syntax.html"
-          },
-          {
-            "value": "."
-          }
+          { "value": "Every HTML page follows a fixed structure. It starts with a " },
+          { "value": "DOCTYPE declaration", "bold": true },
+          { "value": ", followed by the " },
+          { "value": "<html>", "highlight": true },
+          { "value": " root element containing two children: " },
+          { "value": "<head>", "highlight": true },
+          { "value": " and " },
+          { "value": "<body>", "highlight": true },
+          { "value": ". The head holds metadata the browser needs. The body holds everything users see and interact with. The full specification is maintained by the " },
+          { "value": "WHATWG HTML Standard", "link": "https://html.spec.whatwg.org/multipage/syntax.html" },
+          { "value": "." }
         ]
       },
       {
@@ -63,37 +36,12 @@
       },
       {
         "type": "table",
-        "headers": [
-          "Part",
-          "Element",
-          "Purpose",
-          "Visible to User"
-        ],
+        "headers": ["Part", "Element", "Purpose", "Visible to User"],
         "rows": [
-          [
-            "Document type",
-            "<!DOCTYPE html>",
-            "Tells browser to use modern HTML5 standards mode",
-            "No"
-          ],
-          [
-            "Root",
-            "<html lang='en'>",
-            "Wraps the entire document, declares language",
-            "No"
-          ],
-          [
-            "Metadata",
-            "<head>",
-            "Title, charset, viewport, CSS links, meta tags",
-            "No"
-          ],
-          [
-            "Content",
-            "<body>",
-            "All visible page content and interactive elements",
-            "Yes"
-          ]
+          ["Document type", "<!DOCTYPE html>", "Tells browser to use modern HTML5 standards mode", "No"],
+          ["Root", "<html lang='en'>", "Wraps the entire document, declares language", "No"],
+          ["Metadata", "<head>", "Title, charset, viewport, CSS links, meta tags", "No"],
+          ["Content", "<body>", "All visible page content and interactive elements", "Yes"]
         ]
       },
       {
@@ -106,17 +54,17 @@
     "examples": [
       {
         "title": "Complete HTML Document Boilerplate",
-        "description": "This example shows the production-ready HTML boilerplate used as the starting point for every new web page. Every line has a specific purpose. Understanding what each part does and why it is included prevents a whole category of subtle bugs that only appear in specific browsers or devices.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <!-- Character encoding: must be the very first meta tag in head -->\n  <meta charset=\"UTF-8\">\n\n  <!-- Viewport: controls layout on mobile devices -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n  <!-- Page title: shown in browser tab, search results, and bookmarks -->\n  <title>Page Title | Site Name</title>\n\n  <!-- SEO description: 150-160 chars shown in search snippets -->\n  <meta name=\"description\" content=\"A clear, concise description of this page for search engines.\">\n\n  <!-- Canonical URL: prevents duplicate content issues -->\n  <link rel=\"canonical\" href=\"https://example.com/page\">\n\n  <!-- Open Graph: controls how page looks when shared on social media -->\n  <meta property=\"og:title\" content=\"Page Title\">\n  <meta property=\"og:description\" content=\"Description for social sharing previews.\">\n  <meta property=\"og:type\" content=\"website\">\n  <meta property=\"og:image\" content=\"https://example.com/og-image.jpg\">\n\n  <!-- External CSS -->\n  <link rel=\"stylesheet\" href=\"styles.css\">\n\n  <!-- Favicon -->\n  <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\">\n</head>\n<body>\n\n  <!-- Skip link: accessibility for keyboard users -->\n  <a href=\"#main-content\" style=\"position:absolute;top:-100%;\">Skip to main content</a>\n\n  <header>\n    <nav aria-label=\"Main navigation\">\n      <!-- navigation links -->\n    </nav>\n  </header>\n\n  <main id=\"main-content\">\n    <h1>Page Heading</h1>\n    <!-- primary page content -->\n  </main>\n\n  <footer>\n    <!-- footer content -->\n  </footer>\n\n  <!-- JS with defer: downloads in parallel, runs after HTML is parsed -->\n  <script src=\"app.js\" defer></script>\n\n</body>\n</html>",
-        "output": "Browser renders a blank page with 'Page Heading' as the h1. The tab shows 'Page Title | Site Name'. DevTools shows the full head metadata: charset, viewport, linked resources, and Open Graph tags in the Elements panel.",
+        "description": "This is the skeleton every HTML page starts from. Each line has one job. Read the comments — they explain exactly what each tag does and why it must be there.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <!-- 1. Character encoding — must be the very first tag -->\n  <meta charset=\"UTF-8\">\n\n  <!-- 2. Viewport — makes the page fit mobile screens -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n  <!-- 3. Title — shown in browser tab and search results -->\n  <title>Page Title | Site Name</title>\n\n  <!-- 4. Description — shown as the snippet in Google search -->\n  <meta name=\"description\" content=\"A short description of this page.\">\n</head>\n<body>\n\n  <!-- Everything the user sees goes here -->\n  <h1>Page Heading</h1>\n  <p>Page content goes here.</p>\n\n</body>\n</html>",
+        "output": "The browser tab shows 'Page Title | Site Name'. The page displays a large heading 'Page Heading' and a paragraph 'Page content goes here.' All four head tags are invisible to the user but visible in DevTools under the Elements panel.",
         "images": null,
         "video_url": null
       },
       {
         "title": "Head vs Body: What Goes Where",
-        "description": "This example shows a side-by-side comparison of what belongs in head and what belongs in body. A common beginner mistake is placing visible content in head or putting meta tags in body. Both cause silent failures with no obvious browser error.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Head vs Body Demo</title>\n\n  <!-- CORRECT items in head: all invisible to the user -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <meta name=\"description\" content=\"Demonstrates what belongs in head vs body.\">\n  <link rel=\"stylesheet\" href=\"styles.css\">\n  <link rel=\"canonical\" href=\"https://example.com/page\">\n\n  <!-- WRONG: visible content placed in head is ignored by browsers -->\n  <!-- <p>This paragraph will NOT render</p> -->\n  <!-- <h1>This heading will NOT render</h1> -->\n</head>\n<body>\n\n  <!-- CORRECT items in body: all visible content -->\n  <h1>Main Heading</h1>\n  <p>Body paragraph text that users read.</p>\n  <img src=\"/photo.jpg\" alt=\"Descriptive alt text\">\n  <a href=\"/about\">About page link</a>\n\n  <!-- WRONG: meta tags placed in body are ignored -->\n  <!-- <meta name=\"description\" content=\"This does nothing in body\"> -->\n\n  <!--\n    Script placement:\n    Option A (recommended): in head with defer attribute, non-blocking\n    Option B (traditional): at the very end of body\n    Never place scripts in the middle of body content.\n  -->\n  <script src=\"app.js\" defer></script>\n\n</body>\n</html>",
-        "output": "Page renders only the body content: h1 heading, paragraph, image, and link. All head elements are invisible to the user but visible in DevTools. The commented-out wrong examples confirm that visible content in head and meta tags in body are both silently ignored by browsers.",
+        "description": "This shows the simple rule: everything invisible goes in head, everything the user sees goes in body. Placing visible content in head or meta tags in body are both silently ignored by the browser with no error message.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Head vs Body</title>\n\n  <!-- CORRECT: invisible configuration tags belong in head -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <meta name=\"description\" content=\"Demonstrates head vs body.\">\n\n  <!-- WRONG: visible content in head is ignored by the browser -->\n  <!-- <p>This will NOT appear on the page</p> -->\n</head>\n<body>\n\n  <!-- CORRECT: all visible content belongs in body -->\n  <h1>Main Heading</h1>\n  <p>This paragraph is visible to the user.</p>\n  <a href=\"/about\">About page</a>\n\n  <!-- WRONG: meta tags in body are silently ignored -->\n  <!-- <meta name=\"description\" content=\"This does nothing here\"> -->\n\n</body>\n</html>",
+        "output": "The page renders only what is inside body: a heading 'Main Heading', a paragraph, and a link to /about. The commented-out wrong examples confirm that visible content in head and meta tags in body are both silently ignored — no browser error is shown.",
         "images": null,
         "video_url": null
       }
@@ -128,34 +76,29 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When creating any new "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " file intended to be opened in a browser"
-          }
+          { "value": "When creating any new " },
+          { "value": ".html", "bold": true, "highlight": true },
+          { "value": " file intended to be opened in a browser — this structure is required every single time, no exceptions." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When setting up the metadata foundation before adding page content"
-          }
+          { "value": "When setting up the " },
+          { "value": "metadata foundation", "bold": true },
+          { "value": " before adding page content — always get the head right before writing body content." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When targeting multiple devices and languages with one page"
-          }
+          { "value": "When targeting " },
+          { "value": "multiple devices and languages", "bold": true },
+          { "value": " with one page — the " },
+          { "value": "lang", "highlight": true },
+          { "value": " and " },
+          { "value": "viewport", "highlight": true },
+          { "value": " meta handle both." }
         ]
       }
     ],
@@ -163,67 +106,33 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid omitting charset "
-          },
-          {
-            "value": "meta",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-          },
-          {
-            "value": " on any page that contains non-ASCII text"
-          }
+          { "value": "Avoid omitting " },
+          { "value": "<meta charset>", "bold": true, "highlight": true },
+          { "value": " on any page that contains non-ASCII text — special characters like é, ü, and ₹ will render as garbled symbols." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid placing visible content elements outside the "
-          },
-          {
-            "value": "body",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body"
-          },
-          {
-            "value": " element"
-          }
+          { "value": "Avoid placing visible content elements like " },
+          { "value": "<p>", "bold": true, "highlight": true },
+          { "value": " or " },
+          { "value": "<h1>", "bold": true, "highlight": true },
+          { "value": " outside the " },
+          { "value": "<body>", "bold": true },
+          { "value": " element — they will be silently ignored by the browser." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid skipping the "
-          },
-          {
-            "value": "title",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title"
-          },
-          {
-            "value": " element as it harms both "
-          },
-          {
-            "value": "SEO",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
-          },
-          {
-            "value": " and "
-          },
-          {
-            "value": "accessibility",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility"
-          }
+          { "value": "Avoid skipping the " },
+          { "value": "<title>", "bold": true, "highlight": true },
+          { "value": " element — a missing title harms both " },
+          { "value": "SEO rankings", "bold": true },
+          { "value": " and " },
+          { "value": "screen reader accessibility", "bold": true },
+          { "value": " at the same time." }
         ]
       }
     ],
@@ -231,43 +140,27 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Without proper structure browsers enter "
-          },
-          {
-            "value": "quirks mode",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode"
-          },
-          {
-            "value": " and render the page inconsistently."
-          }
+          { "value": "Without proper structure browsers enter " },
+          { "value": "quirks mode", "bold": true, "highlight": true },
+          { "value": " and render the page inconsistently — the same CSS can look different in Chrome vs Firefox vs Safari." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Missing charset causes garbled or incorrect text for users on non-English pages."
-          }
+          { "value": "Missing " },
+          { "value": "charset", "bold": true, "highlight": true },
+          { "value": " causes garbled or incorrect text — characters like " },
+          { "value": "é, ü, ₹, or ©", "highlight": true },
+          { "value": " display as random symbols for users on non-English pages." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Missing viewport "
-          },
-          {
-            "value": "meta",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-          },
-          {
-            "value": " makes pages render as desktop-sized on mobile screens."
-          }
+          { "value": "Missing " },
+          { "value": "viewport meta", "bold": true, "highlight": true },
+          { "value": " makes pages render as a tiny zoomed-out desktop layout on mobile screens, breaking all responsive design." }
         ]
       }
     ],
@@ -275,94 +168,32 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "An "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " document is like a sealed envelope. The "
-          },
-          {
-            "value": "head",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head"
-          },
-          {
-            "value": " is the outside of the envelope containing the address, stamp, and sender info that the postal system uses to route and handle it. The "
-          },
-          {
-            "value": "body",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body"
-          },
-          {
-            "value": " is the letter inside, which is the actual message the recipient reads."
-          }
+          { "value": "An HTML document is like a " },
+          { "value": "sealed envelope", "bold": true },
+          { "value": ". The " },
+          { "value": "<head>", "bold": true },
+          { "value": " is the outside of the envelope — it contains the address, stamp, and sender info that the postal system uses to route and handle it. The " },
+          { "value": "<body>", "bold": true },
+          { "value": " is the letter inside, which is the actual message the recipient reads." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "DOCTYPE",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Doctype"
-          },
-          {
-            "value": " is a handshake between the "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " file and the browser. It says: "
-          },
-          {
-            "value": "I",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i"
-          },
-          {
-            "value": " am a modern HTML5 document, please render me using current standards. Without it the browser defaults to a compatibility mode full of old rendering quirks from the early web era."
-          }
+          { "value": "DOCTYPE", "bold": true, "highlight": true },
+          { "value": " is a handshake between the HTML file and the browser. It says: " },
+          { "value": "I am a modern HTML5 document, please render me using current standards.", "italic": true },
+          { "value": " Without it the browser defaults to a compatibility mode full of old rendering quirks from the early web era." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "The "
-          },
-          {
-            "value": "html",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " "
-          },
-          {
-            "value": "lang",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang"
-          },
-          {
-            "value": " attribute is like a language tag on a printed book. A human can guess the language by reading a few words, but a screen reader or translation engine needs the tag to know how to process the text correctly from the very first character."
-          }
+          { "value": "The " },
+          { "value": "lang", "bold": true, "highlight": true },
+          { "value": " attribute on " },
+          { "value": "<html>", "bold": true },
+          { "value": " is like a language tag on a printed book. A human can guess the language by reading a few words, but a screen reader or translation engine needs the tag to know how to process the text correctly from the very first character." }
         ]
       }
     ],
@@ -370,97 +201,39 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Omitting charset or placing it late in "
-          },
-          {
-            "value": "head",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head"
-          },
-          {
-            "value": ": The charset "
-          },
-          {
-            "value": "meta",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-          },
-          {
-            "value": " must be the very first element inside."
-          }
+          { "value": "Omitting charset or placing it " },
+          { "value": "late in head", "bold": true },
+          { "value": ": The " },
+          { "value": "<meta charset>", "bold": true, "highlight": true },
+          { "value": " must be the " },
+          { "value": "very first element", "bold": true },
+          { "value": " inside " },
+          { "value": "<head>", "highlight": true },
+          { "value": " — placing it after " },
+          { "value": "<title>", "highlight": true },
+          { "value": " can cause the title to mis-decode if it contains non-ASCII characters." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Forgetting the viewport "
-          },
-          {
-            "value": "meta",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-          },
-          {
-            "value": " tag: Without the viewport "
-          },
-          {
-            "value": "meta",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-          },
-          {
-            "value": ", mobile browsers render the page at a."
-          }
+          { "value": "Forgetting the " },
+          { "value": "viewport meta", "bold": true, "highlight": true },
+          { "value": " tag: Without it, mobile browsers render the page at a fixed width of around " },
+          { "value": "980px", "highlight": true },
+          { "value": " and scale it down, making all text too small to read without zooming in." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Missing "
-          },
-          {
-            "value": "lang",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang"
-          },
-          {
-            "value": " attribute on the "
-          },
-          {
-            "value": "html",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " element: "
-          },
-          {
-            "value": "Screen readers",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Screen_reader"
-          },
-          {
-            "value": " use "
-          },
-          {
-            "value": "lang",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang"
-          },
-          {
-            "value": " to determine pronunciation."
-          }
+          { "value": "Missing " },
+          { "value": "lang", "bold": true, "highlight": true },
+          { "value": " attribute on the " },
+          { "value": "<html>", "bold": true },
+          { "value": " element: Screen readers use " },
+          { "value": "lang", "highlight": true },
+          { "value": " to determine pronunciation rules. Without it, a reader set to English will mispronounce Hindi or Arabic content entirely." }
         ]
       }
     ],
@@ -468,53 +241,27 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Save your boilerplate as a snippet in VS "
-          },
-          {
-            "value": "Code",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code"
-          },
-          {
-            "value": " using File > Preferences > User Snippets. Type a short trigger like html5 and the full boilerplate expands instantly. This prevents forgotten "
-          },
-          {
-            "value": "meta",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-          },
-          {
-            "value": " tags and ensures every new page starts from a consistent, correct foundation."
-          }
+          { "value": "In VS Code, type " },
+          { "value": "!", "bold": true, "highlight": true },
+          { "value": " and press " },
+          { "value": "Tab", "bold": true, "highlight": true },
+          { "value": " inside any " },
+          { "value": ".html", "highlight": true },
+          { "value": " file — it auto-generates the full boilerplate instantly. You can also save your own version via " },
+          { "value": "File → Preferences → User Snippets", "bold": true },
+          { "value": " so your custom meta tags are always included." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Use the W3C Markup Validation Service at validator.w3.org to check any page for structural errors. It catches missing doctypes, unclosed tags, misplaced elements, and invalid attribute values that browsers silently ignore but that affect "
-          },
-          {
-            "value": "accessibility",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility"
-          },
-          {
-            "value": " and "
-          },
-          {
-            "value": "SEO",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
-          },
-          {
-            "value": "."
-          }
+          { "value": "Use the " },
+          { "value": "W3C Markup Validator", "bold": true, "link": "https://validator.w3.org" },
+          { "value": " to check any page for structural errors. It catches missing doctypes, unclosed tags, misplaced elements, and invalid attribute values that browsers silently ignore but that affect " },
+          { "value": "accessibility", "bold": true },
+          { "value": " and " },
+          { "value": "SEO", "bold": true },
+          { "value": "." }
         ]
       }
     ],
@@ -543,45 +290,17 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The "
-            },
-            {
-              "value": "<!DOCTYPE html>",
-              "highlight": true,
-              "bold": true
-            },
-            {
-              "value": " declaration must be the very first line of every HTML file, before the html tag. It is not an HTML element, it is an instruction to the browser. Without it, browsers switch to "
-            },
-            {
-              "value": "quirks mode",
-              "bold": true
-            },
-            {
-              "value": ", which applies legacy rendering rules from the early 2000s that break modern CSS layouts. The "
-            },
-            {
-              "value": "html",
-              "highlight": true
-            },
-            {
-              "value": " element that follows takes a "
-            },
-            {
-              "value": "lang",
-              "highlight": true
-            },
-            {
-              "value": " attribute that declares the page language for screen readers and translation tools. Full explanation at "
-            },
-            {
-              "value": "MDN: Quirks Mode",
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode"
-            },
-            {
-              "value": "."
-            }
+            { "value": "The " },
+            { "value": "<!DOCTYPE html>", "bold": true, "highlight": true },
+            { "value": " declaration must be the very first line of every HTML file, before the html tag. It is not an HTML element — it is an instruction to the browser. Without it, browsers switch to " },
+            { "value": "quirks mode", "bold": true },
+            { "value": ", which applies legacy rendering rules from the early 2000s that break modern CSS layouts. The " },
+            { "value": "<html>", "highlight": true },
+            { "value": " element that follows takes a " },
+            { "value": "lang", "highlight": true },
+            { "value": " attribute that declares the page language for screen readers and translation tools. Full explanation at " },
+            { "value": "MDN: Quirks Mode", "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode" },
+            { "value": "." }
           ]
         },
         {
@@ -593,10 +312,10 @@
       ],
       "examples": [
         {
-          "title": "DOCTYPE Placement, HTML Root, and Lang Attribute",
-          "description": "This example shows correct DOCTYPE placement, the lang attribute on the html element, and why the modern short DOCTYPE replaced the verbose HTML4 and XHTML strings. It also shows how to verify which rendering mode the browser is using.",
-          "code_snippet": "<!-- CORRECT: DOCTYPE is the absolute first line, nothing before it -->\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Standards Mode</title>\n</head>\n<body>\n  <p>This page renders in full standards mode.</p>\n</body>\n</html>\n\n\n<!--\n  lang attribute values for common Indian and global languages:\n  lang=\"en\"    English\n  lang=\"hi\"    Hindi\n  lang=\"ta\"    Tamil\n  lang=\"te\"    Telugu\n  lang=\"bn\"    Bengali\n  lang=\"fr\"    French\n  lang=\"ar\"    Arabic (also triggers RTL text direction)\n-->\n<html lang=\"hi\">\n  <!-- Screen readers will pronounce content using Hindi rules -->\n</html>\n\n\n<!--\n  OLD HTML4 DOCTYPE (verbose, no longer needed):\n  <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n    \"http://www.w3.org/TR/html4/strict.dtd\">\n\n  OLD XHTML DOCTYPE (also obsolete):\n  <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\n  MODERN HTML5 (all you ever need):\n  <!DOCTYPE html>\n-->\n\n\n<!-- Verify rendering mode in browser console:\n     document.compatMode\n     \"CSS1Compat\"  = standards mode (correct)\n     \"BackCompat\"  = quirks mode (DOCTYPE missing or malformed)\n-->",
-          "output": "The correct example renders in full standards mode. Running document.compatMode in DevTools Console returns CSS1Compat confirming standards mode. The lang attribute examples show how a single attribute change switches pronunciation rules for the entire document.",
+          "title": "DOCTYPE and the lang Attribute",
+          "description": "This shows the correct position of DOCTYPE, how the lang attribute changes which language rules the browser applies, and a quick way to verify which rendering mode is active using the browser console.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Standards Mode Check</title>\n</head>\n<body>\n  <p>This page is in standards mode.</p>\n\n  <!--\n    To verify: open DevTools Console and type:\n    document.compatMode\n\n    \"CSS1Compat\" = standards mode (correct)\n    \"BackCompat\" = quirks mode (DOCTYPE is missing)\n  -->\n</body>\n</html>\n\n\n<!--\n  lang attribute values for common languages:\n  lang=\"en\"  English\n  lang=\"hi\"  Hindi\n  lang=\"ta\"  Tamil\n  lang=\"ml\"  Malayalam\n  lang=\"ar\"  Arabic (also applies right-to-left text direction)\n  lang=\"fr\"  French\n-->\n\n\n<!--\n  Old HTML4 DOCTYPE (no longer needed, for reference only):\n  <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n    \"http://www.w3.org/TR/html4/strict.dtd\">\n\n  Modern HTML5 DOCTYPE (use this always):\n  <!DOCTYPE html>\n-->",
+          "output": "The page renders with a single paragraph 'This page is in standards mode.' Opening DevTools Console and typing document.compatMode returns 'CSS1Compat', confirming standards mode is active. Changing lang to 'hi' switches pronunciation rules for screen readers across the entire document.",
           "images": null,
           "video_url": null
         }
@@ -611,68 +330,24 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "DOCTYPE",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Glossary/Doctype"
-            },
-            {
-              "value": " is like selecting the correct operating mode before booting a device. Without it the browser picks any mode it wants, usually the oldest compatible one. "
-            },
-            {
-              "value": "<!DOCTYPE html>",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Glossary/Doctype"
-            },
-            {
-              "value": " selects the modern HTML5 mode, ensuring all "
-            },
-            {
-              "value": "CSS",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-            },
-            {
-              "value": " and layout rules behave as expected."
-            }
+            { "value": "DOCTYPE", "bold": true, "highlight": true },
+            { "value": " is like selecting the correct operating mode before booting a device. Without it the browser picks any mode it wants — usually the oldest compatible one. " },
+            { "value": "<!DOCTYPE html>", "bold": true, "highlight": true },
+            { "value": " selects the modern HTML5 mode, ensuring all CSS and layout rules behave as expected." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The "
-            },
-            {
-              "value": "lang",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang"
-            },
-            {
-              "value": " attribute on "
-            },
-            {
-              "value": "html",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " is the document-level language declaration. Every element on the page inherits this language unless overridden with its own "
-            },
-            {
-              "value": "lang",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang"
-            },
-            {
-              "value": " attribute. This inheritance makes it efficient to declare once at the root rather than on every paragraph."
-            }
+            { "value": "The " },
+            { "value": "lang", "bold": true, "highlight": true },
+            { "value": " attribute on " },
+            { "value": "<html>", "bold": true },
+            { "value": " is the document-level language declaration. Every element on the page " },
+            { "value": "inherits this language", "italic": true },
+            { "value": " unless overridden with its own " },
+            { "value": "lang", "highlight": true },
+            { "value": " attribute. This inheritance makes it efficient to declare once at the root rather than on every paragraph." }
           ]
         }
       ],
@@ -681,45 +356,15 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "To check which rendering mode your page is using, open "
-            },
-            {
-              "value": "DevTools",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools"
-            },
-            {
-              "value": ", go to the Console tab, and type document.compatMode. CSS1Compat means "
-            },
-            {
-              "value": "standards mode",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode"
-            },
-            {
-              "value": " is active. BackCompat means "
-            },
-            {
-              "value": "quirks mode",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode"
-            },
-            {
-              "value": " is active, which almost always means "
-            },
-            {
-              "value": "DOCTYPE",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Glossary/Doctype"
-            },
-            {
-              "value": " is missing or there is whitespace before it."
-            }
+            { "value": "To check which rendering mode your page is using, open DevTools, go to the " },
+            { "value": "Console tab", "bold": true, "highlight": true },
+            { "value": ", and type " },
+            { "value": "document.compatMode", "bold": true, "highlight": true },
+            { "value": ". " },
+            { "value": "CSS1Compat", "highlight": true },
+            { "value": " means standards mode is active. " },
+            { "value": "BackCompat", "highlight": true },
+            { "value": " means quirks mode is active, which almost always means DOCTYPE is missing or there is whitespace before it." }
           ]
         }
       ],
@@ -746,84 +391,39 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The "
-            },
-            {
-              "value": "title",
-              "highlight": true
-            },
-            {
-              "value": " element sets the tab label, search result headline, and bookmark name simultaneously. Meta tags control character encoding, mobile layout, SEO snippets, and social sharing previews. The "
-            },
-            {
-              "value": "Open Graph protocol",
-              "link": "https://ogp.me/"
-            },
-            {
-              "value": " defines the og: meta properties used by Facebook, LinkedIn, and WhatsApp. "
-            },
-            {
-              "value": "Twitter Cards",
-              "link": "https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards"
-            },
-            {
-              "value": " use separate twitter: properties for X (formerly Twitter) previews."
-            }
+            { "value": "The " },
+            { "value": "<title>", "highlight": true },
+            { "value": " element sets the tab label, search result headline, and bookmark name simultaneously. Meta tags control character encoding, mobile layout, SEO snippets, and social sharing previews. The " },
+            { "value": "Open Graph protocol", "link": "https://ogp.me/" },
+            { "value": " defines the " },
+            { "value": "og:", "highlight": true },
+            { "value": " meta properties used by Facebook, LinkedIn, and WhatsApp. " },
+            { "value": "Twitter Cards", "link": "https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards" },
+            { "value": " use separate " },
+            { "value": "twitter:", "highlight": true },
+            { "value": " properties for X (formerly Twitter) previews." }
           ]
         },
         {
           "type": "table",
-          "headers": [
-            "Meta Tag",
-            "Attribute",
-            "Purpose"
-          ],
+          "headers": ["Meta Tag", "Attribute", "Purpose"],
           "rows": [
-            [
-              "charset",
-              "charset=\"UTF-8\"",
-              "Sets character encoding, always first in head"
-            ],
-            [
-              "viewport",
-              "name=\"viewport\"",
-              "Controls layout on mobile screens"
-            ],
-            [
-              "description",
-              "name=\"description\"",
-              "SEO snippet shown in search results (150-160 chars)"
-            ],
-            [
-              "robots",
-              "name=\"robots\"",
-              "Tells crawlers to index or noindex the page"
-            ],
-            [
-              "og:title",
-              "property=\"og:title\"",
-              "Title shown when page is shared on social media"
-            ],
-            [
-              "og:image",
-              "property=\"og:image\"",
-              "Image shown in social media link preview (1200x630px)"
-            ],
-            [
-              "twitter:card",
-              "name=\"twitter:card\"",
-              "Sets Twitter card display type (summary_large_image)"
-            ]
+            ["charset", "charset=\"UTF-8\"", "Sets character encoding, always first in head"],
+            ["viewport", "name=\"viewport\"", "Controls layout on mobile screens"],
+            ["description", "name=\"description\"", "SEO snippet shown in search results (150-160 chars)"],
+            ["robots", "name=\"robots\"", "Tells crawlers to index or noindex the page"],
+            ["og:title", "property=\"og:title\"", "Title shown when page is shared on social media"],
+            ["og:image", "property=\"og:image\"", "Image shown in social media link preview (1200x630px)"],
+            ["twitter:card", "name=\"twitter:card\"", "Sets Twitter card display type (summary_large_image)"]
           ]
         }
       ],
       "examples": [
         {
-          "title": "Complete Meta Tags and Title Setup for SEO and Social Sharing",
-          "description": "This example shows a production-ready set of meta tags covering charset, viewport, title, SEO description, canonical URL, Open Graph, and Twitter Cards. This is the exact meta configuration used on most professional websites and content platforms.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\n  <!-- Character encoding: always the very first tag -->\n  <meta charset=\"UTF-8\">\n\n  <!-- Viewport for responsive design -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n\n  <!-- TITLE: 50-60 chars recommended.\n       Format: Page Name | Site Name\n       Unique per page, matches the h1 heading closely. -->\n  <title>How to Build a REST API in Node.js | DevDocs</title>\n\n\n  <!-- SEO META -->\n\n  <!-- Description: 150-160 chars, shown as search result snippet -->\n  <meta name=\"description\"\n        content=\"Learn how to build a production-ready REST API using Node.js and Express. Covers routing, middleware, authentication, and deployment.\">\n\n  <!-- Robots: allow indexing and follow links (default behaviour) -->\n  <meta name=\"robots\" content=\"index, follow\">\n\n  <!-- Canonical URL: prevents duplicate content penalty -->\n  <link rel=\"canonical\" href=\"https://devdocs.in/nodejs/rest-api\">\n\n\n  <!-- OPEN GRAPH (Facebook, LinkedIn, WhatsApp previews) -->\n  <meta property=\"og:type\"        content=\"article\">\n  <meta property=\"og:title\"       content=\"How to Build a REST API in Node.js\">\n  <meta property=\"og:description\" content=\"Step-by-step guide to a production-ready REST API with Node.js and Express.\">\n  <meta property=\"og:url\"         content=\"https://devdocs.in/nodejs/rest-api\">\n  <meta property=\"og:image\"       content=\"https://devdocs.in/images/rest-api-og.jpg\">\n  <meta property=\"og:image:width\"  content=\"1200\">\n  <meta property=\"og:image:height\" content=\"630\">\n  <meta property=\"og:site_name\"   content=\"DevDocs India\">\n  <meta property=\"og:locale\"      content=\"en_IN\">\n\n\n  <!-- TWITTER CARDS -->\n  <meta name=\"twitter:card\"        content=\"summary_large_image\">\n  <meta name=\"twitter:title\"       content=\"How to Build a REST API in Node.js\">\n  <meta name=\"twitter:description\" content=\"Step-by-step guide to a production-ready REST API with Node.js and Express.\">\n  <meta name=\"twitter:image\"       content=\"https://devdocs.in/images/rest-api-twitter.jpg\">\n  <meta name=\"twitter:site\"        content=\"@devdocsin\">\n\n</head>\n<body>\n  <h1>How to Build a REST API in Node.js</h1>\n</body>\n</html>",
-          "output": "Page renders only the h1 visually. Browser tab shows 'How to Build a REST API in Node.js | DevDocs'. In Google search results the title and description meta appear as the clickable headline and grey snippet text. When the URL is pasted into WhatsApp or LinkedIn, the og:image appears as a large card preview with the og:title and og:description as caption.",
+          "title": "Meta Tags Setup for SEO and Social Sharing",
+          "description": "This shows the meta tags that control how your page appears in Google search results and social media previews. All of these go inside head and are completely invisible on the page itself.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\n  <!-- Always first -->\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n  <!-- Tab title and search result headline (50-60 chars) -->\n  <title>How to Build a REST API | DevDocs</title>\n\n  <!-- Google search snippet (150-160 chars) -->\n  <meta name=\"description\" content=\"Learn to build a REST API with Node.js and Express.\">\n\n  <!-- Prevents duplicate content in search engines -->\n  <link rel=\"canonical\" href=\"https://devdocs.in/nodejs/rest-api\">\n\n  <!-- Social sharing preview (Facebook, LinkedIn, WhatsApp) -->\n  <meta property=\"og:title\" content=\"How to Build a REST API\">\n  <meta property=\"og:description\" content=\"Step-by-step REST API guide with Node.js.\">\n  <meta property=\"og:image\" content=\"https://devdocs.in/images/rest-api-og.jpg\">\n  <meta property=\"og:type\" content=\"article\">\n\n  <!-- Twitter/X preview card -->\n  <meta name=\"twitter:card\" content=\"summary_large_image\">\n  <meta name=\"twitter:title\" content=\"How to Build a REST API\">\n  <meta name=\"twitter:image\" content=\"https://devdocs.in/images/rest-api-og.jpg\">\n\n</head>\n<body>\n  <h1>How to Build a REST API</h1>\n</body>\n</html>",
+          "output": "The page renders only the h1 heading visually. The browser tab shows 'How to Build a REST API | DevDocs'. In Google search results the title and description appear as the clickable headline and grey snippet. When the URL is pasted into WhatsApp or LinkedIn, the og:image appears as a large card preview with the og:title as caption.",
           "images": null,
           "video_url": null
         }
@@ -838,68 +438,23 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Meta",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-            },
-            {
-              "value": " tags are like the cover and spine of a book. Readers experience the content inside. But librarians, search engines, and social platforms categorize and display the book using the cover "
-            },
-            {
-              "value": "title",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title"
-            },
-            {
-              "value": ", spine description, and barcode without reading every page. "
-            },
-            {
-              "value": "Meta",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-            },
-            {
-              "value": " tags are those external identifiers."
-            }
+            { "value": "Meta tags are like the " },
+            { "value": "cover and spine of a book", "bold": true },
+            { "value": ". Readers experience the content inside. But librarians, search engines, and social platforms categorize and display the book using the cover " },
+            { "value": "title", "bold": true },
+            { "value": ", spine description, and barcode — without reading every page. Meta tags are those external identifiers." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The "
-            },
-            {
-              "value": "title",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title"
-            },
-            {
-              "value": " element is the only "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " content that lives in three places at once: the browser tab, the search result headline, and the bookmark label. This triple purpose makes it the most "
-            },
-            {
-              "value": "SEO",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
-            },
-            {
-              "value": "-critical single element on any page, and also the one most worth keeping concise and descriptive."
-            }
+            { "value": "The " },
+            { "value": "<title>", "bold": true, "highlight": true },
+            { "value": " element lives in " },
+            { "value": "three places at once", "bold": true },
+            { "value": ": the browser tab, the search result headline, and the bookmark label. This triple purpose makes it the most " },
+            { "value": "SEO-critical", "bold": true },
+            { "value": " single element on any page — worth keeping concise and descriptive." }
           ]
         }
       ],
@@ -908,36 +463,9 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Use the "
-            },
-            {
-              "value": "Meta",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-            },
-            {
-              "value": " Tags checker at metatags.io to preview exactly how your page will appear in Google search results, Twitter, Facebook, LinkedIn, and Slack before publishing. Paste any live URL or raw "
-            },
-            {
-              "value": "meta",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-            },
-            {
-              "value": " tag "
-            },
-            {
-              "value": "code",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code"
-            },
-            {
-              "value": " and see the rendered previews of all platforms instantly."
-            }
+            { "value": "Use " },
+            { "value": "metatags.io", "bold": true, "link": "https://metatags.io" },
+            { "value": " to preview exactly how your page will appear in Google, Twitter, Facebook, and LinkedIn before publishing. Paste your URL and it shows all previews instantly — far faster than testing by actually sharing the link." }
           ]
         }
       ],
@@ -964,83 +492,36 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Without the viewport meta tag, mobile browsers render pages at a default width of around "
-            },
-            {
-              "value": "980px",
-              "bold": true
-            },
-            {
-              "value": " and scale the entire page down, making text tiny and unreadable. Setting "
-            },
-            {
-              "value": "width=device-width",
-              "highlight": true
-            },
-            {
-              "value": " tells the browser to match the actual screen width, which is the fundamental requirement for "
-            },
-            {
-              "value": "CSS media queries",
-              "bold": true
-            },
-            {
-              "value": " to work correctly. A boilerplate bundles all required and recommended head elements into one reusable starting template. Reference: "
-            },
-            {
-              "value": "MDN Viewport Meta Tag",
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag"
-            },
-            {
-              "value": " and "
-            },
-            {
-              "value": "HTML5 Boilerplate",
-              "link": "https://html5boilerplate.com/"
-            },
-            {
-              "value": "."
-            }
+            { "value": "Without the viewport meta tag, mobile browsers render pages at a default width of around " },
+            { "value": "980px", "bold": true, "highlight": true },
+            { "value": " and scale the entire page down, making text tiny and unreadable. Setting " },
+            { "value": "width=device-width", "highlight": true },
+            { "value": " tells the browser to match the actual screen width, which is the fundamental requirement for " },
+            { "value": "CSS media queries", "bold": true },
+            { "value": " to work correctly. A boilerplate bundles all required and recommended head elements into one reusable starting template. Reference: " },
+            { "value": "MDN Viewport Meta Tag", "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag" },
+            { "value": " and " },
+            { "value": "HTML5 Boilerplate", "link": "https://html5boilerplate.com/" },
+            { "value": "." }
           ]
         },
         {
           "type": "table",
-          "headers": [
-            "Viewport Property",
-            "Recommended Value",
-            "Effect"
-          ],
+          "headers": ["Viewport Property", "Recommended Value", "Effect"],
           "rows": [
-            [
-              "width",
-              "device-width",
-              "Sets viewport width to actual device screen width"
-            ],
-            [
-              "initial-scale",
-              "1.0",
-              "Sets starting zoom level to 100%"
-            ],
-            [
-              "maximum-scale",
-              "5.0",
-              "Allows user to zoom up to 5x (accessibility safe)"
-            ],
-            [
-              "user-scalable",
-              "yes (default)",
-              "Allows pinch-to-zoom, never set to no"
-            ]
+            ["width", "device-width", "Sets viewport width to actual device screen width"],
+            ["initial-scale", "1.0", "Sets starting zoom level to 100%"],
+            ["maximum-scale", "5.0", "Allows user to zoom up to 5x (accessibility safe)"],
+            ["user-scalable", "yes (default)", "Allows pinch-to-zoom, never set to no"]
           ]
         }
       ],
       "examples": [
         {
-          "title": "Viewport Configuration and Full Annotated Boilerplate",
-          "description": "This example first demonstrates viewport behavior differences on mobile screens, then shows a fully annotated production boilerplate with every element labeled as required or recommended. This is the copy-paste starting point for any new HTML page.",
-          "code_snippet": "<!-- VIEWPORT DEMO -->\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n\n  <!-- STANDARD: use this on every single page -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n  <!--\n    WRONG: disabling user zoom is an accessibility violation.\n    Low-vision users rely on pinch-to-zoom to read content.\n    Most modern browsers ignore user-scalable=no by design.\n  -->\n  <!-- <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> -->\n\n  <title>Viewport Demo</title>\n  <style>\n    /* Media queries only work correctly AFTER viewport meta is set */\n    .card { background:#f1f5f9; padding:1rem; border-radius:8px; margin-bottom:1rem; }\n\n    /* Mobile-first base: single column */\n    .grid { display: grid; gap: 1rem; }\n\n    /* Tablet: 2 columns at 640px and above */\n    @media (min-width: 640px) {\n      .grid { grid-template-columns: 1fr 1fr; }\n    }\n\n    /* Desktop: 3 columns at 1024px and above */\n    @media (min-width: 1024px) {\n      .grid { grid-template-columns: 1fr 1fr 1fr; }\n    }\n  </style>\n</head>\n<body>\n  <div class=\"grid\">\n    <div class=\"card\">Card One</div>\n    <div class=\"card\">Card Two</div>\n    <div class=\"card\">Card Three</div>\n  </div>\n</body>\n</html>\n\n\n<!-- FULL PRODUCTION BOILERPLATE -->\n<!DOCTYPE html>                                      <!-- REQUIRED -->\n<html lang=\"en\">                                     <!-- REQUIRED -->\n<head>\n  <meta charset=\"UTF-8\">                             <!-- REQUIRED: first -->\n  <meta name=\"viewport\"\n        content=\"width=device-width, initial-scale=1.0\"> <!-- REQUIRED -->\n\n  <title>Page Title | Site Name</title>              <!-- REQUIRED -->\n  <meta name=\"description\" content=\"150-160 char description.\"> <!-- RECOMMENDED -->\n\n  <link rel=\"canonical\" href=\"https://example.com/page\">  <!-- RECOMMENDED -->\n\n  <meta property=\"og:title\" content=\"Page Title\">    <!-- RECOMMENDED -->\n  <meta property=\"og:image\" content=\"https://example.com/og.jpg\"> <!-- RECOMMENDED -->\n  <meta property=\"og:type\"  content=\"website\">        <!-- RECOMMENDED -->\n\n  <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\"> <!-- RECOMMENDED -->\n  <link rel=\"stylesheet\" href=\"/styles.css\">         <!-- YOUR STYLESHEET -->\n</head>\n<body>\n\n  <a href=\"#main\" style=\"position:absolute;top:-100%;\">  <!-- a11y skip link -->\n    Skip to main content\n  </a>\n\n  <header>\n    <nav aria-label=\"Main navigation\"></nav>\n  </header>\n\n  <main id=\"main\">\n    <h1>Page Heading</h1>\n  </main>\n\n  <footer></footer>\n\n  <script src=\"/app.js\" defer></script>             <!-- YOUR SCRIPT -->\n</body>\n</html>",
-          "output": "Viewport demo: on mobile the three cards stack in a single column at full readable width. At 640px they switch to 2 columns. At 1024px they display in 3 columns. Without the viewport meta all three breakpoints fail on mobile and render as a zoomed-out desktop view. The boilerplate renders a skip link (invisible until Tab is pressed), a header, an h1, and a footer.",
+          "title": "Viewport Meta and Full Boilerplate",
+          "description": "The first part shows the correct viewport tag and the one setting you should never use. The second part is the full annotated boilerplate — every line is labelled as required or recommended so you know what to keep and what is optional.",
+          "code_snippet": "<!-- VIEWPORT: correct usage -->\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n\n  <!-- CORRECT: use this on every page -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n  <!--\n    WRONG: user-scalable=no blocks pinch-to-zoom.\n    Low-vision users cannot enlarge text.\n    Most modern browsers ignore this setting intentionally.\n  -->\n  <!-- <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> -->\n\n  <title>Viewport Demo</title>\n</head>\n<body>\n  <h1>This page scales correctly on mobile.</h1>\n  <p>Resize the browser window to see the layout adapt.</p>\n</body>\n</html>\n\n\n<!-- FULL BOILERPLATE (annotated) -->\n<!DOCTYPE html>                                        <!-- REQUIRED -->\n<html lang=\"en\">                                       <!-- REQUIRED -->\n<head>\n  <meta charset=\"UTF-8\">                               <!-- REQUIRED: first -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> <!-- REQUIRED -->\n  <title>Page Title | Site Name</title>                <!-- REQUIRED -->\n  <meta name=\"description\" content=\"150-160 char page description.\"> <!-- RECOMMENDED -->\n  <link rel=\"canonical\" href=\"https://example.com/page\">  <!-- RECOMMENDED -->\n  <meta property=\"og:title\" content=\"Page Title\">      <!-- RECOMMENDED -->\n  <meta property=\"og:image\" content=\"https://example.com/og.jpg\"> <!-- RECOMMENDED -->\n  <link rel=\"icon\" href=\"/favicon.svg\">                <!-- RECOMMENDED -->\n  <link rel=\"stylesheet\" href=\"/styles.css\">           <!-- YOUR CSS -->\n</head>\n<body>\n\n  <header></header>\n\n  <main id=\"main\">\n    <h1>Page Heading</h1>\n  </main>\n\n  <footer></footer>\n\n  <script src=\"/app.js\" defer></script>               <!-- YOUR JS -->\n</body>\n</html>",
+          "output": "The viewport demo renders a heading and paragraph that scale correctly on any screen size. On mobile the text is full-size and readable. The boilerplate renders a blank page with only the h1 visible — all head tags are invisible but present in the DevTools Elements panel.",
           "images": null,
           "video_url": null
         }
@@ -1055,44 +536,19 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The viewport "
-            },
-            {
-              "value": "meta",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
-            },
-            {
-              "value": " tag is like telling a printing press the paper size before it prints. Without it the press assumes a standard large sheet and scales your design down to fit a phone-sized piece, making everything illegible. With it the press knows the exact paper size and prints at the correct scale."
-            }
+            { "value": "The viewport meta tag is like telling a printing press the " },
+            { "value": "paper size before it prints", "bold": true },
+            { "value": ". Without it the press assumes a standard large sheet and scales your design down to fit a phone-sized piece, making everything illegible. With it the press knows the exact paper size and prints at the correct scale." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "A boilerplate is like a legal contract template. A lawyer does not write a rental agreement from scratch every "
-            },
-            {
-              "value": "time",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time"
-            },
-            {
-              "value": ". They start from a proven template with all required clauses already included, then fill in the specific details. The "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " boilerplate gives developers the same foundation so no critical element is ever forgotten."
-            }
+            { "value": "A boilerplate is like a " },
+            { "value": "legal contract template", "bold": true },
+            { "value": ". A lawyer does not write a rental agreement from scratch every time. They start from a proven template with all required clauses already included, then fill in the specific details. The HTML boilerplate gives developers the same foundation so " },
+            { "value": "no critical element is ever forgotten", "italic": true },
+            { "value": "." }
           ]
         }
       ],
@@ -1101,18 +557,15 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Test viewport behavior by opening Chrome "
-            },
-            {
-              "value": "DevTools",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools"
-            },
-            {
-              "value": " and pressing Ctrl+Shift+M to toggle device simulation. Switch between device presets and confirm that text is readable and touch targets are at least 44x44px. This catches viewport issues without needing a physical device for every test."
-            }
+            { "value": "Test viewport behavior by opening Chrome DevTools and pressing " },
+            { "value": "Ctrl+Shift+M", "bold": true, "highlight": true },
+            { "value": " (or " },
+            { "value": "Cmd+Shift+M", "bold": true, "highlight": true },
+            { "value": " on Mac) to toggle device simulation. Switch between device presets like " },
+            { "value": "iPhone 14", "highlight": true },
+            { "value": " or " },
+            { "value": "Pixel 7", "highlight": true },
+            { "value": " and confirm that text is readable and nothing is zoomed out. This catches viewport issues without needing a physical device." }
           ]
         }
       ],

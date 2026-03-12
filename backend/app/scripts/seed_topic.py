@@ -28,7 +28,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     sys.exit("❌ DATABASE_URL not set.")
 
-DEFAULT_JSON = Path(__file__).parent.parent / "json" / "frontend" / "html" / "topics_29.json"
+DEFAULT_JSON = Path(__file__).parent.parent / "json" / "frontend" / "html" / "topics_4.json"
 
 
 # ── DB JSON COLUMNS ─────────────────────────────────────────

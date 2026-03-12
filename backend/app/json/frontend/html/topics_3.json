@@ -16,91 +16,31 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "An "
-          },
-          {
-            "value": "element",
-            "bold": true
-          },
-          {
-            "value": " is the complete unit: opening tag, content, and closing tag. A "
-          },
-          {
-            "value": "tag",
-            "bold": true
-          },
-          {
-            "value": " is just the angle-bracket notation like "
-          },
-          {
-            "value": "<p>",
-            "highlight": true
-          },
-          {
-            "value": " or "
-          },
-          {
-            "value": "</p>",
-            "highlight": true
-          },
-          {
-            "value": ". An "
-          },
-          {
-            "value": "attribute",
-            "bold": true
-          },
-          {
-            "value": " lives inside the opening tag and provides extra information about the element. The complete reference for all HTML elements is maintained at "
-          },
-          {
-            "value": "MDN HTML Element Reference",
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element"
-          },
-          {
-            "value": "."
-          }
+          { "value": "An " },
+          { "value": "element", "bold": true },
+          { "value": " is the complete unit: opening tag, content, and closing tag. A " },
+          { "value": "tag", "bold": true },
+          { "value": " is just the angle-bracket notation like " },
+          { "value": "<p>", "highlight": true },
+          { "value": " or " },
+          { "value": "</p>", "highlight": true },
+          { "value": ". An " },
+          { "value": "attribute", "bold": true },
+          { "value": " lives inside the opening tag and provides extra information about the element. The complete reference for all HTML elements is maintained at " },
+          { "value": "MDN HTML Element Reference", "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element" },
+          { "value": "." }
         ]
       },
       {
         "type": "table",
-        "headers": [
-          "Concept",
-          "What It Is",
-          "Example"
-        ],
+        "headers": ["Concept", "What It Is", "Example"],
         "rows": [
-          [
-            "Tag",
-            "The angle-bracket label",
-            "<h1> or </h1>"
-          ],
-          [
-            "Element",
-            "Opening tag + content + closing tag",
-            "<h1>Hello</h1>"
-          ],
-          [
-            "Void element",
-            "Self-closing, no content or closing tag",
-            "<img src='logo.png' alt='Logo'>"
-          ],
-          [
-            "Attribute",
-            "Name-value pair inside the opening tag",
-            "class=\"card\" or id=\"hero\""
-          ],
-          [
-            "Boolean attribute",
-            "Presence alone means true, no value needed",
-            "checked, disabled, required"
-          ],
-          [
-            "Data attribute",
-            "Custom attribute prefixed with data-",
-            "data-user-id=\"42\""
-          ]
+          ["Tag", "The angle-bracket label", "<h1> or </h1>"],
+          ["Element", "Opening tag + content + closing tag", "<h1>Hello</h1>"],
+          ["Void element", "Self-closing, no content or closing tag", "<img src='logo.png' alt='Logo'>"],
+          ["Attribute", "Name-value pair inside the opening tag", "class=\"card\" or id=\"hero\""],
+          ["Boolean attribute", "Presence alone means true, no value needed", "checked, disabled, required"],
+          ["Data attribute", "Custom attribute prefixed with data-", "data-user-id=\"42\""]
         ]
       },
       {
@@ -112,18 +52,18 @@
     ],
     "examples": [
       {
-        "title": "Anatomy of an HTML Element: Tags, Attributes, and Void Elements",
-        "description": "This example breaks down the full anatomy of HTML elements in a realistic page context. It covers container elements, void elements, multiple attributes, and the distinction between required and optional attributes, all with annotated comments for each part.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Element Anatomy</title>\n</head>\n<body>\n\n  <!--\n    ELEMENT ANATOMY:\n    <tagname attribute=\"value\">content</tagname>\n    |______| |_______________|  |_____| |_______|\n    opening  attribute            inner  closing\n    tag                           text   tag\n  -->\n\n  <!-- Container element: has opening tag, content, and closing tag -->\n  <p class=\"intro\" id=\"first-para\">This is a paragraph element.</p>\n\n  <!-- Nested elements: elements can contain other elements -->\n  <p>This paragraph contains <strong>bold text</strong> and\n  <em>italic text</em> inside it.</p>\n\n  <!--\n    Void elements: no closing tag, no content between tags.\n    These are all the void elements in HTML5:\n    <area> <base> <br> <col> <embed> <hr> <img>\n    <input> <link> <meta> <param> <source> <track> <wbr>\n  -->\n  <img src=\"/photo.jpg\" alt=\"Team photo\" width=\"400\" height=\"300\">\n  <input type=\"text\" name=\"username\" placeholder=\"Enter username\">\n  <hr>\n  <br>\n\n  <!-- Multiple attributes: order does not matter -->\n  <button\n    type=\"button\"\n    id=\"submitBtn\"\n    class=\"btn btn-primary\"\n    disabled\n    aria-label=\"Submit form\">\n    Submit\n  </button>\n\n  <!--\n    Attribute value quoting rules:\n    - Double quotes: most common and recommended\n    - Single quotes: valid alternative\n    - No quotes: technically valid for simple values, avoid in practice\n\n    RECOMMENDED:  class=\"card\"\n    VALID:        class='card'\n    AVOID:        class=card\n  -->\n  <div class=\"card\" data-id=\"101\">Card content</div>\n\n  <!--\n    Case sensitivity:\n    HTML tag names and attribute names are case-insensitive.\n    By convention always write them in lowercase.\n    WRONG (but works): <DIV CLASS=\"card\">\n    RIGHT:             <div class=\"card\">\n  -->\n\n</body>\n</html>",
-        "output": "Page renders: a paragraph with class and id, a paragraph with bold and italic text, an image, a text input, a horizontal rule, a line break, a disabled Submit button, and a card div. The button appears greyed out because of the disabled attribute. All comments are invisible to the user.",
+        "title": "Anatomy of an HTML Element",
+        "description": "This shows the four parts of every HTML element: opening tag, attributes, content, and closing tag. It also covers void elements that have no closing tag, and boolean attributes that are toggled by presence alone.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Element Anatomy</title>\n</head>\n<body>\n\n  <!--\n    ELEMENT ANATOMY:\n    <tagname attribute=\"value\">content</tagname>\n    opening tag  |  attribute  |  content  |  closing tag\n  -->\n\n  <!-- Container element: opening tag + content + closing tag -->\n  <p class=\"intro\" id=\"first-para\">This is a paragraph element.</p>\n\n  <!-- Nested elements: elements can contain other elements -->\n  <p>This paragraph has <strong>bold text</strong> and <em>italic text</em> inside it.</p>\n\n  <!--\n    Void elements: no closing tag, no content.\n    Common void elements: <br> <hr> <img> <input> <meta> <link>\n  -->\n  <img src=\"photo.jpg\" alt=\"Team photo\">\n  <input type=\"text\" placeholder=\"Enter your name\">\n  <hr>\n\n  <!-- Multiple attributes: order does not matter -->\n  <button type=\"button\" id=\"submitBtn\" disabled>\n    Submit\n  </button>\n\n  <!-- data attribute: custom metadata for JavaScript to read -->\n  <div class=\"card\" data-id=\"101\">Card content</div>\n\n</body>\n</html>",
+        "output": "The page renders: a paragraph with class and id, a paragraph containing bold and italic text, a broken image placeholder (photo.jpg does not exist locally), a text input, a horizontal rule, a greyed-out disabled Submit button, and a div with text 'Card content'. The disabled button appears greyed out because of the disabled attribute.",
         "images": null,
         "video_url": null
       },
       {
-        "title": "Global Attributes, Boolean Attributes, and Data Attributes in Action",
-        "description": "This example shows all three attribute categories used together in a realistic component. Global attributes apply to every element. Boolean attributes toggle behaviour by their presence. Custom data attributes pass structured data from HTML to JavaScript without using hidden inputs or global variables.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Attribute Types Demo</title>\n  <style>\n    [data-theme=\"dark\"] { background:#0f172a; color:white; padding:1rem; border-radius:8px; }\n    [data-theme=\"light\"] { background:#f8fafc; color:#0f172a; padding:1rem; border-radius:8px; }\n    .hidden { display: none; }\n    .tooltip { position:relative; display:inline-block; }\n    .tooltip:hover::after {\n      content: attr(data-tooltip);\n      position: absolute;\n      bottom: 125%;\n      left: 50%;\n      transform: translateX(-50%);\n      background: #1e293b;\n      color: white;\n      padding: 0.3rem 0.6rem;\n      border-radius: 4px;\n      font-size: 0.8rem;\n      white-space: nowrap;\n    }\n    form { display:flex; flex-direction:column; gap:0.75rem; max-width:320px; margin-top:1rem; }\n    input, select { padding:0.5rem; border:1px solid #d1d5db; border-radius:6px; }\n  </style>\n</head>\n<body>\n\n  <!-- ===== GLOBAL ATTRIBUTES =====\n    id, class, lang, title, hidden, tabindex, contenteditable,\n    draggable, spellcheck are available on EVERY HTML element. -->\n\n  <!-- id: unique identifier, used for JS selection and fragment links -->\n  <!-- class: one or more space-separated class names for CSS and JS -->\n  <!-- lang: overrides document language for this element and its children -->\n  <p id=\"intro\" class=\"lead-text\" lang=\"en\">\n    Every HTML element accepts global attributes.\n  </p>\n\n  <!-- title: tooltip text shown on hover by the browser -->\n  <abbr title=\"HyperText Markup Language\">HTML</abbr>\n\n  <!-- hidden: removes element from layout and accessibility tree -->\n  <p hidden>This paragraph is not rendered or announced.</p>\n\n  <!-- tabindex: controls keyboard tab order.\n       tabindex=\"0\"  = included in natural tab order\n       tabindex=\"-1\" = focusable via JS only, excluded from tab order\n       tabindex=\"1+\" = avoid, breaks natural reading order -->\n  <div tabindex=\"0\"\n       role=\"button\"\n       aria-label=\"Custom focusable region\">\n    Focusable via keyboard Tab key\n  </div>\n\n  <!-- contenteditable: makes any element editable in the browser -->\n  <div contenteditable=\"true\"\n       style=\"border:1px solid #d1d5db;padding:0.5rem;border-radius:6px;\">\n    Click here to edit this text directly in the browser.\n  </div>\n\n\n  <!-- ===== BOOLEAN ATTRIBUTES =====\n    Presence = true. Absence = false.\n    The value does not matter; only the presence of the attribute matters. -->\n\n  <form>\n    <!-- required: form will not submit if this field is empty -->\n    <input type=\"email\" name=\"email\" placeholder=\"Email\" required>\n\n    <!-- disabled: input is visible but cannot be interacted with -->\n    <input type=\"text\" name=\"username\" value=\"johndoe\" disabled>\n\n    <!-- readonly: user can read but not change the value -->\n    <input type=\"text\" name=\"role\" value=\"Administrator\" readonly>\n\n    <!-- checked: checkbox or radio is pre-selected -->\n    <label>\n      <input type=\"checkbox\" name=\"terms\" checked>\n      I accept the terms\n    </label>\n\n    <!-- multiple: allows selecting multiple options -->\n    <select name=\"skills\" multiple>\n      <option>HTML</option>\n      <option selected>CSS</option>\n      <option selected>JavaScript</option>\n    </select>\n\n    <!-- WRONG: trying to set boolean to false by value does not work -->\n    <!-- <input type=\"text\" disabled=\"false\">  still disabled! -->\n    <!-- RIGHT: remove the attribute entirely to set it to false -->\n    <input type=\"text\" name=\"active\" placeholder=\"This field is enabled\">\n\n    <button type=\"submit\">Submit</button>\n  </form>\n\n\n  <!-- ===== CUSTOM DATA ATTRIBUTES =====\n    Syntax: data-* where * is any lowercase name you choose.\n    Used to embed custom data in HTML that JavaScript can read.\n    Does not affect rendering. Not visible to users. -->\n\n  <!-- Card with embedded data for JS to use without extra API calls -->\n  <div\n    id=\"product-card\"\n    class=\"card\"\n    data-product-id=\"SKU-4821\"\n    data-price=\"1499\"\n    data-category=\"electronics\"\n    data-in-stock=\"true\"\n    data-theme=\"light\"\n    style=\"margin-top:1rem;\">\n    <h3>Wireless Earbuds Pro</h3>\n    <p>Price: Rs 1,499</p>\n    <button type=\"button\" id=\"addToCart\">Add to Cart</button>\n  </div>\n\n  <!-- Tooltip using data attribute (pure CSS, no JS) -->\n  <span\n    class=\"tooltip\"\n    data-tooltip=\"Opens in a new browser tab\"\n    style=\"margin-top:1rem;display:inline-block;\">\n    External Link Info\n  </span>\n\n  <script>\n    // Reading data attributes with dataset API\n    const card = document.getElementById('product-card');\n\n    // dataset automatically converts kebab-case to camelCase:\n    // data-product-id  =>  dataset.productId\n    // data-in-stock    =>  dataset.inStock\n    console.log(card.dataset.productId);  // \"SKU-4821\"\n    console.log(card.dataset.price);      // \"1499\"\n    console.log(card.dataset.category);   // \"electronics\"\n    console.log(card.dataset.inStock);    // \"true\"\n\n    // Writing data attributes via JS\n    const addBtn = document.getElementById('addToCart');\n    addBtn.addEventListener('click', () => {\n      card.dataset.inStock = 'false';\n      card.dataset.theme = 'dark';\n      addBtn.textContent = 'Added!';\n      addBtn.disabled = true;\n    });\n  </script>\n\n</body>\n</html>",
-        "output": "Page renders: a lead paragraph, an HTML abbreviation with tooltip on hover, a hidden paragraph (not visible), a keyboard-focusable div, an editable div, a form with email, disabled username, readonly role, pre-checked checkbox, multi-select with two pre-selected options, and a submit button. Below the form, a light-themed product card with Add to Cart button. Clicking Add to Cart darkens the card background, disables the button, and changes its text to Added. The tooltip on the span appears on hover.",
+        "title": "Boolean Attributes and Data Attributes",
+        "description": "Boolean attributes are turned on by their presence and turned off by removing them entirely. Data attributes store custom information on elements that JavaScript can read. Both patterns are shown here in the simplest possible form.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Boolean and Data Attributes</title>\n</head>\n<body>\n\n  <!-- Boolean attributes: presence = true, absence = false -->\n  <input type=\"email\" placeholder=\"Email address\" required>\n  <input type=\"text\" value=\"johndoe\" disabled>\n  <input type=\"checkbox\" checked> Remember me\n\n  <hr>\n\n  <!--\n    Data attributes: store custom data on any element.\n    Naming rule: data- followed by any lowercase name.\n    JavaScript reads them via the dataset API.\n  -->\n  <div\n    id=\"product\"\n    data-product-id=\"SKU-4821\"\n    data-price=\"1499\"\n    data-in-stock=\"true\">\n    Wireless Earbuds — Rs 1,499\n  </div>\n\n  <button id=\"btn\" type=\"button\">Show Product Info</button>\n  <p id=\"output\"></p>\n\n  <script>\n    document.getElementById('btn').addEventListener('click', function () {\n      const product = document.getElementById('product');\n\n      // dataset converts kebab-case to camelCase automatically:\n      // data-product-id  →  dataset.productId\n      // data-in-stock    →  dataset.inStock\n      const id    = product.dataset.productId;\n      const price = product.dataset.price;\n      const stock = product.dataset.inStock;\n\n      document.getElementById('output').textContent =\n        'ID: ' + id + ' | Price: Rs ' + price + ' | In Stock: ' + stock;\n    });\n  </script>\n\n</body>\n</html>",
+        "output": "The page shows a required email input, a disabled text input pre-filled with 'johndoe', a pre-checked checkbox labelled 'Remember me', a horizontal rule, a div with text 'Wireless Earbuds — Rs 1,499', and a button 'Show Product Info'. Clicking the button fills the paragraph below it with: 'ID: SKU-4821 | Price: Rs 1499 | In Stock: true'.",
         "images": null,
         "video_url": null
       }
@@ -135,61 +75,33 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When structuring any content with the appropriate "
-          },
-          {
-            "value": "semantic",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Semantics"
-          },
-          {
-            "value": " or generic element"
-          }
+          { "value": "When structuring any content with the appropriate " },
+          { "value": "semantic", "bold": true },
+          { "value": " or generic element — every piece of visible content on a page belongs inside a properly chosen element." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When passing data from "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " to "
-          },
-          {
-            "value": "JavaScript",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          },
-          {
-            "value": " without extra network calls"
-          }
+          { "value": "When passing data from HTML to " },
+          { "value": "JavaScript", "bold": true },
+          { "value": " without extra network calls — use " },
+          { "value": "data-*", "highlight": true },
+          { "value": " attributes to embed the data directly on the element." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When controlling form behaviour with "
-          },
-          {
-            "value": "boolean attributes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML"
-          },
-          {
-            "value": " like required and disabled"
-          }
+          { "value": "When controlling form behaviour with " },
+          { "value": "boolean attributes", "bold": true },
+          { "value": " — use " },
+          { "value": "required", "highlight": true },
+          { "value": ", " },
+          { "value": "disabled", "highlight": true },
+          { "value": ", and " },
+          { "value": "checked", "highlight": true },
+          { "value": " to set initial field state without any JavaScript." }
         ]
       }
     ],
@@ -197,40 +109,35 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid data attributes for sensitive data since they are visible in the "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          }
+          { "value": "Avoid " },
+          { "value": "data-*", "bold": true, "highlight": true },
+          { "value": " attributes for sensitive data — they are fully visible in the browser's DevTools to any user who inspects the page." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid div and span when a "
-          },
-          {
-            "value": "semantic",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Semantics"
-          },
-          {
-            "value": " element like article or nav fits better"
-          }
+          { "value": "Avoid " },
+          { "value": "<div>", "bold": true, "highlight": true },
+          { "value": " and " },
+          { "value": "<span>", "bold": true, "highlight": true },
+          { "value": " when a semantic element like " },
+          { "value": "<article>", "highlight": true },
+          { "value": ", " },
+          { "value": "<nav>", "highlight": true },
+          { "value": ", or " },
+          { "value": "<strong>", "highlight": true },
+          { "value": " fits better — generic containers carry no meaning for screen readers or search engines." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid tabindex values greater than 0 as they break natural keyboard navigation"
-          }
+          { "value": "Avoid " },
+          { "value": "tabindex", "bold": true, "highlight": true },
+          { "value": " values greater than " },
+          { "value": "0", "highlight": true },
+          { "value": " — they override the natural tab order and confuse keyboard users navigating through the page." }
         ]
       }
     ],
@@ -238,51 +145,31 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Without attributes, elements have no way to carry identity, state, or configuration data."
-          }
+          { "value": "Without attributes, elements have " },
+          { "value": "no way to carry identity, state, or configuration data", "bold": true },
+          { "value": " — every " },
+          { "value": "<input>", "highlight": true },
+          { "value": " would behave identically with no way to distinguish text from email or required from optional." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Without data attributes, developers resort to hidden inputs or global "
-          },
-          {
-            "value": "JS",
-            "bold": true,
-            "highlight": true
-          },
-          {
-            "value": " variables for "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " data."
-          }
+          { "value": "Without " },
+          { "value": "data-*", "bold": true, "highlight": true },
+          { "value": " attributes, developers resort to hidden inputs or global JavaScript variables to store element-specific data, cluttering the codebase." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Without "
-          },
-          {
-            "value": "boolean attributes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML"
-          },
-          {
-            "value": ", toggling form field states requires adding and removing value strings."
-          }
+          { "value": "Without " },
+          { "value": "boolean attributes", "bold": true, "highlight": true },
+          { "value": ", toggling form field states like " },
+          { "value": "disabled", "highlight": true },
+          { "value": " or " },
+          { "value": "required", "highlight": true },
+          { "value": " requires adding and removing value strings manually in JavaScript." }
         ]
       }
     ],
@@ -290,58 +177,44 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "An "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " element is like a labeled box. The tag name is the type of box: a p box, a button box, an img box. Attributes are sticky notes on the outside of the box that give extra instructions: this box has id=hero, class=featured, and data-priority=high. The content is what is inside the box."
-          }
+          { "value": "An HTML element is like a " },
+          { "value": "labeled box", "bold": true },
+          { "value": ". The tag name is the type of box: a " },
+          { "value": "<p>", "highlight": true },
+          { "value": " box, a " },
+          { "value": "<button>", "highlight": true },
+          { "value": " box, an " },
+          { "value": "<img>", "highlight": true },
+          { "value": " box. Attributes are sticky notes on the outside: this box has " },
+          { "value": "id=\"hero\"", "highlight": true },
+          { "value": ", " },
+          { "value": "class=\"featured\"", "highlight": true },
+          { "value": ", and " },
+          { "value": "data-priority=\"high\"", "highlight": true },
+          { "value": ". The content is what is inside the box." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Boolean attributes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML"
-          },
-          {
-            "value": " work like light switches. The switch being on the wall means the light is on. Taking the switch off the wall entirely means the light is off. Writing disabled=false is like taping a note that says off to a switch that is still physically on the wall. The switch ignores the note and the light stays on."
-          }
+          { "value": "Boolean attributes", "bold": true },
+          { "value": " work like a light switch on the wall. The switch being " },
+          { "value": "present", "italic": true },
+          { "value": " means the light is on. " },
+          { "value": "Removing", "italic": true },
+          { "value": " the switch means the light is off. Writing " },
+          { "value": "disabled=\"false\"", "highlight": true },
+          { "value": " is like taping a note saying 'off' to a switch that is still physically on the wall — the switch ignores the note and the light stays on." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Data attributes are like luggage tags at an airport. The suitcase is the "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " element. The tag attached to it carries machine-readable information: owner, destination, flight number. The airport systems read the tag to route the bag. "
-          },
-          {
-            "value": "JavaScript",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          },
-          {
-            "value": " reads the data attribute to route the data, without the user ever seeing the tag."
-          }
+          { "value": "Data attributes are like " },
+          { "value": "luggage tags at an airport", "bold": true },
+          { "value": ". The suitcase is the HTML element. The tag carries machine-readable info: owner, destination, flight number. The baggage system reads the tag to route the bag without opening it. JavaScript reads the " },
+          { "value": "data-*", "highlight": true },
+          { "value": " attribute to route logic, without the user ever seeing the tag." }
         ]
       }
     ],
@@ -349,34 +222,37 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Using tabindex values above 0: Setting tabindex=1 or higher pulls that element to the very front of."
-          }
+          { "value": "Using " },
+          { "value": "tabindex", "bold": true, "highlight": true },
+          { "value": " values above " },
+          { "value": "0", "highlight": true },
+          { "value": ": Setting " },
+          { "value": "tabindex=\"1\"", "highlight": true },
+          { "value": " or higher pulls that element to the very front of the keyboard tab order, breaking the natural reading flow and confusing users who navigate with the Tab key." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Trying to disable "
-          },
-          {
-            "value": "boolean attributes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML"
-          },
-          {
-            "value": " by setting them to false: Writing disabled=false or."
-          }
+          { "value": "Trying to disable boolean attributes by setting them to " },
+          { "value": "false", "bold": true, "highlight": true },
+          { "value": ": Writing " },
+          { "value": "disabled=\"false\"", "highlight": true },
+          { "value": " still disables the element because the attribute is present. The only way to remove a boolean attribute is to remove it entirely — either delete it from the HTML or use " },
+          { "value": "removeAttribute('disabled')", "highlight": true },
+          { "value": " in JavaScript." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Storing sensitive data in data attributes: Data attributes are fully visible to any user who opens."
-          }
+          { "value": "Storing sensitive data in " },
+          { "value": "data-*", "bold": true, "highlight": true },
+          { "value": " attributes: Data attributes are fully visible to any user who opens DevTools. Never store " },
+          { "value": "passwords, API keys, session tokens", "bold": true },
+          { "value": ", or private user information in " },
+          { "value": "data-*", "highlight": true },
+          { "value": " attributes — use server-side sessions or secure HTTP-only cookies instead." }
         ]
       }
     ],
@@ -384,70 +260,21 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Use the "
-          },
-          {
-            "value": "CSS",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-          },
-          {
-            "value": " attribute selector with data attributes to apply styles based on state without adding extra classes. For example: [data-theme='dark'] applies dark styles, [data-status='error'] applies error styles. This keeps your styling tied to meaningful data rather than arbitrary class names, making the intent clear."
-          }
+          { "value": "Use the CSS attribute selector with data attributes to apply styles based on state without adding extra classes. For example: " },
+          { "value": "[data-theme='dark']", "highlight": true },
+          { "value": " applies dark styles and " },
+          { "value": "[data-status='error']", "highlight": true },
+          { "value": " applies error styles. This keeps your styling tied to meaningful data rather than arbitrary class names, making the intent clear in both HTML and CSS." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "In "
-          },
-          {
-            "value": "JavaScript",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          },
-          {
-            "value": ", document."
-          },
-          {
-            "value": "querySelectorAll",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
-          },
-          {
-            "value": "('[data-lazy]') selects all elements that have a data-lazy attribute regardless of its value. This pattern lets you declaratively "
-          },
-          {
-            "value": "mark",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark"
-          },
-          {
-            "value": " elements in "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " and then initialize them with a single "
-          },
-          {
-            "value": "JS",
-            "bold": true,
-            "highlight": true
-          },
-          {
-            "value": " selector rather than assigning individual IDs or classes."
-          }
+          { "value": "In JavaScript, " },
+          { "value": "document.querySelectorAll('[data-lazy]')", "bold": true, "highlight": true },
+          { "value": " selects all elements that have a " },
+          { "value": "data-lazy", "highlight": true },
+          { "value": " attribute regardless of its value. This pattern lets you declaratively mark elements in HTML and initialize them all with a single JS selector rather than assigning individual IDs or classes." }
         ]
       }
     ],
@@ -477,172 +304,55 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Global attributes are a set of attributes accepted by every HTML element without exception. Key ones include "
-            },
-            {
-              "value": "id",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "class",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "lang",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "title",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "hidden",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "tabindex",
-              "highlight": true
-            },
-            {
-              "value": ", and "
-            },
-            {
-              "value": "contenteditable",
-              "highlight": true
-            },
-            {
-              "value": ". Boolean attributes like "
-            },
-            {
-              "value": "disabled",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "required",
-              "highlight": true
-            },
-            {
-              "value": ", and "
-            },
-            {
-              "value": "checked",
-              "highlight": true
-            },
-            {
-              "value": " are toggled on by their presence and toggled off only by removing them entirely. Full list at "
-            },
-            {
-              "value": "MDN Global Attributes",
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes"
-            },
-            {
-              "value": "."
-            }
+            { "value": "Global attributes are a set of attributes accepted by every HTML element without exception. Key ones include " },
+            { "value": "id", "highlight": true },
+            { "value": ", " },
+            { "value": "class", "highlight": true },
+            { "value": ", " },
+            { "value": "lang", "highlight": true },
+            { "value": ", " },
+            { "value": "title", "highlight": true },
+            { "value": ", " },
+            { "value": "hidden", "highlight": true },
+            { "value": ", " },
+            { "value": "tabindex", "highlight": true },
+            { "value": ", and " },
+            { "value": "contenteditable", "highlight": true },
+            { "value": ". Boolean attributes like " },
+            { "value": "disabled", "highlight": true },
+            { "value": ", " },
+            { "value": "required", "highlight": true },
+            { "value": ", and " },
+            { "value": "checked", "highlight": true },
+            { "value": " are toggled on by their presence and toggled off only by removing them entirely. Full list at " },
+            { "value": "MDN Global Attributes", "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes" },
+            { "value": "." }
           ]
         },
         {
           "type": "table",
-          "headers": [
-            "Attribute",
-            "Type",
-            "Elements",
-            "Purpose"
-          ],
+          "headers": ["Attribute", "Type", "Elements", "Purpose"],
           "rows": [
-            [
-              "id",
-              "Global",
-              "All",
-              "Unique identifier for JS selection and fragment links"
-            ],
-            [
-              "class",
-              "Global",
-              "All",
-              "One or more CSS class names for styling and JS hooks"
-            ],
-            [
-              "lang",
-              "Global",
-              "All",
-              "Declares language for this element and its children"
-            ],
-            [
-              "hidden",
-              "Global (Boolean)",
-              "All",
-              "Removes element from layout and accessibility tree"
-            ],
-            [
-              "tabindex",
-              "Global",
-              "All",
-              "Controls keyboard tab order (use only 0 or -1)"
-            ],
-            [
-              "contenteditable",
-              "Global",
-              "All",
-              "Makes element content editable in the browser"
-            ],
-            [
-              "disabled",
-              "Boolean",
-              "Form elements",
-              "Blocks interaction and excludes from form submission"
-            ],
-            [
-              "required",
-              "Boolean",
-              "Form inputs",
-              "Prevents form submission if field is empty"
-            ],
-            [
-              "checked",
-              "Boolean",
-              "checkbox, radio",
-              "Pre-selects the input on page load"
-            ],
-            [
-              "multiple",
-              "Boolean",
-              "select, file input",
-              "Allows selecting more than one option or file"
-            ],
-            [
-              "readonly",
-              "Boolean",
-              "text inputs",
-              "Shows value but prevents editing by the user"
-            ]
+            ["id", "Global", "All", "Unique identifier for JS selection and fragment links"],
+            ["class", "Global", "All", "One or more CSS class names for styling and JS hooks"],
+            ["lang", "Global", "All", "Declares language for this element and its children"],
+            ["hidden", "Global (Boolean)", "All", "Removes element from layout and accessibility tree"],
+            ["tabindex", "Global", "All", "Controls keyboard tab order (use only 0 or -1)"],
+            ["contenteditable", "Global", "All", "Makes element content editable in the browser"],
+            ["disabled", "Boolean", "Form elements", "Blocks interaction and excludes from form submission"],
+            ["required", "Boolean", "Form inputs", "Prevents form submission if field is empty"],
+            ["checked", "Boolean", "checkbox, radio", "Pre-selects the input on page load"],
+            ["multiple", "Boolean", "select, file input", "Allows selecting more than one option or file"],
+            ["readonly", "Boolean", "text inputs", "Shows value but prevents editing by the user"]
           ]
         }
       ],
       "examples": [
         {
-          "title": "Global Attributes Reference and Boolean Attribute Toggling",
-          "description": "This example demonstrates the most commonly used global attributes on various elements and shows the only correct way to toggle boolean attributes on and off using JavaScript. It also shows the common mistake of setting a boolean attribute to false as a string value.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Global and Boolean Attributes</title>\n  <style>\n    .highlight-box {\n      border: 2px solid #2563eb;\n      padding: 0.75rem;\n      border-radius: 6px;\n      margin-bottom: 0.75rem;\n    }\n    [lang=\"hi\"] { font-style: italic; color: #7c3aed; }\n  </style>\n</head>\n<body>\n\n  <!-- id: unique per page, used by fragment links (#intro) and document.getElementById -->\n  <!-- class: multiple classes space-separated -->\n  <!-- title: tooltip on hover -->\n  <div id=\"intro\" class=\"highlight-box section-header\"\n       title=\"Introduction section\">\n    Introduction\n  </div>\n\n  <!-- lang on a child element: overrides document lang for this element only -->\n  <p>Welcome to the platform.\n    <span lang=\"hi\">यहाँ हिंदी सामग्री है।</span>\n  </p>\n\n  <!-- hidden: completely removes from layout and screen reader tree -->\n  <!-- To show later: remove the hidden attribute via JS -->\n  <div id=\"alert-box\" hidden>\n    This alert is currently hidden. It does not take up space.\n  </div>\n\n  <!-- tabindex -->\n  <!-- 0  = joins natural tab order at its document position -->\n  <!-- -1 = focusable only via JS focus(), excluded from Tab key -->\n  <div tabindex=\"0\" role=\"button\" aria-label=\"Custom card action\"\n       style=\"padding:0.5rem;background:#f1f5f9;border-radius:6px;cursor:pointer;\">\n    Tab to focus this custom element\n  </div>\n\n\n  <!-- BOOLEAN ATTRIBUTE TOGGLING -->\n  <h2>Boolean Attribute Demo</h2>\n\n  <button id=\"saveBtn\" disabled>Save Changes</button>\n  <button id=\"toggle\">Enable / Disable Save</button>\n\n  <hr>\n\n  <input id=\"emailField\" type=\"email\" required\n         placeholder=\"Required email field\">\n\n  <script>\n    const saveBtn = document.getElementById('saveBtn');\n    const toggle  = document.getElementById('toggle');\n\n    toggle.addEventListener('click', () => {\n      // CORRECT way to toggle a boolean attribute:\n      if (saveBtn.disabled) {\n        saveBtn.removeAttribute('disabled');  // removes attribute = false\n      } else {\n        saveBtn.setAttribute('disabled', ''); // adds attribute = true\n      }\n    });\n\n    // WRONG: does NOT disable the button\n    // saveBtn.setAttribute('disabled', 'false'); // still disabled!\n    // saveBtn.disabled = 'false';               // still disabled! (truthy string)\n\n    // CORRECT via property (boolean, not string):\n    // saveBtn.disabled = false; // removes disabled state\n    // saveBtn.disabled = true;  // adds disabled state\n\n    // Show hidden alert after 2 seconds\n    setTimeout(() => {\n      document.getElementById('alert-box').removeAttribute('hidden');\n    }, 2000);\n  </script>\n\n</body>\n</html>",
-          "output": "Page renders a bordered introduction div with hover tooltip, a paragraph with a purple italic Hindi span, a tabindex div that receives focus on Tab, a greyed-out disabled Save button, and an Enable toggle button. After 2 seconds the hidden alert div appears. Clicking the toggle button alternately enables and disables the Save button. The email field shows the required indicator in supported browsers.",
+          "title": "Global Attributes and Boolean Attribute Toggling",
+          "description": "This shows the most commonly used global attributes on different elements, and the correct way to toggle boolean attributes on and off using JavaScript. It also shows the most common mistake — setting a boolean attribute to the string 'false'.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Global and Boolean Attributes</title>\n</head>\n<body>\n\n  <!-- id: unique per page -->\n  <!-- class: space-separated list of class names -->\n  <!-- title: tooltip text shown on hover -->\n  <p id=\"intro\" class=\"lead-text\" title=\"Introduction paragraph\">\n    Every HTML element accepts global attributes.\n  </p>\n\n  <!-- lang on a child element: overrides document language for this element only -->\n  <p>Welcome. <span lang=\"hi\">यहाँ हिंदी सामग्री है।</span></p>\n\n  <!-- hidden: removes element from the page entirely (not just invisible) -->\n  <p id=\"alert\" hidden>This paragraph is hidden and takes up no space.</p>\n\n  <!--\n    tabindex:\n    0  = joins natural tab order at its document position\n    -1 = focusable only via JS, excluded from Tab key\n  -->\n  <div tabindex=\"0\" role=\"button\">Tab to focus this element</div>\n\n  <hr>\n\n  <!-- Boolean attributes on form elements -->\n  <input type=\"email\" placeholder=\"Required email\" required>\n  <input type=\"text\" value=\"johndoe\" disabled>\n  <input type=\"checkbox\" checked> Remember me\n\n  <hr>\n\n  <!-- Toggle demo -->\n  <button id=\"saveBtn\" disabled type=\"button\">Save Changes</button>\n  <button id=\"toggleBtn\" type=\"button\">Enable / Disable</button>\n\n  <script>\n    const saveBtn   = document.getElementById('saveBtn');\n    const toggleBtn = document.getElementById('toggleBtn');\n\n    toggleBtn.addEventListener('click', function () {\n      if (saveBtn.disabled) {\n        saveBtn.removeAttribute('disabled'); // removes attribute = false\n      } else {\n        saveBtn.setAttribute('disabled', ''); // adds attribute = true\n      }\n    });\n\n    // WRONG: this does NOT enable the button\n    // saveBtn.setAttribute('disabled', 'false'); // still disabled!\n\n    // CORRECT via JS property:\n    // saveBtn.disabled = false; // enables\n    // saveBtn.disabled = true;  // disables\n\n    // Show the hidden alert after 2 seconds\n    setTimeout(function () {\n      document.getElementById('alert').removeAttribute('hidden');\n    }, 2000);\n  </script>\n\n</body>\n</html>",
+          "output": "The page shows: a paragraph with a hover tooltip, a paragraph with a Hindi span, a hidden paragraph that appears after 2 seconds, a keyboard-focusable div, a required email input, a disabled text input pre-filled with 'johndoe', a pre-checked checkbox, a greyed-out disabled Save button, and an Enable/Disable toggle button. Clicking the toggle alternately enables and disables the Save button.",
           "images": null,
           "video_url": null
         }
@@ -657,35 +367,29 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Global attributes are like passport fields that every traveller carries regardless of nationality: name, date of birth, nationality. These fields exist on every passport because every person needs them. "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " global attributes are the same: id, class, "
-            },
-            {
-              "value": "lang",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang"
-            },
-            {
-              "value": ", and hidden are the universal fields every element carries regardless of its tag type."
-            }
+            { "value": "Global attributes are like " },
+            { "value": "passport fields", "bold": true },
+            { "value": " that every traveller carries regardless of nationality: name, date of birth, country. These fields exist on every passport because every person needs them. HTML global attributes are the same: " },
+            { "value": "id", "highlight": true },
+            { "value": ", " },
+            { "value": "class", "highlight": true },
+            { "value": ", " },
+            { "value": "lang", "highlight": true },
+            { "value": ", and " },
+            { "value": "hidden", "highlight": true },
+            { "value": " are the universal fields every element carries regardless of its tag type." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "A boolean attribute is a door latch, not a door lock. The latch being installed means the door is latched. Removing the latch means it is not latched. You cannot write 'unlatched' on the latch to make it inactive. The only way to unlatch is to remove it. disabled='false' is writing 'unlatched' on a latch that is still physically installed."
-            }
+            { "value": "A boolean attribute is a " },
+            { "value": "door latch", "bold": true },
+            { "value": ". The latch being installed means the door is latched. Removing the latch means it is not latched. You cannot write " },
+            { "value": "'unlatched'", "italic": true },
+            { "value": " on the latch to make it inactive. The only way to unlatch is to physically remove it. " },
+            { "value": "disabled=\"false\"", "highlight": true },
+            { "value": " is writing 'unlatched' on a latch that is still physically installed — the browser ignores the value entirely." }
           ]
         }
       ],
@@ -694,54 +398,17 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Use the hidden attribute instead of "
-            },
-            {
-              "value": "CSS",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-            },
-            {
-              "value": " display:none when you want an element invisible and also excluded from the "
-            },
-            {
-              "value": "accessibility",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility"
-            },
-            {
-              "value": " tree. Elements with display:none are invisible but still exist in the "
-            },
-            {
-              "value": "DOM",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-            },
-            {
-              "value": ". Elements with hidden are excluded from both layout and the "
-            },
-            {
-              "value": "accessibility",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/Accessibility"
-            },
-            {
-              "value": " tree, meaning "
-            },
-            {
-              "value": "screen readers",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Glossary/Screen_reader"
-            },
-            {
-              "value": " will not announce them at all."
-            }
+            { "value": "Use the " },
+            { "value": "hidden", "bold": true, "highlight": true },
+            { "value": " attribute instead of CSS " },
+            { "value": "display:none", "highlight": true },
+            { "value": " when you want an element invisible " },
+            { "value": "and", "italic": true },
+            { "value": " excluded from the accessibility tree. Elements with " },
+            { "value": "display:none", "highlight": true },
+            { "value": " are invisible but still exist in the DOM. Elements with " },
+            { "value": "hidden", "highlight": true },
+            { "value": " are excluded from both layout and the accessibility tree — screen readers will not announce them at all." }
           ]
         }
       ],
@@ -768,59 +435,21 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Custom data attributes follow the syntax "
-            },
-            {
-              "value": "data-*",
-              "highlight": true,
-              "bold": true
-            },
-            {
-              "value": " where * is any lowercase name you choose. They store structured data directly on elements so JavaScript can read it without separate API calls or global variables. The browser's "
-            },
-            {
-              "value": "dataset",
-              "highlight": true
-            },
-            {
-              "value": " API automatically converts "
-            },
-            {
-              "value": "kebab-case",
-              "bold": true
-            },
-            {
-              "value": " attribute names to "
-            },
-            {
-              "value": "camelCase",
-              "bold": true
-            },
-            {
-              "value": " property names: "
-            },
-            {
-              "value": "data-user-id",
-              "highlight": true
-            },
-            {
-              "value": " becomes "
-            },
-            {
-              "value": "dataset.userId",
-              "highlight": true
-            },
-            {
-              "value": ". Full reference at "
-            },
-            {
-              "value": "MDN: Using data attributes",
-              "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes"
-            },
-            {
-              "value": "."
-            }
+            { "value": "Custom data attributes follow the syntax " },
+            { "value": "data-*", "bold": true, "highlight": true },
+            { "value": " where * is any lowercase name you choose. They store structured data directly on elements so JavaScript can read it without separate API calls or global variables. The browser's " },
+            { "value": "dataset", "highlight": true },
+            { "value": " API automatically converts " },
+            { "value": "kebab-case", "bold": true },
+            { "value": " attribute names to " },
+            { "value": "camelCase", "bold": true },
+            { "value": " property names: " },
+            { "value": "data-user-id", "highlight": true },
+            { "value": " becomes " },
+            { "value": "dataset.userId", "highlight": true },
+            { "value": ". Full reference at " },
+            { "value": "MDN: Using data attributes", "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes" },
+            { "value": "." }
           ]
         },
         {
@@ -832,10 +461,10 @@
       ],
       "examples": [
         {
-          "title": "Data Attributes for Component State, Filtering, and CSS Hooks",
-          "description": "This example shows three production patterns for data attributes: storing component state that JavaScript updates, driving a filter and sort UI without class toggling, and using CSS attribute selectors to apply styles based on data values. All three patterns keep HTML as the single source of truth for UI state.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Data Attributes Patterns</title>\n  <style>\n    /* CSS reads data attributes directly - no extra JS class toggling needed */\n    [data-status=\"active\"]   { border-left: 4px solid #16a34a; background: #f0fdf4; }\n    [data-status=\"pending\"]  { border-left: 4px solid #d97706; background: #fffbeb; }\n    [data-status=\"inactive\"] { border-left: 4px solid #dc2626; background: #fef2f2;\n                               opacity: 0.6; }\n\n    .task { padding: 0.75rem 1rem; border-radius: 6px;\n            margin-bottom: 0.5rem; font-size: 0.9rem; }\n    .task[data-priority=\"high\"]::after {\n      content: ' (' attr(data-priority) ' priority)';\n      color: #dc2626;\n      font-weight: 600;\n    }\n\n    /* Filter buttons: highlight active filter visually -->\n    [data-filter].active { background: #2563eb; color: white; }\n    button { padding: 0.4rem 0.8rem; border-radius:4px;\n             border:1px solid #d1d5db; cursor:pointer; margin-right:0.4rem; }\n  </style>\n</head>\n<body>\n\n  <!-- PATTERN 1: Status-driven styling via data-status -->\n  <h2>Task List</h2>\n  <ul id=\"task-list\" style=\"list-style:none;padding:0;\">\n    <li class=\"task\" data-id=\"1\" data-status=\"active\"   data-priority=\"high\">\n      Review pull request #214\n    </li>\n    <li class=\"task\" data-id=\"2\" data-status=\"pending\"  data-priority=\"normal\">\n      Write unit tests for auth module\n    </li>\n    <li class=\"task\" data-id=\"3\" data-status=\"inactive\" data-priority=\"low\">\n      Update changelog for v2.1.0\n    </li>\n    <li class=\"task\" data-id=\"4\" data-status=\"active\"   data-priority=\"high\">\n      Fix production bug in payment flow\n    </li>\n  </ul>\n\n\n  <!-- PATTERN 2: Filter UI driven by data attributes -->\n  <h2>Filter by Status</h2>\n  <div>\n    <button data-filter=\"all\"      class=\"active\">All</button>\n    <button data-filter=\"active\">Active</button>\n    <button data-filter=\"pending\">Pending</button>\n    <button data-filter=\"inactive\">Inactive</button>\n  </div>\n\n\n  <!-- PATTERN 3: Component with embedded data for JS -->\n  <h2>Product Card</h2>\n  <div id=\"product\"\n       data-product-id=\"PRD-881\"\n       data-price=\"2499\"\n       data-stock=\"12\"\n       data-category=\"peripherals\"\n       style=\"border:1px solid #e5e7eb;padding:1rem;\n              border-radius:8px;max-width:300px;margin-top:0.5rem;\">\n    <h3 style=\"margin:0 0 0.5rem;\">Mechanical Keyboard TKL</h3>\n    <p style=\"margin:0 0 0.75rem;color:#6b7280;\">Rs 2,499 | 12 in stock</p>\n    <button id=\"cartBtn\" type=\"button\">Add to Cart</button>\n    <p id=\"cartMsg\" style=\"margin:0.5rem 0 0;color:#16a34a;display:none;\"></p>\n  </div>\n\n\n  <script>\n    // PATTERN 2: Filter tasks by reading data-filter and data-status\n    const buttons = document.querySelectorAll('[data-filter]');\n    const tasks   = document.querySelectorAll('.task');\n\n    buttons.forEach(btn => {\n      btn.addEventListener('click', () => {\n        const filter = btn.dataset.filter; // reads data-filter attribute\n\n        // Update active button\n        buttons.forEach(b => b.classList.remove('active'));\n        btn.classList.add('active');\n\n        // Show/hide tasks based on their data-status\n        tasks.forEach(task => {\n          const match = filter === 'all' || task.dataset.status === filter;\n          task.style.display = match ? 'block' : 'none';\n        });\n      });\n    });\n\n\n    // PATTERN 3: Read product data on cart button click\n    const cartBtn = document.getElementById('cartBtn');\n    const cartMsg = document.getElementById('cartMsg');\n    const product = document.getElementById('product');\n\n    cartBtn.addEventListener('click', () => {\n      // dataset API: kebab-case names become camelCase properties\n      const { productId, price, stock, category } = product.dataset;\n\n      console.log('Adding to cart:', productId, price, category);\n\n      // Update DOM and data attribute\n      const remaining = parseInt(stock) - 1;\n      product.dataset.stock = remaining; // write back to data attribute\n\n      cartMsg.style.display = 'block';\n      cartMsg.textContent   = `Added! ${remaining} remaining in stock.`;\n\n      if (remaining === 0) {\n        cartBtn.disabled = true;\n        cartBtn.textContent = 'Out of Stock';\n      }\n    });\n  </script>\n\n</body>\n</html>",
-          "output": "Page renders a colour-coded task list: green left border for active tasks, amber for pending, red-tinted for inactive. High-priority tasks show a red priority label via CSS content. Filter buttons show All, Active, Pending, and Inactive. Clicking a filter hides non-matching tasks. The product card shows name, price, and stock count. Clicking Add to Cart shows a green confirmation with decremented stock count. At zero stock the button becomes disabled and changes to Out of Stock.",
+          "title": "Reading and Writing Data Attributes with JavaScript",
+          "description": "This shows the three things you need to know about data attributes: how to write them on an element in HTML, how to read them in JavaScript using dataset, and how to update them. The kebab-case to camelCase conversion is also demonstrated.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Data Attributes</title>\n</head>\n<body>\n\n  <!--\n    data-* attributes store custom info on elements.\n    Naming: data- followed by any lowercase, hyphen-separated name.\n    data-product-id  →  dataset.productId  (kebab → camelCase)\n    data-in-stock    →  dataset.inStock\n    data-price       →  dataset.price\n  -->\n  <div\n    id=\"product\"\n    data-product-id=\"PRD-881\"\n    data-price=\"2499\"\n    data-stock=\"5\"\n    data-in-stock=\"true\">\n    Mechanical Keyboard — Rs 2,499\n  </div>\n\n  <button id=\"readBtn\" type=\"button\">Read Data</button>\n  <button id=\"buyBtn\" type=\"button\">Buy One</button>\n  <p id=\"output\"></p>\n\n  <script>\n    const product = document.getElementById('product');\n    const output  = document.getElementById('output');\n\n    // READ: dataset converts kebab-case names to camelCase\n    document.getElementById('readBtn').addEventListener('click', function () {\n      output.textContent =\n        'ID: '    + product.dataset.productId +\n        ' | Price: Rs ' + product.dataset.price +\n        ' | Stock: '    + product.dataset.stock +\n        ' | In Stock: ' + product.dataset.inStock;\n    });\n\n    // WRITE: update a data attribute via dataset\n    document.getElementById('buyBtn').addEventListener('click', function () {\n      var current = parseInt(product.dataset.stock);\n\n      if (current > 0) {\n        product.dataset.stock = current - 1;  // write back\n\n        if (product.dataset.stock === '0') {\n          product.dataset.inStock = 'false';\n          output.textContent = 'Out of stock!';\n        } else {\n          output.textContent = 'Bought one! Remaining: ' + product.dataset.stock;\n        }\n      }\n    });\n  </script>\n\n</body>\n</html>",
+          "output": "The page shows a div with product text, a 'Read Data' button, a 'Buy One' button, and an empty paragraph. Clicking 'Read Data' fills the paragraph with: 'ID: PRD-881 | Price: Rs 2499 | Stock: 5 | In Stock: true'. Clicking 'Buy One' decrements the stock count and shows 'Bought one! Remaining: 4'. After 5 clicks it shows 'Out of stock!'.",
           "images": null,
           "video_url": null
         }
@@ -850,107 +479,25 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Data attributes are like luggage tags at an airport check-in. The suitcase is the "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " element. The tag attached to it carries machine-readable information: owner ID, destination, flight number. The baggage system reads the tag to route the bag without opening it. "
-            },
-            {
-              "value": "JavaScript",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-            },
-            {
-              "value": " reads the data attribute to route logic, without the user ever seeing the tag."
-            }
+            { "value": "Data attributes are like " },
+            { "value": "luggage tags at an airport", "bold": true },
+            { "value": ". The suitcase is the HTML element. The tag carries machine-readable information: owner ID, destination, flight number. The baggage system reads the tag to route the bag without opening it. JavaScript reads the " },
+            { "value": "data-*", "highlight": true },
+            { "value": " attribute to route logic, without the user ever seeing the tag." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The "
-            },
-            {
-              "value": "dataset",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset"
-            },
-            {
-              "value": " "
-            },
-            {
-              "value": "API",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Glossary/API"
-            },
-            {
-              "value": " is a bilingual translator sitting between "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " and "
-            },
-            {
-              "value": "JavaScript",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-            },
-            {
-              "value": ". "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " speaks kebab-case: data-product-id. "
-            },
-            {
-              "value": "JavaScript",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-            },
-            {
-              "value": " speaks camelCase: productId. The "
-            },
-            {
-              "value": "dataset",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset"
-            },
-            {
-              "value": " object is the translator that converts between them automatically. You write in whichever language fits the context and "
-            },
-            {
-              "value": "dataset",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset"
-            },
-            {
-              "value": " handles the conversion."
-            }
+            { "value": "The " },
+            { "value": "dataset", "bold": true, "highlight": true },
+            { "value": " API is a " },
+            { "value": "bilingual translator", "bold": true },
+            { "value": " sitting between HTML and JavaScript. HTML speaks kebab-case: " },
+            { "value": "data-product-id", "highlight": true },
+            { "value": ". JavaScript speaks camelCase: " },
+            { "value": "dataset.productId", "highlight": true },
+            { "value": ". The dataset object translates between them automatically — you never have to do the conversion yourself." }
           ]
         }
       ],
@@ -959,27 +506,13 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Use the "
-            },
-            {
-              "value": "CSS",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-            },
-            {
-              "value": " attr() function inside a content property to display a data attribute value as visible text without any "
-            },
-            {
-              "value": "JavaScript",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-            },
-            {
-              "value": ". For example: [data-count]::after { content: ' (' attr(data-count) ')'; } renders the count inline after the element. This is useful for badges, labels, and tooltips driven purely by data attributes."
-            }
+            { "value": "Use the CSS " },
+            { "value": "attr()", "bold": true, "highlight": true },
+            { "value": " function inside a " },
+            { "value": "content", "highlight": true },
+            { "value": " property to display a data attribute value as visible text without any JavaScript. For example: " },
+            { "value": "[data-count]::after { content: ' (' attr(data-count) ')'; }", "highlight": true },
+            { "value": " renders the count inline after the element — useful for badges and labels driven purely by data attributes." }
           ]
         }
       ],
@@ -1006,65 +539,25 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The "
-            },
-            {
-              "value": "div",
-              "highlight": true
-            },
-            {
-              "value": " element is a "
-            },
-            {
-              "value": "block-level",
-              "bold": true
-            },
-            {
-              "value": " generic container. It starts on a new line and takes the full available width. The "
-            },
-            {
-              "value": "span",
-              "highlight": true
-            },
-            {
-              "value": " element is an "
-            },
-            {
-              "value": "inline",
-              "bold": true
-            },
-            {
-              "value": " generic container. It flows within text without breaking the line. Neither element has semantic meaning. They exist purely for styling hooks and JavaScript targets when no suitable semantic element exists. Always prefer a semantic element like "
-            },
-            {
-              "value": "article",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "section",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "nav",
-              "highlight": true
-            },
-            {
-              "value": ", or "
-            },
-            {
-              "value": "aside",
-              "highlight": true
-            },
-            {
-              "value": " over div whenever the content has meaning."
-            }
+            { "value": "The " },
+            { "value": "<div>", "highlight": true },
+            { "value": " element is a " },
+            { "value": "block-level", "bold": true },
+            { "value": " generic container. It starts on a new line and takes the full available width. The " },
+            { "value": "<span>", "highlight": true },
+            { "value": " element is an " },
+            { "value": "inline", "bold": true },
+            { "value": " generic container. It flows within text without breaking the line. Neither element has semantic meaning. They exist purely for styling hooks and JavaScript targets when no suitable semantic element exists. Always prefer " },
+            { "value": "<article>", "highlight": true },
+            { "value": ", " },
+            { "value": "<section>", "highlight": true },
+            { "value": ", " },
+            { "value": "<nav>", "highlight": true },
+            { "value": ", or " },
+            { "value": "<aside>", "highlight": true },
+            { "value": " over " },
+            { "value": "<div>", "highlight": true },
+            { "value": " whenever the content has meaning." }
           ]
         },
         {
@@ -1076,10 +569,10 @@
       ],
       "examples": [
         {
-          "title": "Div vs Span vs Semantic Elements: Choosing Correctly",
-          "description": "This example shows div and span used correctly alongside their semantic alternatives. It builds a card grid using divs for layout, inline text highlights using span, and then contrasts both with semantic replacements to reinforce when to reach for div or span and when to use something more meaningful.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Div and Span Guide</title>\n  <style>\n    /* div used correctly: layout wrapper with no semantic meaning */\n    .card-grid {\n      display: grid;\n      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));\n      gap: 1rem;\n      max-width: 700px;\n    }\n    .card {\n      border: 1px solid #e5e7eb;\n      border-radius: 8px;\n      padding: 1rem;\n    }\n\n    /* span used correctly: inline highlight with no semantic meaning */\n    .price  { color: #16a34a; font-weight: 700; }\n    .badge  { background: #dbeafe; color: #1d4ed8;\n              padding: 0.15rem 0.5rem; border-radius: 999px;\n              font-size: 0.75rem; }\n    .strike { text-decoration: line-through; color: #9ca3af; }\n  </style>\n</head>\n<body>\n\n  <!--\n    CORRECT USE OF div:\n    A card grid layout has no meaningful semantic equivalent.\n    div is appropriate here because the container is purely structural.\n  -->\n  <div class=\"card-grid\">\n    <div class=\"card\">\n      <h3>NovaPen X2</h3>\n      <!-- span: highlights a portion of inline text with a price style -->\n      <p>Price: <span class=\"price\">Rs 1,499</span></p>\n      <p>\n        <!-- span: inline badge needs no semantic weight -->\n        <span class=\"badge\">In Stock</span>\n      </p>\n    </div>\n    <div class=\"card\">\n      <h3>USB-C Hub Pro</h3>\n      <p>\n        <!-- span: strike-through on old price, highlight on new -->\n        <span class=\"strike\">Rs 3,299</span>\n        <span class=\"price\"> Rs 2,499</span>\n      </p>\n      <p><span class=\"badge\">Sale</span></p>\n    </div>\n    <div class=\"card\">\n      <h3>Mechanical Keyboard TKL</h3>\n      <p>Price: <span class=\"price\">Rs 4,999</span></p>\n      <p><span class=\"badge\">Limited Stock</span></p>\n    </div>\n  </div>\n\n\n  <!--\n    WRONG: using div for content that has a semantic element\n  -->\n  <div class=\"article\">         <!-- WRONG: use <article> -->\n    <div class=\"heading\">       <!-- WRONG: use <h2> -->\n      Blog Post Title\n    </div>\n    <div class=\"nav\">           <!-- WRONG: use <nav> -->\n      <div class=\"nav-item\">    <!-- WRONG: use <a> -->\n        Home\n      </div>\n    </div>\n  </div>\n\n  <!-- RIGHT: semantic elements for the same content -->\n  <article>\n    <h2>Blog Post Title</h2>\n    <nav aria-label=\"Post navigation\">\n      <a href=\"/\">Home</a>\n    </nav>\n  </article>\n\n\n  <!--\n    WRONG: using span where a semantic inline element is better\n  -->\n  <p>\n    This is <span style=\"font-weight:bold;\">important</span> text.  <!-- WRONG -->\n    This is <strong>important</strong> text.                         <!-- RIGHT -->\n\n    Press <span style=\"font-family:monospace;\">Ctrl+S</span> to save. <!-- WRONG -->\n    Press <kbd>Ctrl+S</kbd> to save.                                  <!-- RIGHT -->\n\n    The value is <span class=\"italic\">approximately</span> correct.   <!-- WRONG -->\n    The value is <em>approximately</em> correct.                      <!-- RIGHT -->\n  </p>\n\n</body>\n</html>",
-          "output": "Page renders a three-column card grid with product names, green price text, and blue badge pills for stock status. The NovaPen and USB-C Hub cards show their prices with the hub showing a strike-through old price beside a green new price. The semantic comparison section renders a blog article with heading and navigation link. The inline element comparisons all look visually similar but the semantic versions carry meaning for screen readers and search engines.",
+          "title": "Div and Span vs Semantic Elements",
+          "description": "This shows when div and span are the right choice, and when they should be replaced by a semantic element. The rule is simple: if a semantic element exists that describes the content's meaning, use that instead.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Div and Span Guide</title>\n</head>\n<body>\n\n  <!--\n    CORRECT use of div:\n    A layout wrapper has no semantic meaning — div is appropriate.\n  -->\n  <div id=\"card-grid\">\n    <div class=\"card\">\n      <h3>NovaPen X2</h3>\n      <!-- span: highlights inline text — no semantic element fits -->\n      <p>Price: <span class=\"price\">Rs 1,499</span></p>\n    </div>\n    <div class=\"card\">\n      <h3>USB-C Hub Pro</h3>\n      <p>\n        <!-- span for strike-through old price, span for new price -->\n        <span class=\"old-price\">Rs 3,299</span>\n        <span class=\"new-price\">Rs 2,499</span>\n      </p>\n    </div>\n  </div>\n\n\n  <!--\n    WRONG: using div when a semantic element exists\n  -->\n  <div class=\"article\">        <!-- WRONG: use <article> -->\n    <div class=\"heading\">      <!-- WRONG: use <h2> -->\n      Blog Post Title\n    </div>\n    <div class=\"nav\">          <!-- WRONG: use <nav> -->\n      <div>Home</div>          <!-- WRONG: use <a href=\"/\"> -->\n    </div>\n  </div>\n\n  <!--\n    RIGHT: semantic elements for the same content\n  -->\n  <article>\n    <h2>Blog Post Title</h2>\n    <nav>\n      <a href=\"/\">Home</a>\n    </nav>\n  </article>\n\n\n  <!--\n    WRONG vs RIGHT: inline elements\n  -->\n  <p>\n    <!-- WRONG: span used where a semantic inline element exists -->\n    This is <span>important</span> text.\n\n    <!-- RIGHT: strong carries semantic weight meaning -->\n    This is <strong>important</strong> text.\n\n    <!-- WRONG -->\n    Press <span>Ctrl+S</span> to save.\n\n    <!-- RIGHT: kbd is the correct element for keyboard input -->\n    Press <kbd>Ctrl+S</kbd> to save.\n  </p>\n\n</body>\n</html>",
+          "output": "The page renders: a card grid div containing two product cards with headings and price paragraphs. The wrong div-heavy blog section renders plain text blocks. The semantic article section renders a heading and a clickable Home link. The inline comparison shows pairs of identical-looking text — the semantic versions carry meaning for screen readers and search engines even though they look the same visually.",
           "images": null,
           "video_url": null
         }
@@ -1094,44 +587,29 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Div and span are the blank sticky notes of "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": ". When you have a specific idea, you write it on a labelled card: article, nav, "
-            },
-            {
-              "value": "strong",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong"
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "em",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em"
-            },
-            {
-              "value": ". When you just need something to stick there and the label does not matter, you use a blank sticky note. The blank notes are useful but they should not replace the labelled ones when a label exists."
-            }
+            { "value": "Div and span are the " },
+            { "value": "blank sticky notes", "bold": true },
+            { "value": " of HTML. When you have a specific idea, you write it on a labelled card: " },
+            { "value": "<article>", "highlight": true },
+            { "value": ", " },
+            { "value": "<nav>", "highlight": true },
+            { "value": ", " },
+            { "value": "<strong>", "highlight": true },
+            { "value": ", " },
+            { "value": "<em>", "highlight": true },
+            { "value": ". When you just need something to stick there and the label does not matter, you use a blank sticky note. Blank notes are useful but they should not replace labelled ones when a label exists." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The difference between div and span is the same as the difference between a paragraph break and a word in a sentence. Div is a paragraph break: it starts a new block, takes the full width, and pushes content before and after it onto separate lines. Span is a word: it flows inline within surrounding text without disrupting the line."
-            }
+            { "value": "The difference between " },
+            { "value": "<div>", "bold": true, "highlight": true },
+            { "value": " and " },
+            { "value": "<span>", "bold": true, "highlight": true },
+            { "value": " is the same as the difference between a " },
+            { "value": "paragraph break and a word", "italic": true },
+            { "value": " in a sentence. Div is a paragraph break: it starts a new block, takes the full width, and pushes content before and after onto separate lines. Span is a word: it flows inline within surrounding text without disrupting the line." }
           ]
         }
       ],
@@ -1140,54 +618,23 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "When you find yourself writing class names like div.header, div.footer, div.nav, or div.article, that is a signal to replace each div with its "
-            },
-            {
-              "value": "semantic",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Glossary/Semantics"
-            },
-            {
-              "value": " "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " equivalent: header, footer, nav, and article. "
-            },
-            {
-              "value": "Semantic",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Glossary/Semantics"
-            },
-            {
-              "value": " elements are free built-in labels that give your structure meaning without any extra "
-            },
-            {
-              "value": "CSS",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-            },
-            {
-              "value": " or "
-            },
-            {
-              "value": "JavaScript",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-            },
-            {
-              "value": "."
-            }
+            { "value": "When you find yourself writing class names like " },
+            { "value": "div.header", "highlight": true },
+            { "value": ", " },
+            { "value": "div.footer", "highlight": true },
+            { "value": ", " },
+            { "value": "div.nav", "highlight": true },
+            { "value": ", or " },
+            { "value": "div.article", "highlight": true },
+            { "value": ", that is a signal to replace each div with its semantic HTML equivalent: " },
+            { "value": "<header>", "highlight": true },
+            { "value": ", " },
+            { "value": "<footer>", "highlight": true },
+            { "value": ", " },
+            { "value": "<nav>", "highlight": true },
+            { "value": ", and " },
+            { "value": "<article>", "highlight": true },
+            { "value": ". Semantic elements are free built-in labels that give your structure meaning without any extra code." }
           ]
         }
       ],

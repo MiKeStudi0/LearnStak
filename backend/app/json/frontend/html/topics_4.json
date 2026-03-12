@@ -16,78 +16,26 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When a browser loads an HTML file it parses the markup and builds a "
-          },
-          {
-            "value": "Document Object Model",
-            "bold": true
-          },
-          {
-            "value": " in memory. The DOM is not the HTML source file. It is a "
-          },
-          {
-            "value": "live tree of objects",
-            "bold": true
-          },
-          {
-            "value": " where every element, text node, comment, and attribute becomes a JavaScript-accessible object. Changes to the DOM instantly update what the user sees without reloading the page. The DOM standard is maintained by the "
-          },
-          {
-            "value": "WHATWG DOM Living Standard",
-            "link": "https://dom.spec.whatwg.org/"
-          },
-          {
-            "value": " and documented in full at "
-          },
-          {
-            "value": "MDN: Introduction to the DOM",
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction"
-          },
-          {
-            "value": "."
-          }
+          { "value": "When a browser loads an HTML file it parses the markup and builds a " },
+          { "value": "Document Object Model", "bold": true },
+          { "value": " in memory. The DOM is not the HTML source file. It is a " },
+          { "value": "live tree of objects", "bold": true },
+          { "value": " where every element, text node, comment, and attribute becomes a JavaScript-accessible object. Changes to the DOM instantly update what the user sees without reloading the page. The DOM standard is maintained by the " },
+          { "value": "WHATWG DOM Living Standard", "link": "https://dom.spec.whatwg.org/" },
+          { "value": " and documented in full at " },
+          { "value": "MDN: Introduction to the DOM", "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction" },
+          { "value": "." }
         ]
       },
       {
         "type": "table",
-        "headers": [
-          "Node Type",
-          "nodeType Value",
-          "Example",
-          "Description"
-        ],
+        "headers": ["Node Type", "nodeType Value", "Example", "Description"],
         "rows": [
-          [
-            "Element node",
-            "1",
-            "<p>, <div>, <h1>",
-            "Every HTML element in the document"
-          ],
-          [
-            "Text node",
-            "3",
-            "Hello World",
-            "The text content inside an element"
-          ],
-          [
-            "Comment node",
-            "8",
-            "<!-- note -->",
-            "HTML comments in the source"
-          ],
-          [
-            "Document node",
-            "9",
-            "document",
-            "The root node representing the whole document"
-          ],
-          [
-            "Attribute node",
-            "2",
-            "class=\"card\"",
-            "Attributes on elements (accessed via element, not tree)"
-          ]
+          ["Element node", "1", "<p>, <div>, <h1>", "Every HTML element in the document"],
+          ["Text node", "3", "Hello World", "The text content inside an element"],
+          ["Comment node", "8", "<!-- note -->", "HTML comments in the source"],
+          ["Document node", "9", "document", "The root node representing the whole document"],
+          ["Attribute node", "2", "class=\"card\"", "Attributes on elements (accessed via element, not tree)"]
         ]
       },
       {
@@ -99,18 +47,18 @@
     ],
     "examples": [
       {
-        "title": "Exploring the DOM Tree: Nodes, Parents, Children, and Siblings",
-        "description": "This example builds a visible page structure and then uses JavaScript to walk the DOM tree using parent, child, and sibling relationships. Understanding tree traversal is the foundation for every DOM operation that selects or modifies elements without hardcoded IDs.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DOM Tree Explorer</title>\n  <style>\n    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }\n    .highlight { background: #fef9c3; outline: 2px solid #ca8a04; }\n    #output { background: #0f172a; color: #e2e8f0; padding: 1rem;\n              border-radius: 8px; font-family: monospace; font-size: 0.85rem;\n              margin-top: 1rem; white-space: pre; }\n    button { padding: 0.4rem 0.9rem; border-radius: 6px; border: 1px solid #d1d5db;\n             cursor: pointer; margin-right: 0.5rem; margin-bottom: 0.5rem; }\n  </style>\n</head>\n<body>\n\n  <h1>DOM Tree Explorer</h1>\n\n  <section id=\"team\">\n    <h2>Engineering Team</h2>\n    <ul id=\"member-list\">\n      <li class=\"member\" data-role=\"lead\">Priya Sharma</li>\n      <li class=\"member\" data-role=\"senior\">Rahul Gupta</li>\n      <li class=\"member\" data-role=\"junior\">Anjali Mehta</li>\n    </ul>\n  </section>\n\n  <div>\n    <button id=\"btn-parent\">parentElement</button>\n    <button id=\"btn-children\">children</button>\n    <button id=\"btn-first\">firstElementChild</button>\n    <button id=\"btn-last\">lastElementChild</button>\n    <button id=\"btn-next\">nextElementSibling</button>\n    <button id=\"btn-prev\">previousElementSibling</button>\n    <button id=\"btn-nodes\">childNodes (all)</button>\n  </div>\n\n  <div id=\"output\">Click a button to inspect the DOM tree...</div>\n\n  <script>\n    const list   = document.getElementById('member-list');\n    const output = document.getElementById('output');\n\n    function log(label, node) {\n      if (!node) { output.textContent = label + ': null'; return; }\n      const info = node.nodeType === 1\n        ? `<${node.tagName.toLowerCase()}> \"${node.textContent.trim()}\"`\n        : node.nodeType === 3\n          ? `TextNode: \"${node.textContent.trim() || '(whitespace)'}\" `\n          : `NodeType ${node.nodeType}`;\n      output.textContent = `${label}:\\n  ${info}`;\n    }\n\n    // parentElement: the immediate element parent\n    document.getElementById('btn-parent').onclick = () => {\n      log('list.parentElement', list.parentElement);\n      // returns <section id=\"team\">\n    };\n\n    // children: live HTMLCollection of element children only (no text nodes)\n    document.getElementById('btn-children').onclick = () => {\n      const names = [...list.children].map(li => li.textContent.trim());\n      output.textContent = `list.children (${list.children.length}):\\n  ${names.join('\\n  ')}`;\n    };\n\n    // firstElementChild / lastElementChild: element nodes only\n    document.getElementById('btn-first').onclick = () =>\n      log('list.firstElementChild', list.firstElementChild);\n\n    document.getElementById('btn-last').onclick = () =>\n      log('list.lastElementChild', list.lastElementChild);\n\n    // nextElementSibling / previousElementSibling: adjacent element siblings\n    document.getElementById('btn-next').onclick = () => {\n      const second = list.children[1]; // Rahul Gupta\n      log('second-li.nextElementSibling', second.nextElementSibling);\n      // returns <li>Anjali Mehta</li>\n    };\n\n    document.getElementById('btn-prev').onclick = () => {\n      const second = list.children[1];\n      log('second-li.previousElementSibling', second.previousElementSibling);\n      // returns <li>Priya Sharma</li>\n    };\n\n    // childNodes: includes element nodes AND text nodes (whitespace included)\n    document.getElementById('btn-nodes').onclick = () => {\n      const nodes = [...list.childNodes];\n      const info  = nodes.map(n =>\n        n.nodeType === 1\n          ? `Element: <${n.tagName.toLowerCase()}> \"${n.textContent.trim()}\"`\n          : `Text:    \"${n.textContent.trim() || '(whitespace)'}\" `\n      ).join('\\n  ');\n      output.textContent = `list.childNodes (${nodes.length}):\\n  ${info}`;\n      // Shows 7 nodes: 3 li elements + 4 whitespace text nodes between them\n    };\n  </script>\n\n</body>\n</html>",
-        "output": "Page renders an Engineering Team section with three list items and six inspector buttons. Clicking parentElement shows the section element. Clicking children shows the three member names. Clicking childNodes shows 7 nodes total: three li elements and four whitespace text nodes between them, demonstrating why childNodes count differs from children count. Each button updates the dark output panel with the result.",
+        "title": "Exploring the DOM Tree: Parents, Children, and Siblings",
+        "description": "This shows how to walk the DOM tree using relationship properties. Each button logs information about the list element's position in the tree — its parent, its children, its siblings, and the difference between childNodes and children.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DOM Tree Explorer</title>\n</head>\n<body>\n\n  <section id=\"team\">\n    <h2>Engineering Team</h2>\n    <ul id=\"member-list\">\n      <li class=\"member\" data-role=\"lead\">Priya Sharma</li>\n      <li class=\"member\" data-role=\"senior\">Rahul Gupta</li>\n      <li class=\"member\" data-role=\"junior\">Anjali Mehta</li>\n    </ul>\n  </section>\n\n  <button id=\"btn-parent\">parentElement</button>\n  <button id=\"btn-children\">children</button>\n  <button id=\"btn-first\">firstElementChild</button>\n  <button id=\"btn-last\">lastElementChild</button>\n  <button id=\"btn-nodes\">childNodes vs children</button>\n\n  <p id=\"output\">Click a button to inspect the DOM tree...</p>\n\n  <script>\n    const list   = document.getElementById('member-list');\n    const output = document.getElementById('output');\n\n    // parentElement: the immediate element parent\n    document.getElementById('btn-parent').onclick = function () {\n      output.textContent = 'parentElement: <' + list.parentElement.tagName.toLowerCase() + ' id=\"' + list.parentElement.id + '\">';\n      // returns <section id=\"team\">\n    };\n\n    // children: HTMLCollection of element children only (no text nodes)\n    document.getElementById('btn-children').onclick = function () {\n      var names = Array.from(list.children).map(function (li) { return li.textContent; });\n      output.textContent = 'children (' + list.children.length + '): ' + names.join(', ');\n    };\n\n    // firstElementChild and lastElementChild skip text/whitespace nodes\n    document.getElementById('btn-first').onclick = function () {\n      output.textContent = 'firstElementChild: \"' + list.firstElementChild.textContent + '\"';\n    };\n\n    document.getElementById('btn-last').onclick = function () {\n      output.textContent = 'lastElementChild: \"' + list.lastElementChild.textContent + '\"';\n    };\n\n    // childNodes includes text/whitespace nodes; children does not\n    document.getElementById('btn-nodes').onclick = function () {\n      output.textContent =\n        'childNodes: ' + list.childNodes.length + ' (includes whitespace text nodes)\\n' +\n        'children:   ' + list.children.length  + ' (element nodes only)';\n      // childNodes will be 7: 3 li elements + 4 whitespace text nodes between them\n    };\n  </script>\n\n</body>\n</html>",
+        "output": "The page shows a section with an h2 and three list items, and five buttons. Clicking 'parentElement' shows the section tag. Clicking 'children' lists all three member names. Clicking 'firstElementChild' shows 'Priya Sharma'. Clicking 'childNodes vs children' shows childNodes is 7 (3 elements + 4 whitespace text nodes) while children is only 3.",
         "images": null,
         "video_url": null
       },
       {
-        "title": "DOM Selection, Inspection, and Manipulation",
-        "description": "This example covers all major DOM selection methods and the most common manipulation operations: reading and writing text content, changing attributes, toggling classes, creating new nodes, inserting them, and removing them. These are the core operations behind every interactive web component.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DOM Manipulation</title>\n  <style>\n    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }\n    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; }\n    .featured { border-color: #2563eb; background: #eff6ff; }\n    .badge { display:inline-block; background:#dbeafe; color:#1d4ed8;\n             padding:0.15rem 0.5rem; border-radius:999px; font-size:0.75rem; }\n    button { padding:0.4rem 0.8rem; border-radius:6px; border:1px solid #d1d5db;\n             cursor:pointer; margin: 0.25rem; }\n    #log { background:#0f172a; color:#86efac; padding:1rem; border-radius:8px;\n           font-family:monospace; font-size:0.8rem; margin-top:1rem;\n           min-height:60px; white-space:pre-wrap; }\n  </style>\n</head>\n<body>\n\n  <h1 id=\"page-title\">Product Catalogue</h1>\n\n  <div id=\"catalogue\">\n    <div class=\"card\" id=\"card-1\" data-product=\"laptop\">\n      <h3 class=\"card-title\">ThinkBook 14</h3>\n      <p class=\"card-price\">Rs 62,000</p>\n    </div>\n    <div class=\"card featured\" id=\"card-2\" data-product=\"phone\">\n      <h3 class=\"card-title\">Pixel 8a</h3>\n      <p class=\"card-price\">Rs 52,999</p>\n    </div>\n  </div>\n\n  <div>\n    <button id=\"btn-read\">Read Content</button>\n    <button id=\"btn-write\">Update Title</button>\n    <button id=\"btn-attr\">Toggle Featured</button>\n    <button id=\"btn-class\">Add Badge</button>\n    <button id=\"btn-create\">Add Card</button>\n    <button id=\"btn-remove\">Remove Last Card</button>\n    <button id=\"btn-query\">querySelectorAll</button>\n  </div>\n\n  <div id=\"log\">Click a button to see the operation...</div>\n\n  <script>\n    const catalogue = document.getElementById('catalogue');\n    const log       = document.getElementById('log');\n    const print     = msg => { log.textContent = msg; };\n\n\n    // ===== SELECTION METHODS =====\n\n    // getElementById: fastest, returns single element or null\n    const card1 = document.getElementById('card-1');\n\n    // querySelector: CSS selector, returns first match or null\n    const firstTitle = document.querySelector('.card-title');\n\n    // querySelectorAll: CSS selector, returns static NodeList\n    const allCards = document.querySelectorAll('.card');\n\n    // getElementsByClassName: live HTMLCollection\n    const byClass = document.getElementsByClassName('card');\n\n\n    // ===== READ CONTENT =====\n    document.getElementById('btn-read').onclick = () => {\n      const title = document.getElementById('page-title');\n\n      // textContent: all text, including hidden elements, no HTML tags\n      // innerHTML:   raw HTML string including child tags\n      // innerText:   only visible text, respects CSS display:none\n      print(\n        `textContent: \"${title.textContent}\"\\n` +\n        `innerHTML:   \"${title.innerHTML}\"\\n` +\n        `id attr:     \"${title.getAttribute('id')}\"\\n` +\n        `tagName:     \"${title.tagName}\"\\n` +\n        `card1 data:  \"${card1.dataset.product}\"`\n      );\n    };\n\n\n    // ===== WRITE CONTENT =====\n    document.getElementById('btn-write').onclick = () => {\n      const title = document.getElementById('page-title');\n      title.textContent = 'Updated Catalogue 2024';\n      // Use textContent to set plain text (safe, no XSS risk)\n      // Use innerHTML only when you intentionally need to insert HTML markup\n      print('Title updated via textContent.');\n    };\n\n\n    // ===== ATTRIBUTE MANIPULATION =====\n    document.getElementById('btn-attr').onclick = () => {\n      const card2 = document.getElementById('card-2');\n\n      // classList methods: add, remove, toggle, contains, replace\n      card2.classList.toggle('featured');\n\n      // getAttribute / setAttribute / removeAttribute\n      const hasFeatured = card2.classList.contains('featured');\n      print(`card-2 featured class: ${hasFeatured}\\nclassList: ${[...card2.classList].join(', ')}`);\n    };\n\n\n    // ===== ADD A BADGE VIA innerHTML =====\n    document.getElementById('btn-class').onclick = () => {\n      const title = card1.querySelector('.card-title');\n      // innerHTML is acceptable here: content is not user-supplied\n      title.innerHTML = 'ThinkBook 14 <span class=\"badge\">New</span>';\n      print('Badge added via innerHTML.');\n    };\n\n\n    // ===== CREATE AND INSERT A NEW NODE =====\n    document.getElementById('btn-create').onclick = () => {\n      // createElement: creates a detached element\n      const newCard  = document.createElement('div');\n      newCard.className = 'card';\n      newCard.id = `card-${Date.now()}`;\n\n      // createTextNode or textContent to set safe text\n      const heading = document.createElement('h3');\n      heading.className = 'card-title';\n      heading.textContent = 'Galaxy Tab S9';\n\n      const price = document.createElement('p');\n      price.className = 'card-price';\n      price.textContent = 'Rs 74,999';\n\n      // Append children to the new card\n      newCard.appendChild(heading);\n      newCard.appendChild(price);\n\n      // Insert the new card into the DOM\n      catalogue.appendChild(newCard);           // adds at the end\n      // catalogue.prepend(newCard);            // adds at the start\n      // card1.insertAdjacentElement('afterend', newCard); // after card-1\n\n      print(`Created and appended: ${newCard.id}`);\n    };\n\n\n    // ===== REMOVE A NODE =====\n    document.getElementById('btn-remove').onclick = () => {\n      const last = catalogue.lastElementChild;\n      if (last) {\n        const removed = last.id;\n        last.remove();           // modern: element removes itself\n        print(`Removed: ${removed}`);\n      } else {\n        print('No cards left to remove.');\n      }\n    };\n\n\n    // ===== querySelectorAll DEMO =====\n    document.getElementById('btn-query').onclick = () => {\n      // Returns a static NodeList, not live\n      const titles = document.querySelectorAll('#catalogue .card-title');\n      const names  = [...titles].map(t => t.textContent.trim()).join(', ');\n      print(`querySelectorAll('.card-title') found ${titles.length}:\\n${names}`);\n    };\n\n  </script>\n\n</body>\n</html>",
-        "output": "Page renders a catalogue heading, two product cards (second with blue featured styling), and six action buttons. Read Content logs textContent, innerHTML, id attribute, tagName, and dataset value. Update Title changes the h1 text. Toggle Featured switches the blue styling on and off. Add Badge injects a New badge into the first card title. Add Card appends a third Galaxy Tab S9 card. Remove Last Card deletes the most recent card. querySelectorAll logs all current card titles with a count.",
+        "title": "DOM Selection and Manipulation",
+        "description": "This covers the four main selection methods and the most common manipulation operations: reading and writing text, toggling classes, creating new elements, and removing them. These are the building blocks of every interactive component.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DOM Manipulation</title>\n</head>\n<body>\n\n  <h1 id=\"page-title\">Product Catalogue</h1>\n\n  <div id=\"catalogue\">\n    <div id=\"card-1\" class=\"card\" data-product=\"laptop\">\n      <h3 class=\"card-title\">ThinkBook 14</h3>\n      <p class=\"card-price\">Rs 62,000</p>\n    </div>\n    <div id=\"card-2\" class=\"card featured\" data-product=\"phone\">\n      <h3 class=\"card-title\">Pixel 8a</h3>\n      <p class=\"card-price\">Rs 52,999</p>\n    </div>\n  </div>\n\n  <button id=\"btn-read\">Read Content</button>\n  <button id=\"btn-write\">Update Title</button>\n  <button id=\"btn-toggle\">Toggle Featured Class</button>\n  <button id=\"btn-create\">Add Card</button>\n  <button id=\"btn-remove\">Remove Last Card</button>\n  <button id=\"btn-query\">querySelectorAll titles</button>\n\n  <p id=\"log\">Click a button to see the result...</p>\n\n  <script>\n    var catalogue = document.getElementById('catalogue');\n    var log       = document.getElementById('log');\n\n    // getElementById: fastest, by unique ID\n    var card1 = document.getElementById('card-1');\n\n    // querySelector: first CSS match\n    var firstTitle = document.querySelector('.card-title');\n\n    // READ: textContent vs innerHTML\n    document.getElementById('btn-read').onclick = function () {\n      var title = document.getElementById('page-title');\n      log.textContent =\n        'textContent: \"' + title.textContent + '\"' +\n        ' | id attr: \"' + title.getAttribute('id') + '\"' +\n        ' | data-product: \"' + card1.dataset.product + '\"';\n    };\n\n    // WRITE: textContent is safe for user-supplied text\n    document.getElementById('btn-write').onclick = function () {\n      document.getElementById('page-title').textContent = 'Updated Catalogue 2024';\n      log.textContent = 'Title updated via textContent.';\n    };\n\n    // classList.toggle: adds class if absent, removes if present\n    document.getElementById('btn-toggle').onclick = function () {\n      var card2 = document.getElementById('card-2');\n      card2.classList.toggle('featured');\n      log.textContent = 'card-2 classes: ' + card2.className;\n    };\n\n    // createElement + appendChild: create and insert a new node\n    document.getElementById('btn-create').onclick = function () {\n      var newCard = document.createElement('div');\n      newCard.className = 'card';\n      newCard.id = 'card-new';\n\n      var heading = document.createElement('h3');\n      heading.className = 'card-title';\n      heading.textContent = 'Galaxy Tab S9';   // textContent is safe\n\n      var price = document.createElement('p');\n      price.className = 'card-price';\n      price.textContent = 'Rs 74,999';\n\n      newCard.appendChild(heading);\n      newCard.appendChild(price);\n      catalogue.appendChild(newCard);           // insert at end\n      log.textContent = 'Created and appended: ' + newCard.id;\n    };\n\n    // remove(): modern, element removes itself\n    document.getElementById('btn-remove').onclick = function () {\n      var last = catalogue.lastElementChild;\n      if (last) {\n        var id = last.id;\n        last.remove();\n        log.textContent = 'Removed: ' + id;\n      } else {\n        log.textContent = 'No cards left.';\n      }\n    };\n\n    // querySelectorAll: returns static NodeList of all matches\n    document.getElementById('btn-query').onclick = function () {\n      var titles = document.querySelectorAll('#catalogue .card-title');\n      var names  = Array.from(titles).map(function (t) { return t.textContent; });\n      log.textContent = 'Found ' + titles.length + ' titles: ' + names.join(', ');\n    };\n  </script>\n\n</body>\n</html>",
+        "output": "The page shows a heading 'Product Catalogue', two product cards with titles and prices, and six buttons. 'Read Content' logs textContent, id attribute, and data-product value. 'Update Title' changes the h1 text. 'Toggle Featured Class' adds and removes the 'featured' class on card-2. 'Add Card' appends a third Galaxy Tab S9 card. 'Remove Last Card' deletes the most recent card. 'querySelectorAll titles' logs all current card title names with a count.",
         "images": null,
         "video_url": null
       }
@@ -122,31 +70,25 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When reading or modifying page content dynamically without a full page reload"
-          }
+          { "value": "When " },
+          { "value": "reading or modifying page content dynamically", "bold": true },
+          { "value": " without a full page reload — the DOM API is the only way to update what users see after the page has loaded." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When building interactive UI components that respond to user actions"
-          }
+          { "value": "When building " },
+          { "value": "interactive UI components", "bold": true },
+          { "value": " that respond to user actions like clicks, form input, or scroll events." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When traversing element relationships to find siblings, parents, or "
-          },
-          {
-            "value": "children",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/children"
-          }
+          { "value": "When traversing element relationships to find " },
+          { "value": "siblings, parents, or children", "bold": true },
+          { "value": " — for example, finding the parent form when a submit button is clicked." }
         ]
       }
     ],
@@ -154,79 +96,35 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid frequent individual "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " updates in loops, batch with "
-          },
-          {
-            "value": "DocumentFragment",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment"
-          },
-          {
-            "value": " instead"
-          }
+          { "value": "Avoid frequent individual " },
+          { "value": "DOM", "bold": true, "highlight": true },
+          { "value": " updates inside loops — batch all insertions using a " },
+          { "value": "DocumentFragment", "bold": true, "highlight": true },
+          { "value": " and append it once to trigger only a single reflow." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid "
-          },
-          {
-            "value": "innerHTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML"
-          },
-          {
-            "value": " with unsanitised user input as it creates "
-          },
-          {
-            "value": "XSS",
-            "bold": true,
-            "highlight": true,
-            "link": "https://owasp.org/www-community/attacks/xss/"
-          },
-          {
-            "value": " vulnerabilities"
-          }
+          { "value": "Avoid " },
+          { "value": "innerHTML", "bold": true, "highlight": true },
+          { "value": " with unsanitised user input — it parses and executes the string as real HTML, creating " },
+          { "value": "XSS", "bold": true, "highlight": true },
+          { "value": " vulnerabilities. Always use " },
+          { "value": "textContent", "highlight": true },
+          { "value": " for user-supplied text." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid deep "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " traversal chains like parent.parent."
-          },
-          {
-            "value": "children",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/children"
-          },
-          {
-            "value": " when an id selector works"
-          }
+          { "value": "Avoid deep DOM traversal chains like " },
+          { "value": "parent.parentElement.children[0]", "highlight": true },
+          { "value": " when a simple " },
+          { "value": "getElementById", "bold": true, "highlight": true },
+          { "value": " or " },
+          { "value": "querySelector", "bold": true, "highlight": true },
+          { "value": " call would be clearer and less fragile." }
         ]
       }
     ],
@@ -234,76 +132,25 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Static "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " alone cannot update content after the page loads without the "
-          },
-          {
-            "value": "DOM API",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": "."
-          }
+          { "value": "Static HTML alone " },
+          { "value": "cannot update content after the page loads", "bold": true },
+          { "value": " — without the DOM API every change requires a full page refresh." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Without the "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": ", "
-          },
-          {
-            "value": "JavaScript",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          },
-          {
-            "value": " has no structured way to find, read, or change page elements."
-          }
+          { "value": "Without the DOM, JavaScript has " },
+          { "value": "no structured way to find, read, or change page elements", "bold": true },
+          { "value": " — it would have no concept of headings, paragraphs, or buttons." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " tree relationships let "
-          },
-          {
-            "value": "code",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code"
-          },
-          {
-            "value": " navigate complex structures without memorising every element ID."
-          }
+          { "value": "DOM tree relationships let code " },
+          { "value": "navigate complex structures", "bold": true },
+          { "value": " without memorising every element ID — for example, finding the parent form of any clicked input." }
         ]
       }
     ],
@@ -311,121 +158,28 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "The "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " is like a live organisation chart for a company. The document is the CEO at the top. Each department "
-          },
-          {
-            "value": "head",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head"
-          },
-          {
-            "value": " is an element node. Each employee is a text or child element node. You can read who reports to whom, move people between departments, hire new employees, or fire existing ones, and the org chart updates instantly to reflect the changes."
-          }
+          { "value": "The DOM is like a " },
+          { "value": "live organisation chart", "bold": true },
+          { "value": " for a company. The document is the CEO at the top. Each department is an element node. Each employee is a text or child element node. You can read who reports to whom, move people between departments, hire new employees, or fire existing ones — and the org chart updates instantly to reflect every change." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "The difference between "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " source and the "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " is like the difference between a blueprint and the actual building. The blueprint is the original "
-          },
-          {
-            "value": "HTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": " file, static and unchanging on disk. The building is the "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": ", constructed from the blueprint but then modified by workers over "
-          },
-          {
-            "value": "time",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time"
-          },
-          {
-            "value": ". Renovations happen to the building, not to the blueprint stored in the archive."
-          }
+          { "value": "The difference between the HTML source and the DOM is like the difference between a " },
+          { "value": "blueprint and an actual building", "bold": true },
+          { "value": ". The blueprint is the original HTML file — static and unchanging on disk. The building is the DOM — constructed from the blueprint but then modified by workers over time. Renovations happen to the building, not to the blueprint stored in the archive." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "childNodes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes"
-          },
-          {
-            "value": " versus "
-          },
-          {
-            "value": "children",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/children"
-          },
-          {
-            "value": " is like counting everyone in a room versus counting only the adults. "
-          },
-          {
-            "value": "childNodes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes"
-          },
-          {
-            "value": " includes every node: element nodes, text nodes, and whitespace nodes. "
-          },
-          {
-            "value": "children",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/children"
-          },
-          {
-            "value": " counts only element nodes. The room looks the same but the count depends on who you include in the tally."
-          }
+          { "value": "childNodes", "bold": true, "highlight": true },
+          { "value": " versus " },
+          { "value": "children", "bold": true, "highlight": true },
+          { "value": " is like counting " },
+          { "value": "everyone in a room versus counting only the adults", "italic": true },
+          { "value": ". childNodes includes every node: element nodes, text nodes, and whitespace. children counts only element nodes. The room looks the same but the count depends on who you include in the tally." }
         ]
       }
     ],
@@ -433,97 +187,55 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Confusing "
-          },
-          {
-            "value": "childNodes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes"
-          },
-          {
-            "value": " with "
-          },
-          {
-            "value": "children",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/children"
-          },
-          {
-            "value": ": "
-          },
-          {
-            "value": "childNodes",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes"
-          },
-          {
-            "value": " returns all node types including whitespace text."
-          }
+          { "value": "Confusing " },
+          { "value": "childNodes", "bold": true, "highlight": true },
+          { "value": " with " },
+          { "value": "children", "bold": true, "highlight": true },
+          { "value": ": " },
+          { "value": "childNodes", "highlight": true },
+          { "value": " returns all node types including whitespace text nodes between tags, so its length is almost always higher than " },
+          { "value": "children.length", "highlight": true },
+          { "value": ". Use " },
+          { "value": "children", "highlight": true },
+          { "value": " when you only want element nodes." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Using "
-          },
-          {
-            "value": "innerHTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML"
-          },
-          {
-            "value": " with user-supplied data: Setting element."
-          },
-          {
-            "value": "innerHTML",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML"
-          },
-          {
-            "value": " = userInput directly injects raw."
-          }
+          { "value": "Using " },
+          { "value": "innerHTML", "bold": true, "highlight": true },
+          { "value": " with user-supplied data: Setting " },
+          { "value": "element.innerHTML = userInput", "highlight": true },
+          { "value": " directly injects raw HTML into the page — if the user types " },
+          { "value": "<script>", "highlight": true },
+          { "value": " or event handler attributes like " },
+          { "value": "onerror=alert(1)", "highlight": true },
+          { "value": ", the browser executes them. Always use " },
+          { "value": "textContent", "bold": true },
+          { "value": " for user-supplied text and reserve innerHTML only for trusted, controlled content." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Querying the "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " before it is ready: Running document."
-          },
-          {
-            "value": "getElementById",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById"
-          },
-          {
-            "value": " or "
-          },
-          {
-            "value": "querySelector",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"
-          },
-          {
-            "value": " at the top of."
-          }
+          { "value": "Querying the DOM before it is ready: Running " },
+          { "value": "getElementById", "bold": true, "highlight": true },
+          { "value": " or " },
+          { "value": "querySelector", "bold": true, "highlight": true },
+          { "value": " at the top of a " },
+          { "value": "<script>", "highlight": true },
+          { "value": " tag placed in " },
+          { "value": "<head>", "highlight": true },
+          { "value": " without " },
+          { "value": "defer", "highlight": true },
+          { "value": " returns " },
+          { "value": "null", "highlight": true },
+          { "value": " because the HTML below it has not been parsed yet. Place scripts at the end of " },
+          { "value": "<body>", "highlight": true },
+          { "value": " or use the " },
+          { "value": "defer", "bold": true },
+          { "value": " attribute to ensure the DOM is fully built before your code runs." }
         ]
       }
     ],
@@ -531,98 +243,21 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Use document."
-          },
-          {
-            "value": "querySelector",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"
-          },
-          {
-            "value": " with any valid "
-          },
-          {
-            "value": "CSS",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-          },
-          {
-            "value": " selector to select elements with the same syntax you already know from "
-          },
-          {
-            "value": "CSS",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-          },
-          {
-            "value": ". For example: document."
-          },
-          {
-            "value": "querySelector",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"
-          },
-          {
-            "value": "('section#team li.member[data-role=\"lead\"]') finds the lead member inside the team section in one call. This is often more precise and readable than chaining multiple "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " traversal calls."
-          }
+          { "value": "Use " },
+          { "value": "document.querySelector", "bold": true, "highlight": true },
+          { "value": " with any valid CSS selector to select elements with the same syntax you already know from CSS. For example: " },
+          { "value": "document.querySelector('section#team li.member[data-role=\"lead\"]')", "highlight": true },
+          { "value": " finds the lead member inside the team section in one call — often more readable than chaining multiple traversal steps." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When appending multiple new elements in a loop, use a "
-          },
-          {
-            "value": "DocumentFragment",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment"
-          },
-          {
-            "value": " to batch all insertions into a single "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " update. Create the fragment with "
-          },
-          {
-            "value": "document.createDocumentFragment()",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment"
-          },
-          {
-            "value": ", append all new nodes to it, then append the fragment to the "
-          },
-          {
-            "value": "DOM",
-            "bold": true,
-            "highlight": true,
-            "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-          },
-          {
-            "value": " once. This triggers only one reflow instead of one per element, significantly improving performance for large lists."
-          }
+          { "value": "When appending multiple new elements in a loop, use a " },
+          { "value": "DocumentFragment", "bold": true, "highlight": true },
+          { "value": " to batch all insertions into a single DOM update. Create it with " },
+          { "value": "document.createDocumentFragment()", "highlight": true },
+          { "value": ", append all new nodes to it, then append the fragment to the DOM once. This triggers only one reflow instead of one per element — significantly improving performance for large lists." }
         ]
       }
     ],
@@ -652,172 +287,58 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The DOM tree starts at the "
-            },
-            {
-              "value": "document",
-              "highlight": true
-            },
-            {
-              "value": " node, then the "
-            },
-            {
-              "value": "html",
-              "highlight": true
-            },
-            {
-              "value": " element, then branches into "
-            },
-            {
-              "value": "head",
-              "highlight": true
-            },
-            {
-              "value": " and "
-            },
-            {
-              "value": "body",
-              "highlight": true
-            },
-            {
-              "value": ", and continues branching from there. Each node has a "
-            },
-            {
-              "value": "parentNode",
-              "highlight": true
-            },
-            {
-              "value": ", zero or more "
-            },
-            {
-              "value": "childNodes",
-              "highlight": true
-            },
-            {
-              "value": ", and optional "
-            },
-            {
-              "value": "previousSibling",
-              "highlight": true
-            },
-            {
-              "value": " and "
-            },
-            {
-              "value": "nextSibling",
-              "highlight": true
-            },
-            {
-              "value": " neighbours. The element-only variants ("
-            },
-            {
-              "value": "parentElement",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "children",
-              "highlight": true
-            },
-            {
-              "value": ", "
-            },
-            {
-              "value": "firstElementChild",
-              "highlight": true
-            },
-            {
-              "value": ") skip text and comment nodes, which is what most code needs. Full reference at "
-            },
-            {
-              "value": "MDN: Node relationships",
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Node"
-            },
-            {
-              "value": "."
-            }
+            { "value": "The DOM tree starts at the " },
+            { "value": "document", "highlight": true },
+            { "value": " node, then the " },
+            { "value": "<html>", "highlight": true },
+            { "value": " element, then branches into " },
+            { "value": "<head>", "highlight": true },
+            { "value": " and " },
+            { "value": "<body>", "highlight": true },
+            { "value": ", and continues branching from there. Each node has a " },
+            { "value": "parentNode", "highlight": true },
+            { "value": ", zero or more " },
+            { "value": "childNodes", "highlight": true },
+            { "value": ", and optional " },
+            { "value": "previousSibling", "highlight": true },
+            { "value": " and " },
+            { "value": "nextSibling", "highlight": true },
+            { "value": " neighbours. The element-only variants (" },
+            { "value": "parentElement", "highlight": true },
+            { "value": ", " },
+            { "value": "children", "highlight": true },
+            { "value": ", " },
+            { "value": "firstElementChild", "highlight": true },
+            { "value": ") skip text and comment nodes, which is what most code needs. Full reference at " },
+            { "value": "MDN: Node relationships", "link": "https://developer.mozilla.org/en-US/docs/Web/API/Node" },
+            { "value": "." }
           ]
         },
         {
           "type": "table",
-          "headers": [
-            "Property",
-            "Returns",
-            "Includes Text Nodes?"
-          ],
+          "headers": ["Property", "Returns", "Includes Text Nodes?"],
           "rows": [
-            [
-              "parentNode",
-              "Parent node of any type",
-              "Yes"
-            ],
-            [
-              "parentElement",
-              "Parent element node only",
-              "No"
-            ],
-            [
-              "childNodes",
-              "All child nodes (NodeList)",
-              "Yes"
-            ],
-            [
-              "children",
-              "Child element nodes only (HTMLCollection)",
-              "No"
-            ],
-            [
-              "firstChild",
-              "First child node of any type",
-              "Yes"
-            ],
-            [
-              "firstElementChild",
-              "First child element node",
-              "No"
-            ],
-            [
-              "lastChild",
-              "Last child node of any type",
-              "Yes"
-            ],
-            [
-              "lastElementChild",
-              "Last child element node",
-              "No"
-            ],
-            [
-              "nextSibling",
-              "Next sibling node of any type",
-              "Yes"
-            ],
-            [
-              "nextElementSibling",
-              "Next sibling element node",
-              "No"
-            ],
-            [
-              "previousSibling",
-              "Previous sibling node of any type",
-              "Yes"
-            ],
-            [
-              "previousElementSibling",
-              "Previous sibling element node",
-              "No"
-            ]
+            ["parentNode", "Parent node of any type", "Yes"],
+            ["parentElement", "Parent element node only", "No"],
+            ["childNodes", "All child nodes (NodeList)", "Yes"],
+            ["children", "Child element nodes only (HTMLCollection)", "No"],
+            ["firstChild", "First child node of any type", "Yes"],
+            ["firstElementChild", "First child element node", "No"],
+            ["lastChild", "Last child node of any type", "Yes"],
+            ["lastElementChild", "Last child element node", "No"],
+            ["nextSibling", "Next sibling node of any type", "Yes"],
+            ["nextElementSibling", "Next sibling element node", "No"],
+            ["previousSibling", "Previous sibling node of any type", "Yes"],
+            ["previousElementSibling", "Previous sibling element node", "No"]
           ]
         }
       ],
       "examples": [
         {
-          "title": "Traversing the DOM Tree Without Hardcoded Selectors",
-          "description": "This example demonstrates DOM tree traversal using only relationship properties, without using getElementById or querySelector. This pattern is useful when writing event handlers or utility functions that need to navigate relative to an element they already have, such as finding the parent list when a list item is clicked.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DOM Tree Traversal</title>\n  <style>\n    body  { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }\n    li    { cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 4px; }\n    li:hover  { background: #f1f5f9; }\n    li.active { background: #dbeafe; font-weight: 600; }\n    #info { background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 8px;\n            font-family: monospace; font-size: 0.8rem; margin-top: 1rem; white-space: pre; }\n  </style>\n</head>\n<body>\n\n  <h2>Click any team member</h2>\n\n  <ul id=\"team\">\n    <li data-dept=\"frontend\">Priya Sharma</li>\n    <li data-dept=\"backend\">Rahul Gupta</li>\n    <li data-dept=\"devops\">Anjali Mehta</li>\n    <li data-dept=\"frontend\">Vikram Nair</li>\n  </ul>\n\n  <div id=\"info\">Click a name to inspect its tree position...</div>\n\n  <script>\n    const info = document.getElementById('info');\n    const team = document.getElementById('team');\n\n    // Event delegation: attach one listener to the parent instead of each li\n    team.addEventListener('click', (event) => {\n      const clicked = event.target;\n      if (clicked.tagName !== 'LI') return;\n\n      // Remove active from all siblings\n      [...team.children].forEach(li => li.classList.remove('active'));\n      clicked.classList.add('active');\n\n      // Navigate the tree using relationship properties\n      const parent     = clicked.parentElement;          // <ul id=\"team\">\n      const grandparent = clicked.parentElement          // <ul>\n                               .parentElement;           // <body>\n      const prev       = clicked.previousElementSibling; // li above, or null\n      const next       = clicked.nextElementSibling;     // li below, or null\n      const index      = [...parent.children].indexOf(clicked);\n      const total      = parent.children.length;\n\n      // childNodes vs children comparison on the parent\n      const allNodes    = parent.childNodes.length;      // includes text nodes\n      const elemNodes   = parent.children.length;        // element nodes only\n\n      info.textContent = [\n        `Clicked:          <${clicked.tagName.toLowerCase()}> \"${clicked.textContent}\"`,\n        `dept data attr:   ${clicked.dataset.dept}`,\n        `parentElement:    <${parent.tagName.toLowerCase()}#${parent.id}>`,\n        `grandparent:      <${grandparent.tagName.toLowerCase()}>`,\n        `position in list: ${index + 1} of ${total}`,\n        `prevElementSib:   ${prev ? '\"' + prev.textContent + '\"' : 'null (first item)'}`,\n        `nextElementSib:   ${next ? '\"' + next.textContent + '\"' : 'null (last item)'}`,\n        `parent.childNodes:  ${allNodes} (includes whitespace text nodes)`,\n        `parent.children:    ${elemNodes} (element nodes only)`,\n      ].join('\\n');\n    });\n  </script>\n\n</body>\n</html>",
-          "output": "Page renders a four-item team list. Clicking any name highlights it blue and updates the info panel with: the element tag and text, the data attribute value, the parentElement, the grandparent element, the position in the list, the previous and next sibling names (or null for first and last), and a comparison showing that childNodes count is higher than children count because of whitespace text nodes.",
+          "title": "Traversing the DOM Tree Using Relationship Properties",
+          "description": "This shows DOM tree traversal using only relationship properties — no getElementById or querySelector. This pattern is useful when writing event handlers that need to navigate relative to the element they already have, such as finding the parent list when a list item is clicked.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DOM Tree Traversal</title>\n</head>\n<body>\n\n  <h2>Click any team member</h2>\n\n  <ul id=\"team\">\n    <li data-dept=\"frontend\">Priya Sharma</li>\n    <li data-dept=\"backend\">Rahul Gupta</li>\n    <li data-dept=\"devops\">Anjali Mehta</li>\n    <li data-dept=\"frontend\">Vikram Nair</li>\n  </ul>\n\n  <p id=\"info\">Click a name to inspect its tree position...</p>\n\n  <script>\n    var info = document.getElementById('info');\n    var team = document.getElementById('team');\n\n    // One listener on the parent handles clicks on all children\n    team.addEventListener('click', function (event) {\n      var clicked = event.target;\n      if (clicked.tagName !== 'LI') return;\n\n      // Navigate using relationship properties\n      var parent      = clicked.parentElement;           // <ul id=\"team\">\n      var grandparent = clicked.parentElement            // <ul>\n                             .parentElement;             // <body>\n      var prev        = clicked.previousElementSibling;  // li above, or null\n      var next        = clicked.nextElementSibling;      // li below, or null\n      var index       = Array.from(parent.children).indexOf(clicked);\n\n      info.textContent =\n        'Clicked: \"' + clicked.textContent + '\" (dept: ' + clicked.dataset.dept + ')\\n' +\n        'parentElement: <' + parent.tagName.toLowerCase() + ' id=\"' + parent.id + '\">\\n' +\n        'grandparent: <' + grandparent.tagName.toLowerCase() + '>\\n' +\n        'position: ' + (index + 1) + ' of ' + parent.children.length + '\\n' +\n        'prevSibling: ' + (prev ? '\"' + prev.textContent + '\"' : 'null — first item') + '\\n' +\n        'nextSibling: ' + (next ? '\"' + next.textContent + '\"' : 'null — last item') + '\\n' +\n        'childNodes count: ' + parent.childNodes.length + ' (includes whitespace)\\n' +\n        'children count:   ' + parent.children.length  + ' (elements only)';\n    });\n  </script>\n\n</body>\n</html>",
+          "output": "The page shows a heading and a list of four team member names. Clicking any name updates the paragraph below with: the clicked element's text and data-dept value, its parentElement (the ul), its grandparent (body), its position in the list, its previous and next sibling names (or 'null' for first and last items), and a comparison showing childNodes is higher than children due to whitespace text nodes.",
           "images": null,
           "video_url": null
         }
@@ -832,53 +353,23 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The "
-            },
-            {
-              "value": "DOM",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-            },
-            {
-              "value": " tree is like a family tree. The document is the founding ancestor. Each element is a descendant. Parent, child, and sibling are literal relationship terms in this hierarchy. When you click a button and need to find its containing form, you walk up the family tree using parentElement until you reach the form ancestor."
-            }
+            { "value": "The DOM tree is like a " },
+            { "value": "family tree", "bold": true },
+            { "value": ". The document is the founding ancestor. Each element is a descendant. Parent, child, and sibling are literal relationship terms in this hierarchy. When you click a button and need to find its containing form, you walk up the family tree using " },
+            { "value": "parentElement", "highlight": true },
+            { "value": " until you reach the form ancestor." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The difference between Node properties and Element properties is like counting everyone at a party versus counting only the guests on the invitation list. "
-            },
-            {
-              "value": "childNodes",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes"
-            },
-            {
-              "value": " counts everyone: guests, staff, furniture (whitespace text nodes). "
-            },
-            {
-              "value": "children",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/children"
-            },
-            {
-              "value": " counts only the invited guests: actual "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " elements. For most UI work you want the guest list, not the full room count."
-            }
+            { "value": "The difference between Node properties and Element properties is like " },
+            { "value": "counting everyone at a party versus counting only the invited guests", "italic": true },
+            { "value": ". " },
+            { "value": "childNodes", "bold": true, "highlight": true },
+            { "value": " counts everyone: guests, staff, and furniture (whitespace text nodes). " },
+            { "value": "children", "bold": true, "highlight": true },
+            { "value": " counts only the invited guests: actual HTML elements. For most UI work you want the guest list, not the full room count." }
           ]
         }
       ],
@@ -887,36 +378,13 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Use the element.closest(selector) method to walk up the "
-            },
-            {
-              "value": "DOM",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-            },
-            {
-              "value": " tree and find the nearest ancestor matching a "
-            },
-            {
-              "value": "CSS",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-            },
-            {
-              "value": " selector. For example, inside a click handler on a delete button inside a card, event."
-            },
-            {
-              "value": "target",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target"
-            },
-            {
-              "value": ".closest('.card') finds the wrapping card element without knowing how many levels up it is. This is more reliable than a fixed chain of parentElement calls."
-            }
+            { "value": "Use " },
+            { "value": "element.closest(selector)", "bold": true, "highlight": true },
+            { "value": " to walk up the DOM tree and find the nearest ancestor matching a CSS selector. For example, inside a click handler on a delete button inside a card, " },
+            { "value": "event.target.closest('.card')", "highlight": true },
+            { "value": " finds the wrapping card element without knowing how many levels up it is — more reliable than a fixed chain of " },
+            { "value": "parentElement", "highlight": true },
+            { "value": " calls." }
           ]
         }
       ],
@@ -943,189 +411,57 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The DOM API provides four primary selection methods: "
-            },
-            {
-              "value": "getElementById",
-              "highlight": true
-            },
-            {
-              "value": " for unique elements by ID, "
-            },
-            {
-              "value": "querySelector",
-              "highlight": true
-            },
-            {
-              "value": " for the first CSS match, "
-            },
-            {
-              "value": "querySelectorAll",
-              "highlight": true
-            },
-            {
-              "value": " for all CSS matches, and "
-            },
-            {
-              "value": "getElementsByClassName",
-              "highlight": true
-            },
-            {
-              "value": " for a live collection by class. Once selected, content is read or written via "
-            },
-            {
-              "value": "textContent",
-              "highlight": true
-            },
-            {
-              "value": " for plain text or "
-            },
-            {
-              "value": "innerHTML",
-              "highlight": true
-            },
-            {
-              "value": " for HTML markup. Classes are managed via "
-            },
-            {
-              "value": "classList",
-              "highlight": true
-            },
-            {
-              "value": " and attributes via "
-            },
-            {
-              "value": "setAttribute",
-              "highlight": true
-            },
-            {
-              "value": " and "
-            },
-            {
-              "value": "getAttribute",
-              "highlight": true
-            },
-            {
-              "value": ". Full API reference at "
-            },
-            {
-              "value": "MDN: Document",
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document"
-            },
-            {
-              "value": "."
-            }
+            { "value": "The DOM API provides four primary selection methods: " },
+            { "value": "getElementById", "highlight": true },
+            { "value": " for unique elements by ID, " },
+            { "value": "querySelector", "highlight": true },
+            { "value": " for the first CSS match, " },
+            { "value": "querySelectorAll", "highlight": true },
+            { "value": " for all CSS matches, and " },
+            { "value": "getElementsByClassName", "highlight": true },
+            { "value": " for a live collection by class. Once selected, content is read or written via " },
+            { "value": "textContent", "highlight": true },
+            { "value": " for plain text or " },
+            { "value": "innerHTML", "highlight": true },
+            { "value": " for HTML markup. Classes are managed via " },
+            { "value": "classList", "highlight": true },
+            { "value": " and attributes via " },
+            { "value": "setAttribute", "highlight": true },
+            { "value": " and " },
+            { "value": "getAttribute", "highlight": true },
+            { "value": ". Full API reference at " },
+            { "value": "MDN: Document", "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document" },
+            { "value": "." }
           ]
         },
         {
           "type": "table",
-          "headers": [
-            "Operation",
-            "Method or Property",
-            "Returns",
-            "Notes"
-          ],
+          "headers": ["Operation", "Method or Property", "Returns", "Notes"],
           "rows": [
-            [
-              "Select by ID",
-              "getElementById('id')",
-              "Element or null",
-              "Fastest selection method"
-            ],
-            [
-              "Select first match",
-              "querySelector('css')",
-              "Element or null",
-              "Accepts any CSS selector"
-            ],
-            [
-              "Select all matches",
-              "querySelectorAll('css')",
-              "Static NodeList",
-              "Use spread [...] to get array methods"
-            ],
-            [
-              "Select by class",
-              "getElementsByClassName('cls')",
-              "Live HTMLCollection",
-              "Updates automatically as DOM changes"
-            ],
-            [
-              "Read plain text",
-              "element.textContent",
-              "String",
-              "Safe for reading user-supplied text"
-            ],
-            [
-              "Write plain text",
-              "element.textContent = '...'",
-              "String set",
-              "Never executes HTML, safe for user input"
-            ],
-            [
-              "Read or write HTML",
-              "element.innerHTML",
-              "String",
-              "Only use with trusted content, never user input"
-            ],
-            [
-              "Add class",
-              "classList.add('name')",
-              "void",
-              "Does not duplicate if already present"
-            ],
-            [
-              "Remove class",
-              "classList.remove('name')",
-              "void",
-              "Silent if class not present"
-            ],
-            [
-              "Toggle class",
-              "classList.toggle('name')",
-              "Boolean",
-              "Returns true if class was added"
-            ],
-            [
-              "Get attribute",
-              "getAttribute('name')",
-              "String or null",
-              "Works for all attributes including data-*"
-            ],
-            [
-              "Set attribute",
-              "setAttribute('name','val')",
-              "void",
-              "Creates attribute if it does not exist"
-            ],
-            [
-              "Create element",
-              "createElement('tag')",
-              "Element",
-              "Element is detached until inserted"
-            ],
-            [
-              "Append child",
-              "parent.appendChild(el)",
-              "Element",
-              "Inserts at end of parent"
-            ],
-            [
-              "Remove element",
-              "element.remove()",
-              "void",
-              "Modern, removes itself from DOM"
-            ]
+            ["Select by ID", "getElementById('id')", "Element or null", "Fastest selection method"],
+            ["Select first match", "querySelector('css')", "Element or null", "Accepts any CSS selector"],
+            ["Select all matches", "querySelectorAll('css')", "Static NodeList", "Use spread [...] to get array methods"],
+            ["Select by class", "getElementsByClassName('cls')", "Live HTMLCollection", "Updates automatically as DOM changes"],
+            ["Read plain text", "element.textContent", "String", "Safe for reading user-supplied text"],
+            ["Write plain text", "element.textContent = '...'", "String set", "Never executes HTML, safe for user input"],
+            ["Read or write HTML", "element.innerHTML", "String", "Only use with trusted content, never user input"],
+            ["Add class", "classList.add('name')", "void", "Does not duplicate if already present"],
+            ["Remove class", "classList.remove('name')", "void", "Silent if class not present"],
+            ["Toggle class", "classList.toggle('name')", "Boolean", "Returns true if class was added"],
+            ["Get attribute", "getAttribute('name')", "String or null", "Works for all attributes including data-*"],
+            ["Set attribute", "setAttribute('name','val')", "void", "Creates attribute if it does not exist"],
+            ["Create element", "createElement('tag')", "Element", "Element is detached until inserted"],
+            ["Append child", "parent.appendChild(el)", "Element", "Inserts at end of parent"],
+            ["Remove element", "element.remove()", "void", "Modern, removes itself from DOM"]
           ]
         }
       ],
       "examples": [
         {
-          "title": "Selection Methods Compared and Safe Content Manipulation",
-          "description": "This example puts all four selection methods side by side and demonstrates the critical difference between textContent and innerHTML for writing content. It also shows the complete workflow for creating a new element, setting its content safely, and inserting it at a specific position in the DOM.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Selection and Manipulation</title>\n  <style>\n    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }\n    .item { padding: 0.5rem 0.75rem; border: 1px solid #e5e7eb;\n            border-radius: 6px; margin-bottom: 0.4rem; }\n    .highlight { background: #fef9c3; border-color: #ca8a04; }\n    .error     { background: #fef2f2; border-color: #dc2626; color: #dc2626; }\n    .success   { background: #f0fdf4; border-color: #16a34a; }\n    button { padding:0.4rem 0.8rem; border-radius:6px;\n             border:1px solid #d1d5db; cursor:pointer; margin:0.25rem; }\n    #log { background:#0f172a; color:#86efac; padding:1rem; border-radius:8px;\n           font-family:monospace; font-size:0.8rem; margin-top:1rem; white-space:pre-wrap; }\n    input { padding:0.4rem 0.6rem; border:1px solid #d1d5db;\n            border-radius:6px; width: 200px; }\n  </style>\n</head>\n<body>\n\n  <h2>Notification List</h2>\n\n  <div id=\"notif-list\">\n    <div class=\"item\" id=\"notif-1\">Server deployment completed successfully.</div>\n    <div class=\"item highlight\" id=\"notif-2\">Memory usage above 80% threshold.</div>\n    <div class=\"item\" id=\"notif-3\">Backup job scheduled for midnight.</div>\n  </div>\n\n\n  <!-- textContent vs innerHTML safety demo -->\n  <h2>Content Writing Safety</h2>\n  <div id=\"safe-demo\" class=\"item\">\n    Original content here.\n  </div>\n\n  <div style=\"margin-bottom:0.5rem;\">\n    <input id=\"user-input\" type=\"text\"\n           value=\"<img src=x onerror=alert('XSS')>\">\n    <button id=\"btn-text\">Write via textContent</button>\n    <button id=\"btn-html\">Write via innerHTML</button>\n  </div>\n\n\n  <div>\n    <button id=\"btn-select\">Compare selectors</button>\n    <button id=\"btn-add-success\">Add success notif</button>\n    <button id=\"btn-add-error\">Add error notif</button>\n    <button id=\"btn-remove\">Remove first notif</button>\n    <button id=\"btn-clear\">Clear all</button>\n  </div>\n\n  <div id=\"log\">Click a button...</div>\n\n\n  <script>\n    const list = document.getElementById('notif-list');\n    const log  = document.getElementById('log');\n    let   counter = 4;\n\n\n    // ===== SELECTION METHODS COMPARED =====\n    document.getElementById('btn-select').onclick = () => {\n\n      // 1. getElementById: fastest, returns single element or null\n      const byId = document.getElementById('notif-2');\n\n      // 2. querySelector: first CSS match\n      const first = document.querySelector('#notif-list .item');\n\n      // 3. querySelectorAll: all CSS matches, static NodeList\n      const all = document.querySelectorAll('#notif-list .item');\n\n      // 4. getElementsByClassName: live HTMLCollection (updates as DOM changes)\n      const live = document.getElementsByClassName('highlight');\n\n      log.textContent = [\n        `getElementById('notif-2'):       \"${byId.textContent.trim().slice(0,30)}...\"`,\n        `querySelector('.item'):          \"${first.textContent.trim().slice(0,30)}...\"`,\n        `querySelectorAll('.item').length: ${all.length}`,\n        `getElementsByClassName length:   ${live.length} (live, auto-updates)`,\n      ].join('\\n');\n    };\n\n\n    // ===== textContent vs innerHTML SAFETY =====\n    document.getElementById('btn-text').onclick = () => {\n      const demo  = document.getElementById('safe-demo');\n      const input = document.getElementById('user-input').value;\n\n      // SAFE: textContent treats value as plain text\n      // The <img onerror=...> is rendered as visible text, not executed\n      demo.textContent = input;\n      demo.className = 'item success';\n      log.textContent = 'Set via textContent.\\nHTML tags are escaped and shown as text.\\nNo script executed.';\n    };\n\n    document.getElementById('btn-html').onclick = () => {\n      const demo  = document.getElementById('safe-demo');\n      const input = document.getElementById('user-input').value;\n\n      // DANGEROUS with user input: innerHTML parses and executes HTML\n      // The onerror attribute on the broken img fires as JavaScript\n      // For demonstration only - do NOT use innerHTML with user input in production\n      demo.innerHTML = '<strong>[innerHTML output]:</strong> ' + input;\n      demo.className = 'item error';\n      log.textContent = 'WARNING: innerHTML executed the user input as HTML.\\nIn production this triggers XSS attacks.\\nAlways use textContent for user-supplied text.';\n    };\n\n\n    // ===== CREATE AND INSERT =====\n    function addNotif(text, type) {\n      const div = document.createElement('div');\n      div.className = `item ${type}`;\n      div.id = `notif-${counter++}`;\n      div.textContent = text;        // textContent is safe even here\n      list.appendChild(div);\n      log.textContent = `Created ${div.id} and appended to list.`;\n    }\n\n    document.getElementById('btn-add-success').onclick = () =>\n      addNotif('Deployment pipeline passed all checks.', 'success');\n\n    document.getElementById('btn-add-error').onclick = () =>\n      addNotif('Database connection timeout on replica.', 'error');\n\n\n    // ===== REMOVE =====\n    document.getElementById('btn-remove').onclick = () => {\n      const first = list.firstElementChild;\n      if (first) {\n        const id = first.id;\n        first.remove();\n        log.textContent = `Removed ${id}.`;\n      } else {\n        log.textContent = 'List is empty.';\n      }\n    };\n\n    document.getElementById('btn-clear').onclick = () => {\n      // Clear all children efficiently\n      list.innerHTML = '';  // safe here: no user input involved\n      log.textContent = 'All notifications cleared.';\n    };\n\n  </script>\n\n</body>\n</html>",
-          "output": "Page renders three notification items (second highlighted yellow), a content safety demo area with a pre-filled input containing an XSS payload, and action buttons. Clicking Compare selectors logs all four selection methods and their results. Clicking Write via textContent renders the XSS payload as safe escaped text. Clicking Write via innerHTML executes the payload and triggers a browser alert. Add buttons append styled success or error notifications. Remove deletes the first item. Clear empties the list.",
+          "title": "Selection Methods and Safe Content Writing",
+          "description": "This puts all four selection methods side by side and demonstrates the critical difference between textContent and innerHTML when writing content. textContent is always safe. innerHTML executes whatever it receives as HTML, which is dangerous with user input.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DOM Selection and Manipulation</title>\n</head>\n<body>\n\n  <div id=\"notif-list\">\n    <div id=\"notif-1\" class=\"item\">Deployment completed.</div>\n    <div id=\"notif-2\" class=\"item highlight\">Memory above 80%.</div>\n    <div id=\"notif-3\" class=\"item\">Backup scheduled.</div>\n  </div>\n\n  <!-- textContent vs innerHTML safety demo -->\n  <p>Type anything including HTML tags:</p>\n  <input id=\"user-input\" type=\"text\" value=\"&lt;b&gt;hello&lt;/b&gt;\">\n  <button id=\"btn-text\" type=\"button\">Write via textContent (safe)</button>\n  <button id=\"btn-html\" type=\"button\">Write via innerHTML (dangerous)</button>\n  <div id=\"safe-demo\">Output appears here.</div>\n\n  <hr>\n\n  <button id=\"btn-select\" type=\"button\">Compare all selectors</button>\n  <button id=\"btn-add\" type=\"button\">Add notification</button>\n  <button id=\"btn-remove\" type=\"button\">Remove first</button>\n\n  <p id=\"log\">Click a button...</p>\n\n  <script>\n    var list    = document.getElementById('notif-list');\n    var log     = document.getElementById('log');\n    var counter = 4;\n\n    // ===== SELECTION METHODS =====\n    document.getElementById('btn-select').onclick = function () {\n      // 1. getElementById: fastest, single element by unique id\n      var byId  = document.getElementById('notif-2');\n\n      // 2. querySelector: first CSS match\n      var first = document.querySelector('#notif-list .item');\n\n      // 3. querySelectorAll: all CSS matches, static NodeList\n      var all   = document.querySelectorAll('#notif-list .item');\n\n      // 4. getElementsByClassName: live HTMLCollection\n      var live  = document.getElementsByClassName('highlight');\n\n      log.textContent =\n        'getElementById(notif-2): \"' + byId.textContent + '\"\\n' +\n        'querySelector(.item):    \"' + first.textContent + '\"\\n' +\n        'querySelectorAll count:  '  + all.length + '\\n' +\n        'getElementsByClassName:  '  + live.length + ' (live, updates on DOM change)';\n    };\n\n    // ===== textContent: safe, treats input as plain text =====\n    document.getElementById('btn-text').onclick = function () {\n      var input = document.getElementById('user-input').value;\n      // HTML tags are escaped and shown as visible text — not executed\n      document.getElementById('safe-demo').textContent = input;\n      log.textContent = 'Written via textContent. HTML tags are shown as text, not executed.';\n    };\n\n    // ===== innerHTML: dangerous with user input =====\n    document.getElementById('btn-html').onclick = function () {\n      var input = document.getElementById('user-input').value;\n      // HTML is parsed and executed — <b>hello</b> renders as bold text\n      // A malicious user could inject <script> or onerror handlers here\n      document.getElementById('safe-demo').innerHTML = input;\n      log.textContent = 'Written via innerHTML. Tags were parsed as real HTML. Never do this with user input.';\n    };\n\n    // ===== CREATE AND INSERT =====\n    document.getElementById('btn-add').onclick = function () {\n      var div = document.createElement('div');\n      div.className = 'item';\n      div.id = 'notif-' + counter++;\n      div.textContent = 'New alert added at ' + new Date().toLocaleTimeString();\n      list.appendChild(div);\n      log.textContent = 'Appended: ' + div.id;\n    };\n\n    // ===== REMOVE =====\n    document.getElementById('btn-remove').onclick = function () {\n      var first = list.firstElementChild;\n      if (first) {\n        var id = first.id;\n        first.remove();\n        log.textContent = 'Removed: ' + id;\n      } else {\n        log.textContent = 'List is empty.';\n      }\n    };\n  </script>\n\n</body>\n</html>",
+          "output": "The page shows three notification divs, a text input pre-filled with escaped HTML tags, two write buttons, a demo div, and action buttons. 'Compare all selectors' logs results for all four selection methods. 'Write via textContent' shows the input value as plain text — HTML tags appear as visible characters. 'Write via innerHTML' parses the tags as real HTML — bold tags make text bold. 'Add notification' appends a new timestamped div. 'Remove first' deletes the top notification.",
           "images": null,
           "video_url": null
         }
@@ -1140,77 +476,27 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "DOM",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
-            },
-            {
-              "value": " selection methods are like different ways to find a person in a building. "
-            },
-            {
-              "value": "getElementById",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById"
-            },
-            {
-              "value": " is knowing the exact room number: direct, fastest. "
-            },
-            {
-              "value": "querySelector",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"
-            },
-            {
-              "value": " is describing the person: find the first person wearing a blue badge in the east wing. "
-            },
-            {
-              "value": "querySelectorAll",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
-            },
-            {
-              "value": " is finding everyone matching that description. getElementsByClassName is a live employee directory that updates the moment someone joins or leaves."
-            }
+            { "value": "DOM selection methods are like different ways to " },
+            { "value": "find a person in a building", "bold": true },
+            { "value": ". " },
+            { "value": "getElementById", "bold": true, "highlight": true },
+            { "value": " is knowing the exact room number — direct and fastest. " },
+            { "value": "querySelector", "bold": true, "highlight": true },
+            { "value": " is describing the person: find the first person wearing a blue badge in the east wing. " },
+            { "value": "querySelectorAll", "bold": true, "highlight": true },
+            { "value": " finds everyone matching that description. " },
+            { "value": "getElementsByClassName", "bold": true, "highlight": true },
+            { "value": " is a live employee directory that updates the moment someone joins or leaves." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "textContent versus "
-            },
-            {
-              "value": "innerHTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML"
-            },
-            {
-              "value": " is the difference between a typewriter and a printing press. textContent types out whatever you give it as plain characters. The angle brackets in a script tag become visible less-than and greater-than symbols, harmless on screen. "
-            },
-            {
-              "value": "innerHTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML"
-            },
-            {
-              "value": " runs the printing press: it formats and executes everything it receives as real "
-            },
-            {
-              "value": "HTML",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-            },
-            {
-              "value": " markup, which is powerful for trusted content but dangerous for anything a user typed."
-            }
+            { "value": "textContent versus " },
+            { "value": "innerHTML", "bold": true, "highlight": true },
+            { "value": " is the difference between a " },
+            { "value": "typewriter and a printing press", "bold": true },
+            { "value": ". textContent types out whatever you give it as plain characters — angle brackets become visible symbols, harmless on screen. innerHTML runs the printing press: it formats and executes everything it receives as real HTML markup, which is powerful for trusted content but dangerous for anything a user typed." }
           ]
         }
       ],
@@ -1219,54 +505,19 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Spread a NodeList from "
-            },
-            {
-              "value": "querySelectorAll",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
-            },
-            {
-              "value": " into an array using [...document."
-            },
-            {
-              "value": "querySelectorAll",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
-            },
-            {
-              "value": "('selector')] to unlock array methods like map, filter, and reduce. NodeList only has forEach natively. Converting to a real array lets you chain operations: [...document."
-            },
-            {
-              "value": "querySelectorAll",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
-            },
-            {
-              "value": "('.card')].filter(c => c."
-            },
-            {
-              "value": "dataset",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset"
-            },
-            {
-              "value": ".inStock === 'true').map(c => c."
-            },
-            {
-              "value": "dataset",
-              "bold": true,
-              "highlight": true,
-              "link": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset"
-            },
-            {
-              "value": ".price) returns all prices for in-stock cards in one expression."
-            }
+            { "value": "Spread a NodeList from " },
+            { "value": "querySelectorAll", "bold": true, "highlight": true },
+            { "value": " into a real array using " },
+            { "value": "[...document.querySelectorAll('selector')]", "highlight": true },
+            { "value": " to unlock array methods like " },
+            { "value": "map", "highlight": true },
+            { "value": ", " },
+            { "value": "filter", "highlight": true },
+            { "value": ", and " },
+            { "value": "reduce", "highlight": true },
+            { "value": ". NodeList only has " },
+            { "value": "forEach", "highlight": true },
+            { "value": " natively — converting to an array lets you chain operations in a single expression." }
           ]
         }
       ],

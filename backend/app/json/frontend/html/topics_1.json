@@ -16,23 +16,11 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "HTML stands for "
-          },
-          {
-            "value": "HyperText Markup Language",
-            "bold": true
-          },
-          {
-            "value": ". It is the standard language used to create and structure content on the web. Every webpage you visit — from a news article to an e-commerce store — is built on an HTML foundation. Learn more at the "
-          },
-          {
-            "value": "MDN HTML Docs",
-            "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
-          },
-          {
-            "value": "."
-          }
+          { "value": "HTML stands for " },
+          { "value": "HyperText Markup Language", "bold": true },
+          { "value": ". It is the standard language used to create and structure content on the web. Every webpage you visit — from a news article to an e-commerce store — is built on an HTML foundation. Learn more at the " },
+          { "value": "MDN HTML Docs", "link": "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+          { "value": "." }
         ]
       },
       {
@@ -64,48 +52,28 @@
       },
       {
         "type": "table",
-        "headers": [
-          "Layer",
-          "Technology",
-          "Responsibility",
-          "Example"
-        ],
+        "headers": ["Layer", "Technology", "Responsibility", "Example"],
         "rows": [
-          [
-            "Structure",
-            "HTML",
-            "Defines content and meaning",
-            "<h1>, <p>, <nav>"
-          ],
-          [
-            "Presentation",
-            "CSS",
-            "Controls layout and visual style",
-            "color, font-size, grid"
-          ],
-          [
-            "Behavior",
-            "JavaScript",
-            "Adds interactivity and dynamic updates",
-            "click handlers, API calls"
-          ]
+          ["Structure", "HTML", "Defines content and meaning", "<h1>, <p>, <nav>"],
+          ["Presentation", "CSS", "Controls layout and visual style", "color, font-size, grid"],
+          ["Behavior", "JavaScript", "Adds interactivity and dynamic updates", "click handlers, API calls"]
         ]
       }
     ],
     "examples": [
       {
         "title": "Your First HTML Document",
-        "description": "This example shows the minimum valid structure every HTML page must have. Each line has a specific purpose and removing any of them produces a technically incomplete document. Understanding this skeleton first makes every other HTML concept easier to place.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <!-- head: metadata the browser needs but the user doesn't see directly -->\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>My First Page</title>\n</head>\n<body>\n  <!-- body: everything the user sees -->\n  <h1>Hello, World!</h1>\n  <p>This is my first HTML page.</p>\n</body>\n</html>",
-        "output": "Browser renders a page with a large bold heading 'Hello, World!' followed by the paragraph text. The tab title shows 'My First Page'.",
+        "description": "This is the minimum structure every HTML page must have. Type this exactly, open it in a browser, and you will see your first webpage. Every line has one job — do not skip any of them.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My First Page</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>This is my first HTML page.</p>\n</body>\n</html>",
+        "output": "The browser tab shows 'My First Page'. The page displays a large bold heading that says 'Hello, World!' and below it a line of normal text that says 'This is my first HTML page.'",
         "images": null,
         "video_url": null
       },
       {
-        "title": "HTML, CSS, and JavaScript Working Together",
-        "description": "This example shows the three layers of a web page in action within a single file. The HTML defines a button and a message. The CSS makes them look polished. The JavaScript makes the button interactive. Each layer could be swapped or removed without breaking the others.",
-        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Three Layers Demo</title>\n  <style>\n    /* CSS: controls appearance only */\n    body {\n      font-family: sans-serif;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      padding: 3rem;\n    }\n    button {\n      background: #2563eb;\n      color: white;\n      border: none;\n      padding: 0.6rem 1.4rem;\n      border-radius: 6px;\n      font-size: 1rem;\n      cursor: pointer;\n    }\n    button:hover { background: #1d4ed8; }\n    #message {\n      margin-top: 1rem;\n      font-size: 1.1rem;\n      color: #16a34a;\n      min-height: 1.5rem;\n    }\n  </style>\n</head>\n<body>\n\n  <!-- HTML: defines structure and content -->\n  <h1>Separation of Concerns Demo</h1>\n  <button id=\"greetBtn\">Say Hello</button>\n  <p id=\"message\"></p>\n\n  <script>\n    // JavaScript: handles behavior only\n    const btn = document.getElementById('greetBtn');\n    const msg = document.getElementById('message');\n\n    btn.addEventListener('click', function () {\n      msg.textContent = 'Hello from JavaScript!';\n    });\n  </script>\n\n</body>\n</html>",
-        "output": "Page renders a centered heading, a blue button, and an empty paragraph. Clicking the button fills the paragraph with 'Hello from JavaScript!' in green text. The HTML, CSS, and JavaScript each handle their own layer independently.",
+        "title": "HTML, CSS, and JavaScript: Each Doing Its Own Job",
+        "description": "This shows all three layers in the simplest possible way. HTML creates the button and message. JavaScript makes the button work when clicked. Notice there is no CSS — the page still works perfectly without it.",
+        "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Three Layers</title>\n</head>\n<body>\n  <h1>Click the button</h1>\n  <button id=\"greetBtn\">Say Hello</button>\n  <p id=\"message\"></p>\n\n  <script>\n    const btn = document.getElementById('greetBtn');\n    const msg = document.getElementById('message');\n    btn.addEventListener('click', function () {\n      msg.textContent = 'Hello from JavaScript!';\n    });\n  </script>\n</body>\n</html>",
+        "output": "The page shows a heading 'Click the button', a plain browser-default button labelled 'Say Hello', and an empty paragraph. When you click the button, the paragraph fills with the text 'Hello from JavaScript!'",
         "images": null,
         "video_url": null
       }
@@ -117,25 +85,25 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When structuring any content intended for a web browser"
-          }
+          { "value": "When structuring any content intended for a " },
+          { "value": "web browser", "bold": true },
+          { "value": " — HTML is the only language browsers natively understand for document structure." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When building the semantic foundation before adding CSS or JS"
-          }
+          { "value": "When building the " },
+          { "value": "semantic foundation", "bold": true },
+          { "value": " before adding CSS or JS — always write your HTML structure first, then layer styles and behavior on top." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "When creating documents that need to be indexed by search engines"
-          }
+          { "value": "When creating documents that need to be " },
+          { "value": "indexed by search engines", "bold": true },
+          { "value": " — proper HTML semantics directly impact SEO rankings and content discoverability." }
         ]
       }
     ],
@@ -143,25 +111,31 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid HTML for native mobile apps; use Swift or Kotlin instead"
-          }
+          { "value": "Avoid HTML for " },
+          { "value": "native mobile apps", "bold": true },
+          { "value": "; use " },
+          { "value": "Swift", "highlight": true },
+          { "value": " (iOS) or " },
+          { "value": "Kotlin", "highlight": true },
+          { "value": " (Android) instead — HTML-based apps via WebView have performance and UX limitations." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid HTML for data storage or server-side processing logic"
-          }
+          { "value": "Avoid HTML for " },
+          { "value": "data storage", "bold": true },
+          { "value": " or " },
+          { "value": "server-side processing logic", "bold": true },
+          { "value": " — HTML is a presentation language, not a data or logic layer." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Avoid writing HTML without a proper doctype declaration"
-          }
+          { "value": "Avoid writing HTML without a proper " },
+          { "value": "<!DOCTYPE html>", "bold": true, "highlight": true },
+          { "value": " declaration — omitting it activates quirks mode and causes unpredictable rendering." }
         ]
       }
     ],
@@ -169,25 +143,27 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Plain text has no structure, so browsers cannot identify headings, links, or sections."
-          }
+          { "value": "Plain text has " },
+          { "value": "no structure", "bold": true },
+          { "value": ", so browsers cannot identify headings, links, or sections — everything renders as a flat wall of text." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Without HTML, there is no standard way to embed images, links, or media on a page."
-          }
+          { "value": "Without HTML, there is no standard way to " },
+          { "value": "embed images, links, or media", "bold": true },
+          { "value": " on a page — the web as we know it would not exist." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "HTML gives search engines and screen readers the structure they need to process content."
-          }
+          { "value": "HTML gives " },
+          { "value": "search engines", "bold": true },
+          { "value": " and " },
+          { "value": "screen readers", "bold": true },
+          { "value": " the structured data they need to process, rank, and narrate your content correctly." }
         ]
       }
     ],
@@ -195,25 +171,35 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "HTML is like the blueprint of a building. It defines which rooms exist and where walls go. CSS is the interior designer who decides colors and furniture. JavaScript is the electrician who makes the lights switch on and off. You need all three for a finished building, but each professional has a distinct job."
-          }
+          { "value": "HTML is like the " },
+          { "value": "blueprint of a building", "bold": true },
+          { "value": ". It defines which rooms exist and where walls go. " },
+          { "value": "CSS", "bold": true },
+          { "value": " is the interior designer who decides colors and furniture. " },
+          { "value": "JavaScript", "bold": true },
+          { "value": " is the electrician who makes the lights switch on and off. You need all three for a finished building, but each professional has a distinct job." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "A web browser is like a translation service. HTML is a foreign-language manuscript. The browser reads it, translates the markup into visual elements, and presents the result on screen. The original HTML file stays unchanged behind the scenes."
-          }
+          { "value": "A web browser is like a " },
+          { "value": "translation service", "bold": true },
+          { "value": ". HTML is a foreign-language manuscript. The browser reads it, translates the markup into visual elements, and presents the result on screen. The original HTML file stays " },
+          { "value": "unchanged behind the scenes", "italic": true },
+          { "value": "." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "The request-response cycle is like ordering from a restaurant. You (the browser) ask for a dish (a URL). The kitchen (the server) prepares it and sends it out. The dish arrives (HTML file) and you experience it (the rendered page). If extra ingredients are needed (CSS, JS, images), the kitchen sends those separately."
-          }
+          { "value": "The request-response cycle is like " },
+          { "value": "ordering from a restaurant", "bold": true },
+          { "value": ". You (the browser) ask for a dish (a URL). The kitchen (the server) prepares it and sends it out. The dish arrives (" },
+          { "value": "HTML file", "highlight": true },
+          { "value": ") and you experience it (the rendered page). If extra ingredients are needed (" },
+          { "value": "CSS, JS, images", "highlight": true },
+          { "value": "), the kitchen sends those separately." }
         ]
       }
     ],
@@ -221,33 +207,47 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Skipping the DOCTYPE declaration: Without <!DOCTYPE html> at the top, browsers fall into 'quirks mode' and apply inconsistent rendering rules from the early web era, causing layout bugs that are difficult to diagnose."
-          }
+          { "value": "Skipping the " },
+          { "value": "DOCTYPE declaration", "bold": true },
+          { "value": ": Without " },
+          { "value": "<!DOCTYPE html>", "bold": true, "highlight": true },
+          { "value": " at the top, browsers fall into " },
+          { "value": "quirks mode", "bold": true },
+          { "value": " — a legacy compatibility state that applies inconsistent rendering rules from the early web era, causing layout bugs that are difficult to diagnose." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Missing the lang attribute on html: The lang='en' attribute tells screen readers which language to use for pronunciation. Omitting it forces assistive tools to guess, leading to incorrect text-to-speech output for multilingual users."
-          }
+          { "value": "Missing the " },
+          { "value": "lang", "bold": true, "highlight": true },
+          { "value": " attribute on " },
+          { "value": "<html>", "bold": true },
+          { "value": ": The " },
+          { "value": "lang=\"en\"", "highlight": true },
+          { "value": " attribute tells screen readers which language to use for pronunciation. Omitting it forces assistive tools to guess, leading to incorrect text-to-speech output for multilingual users." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Using CSS or JavaScript to fake structure: Styling a div to look like a heading does not make it a heading semantically. Search engines and screen readers rely on HTML tags for meaning, not visual appearance."
-          }
+          { "value": "Using " },
+          { "value": "CSS or JavaScript to fake structure", "bold": true },
+          { "value": ": Styling a " },
+          { "value": "<div>", "highlight": true },
+          { "value": " to look like a heading does not make it a heading semantically. Search engines and screen readers rely on " },
+          { "value": "HTML tags for meaning", "bold": true },
+          { "value": ", not visual appearance." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Mixing concerns in one file for production: Inline CSS and JavaScript inside HTML is fine for small experiments but creates unmaintainable code in real projects. Always separate HTML, CSS, and JS into their own files for anything beyond a demo."
-          }
+          { "value": "Mixing concerns in one file for production: " },
+          { "value": "Inline CSS and JavaScript", "bold": true },
+          { "value": " inside HTML is fine for small experiments but creates unmaintainable code in real projects. Always separate HTML, CSS, and JS into " },
+          { "value": "their own files", "bold": true },
+          { "value": " for anything beyond a demo." }
         ]
       }
     ],
@@ -255,17 +255,19 @@
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Open any webpage and press Ctrl+U (or Cmd+U on Mac) to view its raw HTML source. Reading source code of sites you admire is one of the fastest ways to learn real-world HTML patterns used by professional teams."
-          }
+          { "value": "Open any webpage and press " },
+          { "value": "Ctrl+U", "bold": true, "highlight": true },
+          { "value": " (or " },
+          { "value": "Cmd+U", "bold": true, "highlight": true },
+          { "value": " on Mac) to view its raw HTML source. Reading source code of sites you admire is one of the fastest ways to learn real-world HTML patterns used by professional teams." }
         ]
       },
       {
         "type": "paragraph",
         "text": [
-          {
-            "value": "Bookmark the MDN Web Docs at developer.mozilla.org as your primary HTML reference. It is maintained by browser vendors, always accurate, and covers every element and attribute with compatibility tables and live examples."
-          }
+          { "value": "Bookmark " },
+          { "value": "MDN Web Docs", "bold": true, "link": "https://developer.mozilla.org" },
+          { "value": " as your primary HTML reference. It is maintained by browser vendors, always accurate, and covers every element and attribute with compatibility tables and live examples." }
         ]
       }
     ],
@@ -295,37 +297,15 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "HTML stands for "
-            },
-            {
-              "value": "HyperText Markup Language",
-              "bold": true
-            },
-            {
-              "value": ". It uses "
-            },
-            {
-              "value": "tags",
-              "highlight": true
-            },
-            {
-              "value": " wrapped in angle brackets to label and organize content. Browsers read these tags and render them as headings, paragraphs, links, images, and more. The full HTML specification is maintained by the "
-            },
-            {
-              "value": "WHATWG",
-              "link": "https://html.spec.whatwg.org/"
-            },
-            {
-              "value": " and "
-            },
-            {
-              "value": "W3C",
-              "link": "https://www.w3.org/TR/html52/"
-            },
-            {
-              "value": "."
-            }
+            { "value": "HTML stands for " },
+            { "value": "HyperText Markup Language", "bold": true },
+            { "value": ". It uses " },
+            { "value": "tags", "highlight": true },
+            { "value": " wrapped in angle brackets to label and organize content. Browsers read these tags and render them as headings, paragraphs, links, images, and more. The full HTML specification is maintained by the " },
+            { "value": "WHATWG", "link": "https://html.spec.whatwg.org/" },
+            { "value": " and " },
+            { "value": "W3C", "link": "https://www.w3.org/TR/html52/" },
+            { "value": "." }
           ]
         },
         {
@@ -337,10 +317,10 @@
       ],
       "examples": [
         {
-          "title": "HTML Tags, Elements, and Attributes",
-          "description": "This example shows the anatomy of an HTML element: opening tag, content, closing tag, and attributes. Understanding these four building blocks is enough to read and write any HTML on the web.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>HTML Anatomy</title>\n</head>\n<body>\n\n  <!--\n    ELEMENT ANATOMY:\n    <tagname attribute=\"value\">content</tagname>\n    |______| |_______________|  |_____| |_______|\n    opening  attribute            inner  closing\n    tag      (optional)          text   tag\n  -->\n\n  <!-- A paragraph element with no attributes -->\n  <p>This is a paragraph. The browser wraps text automatically.</p>\n\n  <!-- An anchor element with an href attribute -->\n  <a href=\"https://developer.mozilla.org\">Visit MDN Web Docs</a>\n\n  <!-- An image element: self-closing, no content between tags -->\n  <img src=\"/logo.png\" alt=\"Company logo\" width=\"200\">\n\n  <!-- Boolean attribute: presence means true, no value needed -->\n  <input type=\"checkbox\" checked>\n\n  <!-- Multiple attributes on one element -->\n  <button\n    type=\"button\"\n    id=\"submitBtn\"\n    class=\"btn btn-primary\"\n    aria-label=\"Submit the form\">\n    Submit\n  </button>\n\n  <!--\n    Void elements: no closing tag, no content.\n    Examples: <br>, <hr>, <img>, <input>, <meta>, <link>\n  -->\n  <hr>\n  <br>\n\n</body>\n</html>",
-          "output": "Page renders: a paragraph of text, a clickable MDN link, a company logo image, a checked checkbox, a Submit button, a horizontal rule, and a line break. Each element is labeled in comments showing its structural parts.",
+          "title": "Anatomy of an HTML Element",
+          "description": "Every HTML element follows the same simple pattern: an opening tag, some content, and a closing tag. This example shows the four parts of an element and introduces void elements that have no closing tag.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>HTML Elements</title>\n</head>\n<body>\n\n  <!-- opening tag + content + closing tag -->\n  <p>This is a paragraph.</p>\n\n  <!-- attribute inside the opening tag -->\n  <a href=\"https://developer.mozilla.org\">Visit MDN</a>\n\n  <!-- void element: no closing tag needed -->\n  <img src=\"logo.png\" alt=\"Site logo\">\n\n  <!-- boolean attribute: just its name is enough -->\n  <input type=\"checkbox\" checked>\n\n</body>\n</html>",
+          "output": "The page shows: a line of text 'This is a paragraph.', a clickable link 'Visit MDN', a broken image placeholder with alt text 'Site logo' (because logo.png does not exist locally), and a pre-checked checkbox.",
           "images": null,
           "video_url": null
         }
@@ -355,17 +335,23 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "An HTML tag is like a label on a package. The label does not change what is inside the box, but it tells the delivery system, the recipient, and every handler in between exactly what kind of item it is and how to treat it. A heading tag tells the browser: treat this text as a top-level title."
-            }
+            { "value": "An HTML tag is like a " },
+            { "value": "label on a package", "bold": true },
+            { "value": ". The label does not change what is inside the box, but it tells the delivery system, the recipient, and every handler in between exactly what kind of item it is and how to treat it. A " },
+            { "value": "heading tag", "highlight": true },
+            { "value": " tells the browser: treat this text as a top-level title." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "HTML is a markup language, not a programming language. It does not perform calculations or make decisions. It annotates content with meaning, the same way an editor marks up a manuscript with margin notes saying 'this is the title' or 'this is a footnote'."
-            }
+            { "value": "HTML is a " },
+            { "value": "markup language", "bold": true },
+            { "value": ", not a " },
+            { "value": "programming language", "bold": true },
+            { "value": ". It does not perform calculations or make decisions. It " },
+            { "value": "annotates content with meaning", "italic": true },
+            { "value": ", the same way an editor marks up a manuscript with margin notes saying 'this is the title' or 'this is a footnote'." }
           ]
         }
       ],
@@ -374,9 +360,9 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Use the MDN HTML element reference at developer.mozilla.org/en-US/docs/Web/HTML/Element to look up any tag. Each entry shows the element's purpose, valid attributes, browser compatibility, and live examples — far more reliable than memory alone."
-            }
+            { "value": "Use the " },
+            { "value": "MDN HTML element reference", "bold": true, "link": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element" },
+            { "value": " to look up any tag. Each entry shows the element's purpose, valid attributes, browser compatibility, and live examples — far more reliable than memory alone." }
           ]
         }
       ],
@@ -408,86 +394,36 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "When you enter a URL in your browser, it triggers a chain of events. The browser contacts a "
-            },
-            {
-              "value": "DNS server",
-              "bold": true
-            },
-            {
-              "value": " to convert the domain name into an IP address, then sends an "
-            },
-            {
-              "value": "HTTP",
-              "highlight": true
-            },
-            {
-              "value": " or "
-            },
-            {
-              "value": "HTTPS",
-              "highlight": true
-            },
-            {
-              "value": " request to the web server at that address. The server responds with an HTML file, which the browser parses and renders. Learn how this works in depth at "
-            },
-            {
-              "value": "MDN: How the Web Works",
-              "link": "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works"
-            },
-            {
-              "value": "."
-            }
+            { "value": "When you enter a URL in your browser, it triggers a chain of events. The browser contacts a " },
+            { "value": "DNS server", "bold": true },
+            { "value": " to convert the domain name into an IP address, then sends an " },
+            { "value": "HTTP", "highlight": true },
+            { "value": " or " },
+            { "value": "HTTPS", "highlight": true },
+            { "value": " request to the web server at that address. The server responds with an HTML file, which the browser parses and renders. Learn how this works in depth at " },
+            { "value": "MDN: How the Web Works", "link": "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works" },
+            { "value": "." }
           ]
         },
         {
           "type": "table",
-          "headers": [
-            "Step",
-            "Who Acts",
-            "What Happens"
-          ],
+          "headers": ["Step", "Who Acts", "What Happens"],
           "rows": [
-            [
-              "1. URL entered",
-              "User",
-              "Types address into the browser bar"
-            ],
-            [
-              "2. DNS lookup",
-              "Browser + DNS server",
-              "Domain name resolved to an IP address"
-            ],
-            [
-              "3. HTTP request",
-              "Browser",
-              "Sends GET request to the server IP"
-            ],
-            [
-              "4. Server response",
-              "Web server",
-              "Returns HTML file with status code 200"
-            ],
-            [
-              "5. Sub-resource requests",
-              "Browser",
-              "Fetches linked CSS, JS, and images"
-            ],
-            [
-              "6. Render",
-              "Browser engine",
-              "Parses HTML and paints the page on screen"
-            ]
+            ["1. URL entered", "User", "Types address into the browser bar"],
+            ["2. DNS lookup", "Browser + DNS server", "Domain name resolved to an IP address"],
+            ["3. HTTP request", "Browser", "Sends GET request to the server IP"],
+            ["4. Server response", "Web server", "Returns HTML file with status code 200"],
+            ["5. Sub-resource requests", "Browser", "Fetches linked CSS, JS, and images"],
+            ["6. Render", "Browser engine", "Parses HTML and paints the page on screen"]
           ]
         }
       ],
       "examples": [
         {
-          "title": "HTTP Status Codes in HTML Context",
-          "description": "This example shows how HTTP status codes affect what the browser renders and how developers handle them in HTML and JavaScript. Understanding status codes is essential for debugging blank pages, broken images, and failed form submissions.",
-          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>HTTP Status Codes Demo</title>\n</head>\n<body>\n\n  <h1>Common HTTP Status Codes</h1>\n\n  <!--\n    200 OK: request succeeded, page loads normally.\n    This is what happens when you see a working page.\n  -->\n\n  <!--\n    301 Moved Permanently: browser follows the redirect automatically.\n    Users never see the 301 - they land on the new URL directly.\n  -->\n\n  <!--\n    404 Not Found: server could not find the requested resource.\n    Common cause: broken link, deleted page, or mistyped URL.\n    Provide a helpful 404 page rather than a blank browser error.\n  -->\n  <p>If a linked image returns 404, the browser shows a broken image icon:</p>\n  <img src=\"/missing-image.jpg\" alt=\"Product photo\" width=\"200\">\n  <!-- alt text shows when image fails to load -->\n\n  <!--\n    Handle fetch errors in JS to show user-friendly messages\n    instead of silently failing on 4xx or 5xx responses.\n  -->\n  <div id=\"result\"></div>\n\n  <script>\n    const resultEl = document.getElementById('result');\n\n    fetch('/api/user/profile')\n      .then(response => {\n        if (response.status === 200) {\n          return response.json();\n        } else if (response.status === 401) {\n          resultEl.textContent = 'Please log in to view your profile.';\n        } else if (response.status === 404) {\n          resultEl.textContent = 'Profile not found.';\n        } else if (response.status >= 500) {\n          resultEl.textContent = 'Server error. Please try again later.';\n        }\n      })\n      .then(data => {\n        if (data) {\n          resultEl.textContent = 'Welcome, ' + data.name;\n        }\n      })\n      .catch(() => {\n        resultEl.textContent = 'Network error. Check your connection.';\n      });\n  </script>\n\n</body>\n</html>",
-          "output": "Page renders the heading and a paragraph. The missing image shows a broken image icon with 'Product photo' as fallback alt text. The result div shows a status-specific message depending on the API response: a welcome message on 200, a login prompt on 401, or an error message on 404 and 500.",
+          "title": "What the Browser Actually Receives",
+          "description": "When your browser requests a webpage, the server sends back a plain HTML file that looks exactly like this. The browser reads it top to bottom and builds the page you see on screen. There is nothing magic — it is just text with tags.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My Blog</title>\n</head>\n<body>\n  <h1>Welcome to My Blog</h1>\n  <p>This file was sent by the server.</p>\n  <a href=\"/about\">About Me</a>\n</body>\n</html>",
+          "output": "The browser tab shows 'My Blog'. The page displays a large heading 'Welcome to My Blog', a paragraph 'This file was sent by the server.', and a clickable link 'About Me' that would navigate to /about.",
           "images": null,
           "video_url": null
         }
@@ -502,17 +438,27 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "The browser-server relationship is like ordering food by phone. You (browser) call a restaurant (server) and place an order (HTTP request). The restaurant prepares the food (processes the request) and delivers it (HTTP response). If an ingredient is missing, you get an error message (404 or 500) instead of the dish."
-            }
+            { "value": "The browser-server relationship is like " },
+            { "value": "ordering food by phone", "bold": true },
+            { "value": ". You (browser) call a restaurant (server) and place an order (" },
+            { "value": "HTTP request", "highlight": true },
+            { "value": "). The restaurant prepares the food and delivers it (" },
+            { "value": "HTTP response", "highlight": true },
+            { "value": "). If an ingredient is missing, you get an error message (" },
+            { "value": "404 or 500", "bold": true },
+            { "value": ") instead of the dish." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "DNS is the phone book of the internet. Domain names like google.com are human-friendly aliases. DNS translates them to numeric IP addresses like 142.250.190.46 that routers use to actually route the traffic. Without DNS you would need to memorize IP addresses instead of domain names."
-            }
+            { "value": "DNS is the " },
+            { "value": "phone book of the internet", "bold": true },
+            { "value": ". Domain names like " },
+            { "value": "google.com", "highlight": true },
+            { "value": " are human-friendly aliases. DNS translates them to numeric IP addresses like " },
+            { "value": "142.250.190.46", "highlight": true },
+            { "value": " that routers use to actually route the traffic. Without DNS you would need to memorize IP addresses instead of domain names." }
           ]
         }
       ],
@@ -521,9 +467,11 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Open browser DevTools and go to the Network tab, then refresh any webpage. Every HTTP request the browser makes is listed with its status code, response time, and file size. This is the fastest way to understand what actually happens when a page loads and to debug slow or broken resources."
-            }
+            { "value": "Open browser DevTools and go to the " },
+            { "value": "Network tab", "bold": true, "highlight": true },
+            { "value": ", then refresh any webpage. Every HTTP request the browser makes is listed with its " },
+            { "value": "status code", "bold": true },
+            { "value": ", response time, and file size. This is the fastest way to understand what actually happens when a page loads and to debug slow or broken resources." }
           ]
         }
       ],
@@ -550,44 +498,17 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Separation of concerns is a core web development principle. "
-            },
-            {
-              "value": "HTML",
-              "bold": true
-            },
-            {
-              "value": " defines what content is. "
-            },
-            {
-              "value": "CSS",
-              "bold": true
-            },
-            {
-              "value": " defines how it looks. "
-            },
-            {
-              "value": "JavaScript",
-              "bold": true
-            },
-            {
-              "value": " defines how it behaves. Keeping these in separate files makes code easier to maintain, test, and hand off to teammates. Read the official "
-            },
-            {
-              "value": "CSS specification",
-              "link": "https://www.w3.org/Style/CSS/"
-            },
-            {
-              "value": " and "
-            },
-            {
-              "value": "JavaScript reference",
-              "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-            },
-            {
-              "value": " to understand each layer in depth."
-            }
+            { "value": "Separation of concerns is a core web development principle. " },
+            { "value": "HTML", "bold": true },
+            { "value": " defines what content is. " },
+            { "value": "CSS", "bold": true },
+            { "value": " defines how it looks. " },
+            { "value": "JavaScript", "bold": true },
+            { "value": " defines how it behaves. Keeping these in separate files makes code easier to maintain, test, and hand off to teammates. Read the official " },
+            { "value": "CSS specification", "link": "https://www.w3.org/Style/CSS/" },
+            { "value": " and " },
+            { "value": "JavaScript reference", "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+            { "value": " to understand each layer in depth." }
           ]
         },
         {
@@ -599,10 +520,10 @@
       ],
       "examples": [
         {
-          "title": "Separation of Concerns: Wrong vs Right",
-          "description": "This example contrasts the wrong approach of mixing all three layers inside one HTML file with the correct approach of separating them. The output is identical but the correct version is maintainable, cacheable, and team-friendly.",
-          "code_snippet": "<!-- ============================================\n     WRONG: Everything mixed in one HTML file\n     Hard to maintain, cannot be cached, teammates\n     stepping on each other's changes.\n============================================ -->\n<!DOCTYPE html>\n<html lang=\"en\">\n<head><title>Mixed (Wrong)</title></head>\n<body>\n  <h1 style=\"color: #2563eb; font-size: 2rem;\">Dashboard</h1>\n  <button\n    style=\"background:#16a34a; color:white; padding:0.5rem 1rem; border:none; border-radius:6px;\"\n    onclick=\"document.getElementById('msg').textContent='Saved!';\">\n    Save\n  </button>\n  <p id=\"msg\"></p>\n</body>\n</html>\n\n\n<!-- ============================================\n     RIGHT: Three separate files, same output\n============================================ -->\n\n<!-- index.html: structure only -->\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Dashboard</title>\n  <link rel=\"stylesheet\" href=\"styles.css\">   <!-- CSS linked externally -->\n</head>\n<body>\n  <h1>Dashboard</h1>\n  <button id=\"saveBtn\">Save</button>\n  <p id=\"msg\"></p>\n  <script src=\"app.js\" defer></script>         <!-- JS linked externally -->\n</body>\n</html>\n\n/* styles.css: presentation only */\nh1 {\n  color: #2563eb;\n  font-size: 2rem;\n}\n#saveBtn {\n  background: #16a34a;\n  color: white;\n  padding: 0.5rem 1rem;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n}\n\n// app.js: behavior only\nconst btn = document.getElementById('saveBtn');\nconst msg = document.getElementById('msg');\nbtn.addEventListener('click', () => {\n  msg.textContent = 'Saved!';\n});",
-          "output": "Both versions render identically: a blue heading, a green Save button, and an empty message paragraph. Clicking Save shows 'Saved!'. The right version allows a designer to update styles.css, a developer to update app.js, and a content writer to update index.html, all without interfering with each other.",
+          "title": "What Each Layer Is Responsible For",
+          "description": "This is the simplest possible demonstration of all three layers. The HTML creates the content. The JavaScript adds a click behaviour. No CSS is used — the point is to see how HTML and JS each do one job and nothing else.",
+          "code_snippet": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Three Layers</title>\n</head>\n<body>\n\n  <!-- HTML: structure and content only -->\n  <h1>My Page</h1>\n  <p id=\"status\">Status: waiting</p>\n  <button id=\"btn\">Update Status</button>\n\n  <!-- JavaScript: behaviour only -->\n  <script>\n    document.getElementById('btn').addEventListener('click', function () {\n      document.getElementById('status').textContent = 'Status: updated!';\n    });\n  </script>\n\n</body>\n</html>",
+          "output": "The page shows a heading 'My Page', a line 'Status: waiting', and a plain button 'Update Status'. Clicking the button changes the paragraph text to 'Status: updated!'. No styles are applied — the browser's default look is used intentionally.",
           "images": null,
           "video_url": null
         }
@@ -617,17 +538,25 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "Separation of concerns is like a restaurant kitchen. The chef (HTML) decides what dishes are on the menu. The plating team (CSS) decides how each dish looks on the plate. The waitstaff (JavaScript) handles interactions with the customer. If the chef starts plating dishes, or the waitstaff starts cooking, the kitchen breaks down. Each role exists for a reason."
-            }
+            { "value": "Separation of concerns is like a " },
+            { "value": "restaurant kitchen", "bold": true },
+            { "value": ". The chef (" },
+            { "value": "HTML", "highlight": true },
+            { "value": ") decides what dishes are on the menu. The plating team (" },
+            { "value": "CSS", "highlight": true },
+            { "value": ") decides how each dish looks on the plate. The waitstaff (" },
+            { "value": "JavaScript", "highlight": true },
+            { "value": ") handles interactions with the customer. If the chef starts plating dishes, or the waitstaff starts cooking, the kitchen breaks down. Each role exists for a reason." }
           ]
         },
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "External CSS and JS files are cached by the browser after the first visit. On every subsequent page load, the browser reuses the cached files instead of re-downloading them. Inline styles and scripts cannot be cached because they are embedded in a different HTML file on every page, multiplying the data each visitor downloads."
-            }
+            { "value": "External CSS and JS files are " },
+            { "value": "cached by the browser", "bold": true },
+            { "value": " after the first visit. On every subsequent page load, the browser reuses the cached files instead of re-downloading them. " },
+            { "value": "Inline styles and scripts cannot be cached", "bold": true, "highlight": true },
+            { "value": " because they are embedded in a different HTML file on every page, multiplying the data each visitor downloads." }
           ]
         }
       ],
@@ -636,9 +565,15 @@
         {
           "type": "paragraph",
           "text": [
-            {
-              "value": "In modern frameworks like React, Vue, and Svelte, components appear to mix HTML, CSS, and JS in one file. This is still separation of concerns at the component level: each component owns its own structure, styles, and behavior as a self-contained unit. The principle scales from file-level to component-level separation."
-            }
+            { "value": "In modern frameworks like " },
+            { "value": "React", "bold": true },
+            { "value": ", " },
+            { "value": "Vue", "bold": true },
+            { "value": ", and " },
+            { "value": "Svelte", "bold": true },
+            { "value": ", components appear to mix HTML, CSS, and JS in one file. This is still separation of concerns at the " },
+            { "value": "component level", "italic": true },
+            { "value": ": each component owns its own structure, styles, and behavior as a self-contained unit. The principle scales from file-level to component-level separation." }
           ]
         }
       ],
